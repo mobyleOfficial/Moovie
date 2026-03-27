@@ -1,0 +1,14 @@
+name: movies_list
+description: Movies list UI module for Moowvie
+publish_to: 'none'
+
+version: 1.0.0
+
+environment:
+  sdk: ^3.11.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^9.1.1
+  bloc: ^9.2.0

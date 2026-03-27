@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:moowvie/l10n/app_localizations.dart';
-import 'package:movies/movies.dart';
 
 void main() {
   runApp(const MyApp());
