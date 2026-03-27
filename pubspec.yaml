@@ -43,9 +43,11 @@ dependencies:
   objectbox: ^5.3.1
   objectbox_flutter_libs: ^5.3.1
   movies:
-    path: modules/features/movies
+    path: features/movies
   movies_list:
-    path: modules/ui/movies_list
+    path: ui/movies_list
+  common:
+    path: ui/common
 
 dev_dependencies:
   flutter_test:

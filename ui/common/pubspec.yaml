@@ -1,0 +1,12 @@
+name: common
+description: Platform-aware common UI components for Moowvie
+publish_to: 'none'
+
+version: 1.0.0
+
+environment:
+  sdk: ^3.11.4
+
+dependencies:
+  flutter:
+    sdk: flutter
