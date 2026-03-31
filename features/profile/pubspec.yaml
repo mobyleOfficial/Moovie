@@ -1,0 +1,16 @@
+name: profile
+description: Profile feature module for Moowvie
+publish_to: 'none'
+
+version: 1.0.0
+
+environment:
+  sdk: ^3.11.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  profile_domain:
+    path: domain
+  profile_data:
+    path: data
