@@ -1,0 +1,18 @@
+name: news_data
+description: Data layer for the News feature
+publish_to: 'none'
+
+version: 1.0.0
+
+environment:
+  sdk: ^3.11.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^9.1.1
+  bloc: ^9.2.0
+  rxdart: ^0.28.0
+  objectbox: ^5.3.1
+  news_domain:
+    path: ../domain
