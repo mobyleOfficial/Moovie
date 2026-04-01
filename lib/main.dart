@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:moowvie/di/injection.dart';
 import 'package:moowvie/routes/app_router.dart';
 import 'package:moowvie/l10n/app_localizations.dart';
 
 void main() {
+  configureDependencies();
   runApp(MyApp());
 }
 
