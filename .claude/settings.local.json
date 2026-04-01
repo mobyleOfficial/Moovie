@@ -21,7 +21,8 @@
       "Bash(find C:UsersAbeDesktopProjetosMobylemoowviefeatures -name *.dart -o -name pubspec.yaml)",
       "Bash(dart analyze:*)",
       "Bash(mv moowvie.iml moovie.iml)",
-      "Bash(mv android/moowvies_android.iml android/moovie_android.iml)"
+      "Bash(mv android/moowvies_android.iml android/moovie_android.iml)",
+      "Bash(find C:UsersAbeDesktopProjetosMobylemoovieuicommonlibsrc -type f -name *.dart)"
     ]
   }
 }

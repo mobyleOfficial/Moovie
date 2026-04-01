@@ -1,3 +1,4 @@
+export 'src/theme/theme.dart';
 export 'src/moovie_activity_indicator.dart';
 export 'src/moovie_app_bar.dart';
 export 'src/moovie_bottom_navigation_bar.dart';
