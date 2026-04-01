@@ -37,7 +37,12 @@ class AppRouter extends RootStackRouter {
             ),
           ],
         ),
-        AutoRoute(page: ProfileRoute.page),
+        CustomRoute(
+          page: ProfileRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+          duration: const Duration(milliseconds: 200),
+          reverseDuration: const Duration(milliseconds: 200),
+        ),
       ];
 }
 
