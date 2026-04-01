@@ -1,8 +1,8 @@
+import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'search_bloc.dart';
-import 'search_state.dart';
+import 'package:search/search_bloc.dart';
+import 'package:search/search_state.dart';
 
 class SearchScreen extends StatelessWidget {
   final SearchCubit cubit;
@@ -19,8 +19,8 @@ class SearchScreen extends StatelessWidget {
             SearchLoading() => const Center(
                 child: CircularProgressIndicator(),
               ),
-            SearchSuccess() => const Center(
-                child: Text('Search'),
+            SearchSuccess() => Center(
+                child: Text(AppLocalizations.of(context)!.search),
               ),
             SearchError() => Center(
                 child: Text(state.message),

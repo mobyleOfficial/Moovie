@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -41,7 +42,7 @@ class MoviesListScreen extends StatelessWidget {
                           child: Text(
                             state is MoviesListError
                                 ? state.message
-                                : 'Unknown error',
+                                : AppLocalizations.of(context)!.unknownError,
                           ),
                         ),
                       ),

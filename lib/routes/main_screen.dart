@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:moovie/routes/app_router.dart';
 import 'package:profile_ui/profile_router.dart';
@@ -9,6 +10,8 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return AutoTabsRouter(
       routes: const [
         HomeTab(),
@@ -18,7 +21,7 @@ class MainScreen extends StatelessWidget {
         final tabsRouter = AutoTabsRouter.of(context);
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Moovie'),
+            title: Text(l10n.appTitle),
             centerTitle: true,
             actions: [
               IconButton(
@@ -33,14 +36,14 @@ class MainScreen extends StatelessWidget {
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: tabsRouter.activeIndex,
             onTap: tabsRouter.setActiveIndex,
-            items: const [
+            items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
+                icon: const Icon(Icons.home),
+                label: l10n.home,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                label: 'Search',
+                icon: const Icon(Icons.search),
+                label: l10n.search,
               ),
             ],
           ),

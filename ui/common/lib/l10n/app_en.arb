@@ -1,0 +1,67 @@
+{
+  "@@locale": "en",
+  "appTitle": "Moovie",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "home": "Home",
+  "@home": {
+    "description": "Bottom navigation home label"
+  },
+  "search": "Search",
+  "@search": {
+    "description": "Bottom navigation search label and search screen title"
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile screen title"
+  },
+  "moviesTab": "Movies",
+  "@moviesTab": {
+    "description": "Home screen movies tab label"
+  },
+  "reviewsTab": "Reviews",
+  "@reviewsTab": {
+    "description": "Home screen reviews tab label"
+  },
+  "unknownError": "Unknown error",
+  "@unknownError": {
+    "description": "Fallback error message when no details are available"
+  },
+  "movieRelease": "Release: {date}",
+  "@movieRelease": {
+    "description": "Movie release date label",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "movieRating": "Rating: {rating}",
+  "@movieRating": {
+    "description": "Movie rating label",
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "movieRuntime": "Runtime: {minutes} min",
+  "@movieRuntime": {
+    "description": "Movie runtime label",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "movieGenres": "Genres: {genres}",
+  "@movieGenres": {
+    "description": "Movie genres label",
+    "placeholders": {
+      "genres": {
+        "type": "String"
+      }
+    }
+  }
+}

@@ -19,7 +19,7 @@ import 'app_localizations_pt.dart';
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'l10n/app_localizations.dart';
+/// import 'lib/app_localizations.dart';
 ///
 /// return MaterialApp(
 ///   localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -106,23 +106,65 @@ abstract class AppLocalizations {
   /// **'Moovie'**
   String get appTitle;
 
-  /// The title shown on the home page app bar
+  /// Bottom navigation home label
   ///
   /// In en, this message translates to:
-  /// **'Moovie'**
-  String get homeTitle;
+  /// **'Home'**
+  String get home;
 
-  /// Label shown above the counter
+  /// Bottom navigation search label and search screen title
   ///
   /// In en, this message translates to:
-  /// **'You have pushed the button this many times:'**
-  String get counterLabel;
+  /// **'Search'**
+  String get search;
 
-  /// Tooltip for the increment button
+  /// Profile screen title
   ///
   /// In en, this message translates to:
-  /// **'Increment'**
-  String get increment;
+  /// **'Profile'**
+  String get profile;
+
+  /// Home screen movies tab label
+  ///
+  /// In en, this message translates to:
+  /// **'Movies'**
+  String get moviesTab;
+
+  /// Home screen reviews tab label
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get reviewsTab;
+
+  /// Fallback error message when no details are available
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error'**
+  String get unknownError;
+
+  /// Movie release date label
+  ///
+  /// In en, this message translates to:
+  /// **'Release: {date}'**
+  String movieRelease(String date);
+
+  /// Movie rating label
+  ///
+  /// In en, this message translates to:
+  /// **'Rating: {rating}'**
+  String movieRating(String rating);
+
+  /// Movie runtime label
+  ///
+  /// In en, this message translates to:
+  /// **'Runtime: {minutes} min'**
+  String movieRuntime(int minutes);
+
+  /// Movie genres label
+  ///
+  /// In en, this message translates to:
+  /// **'Genres: {genres}'**
+  String movieGenres(String genres);
 }
 
 class _AppLocalizationsDelegate

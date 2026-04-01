@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,6 +12,8 @@ class MovieDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocProvider.value(
       value: cubit,
       child: BlocBuilder<MovieDetailCubit, MovieDetailState>(
@@ -50,14 +53,12 @@ class MovieDetailScreen extends StatelessWidget {
                           const SizedBox(height: 8),
                           Text(detail.overview),
                           const SizedBox(height: 16),
-                          Text('Release: ${detail.releaseDate}'),
-                          Text(
-                            'Rating: ${detail.voteAverage.toStringAsFixed(1)}',
-                          ),
+                          Text(l10n.movieRelease(detail.releaseDate)),
+                          Text(l10n.movieRating(detail.voteAverage.toStringAsFixed(1))),
                           if (detail.runtime != null)
-                            Text('Runtime: ${detail.runtime} min'),
+                            Text(l10n.movieRuntime(detail.runtime!)),
                           if (detail.genres.isNotEmpty)
-                            Text('Genres: ${detail.genres.join(', ')}'),
+                            Text(l10n.movieGenres(detail.genres.join(', '))),
                         ],
                       ),
                     ),

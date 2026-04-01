@@ -1,0 +1,14 @@
+{
+  "@@locale": "pt",
+  "appTitle": "Moovie",
+  "home": "Início",
+  "search": "Pesquisar",
+  "profile": "Perfil",
+  "moviesTab": "Filmes",
+  "reviewsTab": "Avaliações",
+  "unknownError": "Erro desconhecido",
+  "movieRelease": "Lançamento: {date}",
+  "movieRating": "Avaliação: {rating}",
+  "movieRuntime": "Duração: {minutes} min",
+  "movieGenres": "Gêneros: {genres}"
+}

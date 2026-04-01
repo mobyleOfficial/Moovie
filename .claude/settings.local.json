@@ -1,6 +1,5 @@
 {
   "permissions": {
-    "defaultMode": "acceptEdits",
     "allow": [
       "Bash(grep -r moow /c/Users/Abe/Desktop/Projetos/Mobyle/moow --include=*.gradle --include=*.gradle.kts --include=*.properties)",
       "Bash(grep:*)",
@@ -28,8 +27,12 @@
       "Bash(2)",
       "mcp__ide__getDiagnostics",
       "Bash(find C:UsersAbeDesktopProjetosMobylemoovie -path *infinite_scroll_pagination*paging_controller* -name *.dart)",
-      "Bash(find C:UsersAbeAppDataLocalPubCache -path *infinite_scroll_pagination* -name *.dart)"
-    ]
+      "Bash(find C:UsersAbeAppDataLocalPubCache -path *infinite_scroll_pagination* -name *.dart)",
+      "Bash(find C:UsersAbeDesktopProjetosMobylemoovie -type f -name *.arb)",
+      "Bash(find C:UsersAbeDesktopProjetosMobylemoovie -path *dart_tool* -name app_localizations*.dart)",
+      "Bash(ls C:/Users/Abe/Desktop/Projetos/Mobyle/moovie/ui/common/lib/app_localizations*.dart)"
+    ],
+    "defaultMode": "acceptEdits"
   },
   "hooks": {
     "PostToolUse": [

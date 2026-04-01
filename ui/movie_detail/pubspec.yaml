@@ -11,6 +11,8 @@ dependencies:
   flutter_bloc: any
   auto_route: any
   get_it: any
+  common:
+    path: ../common
   core:
     path: ../../core
   movies:

@@ -1,8 +1,8 @@
+import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'profile_bloc.dart';
-import 'profile_state.dart';
+import 'package:profile_ui/profile_bloc.dart';
+import 'package:profile_ui/profile_state.dart';
 
 class ProfileScreen extends StatelessWidget {
   final ProfileCubit cubit;
@@ -11,11 +11,13 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocProvider.value(
       value: cubit,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Profile'),
+          title: Text(l10n.profile),
           centerTitle: true,
         ),
         body: BlocBuilder<ProfileCubit, ProfileState>(
@@ -24,8 +26,8 @@ class ProfileScreen extends StatelessWidget {
               ProfileLoading() => const Center(
                   child: CircularProgressIndicator(),
                 ),
-              ProfileSuccess() => const Center(
-                  child: Text('Profile'),
+              ProfileSuccess() => Center(
+                  child: Text(l10n.profile),
                 ),
               ProfileError() => Center(
                   child: Text(state.message),

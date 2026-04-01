@@ -1,8 +1,8 @@
+import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'reviews_bloc.dart';
-import 'reviews_state.dart';
+import 'package:reviews/reviews_bloc.dart';
+import 'package:reviews/reviews_state.dart';
 
 class ReviewsScreen extends StatelessWidget {
   final ReviewsCubit cubit;
@@ -19,8 +19,8 @@ class ReviewsScreen extends StatelessWidget {
             ReviewsLoading() => const Center(
                 child: CircularProgressIndicator(),
               ),
-            ReviewsSuccess() => const Center(
-                child: Text('Reviews'),
+            ReviewsSuccess() => Center(
+                child: Text(AppLocalizations.of(context)!.reviewsTab),
               ),
             ReviewsError() => Center(
                 child: Text(state.message),
