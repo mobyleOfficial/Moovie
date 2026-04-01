@@ -20,10 +20,10 @@ class MoviesListScreen extends StatelessWidget {
             MoviesListLoading() => const Center(
                 child: CircularProgressIndicator(),
               ),
-            MoviesListSuccess(:final movies) => ListView.builder(
-                itemCount: movies.length,
+            MoviesListSuccess(:final listing) => ListView.builder(
+                itemCount: listing.movies.length,
                 itemBuilder: (context, index) {
-                  final movie = movies[index];
+                  final movie = listing.movies[index];
                   return ListTile(
                     title: Text(movie.title),
                     subtitle: Text(movie.releaseDate),

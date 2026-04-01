@@ -1,7 +1,7 @@
 import 'package:core/core.dart';
 
-import '../models/movie_model.dart';
+import '../models/trending_movie_listing_model.dart';
 
 abstract interface class MoviesDataSource {
-  Future<Result<List<MovieModel>>> getTrendingMovieList();
+  Future<Result<TrendingMovieListingModel>> getTrendingMovieList({required int page});
 }

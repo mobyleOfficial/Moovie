@@ -9,9 +9,9 @@ class MoviesListLoading extends MoviesListState {
 }
 
 class MoviesListSuccess extends MoviesListState {
-  final List<Movie> movies;
+  final TrendingMovieListing listing;
 
-  const MoviesListSuccess(this.movies);
+  const MoviesListSuccess(this.listing);
 }
 
 class MoviesListError extends MoviesListState {

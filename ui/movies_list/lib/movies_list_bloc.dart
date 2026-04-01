@@ -11,10 +11,10 @@ class MoviesListCubit extends Cubit<MoviesListState> {
     loadTrendingMovies();
   }
 
-  Future<void> loadTrendingMovies() async {
+  Future<void> loadTrendingMovies({int page = 1}) async {
     emit(const MoviesListLoading());
 
-    final result = await _getTrendingMovies();
+    final result = await _getTrendingMovies(page);
 
     switch (result) {
       case Success(:final data):

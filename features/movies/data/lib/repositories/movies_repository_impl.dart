@@ -11,11 +11,13 @@ class MoviesRepositoryImpl implements MoviesRepository {
   MoviesRepositoryImpl(this._dataSource);
 
   @override
-  Future<Result<List<Movie>>> getTrendingMovieList() async {
-    final result = await _dataSource.getTrendingMovieList();
+  Future<Result<TrendingMovieListing>> getTrendingMovieList({
+    required int page,
+  }) async {
+    final result = await _dataSource.getTrendingMovieList(page: page);
 
     return switch (result) {
-      Success(:final data) => Success(data.map((m) => m.toDomain()).toList()),
+      Success(:final data) => Success(data.toDomain()),
       Failure(:final error) => Failure(error),
     };
   }
