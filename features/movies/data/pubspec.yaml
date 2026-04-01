@@ -16,3 +16,6 @@ dependencies:
   objectbox: ^5.3.1
   movies_domain:
     path: ../domain
+  injectable: any
+  core:
+    path: ../../../core
