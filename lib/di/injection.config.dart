@@ -39,13 +39,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => httpDiModule.tmdbClient(gh<_i361.Dio>(instanceName: 'tmdb')),
       instanceName: 'tmdb',
     );
-    gh.lazySingleton<_i987.MoviesDataSource>(
+    gh.lazySingleton<_i987.MoviesRemoteDataSource>(
       () => moviesModule.moviesDataSource(
         gh<_i494.HttpClient>(instanceName: 'tmdb'),
       ),
     );
     gh.lazySingleton<_i987.MoviesRepository>(
-      () => moviesModule.moviesRepository(gh<_i987.MoviesDataSource>()),
+      () => moviesModule.moviesRepository(gh<_i987.MoviesRemoteDataSource>()),
     );
     gh.lazySingleton<_i987.GetTrendingMovies>(
       () => moviesModule.getTrendingMovies(gh<_i987.MoviesRepository>()),

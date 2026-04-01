@@ -1,17 +1,17 @@
 import 'package:core/core.dart';
 import 'package:injectable/injectable.dart';
 
-import '../models/trending_movie_listing_model.dart';
-import 'movies_data_source.dart';
+import '../../models/remote/remote_trending_movie_listing.dart';
+import 'movies_remote_data_source.dart';
 
 @injectable
-class MoviesDataSourceImpl implements MoviesDataSource {
+class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   final HttpClient _httpClient;
 
-  MoviesDataSourceImpl(@Named('tmdb') this._httpClient);
+  MoviesRemoteDataSourceImpl(@Named('tmdb') this._httpClient);
 
   @override
-  Future<Result<TrendingMovieListingModel>> getTrendingMovieList({
+  Future<Result<RemoteTrendingMovieListing>> getTrendingMovieList({
     required int page,
   }) async {
     final result = await _httpClient.get<Map<String, dynamic>>(
@@ -21,7 +21,7 @@ class MoviesDataSourceImpl implements MoviesDataSource {
 
     return switch (result) {
       Success<Map<String, dynamic>>(:final data) =>
-        Success(TrendingMovieListingModel.fromJson(data)),
+        Success(RemoteTrendingMovieListing.fromJson(data)),
       Failure<Map<String, dynamic>>(:final error) => Failure(error),
     };
   }
