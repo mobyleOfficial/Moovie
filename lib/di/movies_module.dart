@@ -5,12 +5,12 @@ import 'package:movies/movies.dart';
 @module
 abstract class MoviesModule {
   @lazySingleton
-  MoviesDataSource moviesDataSource(
+  MoviesRemoteDataSource moviesDataSource(
     @Named('tmdb') HttpClient httpClient,
-  ) => MoviesDataSourceImpl(httpClient);
+  ) => MoviesRemoteDataSourceImpl(httpClient);
 
   @lazySingleton
-  MoviesRepository moviesRepository(MoviesDataSource dataSource) =>
+  MoviesRepository moviesRepository(MoviesRemoteDataSource dataSource) =>
       MoviesRepositoryImpl(dataSource);
 
   @lazySingleton

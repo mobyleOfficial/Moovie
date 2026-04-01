@@ -1,6 +1,6 @@
 import 'package:movies_domain/domain.dart';
 
-class MovieModel {
+class RemoteMovie {
   final int id;
   final String title;
   final String overview;
@@ -9,7 +9,7 @@ class MovieModel {
   final double voteAverage;
   final String releaseDate;
 
-  const MovieModel({
+  const RemoteMovie({
     required this.id,
     required this.title,
     required this.overview,
@@ -19,7 +19,7 @@ class MovieModel {
     required this.releaseDate,
   });
 
-  factory MovieModel.fromJson(Map<String, dynamic> json) => MovieModel(
+  factory RemoteMovie.fromJson(Map<String, dynamic> json) => RemoteMovie(
         id: json['id'] as int,
         title: json['title'] as String,
         overview: json['overview'] as String,
