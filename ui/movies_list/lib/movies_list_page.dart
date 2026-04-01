@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/movies.dart';
 
-import 'movies_list_bloc.dart';
-import 'movies_list_screen.dart';
+import 'package:movies_list/movies_list_bloc.dart';
+import 'package:movies_list/movies_list_screen.dart';
 
 @RoutePage()
 class MoviesListPage extends StatefulWidget {

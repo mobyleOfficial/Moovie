@@ -1,5 +1,6 @@
 import 'package:core/core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies/movies.dart';
 
 import 'movies_list_state.dart';
@@ -7,20 +8,43 @@ import 'movies_list_state.dart';
 class MoviesListCubit extends Cubit<MoviesListState> {
   final GetTrendingMovies _getTrendingMovies;
 
-  MoviesListCubit(this._getTrendingMovies) : super(const MoviesListLoading()) {
-    loadTrendingMovies();
-  }
+  int _totalPages = 1;
 
-  Future<void> loadTrendingMovies({int page = 1}) async {
-    emit(const MoviesListLoading());
+  late final PagingController<int, Movie> pagingController = PagingController(
+    getNextPageKey: (state) {
+      final nextKey = state.nextIntPageKey;
 
+      if (nextKey > _totalPages) {
+        return null;
+      }
+      return nextKey;
+    },
+    fetchPage: _fetchPage,
+  );
+
+  MoviesListCubit(this._getTrendingMovies) : super(const MoviesListLoading());
+
+  Future<List<Movie>> _fetchPage(int page) async {
     final result = await _getTrendingMovies(page);
 
     switch (result) {
       case Success(:final data):
-        emit(MoviesListSuccess(data));
+        _totalPages = data.totalPages;
+        if (page == 1) {
+          emit(const MoviesListSuccess());
+        }
+        return data.movies;
       case Failure(:final error):
-        emit(MoviesListError(error.message));
+        if (page == 1) {
+          emit(MoviesListError(error.message));
+        }
+        throw Exception(error.message);
     }
+  }
+
+  @override
+  Future<void> close() {
+    pagingController.dispose();
+    return super.close();
   }
 }

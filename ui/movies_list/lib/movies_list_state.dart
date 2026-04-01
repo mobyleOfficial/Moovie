@@ -1,5 +1,3 @@
-import 'package:movies/movies.dart';
-
 sealed class MoviesListState {
   const MoviesListState();
 }
@@ -9,9 +7,7 @@ class MoviesListLoading extends MoviesListState {
 }
 
 class MoviesListSuccess extends MoviesListState {
-  final TrendingMovieListing listing;
-
-  const MoviesListSuccess(this.listing);
+  const MoviesListSuccess();
 }
 
 class MoviesListError extends MoviesListState {

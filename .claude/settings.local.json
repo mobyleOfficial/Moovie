@@ -25,7 +25,9 @@
       "Bash(find C:UsersAbeDesktopProjetosMobylemoovieuicommonlibsrc -type f -name *.dart)",
       "Read(//c/Users/Abe/.pub-cache/hosted/pub.dev/auto_route-11.1.0/**)",
       "Bash(2)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(find C:UsersAbeDesktopProjetosMobylemoovie -path *infinite_scroll_pagination*paging_controller* -name *.dart)",
+      "Bash(find C:UsersAbeAppDataLocalPubCache -path *infinite_scroll_pagination* -name *.dart)"
     ]
   },
   "hooks": {
