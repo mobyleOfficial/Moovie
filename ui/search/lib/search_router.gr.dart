@@ -11,7 +11,7 @@
 part of 'search_router.dart';
 
 /// generated route for
-/// [SearchScreen]
+/// [SearchPage]
 class SearchRoute extends PageRouteInfo<void> {
   const SearchRoute({List<PageRouteInfo>? children})
     : super(SearchRoute.name, initialChildren: children);
@@ -21,7 +21,7 @@ class SearchRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const SearchScreen();
+      return const SearchPage();
     },
   );
 }

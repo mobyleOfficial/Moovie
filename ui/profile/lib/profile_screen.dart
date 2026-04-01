@@ -1,24 +1,24 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'profile_bloc.dart';
 import 'profile_state.dart';
 
-@RoutePage()
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  final ProfileCubit cubit;
+
+  const ProfileScreen({super.key, required this.cubit});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-        centerTitle: true,
-      ),
-      body: BlocProvider(
-        create: (_) => ProfileCubit(),
-        child: BlocBuilder<ProfileCubit, ProfileState>(
+    return BlocProvider.value(
+      value: cubit,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Profile'),
+          centerTitle: true,
+        ),
+        body: BlocBuilder<ProfileCubit, ProfileState>(
           builder: (context, state) {
             return switch (state) {
               ProfileLoading() => const Center(

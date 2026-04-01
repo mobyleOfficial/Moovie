@@ -11,7 +11,7 @@
 part of 'home_router.dart';
 
 /// generated route for
-/// [HomeScreen]
+/// [HomePage]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
     : super(HomeRoute.name, initialChildren: children);
@@ -21,7 +21,7 @@ class HomeRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const HomeScreen();
+      return const HomePage();
     },
   );
 }

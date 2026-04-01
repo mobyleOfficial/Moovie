@@ -9,8 +9,13 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:core/core.dart' as _i494;
+import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:moovie/di/http_di_module.dart' as _i649;
+import 'package:moovie/di/movies_module.dart' as _i993;
+import 'package:movies/movies.dart' as _i987;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -18,7 +23,37 @@ extension GetItInjectableX on _i174.GetIt {
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
   }) {
-    _i526.GetItHelper(this, environment, environmentFilter);
+    final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    final httpDiModule = _$HttpDiModule();
+    final moviesModule = _$MoviesModule();
+    gh.singleton<_i361.Dio>(
+      () => httpDiModule.backendDio,
+      instanceName: 'backend',
+    );
+    gh.singleton<_i361.Dio>(() => httpDiModule.tmdbDio, instanceName: 'tmdb');
+    gh.singleton<_i494.HttpClient>(
+      () => httpDiModule.backendClient(gh<_i361.Dio>(instanceName: 'backend')),
+      instanceName: 'backend',
+    );
+    gh.singleton<_i494.HttpClient>(
+      () => httpDiModule.tmdbClient(gh<_i361.Dio>(instanceName: 'tmdb')),
+      instanceName: 'tmdb',
+    );
+    gh.lazySingleton<_i987.MoviesDataSource>(
+      () => moviesModule.moviesDataSource(
+        gh<_i494.HttpClient>(instanceName: 'tmdb'),
+      ),
+    );
+    gh.lazySingleton<_i987.MoviesRepository>(
+      () => moviesModule.moviesRepository(gh<_i987.MoviesDataSource>()),
+    );
+    gh.lazySingleton<_i987.GetTrendingMovies>(
+      () => moviesModule.getTrendingMovies(gh<_i987.MoviesRepository>()),
+    );
     return this;
   }
 }
+
+class _$HttpDiModule extends _i649.HttpDiModule {}
+
+class _$MoviesModule extends _i993.MoviesModule {}

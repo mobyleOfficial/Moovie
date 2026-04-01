@@ -11,7 +11,7 @@
 part of 'movies_list_router.dart';
 
 /// generated route for
-/// [MoviesListScreen]
+/// [MoviesListPage]
 class MoviesListRoute extends PageRouteInfo<void> {
   const MoviesListRoute({List<PageRouteInfo>? children})
     : super(MoviesListRoute.name, initialChildren: children);
@@ -21,7 +21,9 @@ class MoviesListRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const MoviesListScreen();
+      return MoviesListPage(
+        getTrendingMovies: GetIt.instance<GetTrendingMovies>(),
+      );
     },
   );
 }

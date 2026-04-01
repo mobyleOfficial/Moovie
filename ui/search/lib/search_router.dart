@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 
-import 'search_screen.dart';
+import 'search_page.dart';
 
 part 'search_router.gr.dart';
 
