@@ -11,7 +11,7 @@
 part of 'reviews_router.dart';
 
 /// generated route for
-/// [ReviewsScreen]
+/// [ReviewsPage]
 class ReviewsRoute extends PageRouteInfo<void> {
   const ReviewsRoute({List<PageRouteInfo>? children})
     : super(ReviewsRoute.name, initialChildren: children);
@@ -21,7 +21,7 @@ class ReviewsRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const ReviewsScreen();
+      return const ReviewsPage();
     },
   );
 }

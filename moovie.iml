@@ -12,6 +12,9 @@
       <excludeFolder url="file://$MODULE_DIR$/ui/home/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/ui/home/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/ui/home/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/movies_list/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/movies_list/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/movies_list/build" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Dart SDK" level="project" />

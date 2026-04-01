@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 
-import 'profile_screen.dart';
+import 'profile_page.dart';
 
 part 'profile_router.gr.dart';
 

@@ -1,18 +1,18 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'reviews_bloc.dart';
 import 'reviews_state.dart';
 
-@RoutePage()
 class ReviewsScreen extends StatelessWidget {
-  const ReviewsScreen({super.key});
+  final ReviewsCubit cubit;
+
+  const ReviewsScreen({super.key, required this.cubit});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ReviewsCubit(),
+    return BlocProvider.value(
+      value: cubit,
       child: BlocBuilder<ReviewsCubit, ReviewsState>(
         builder: (context, state) {
           return switch (state) {

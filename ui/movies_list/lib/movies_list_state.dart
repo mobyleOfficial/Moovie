@@ -1,3 +1,5 @@
+import 'package:movies/movies.dart';
+
 sealed class MoviesListState {
   const MoviesListState();
 }
@@ -7,7 +9,9 @@ class MoviesListLoading extends MoviesListState {
 }
 
 class MoviesListSuccess extends MoviesListState {
-  const MoviesListSuccess();
+  final List<Movie> movies;
+
+  const MoviesListSuccess(this.movies);
 }
 
 class MoviesListError extends MoviesListState {
