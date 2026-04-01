@@ -1,4 +1,4 @@
-import '../errors/http_error.dart';
+import 'package:core/http/errors/http_error.dart';
 
 sealed class Result<T> {
   const Result();

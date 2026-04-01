@@ -2,8 +2,7 @@ import 'package:core/core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies/movies.dart';
-
-import 'movies_list_state.dart';
+import 'package:movies_list/movies_list_state.dart';
 
 class MoviesListCubit extends Cubit<MoviesListState> {
   final GetTrendingMovies _getTrendingMovies;
@@ -30,14 +29,8 @@ class MoviesListCubit extends Cubit<MoviesListState> {
     switch (result) {
       case Success(:final data):
         _totalPages = data.totalPages;
-        if (page == 1) {
-          emit(const MoviesListSuccess());
-        }
         return data.movies;
       case Failure(:final error):
-        if (page == 1) {
-          emit(MoviesListError(error.message));
-        }
         throw Exception(error.message);
     }
   }
