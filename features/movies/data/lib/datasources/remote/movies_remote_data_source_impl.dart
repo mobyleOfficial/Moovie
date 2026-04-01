@@ -1,8 +1,8 @@
 import 'package:core/core.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../models/remote/remote_trending_movie_listing.dart';
-import 'movies_remote_data_source.dart';
+import 'package:movies_data/models/remote/remote_trending_movie_listing.dart';
+import 'package:movies_data/datasources/remote/movies_remote_data_source.dart';
 
 @injectable
 class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {

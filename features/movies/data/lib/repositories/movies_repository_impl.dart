@@ -2,7 +2,7 @@ import 'package:core/core.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies_domain/domain.dart';
 
-import '../datasources/remote/movies_remote_data_source.dart';
+import 'package:movies_data/datasources/remote/movies_remote_data_source.dart';
 
 @LazySingleton(as: MoviesRepository)
 class MoviesRepositoryImpl implements MoviesRepository {

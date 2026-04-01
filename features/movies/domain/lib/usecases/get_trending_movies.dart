@@ -1,7 +1,7 @@
 import 'package:core/core.dart';
 
-import '../models/trending_movie_listing.dart';
-import '../repositories/movies_repository.dart';
+import 'package:movies_domain/models/trending_movie_listing.dart';
+import 'package:movies_domain/repositories/movies_repository.dart';
 
 class GetTrendingMovies extends UseCase<int, Result<TrendingMovieListing>> {
   final MoviesRepository _moviesRepository;
