@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:moowvie/di/injection.dart';
-import 'package:moowvie/routes/app_router.dart';
-import 'package:moowvie/l10n/app_localizations.dart';
+import 'package:moovie/di/injection.dart';
+import 'package:moovie/routes/app_router.dart';
+import 'package:moovie/l10n/app_localizations.dart';
 
 void main() {
   configureDependencies();
@@ -12,7 +12,7 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  static const String appTitle = 'Moowvie';
+  static const String appTitle = 'Moovie';
 
   final _appRouter = AppRouter();
 

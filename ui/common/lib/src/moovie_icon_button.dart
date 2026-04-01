@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 import 'platform_helper.dart';
 
-class MoowvieIconButton extends StatelessWidget {
+class MoovieIconButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback? onPressed;
   final double? size;
   final Color? color;
 
-  const MoowvieIconButton({
+  const MoovieIconButton({
     super.key,
     required this.icon,
     required this.onPressed,

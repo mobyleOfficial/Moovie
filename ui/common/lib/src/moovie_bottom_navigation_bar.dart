@@ -3,24 +3,24 @@ import 'package:flutter/material.dart';
 
 import 'platform_helper.dart';
 
-class MoowvieBottomNavigationBarItem {
+class MoovieBottomNavigationBarItem {
   final IconData icon;
   final IconData? activeIcon;
   final String label;
 
-  const MoowvieBottomNavigationBarItem({
+  const MoovieBottomNavigationBarItem({
     required this.icon,
     this.activeIcon,
     required this.label,
   });
 }
 
-class MoowvieBottomNavigationBar extends StatelessWidget {
+class MoovieBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
-  final List<MoowvieBottomNavigationBarItem> items;
+  final List<MoovieBottomNavigationBarItem> items;
 
-  const MoowvieBottomNavigationBar({
+  const MoovieBottomNavigationBar({
     super.key,
     required this.currentIndex,
     required this.onTap,

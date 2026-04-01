@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:moowvie/routes/app_router.dart';
+import 'package:moovie/routes/app_router.dart';
 
 @RoutePage()
 class MainScreen extends StatelessWidget {

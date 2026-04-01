@@ -9,10 +9,10 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Moowvie';
+  String get appTitle => 'Moovie';
 
   @override
-  String get homeTitle => 'Moowvie';
+  String get homeTitle => 'Moovie';
 
   @override
   String get counterLabel => 'You have pushed the button this many times:';

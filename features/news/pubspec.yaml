@@ -1,5 +1,5 @@
 name: news
-description: News feature module for Moowvie
+edescription: News feature module for Moovie
 publish_to: 'none'
 
 version: 1.0.0

@@ -9,10 +9,10 @@ class AppLocalizationsPt extends AppLocalizations {
   AppLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
-  String get appTitle => 'Moowvie';
+  String get appTitle => 'Moovie';
 
   @override
-  String get homeTitle => 'Moowvie';
+  String get homeTitle => 'Moovie';
 
   @override
   String get counterLabel => 'Você pressionou o botão este número de vezes:';

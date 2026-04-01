@@ -103,13 +103,13 @@ abstract class AppLocalizations {
   /// The title of the application
   ///
   /// In en, this message translates to:
-  /// **'Moowvie'**
+  /// **'Moovie'**
   String get appTitle;
 
   /// The title shown on the home page app bar
   ///
   /// In en, this message translates to:
-  /// **'Moowvie'**
+  /// **'Moovie'**
   String get homeTitle;
 
   /// Label shown above the counter

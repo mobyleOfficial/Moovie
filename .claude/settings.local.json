@@ -19,7 +19,9 @@
       "Bash(node -e \"let d='''''''';process.stdin.on\\(''''data'''',c=>d+=c\\);process.stdin.on\\(''''end'''',\\(\\)=>{const j=JSON.parse\\(d\\);const f=j.tool_input?.file_path||j.tool_response?.filePath||'''''''';if\\(/_router\\\\.dart$|_screen\\\\.dart$/.test\\(f\\)\\){process.exit\\(0\\)}else{process.exit\\(1\\)}}\\)\")",
       "Bash(node -e \"let d='''''''';process.stdin.on\\(''''data'''',c=>d+=c\\);process.stdin.on\\(''''end'''',\\(\\)=>{const j=JSON.parse\\(d\\);const f=j.tool_input?.file_path||j.tool_response?.filePath||'''''''';if\\(/_router\\\\.dart$|_screen\\\\.dart$/.test\\(f\\)\\){process.exit\\(0\\)}else{process.exit\\(1\\)}}\\)\" echo \"exit: $?\")",
       "Bash(find C:UsersAbeDesktopProjetosMobylemoowviefeatures -name *.dart -o -name pubspec.yaml)",
-      "Bash(dart analyze:*)"
+      "Bash(dart analyze:*)",
+      "Bash(mv moowvie.iml moovie.iml)",
+      "Bash(mv android/moowvies_android.iml android/moovie_android.iml)"
     ]
   }
 }

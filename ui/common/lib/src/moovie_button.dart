@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 import 'platform_helper.dart';
 
-class MoowvieButton extends StatelessWidget {
+class MoovieButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Widget child;
   final Color? color;
 
-  const MoowvieButton({
+  const MoovieButton({
     super.key,
     required this.onPressed,
     required this.child,
@@ -34,11 +34,11 @@ class MoowvieButton extends StatelessWidget {
   }
 }
 
-class MoowvieTextButton extends StatelessWidget {
+class MoovieTextButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Widget child;
 
-  const MoowvieTextButton({
+  const MoovieTextButton({
     super.key,
     required this.onPressed,
     required this.child,

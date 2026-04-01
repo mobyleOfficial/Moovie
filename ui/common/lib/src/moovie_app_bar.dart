@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 import 'platform_helper.dart';
 
-class MoowvieAppBar extends StatelessWidget implements PreferredSizeWidget {
+class MoovieAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final List<Widget>? actions;
   final Widget? leading;
 
-  const MoowvieAppBar({
+  const MoovieAppBar({
     super.key,
     this.title,
     this.actions,

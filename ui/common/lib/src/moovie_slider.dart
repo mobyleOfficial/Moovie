@@ -3,27 +3,35 @@ import 'package:flutter/material.dart';
 
 import 'platform_helper.dart';
 
-class MoowvieSwitch extends StatelessWidget {
-  final bool value;
-  final ValueChanged<bool>? onChanged;
+class MoovieSlider extends StatelessWidget {
+  final double value;
+  final double min;
+  final double max;
+  final ValueChanged<double>? onChanged;
 
-  const MoowvieSwitch({
+  const MoovieSlider({
     super.key,
     required this.value,
+    this.min = 0.0,
+    this.max = 1.0,
     required this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     if (isIOS) {
-      return CupertinoSwitch(
+      return CupertinoSlider(
         value: value,
+        min: min,
+        max: max,
         onChanged: onChanged,
       );
     }
 
-    return Switch(
+    return Slider(
       value: value,
+      min: min,
+      max: max,
       onChanged: onChanged,
     );
   }

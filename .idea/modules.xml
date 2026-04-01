@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/moowvie.iml" filepath="$PROJECT_DIR$/moowvie.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android/moowvie_android.iml" filepath="$PROJECT_DIR$/android/moowvie_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/moovie.iml" filepath="$PROJECT_DIR$/moovie.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/moovie_android.iml" filepath="$PROJECT_DIR$/android/moovie_android.iml" />
     </modules>
   </component>
 </project>

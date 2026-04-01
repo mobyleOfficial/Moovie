@@ -1,10 +1,10 @@
 {
   "@@locale": "en",
-  "appTitle": "Moowvie",
+  "appTitle": "Moovie",
   "@appTitle": {
     "description": "The title of the application"
   },
-  "homeTitle": "Moowvie",
+  "homeTitle": "Moovie",
   "@homeTitle": {
     "description": "The title shown on the home page app bar"
   },

@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:home/home_router.dart';
-import 'package:moowvie/routes/main_screen.dart';
+import 'package:moovie/routes/main_screen.dart';
 import 'package:movies_list/movies_list_router.dart';
 import 'package:reviews/reviews_router.dart';
 import 'package:search/search_router.dart';
