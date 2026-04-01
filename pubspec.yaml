@@ -42,6 +42,8 @@ dependencies:
   intl: ^0.20.2
   objectbox: ^5.3.1
   objectbox_flutter_libs: ^5.3.1
+  core:
+    path: core
   movies:
     path: features/movies
   news:

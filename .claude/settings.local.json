@@ -26,5 +26,19 @@
       "Read(//c/Users/Abe/.pub-cache/hosted/pub.dev/auto_route-11.1.0/**)",
       "Bash(2)"
     ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // .tool_response.filePath // \"\"' | { read -r f; if [ -n \"$f\" ] && echo \"$f\" | grep -qE '\\.dart$'; then d=$(dirname \"$f\"); while [ \"$d\" != \"/\" ] && [ \"$d\" != \".\" ] && [ ${#d} -gt 3 ]; do if [ -f \"$d/pubspec.yaml\" ]; then dart analyze \"$d\" 2>&1; break; fi; d=$(dirname \"$d\"); done; fi; } || true",
+            "statusMessage": "Running dart analyze..."
+          }
+        ]
+      }
+    ]
   }
 }
