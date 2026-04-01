@@ -1,0 +1,13 @@
+import 'package:auto_route/auto_route.dart';
+
+import 'profile_screen.dart';
+
+part 'profile_router.gr.dart';
+
+@AutoRouterConfig(generateForDir: ['lib'])
+class ProfileRouter extends RootStackRouter {
+  @override
+  List<AutoRoute> get routes => [
+        AutoRoute(page: ProfileRoute.page),
+      ];
+}

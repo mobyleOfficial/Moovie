@@ -1,17 +1,13 @@
-abstract class MoviesListState {
+sealed class MoviesListState {
   const MoviesListState();
-}
-
-class MoviesListInitial extends MoviesListState {
-  const MoviesListInitial();
 }
 
 class MoviesListLoading extends MoviesListState {
   const MoviesListLoading();
 }
 
-class MoviesListLoaded extends MoviesListState {
-  const MoviesListLoaded();
+class MoviesListSuccess extends MoviesListState {
+  const MoviesListSuccess();
 }
 
 class MoviesListError extends MoviesListState {

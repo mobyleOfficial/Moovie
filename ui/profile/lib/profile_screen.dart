@@ -2,27 +2,27 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'movies_list_bloc.dart';
-import 'movies_list_state.dart';
+import 'profile_bloc.dart';
+import 'profile_state.dart';
 
 @RoutePage()
-class MoviesListScreen extends StatelessWidget {
-  const MoviesListScreen({super.key});
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => MoviesListCubit(),
-      child: BlocBuilder<MoviesListCubit, MoviesListState>(
+      create: (_) => ProfileCubit(),
+      child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           return switch (state) {
-            MoviesListLoading() => const Center(
+            ProfileLoading() => const Center(
                 child: CircularProgressIndicator(),
               ),
-            MoviesListSuccess() => const Center(
-                child: Text('Movies List'),
+            ProfileSuccess() => const Center(
+                child: Text('Profile'),
               ),
-            MoviesListError() => Center(
+            ProfileError() => Center(
                 child: Text(state.message),
               ),
           };
