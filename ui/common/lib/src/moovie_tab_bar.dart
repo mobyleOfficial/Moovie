@@ -74,6 +74,7 @@ class _MoovieTabBarState extends State<MoovieTabBar> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   widget.tabs[tabIndex],
+                  maxLines: 2,
                   style: TextStyle(
                     color: tabController.index == tabIndex
                         ? colorScheme.onSecondary
@@ -96,7 +97,18 @@ class _MoovieTabBarState extends State<MoovieTabBar> {
       unselectedLabelColor: colorScheme.onSurfaceVariant,
       indicatorColor: colorScheme.onSecondaryContainer,
       dividerColor: colorScheme.outlineVariant,
-      tabs: widget.tabs.map((tabLabel) => Tab(text: tabLabel)).toList(),
+      tabs: widget.tabs
+          .map(
+            (tabLabel) => Tab(
+              child: Text(
+                tabLabel,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 }
