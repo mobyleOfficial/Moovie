@@ -30,3 +30,6 @@ doc/api/
 
 # Claude Code
 .claude/
+
+# Local research notes
+tmdb_endpoints.txt

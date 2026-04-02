@@ -74,3 +74,19 @@ class SocialTab extends PageRouteInfo<void> {
   );
 }
 
+/// generated route for
+/// [ProfileTabPage]
+class ProfileTab extends PageRouteInfo<void> {
+  const ProfileTab({List<PageRouteInfo>? children})
+    : super(ProfileTab.name, initialChildren: children);
+
+  static const String name = 'ProfileTab';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ProfileTabPage();
+    },
+  );
+}
+

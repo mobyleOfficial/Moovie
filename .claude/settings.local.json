@@ -30,7 +30,11 @@
       "Bash(find C:UsersAbeAppDataLocalPubCache -path *infinite_scroll_pagination* -name *.dart)",
       "Bash(find C:UsersAbeDesktopProjetosMobylemoovie -type f -name *.arb)",
       "Bash(find C:UsersAbeDesktopProjetosMobylemoovie -path *dart_tool* -name app_localizations*.dart)",
-      "Bash(ls C:/Users/Abe/Desktop/Projetos/Mobyle/moovie/ui/common/lib/app_localizations*.dart)"
+      "Bash(ls C:/Users/Abe/Desktop/Projetos/Mobyle/moovie/ui/common/lib/app_localizations*.dart)",
+      "WebFetch(domain:developer.themoviedb.org)",
+      "WebFetch(domain:sirjosh.mintlify.app)",
+      "WebFetch(domain:tmdbapis.kometa.wiki)",
+      "Bash(git:*)"
     ],
     "defaultMode": "acceptEdits"
   },

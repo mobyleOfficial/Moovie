@@ -177,6 +177,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New Activity'**
   String get newUserActivityTab;
+
+  /// Hint text inside the search input field
+  ///
+  /// In en, this message translates to:
+  /// **'Movies, people, lists...'**
+  String get searchHint;
+
+  /// Section header above browse options on the search screen
+  ///
+  /// In en, this message translates to:
+  /// **'Browse'**
+  String get searchBrowse;
+
+  /// Browse by release date option
+  ///
+  /// In en, this message translates to:
+  /// **'Release Date'**
+  String get searchBrowseReleaseDate;
+
+  /// Browse by genre option
+  ///
+  /// In en, this message translates to:
+  /// **'Genre'**
+  String get searchBrowseGenre;
+
+  /// Browse by country and language option
+  ///
+  /// In en, this message translates to:
+  /// **'Country & Language'**
+  String get searchBrowseCountryAndLanguage;
+
+  /// Browse by streaming service option
+  ///
+  /// In en, this message translates to:
+  /// **'Service'**
+  String get searchBrowseService;
+
+  /// Browse most popular movies option
+  ///
+  /// In en, this message translates to:
+  /// **'Most Popular'**
+  String get searchBrowseMostPopular;
+
+  /// Browse highest rated movies option
+  ///
+  /// In en, this message translates to:
+  /// **'Highest Rated'**
+  String get searchBrowseHighestRated;
+
+  /// Browse most anticipated movies option
+  ///
+  /// In en, this message translates to:
+  /// **'Most Anticipated'**
+  String get searchBrowseMostAnticipated;
+
+  /// Browse featured lists option
+  ///
+  /// In en, this message translates to:
+  /// **'Featured Lists'**
+  String get searchBrowseFeaturedLists;
 }
 
 class _AppLocalizationsDelegate

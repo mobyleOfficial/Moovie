@@ -1,33 +1,147 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search/search_bloc.dart';
 import 'package:search/search_state.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
   final SearchCubit cubit;
 
   const SearchScreen({super.key, required this.cubit});
 
   @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final tabsRouter = AutoTabsRouter.of(context);
+
     return BlocProvider.value(
-      value: cubit,
-      child: BlocBuilder<SearchCubit, SearchState>(
-        builder: (context, state) {
-          return switch (state) {
-            SearchLoading() => const Center(
-                child: CircularProgressIndicator(),
+      value: widget.cubit,
+      child:Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(4, 12, 16, 4),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => tabsRouter.setActiveIndex(0),
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: l10n.searchHint,
+                      filled: true,
+                      fillColor: colorScheme.surfaceContainerHighest,
+                      prefixIcon: const Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(28),
+                        borderSide: BorderSide.none,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(28),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(28),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+            child: Text(
+              l10n.searchBrowse,
+              style: textTheme.titleSmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+                letterSpacing: 0.8,
               ),
-            SearchSuccess() => Center(
-                child: Text(AppLocalizations.of(context)!.search),
-              ),
-            SearchError() => Center(
-                child: Text(state.message),
-              ),
-          };
-        },
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              children: [
+                _BrowseItem(
+                  icon: Icons.calendar_today_outlined,
+                  label: l10n.searchBrowseReleaseDate,
+                ),
+                _BrowseItem(
+                  icon: Icons.category_outlined,
+                  label: l10n.searchBrowseGenre,
+                ),
+                _BrowseItem(
+                  icon: Icons.language,
+                  label: l10n.searchBrowseCountryAndLanguage,
+                ),
+                _BrowseItem(
+                  icon: Icons.play_circle_outline,
+                  label: l10n.searchBrowseService,
+                ),
+                _BrowseItem(
+                  icon: Icons.trending_up,
+                  label: l10n.searchBrowseMostPopular,
+                ),
+                _BrowseItem(
+                  icon: Icons.star_outline,
+                  label: l10n.searchBrowseHighestRated,
+                ),
+                _BrowseItem(
+                  icon: Icons.schedule,
+                  label: l10n.searchBrowseMostAnticipated,
+                ),
+                _BrowseItem(
+                  icon: Icons.list_alt,
+                  label: l10n.searchBrowseFeaturedLists,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class _BrowseItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+
+  const _BrowseItem({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return ListTile(
+      leading: Icon(icon, color: colorScheme.onSurface),
+      title: Text(label),
+      trailing: Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
+      onTap: () {},
     );
   }
 }
