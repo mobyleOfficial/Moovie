@@ -12,5 +12,15 @@
   "movieRuntime": "Duração: {minutes} min",
   "movieGenres": "Gêneros: {genres}",
   "socialTab": "Social",
-  "newUserActivityTab": "Nova Atividade"
+  "newUserActivityTab": "Nova Atividade",
+  "searchHint": "Filmes, pessoas, listas...",
+  "searchBrowse": "Explorar",
+  "searchBrowseReleaseDate": "Data de lançamento",
+  "searchBrowseGenre": "Gênero",
+  "searchBrowseCountryAndLanguage": "País e idioma",
+  "searchBrowseService": "Serviço",
+  "searchBrowseMostPopular": "Mais populares",
+  "searchBrowseHighestRated": "Mais bem avaliados",
+  "searchBrowseMostAnticipated": "Mais aguardados",
+  "searchBrowseFeaturedLists": "Listas em destaque"
 }

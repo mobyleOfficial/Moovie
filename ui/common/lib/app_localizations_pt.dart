@@ -54,4 +54,34 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get newUserActivityTab => 'Nova Atividade';
+
+  @override
+  String get searchHint => 'Filmes, pessoas, listas...';
+
+  @override
+  String get searchBrowse => 'Explorar';
+
+  @override
+  String get searchBrowseReleaseDate => 'Data de lançamento';
+
+  @override
+  String get searchBrowseGenre => 'Gênero';
+
+  @override
+  String get searchBrowseCountryAndLanguage => 'País e idioma';
+
+  @override
+  String get searchBrowseService => 'Serviço';
+
+  @override
+  String get searchBrowseMostPopular => 'Mais populares';
+
+  @override
+  String get searchBrowseHighestRated => 'Mais bem avaliados';
+
+  @override
+  String get searchBrowseMostAnticipated => 'Mais aguardados';
+
+  @override
+  String get searchBrowseFeaturedLists => 'Listas em destaque';
 }

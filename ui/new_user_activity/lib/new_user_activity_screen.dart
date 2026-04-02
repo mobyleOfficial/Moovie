@@ -13,6 +13,10 @@ class NewUserActivityScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       title: Text(AppLocalizations.of(context)!.newUserActivityTab),
+      leading: IconButton(
+        icon: const Icon(Icons.close),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
     ),
     body: BlocProvider.value(
       value: cubit,

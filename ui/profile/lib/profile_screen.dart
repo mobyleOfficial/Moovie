@@ -15,26 +15,12 @@ class ProfileScreen extends StatelessWidget {
 
     return BlocProvider.value(
       value: cubit,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(l10n.profile),
-          centerTitle: true,
-        ),
-        body: BlocBuilder<ProfileCubit, ProfileState>(
-          builder: (context, state) {
-            return switch (state) {
-              ProfileLoading() => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ProfileSuccess() => Center(
-                  child: Text(l10n.profile),
-                ),
-              ProfileError() => Center(
-                  child: Text(state.message),
-                ),
-            };
-          },
-        ),
+      child: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) => switch (state) {
+          ProfileLoading() => const Center(child: CircularProgressIndicator()),
+          ProfileSuccess() => Center(child: Text(l10n.profile)),
+          ProfileError() => Center(child: Text(state.message)),
+        },
       ),
     );
   }

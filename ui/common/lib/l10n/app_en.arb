@@ -71,5 +71,45 @@
   "newUserActivityTab": "New Activity",
   "@newUserActivityTab": {
     "description": "Bottom navigation new user activity tab label"
+  },
+  "searchHint": "Movies, people, lists...",
+  "@searchHint": {
+    "description": "Hint text inside the search input field"
+  },
+  "searchBrowse": "Browse",
+  "@searchBrowse": {
+    "description": "Section header above browse options on the search screen"
+  },
+  "searchBrowseReleaseDate": "Release Date",
+  "@searchBrowseReleaseDate": {
+    "description": "Browse by release date option"
+  },
+  "searchBrowseGenre": "Genre",
+  "@searchBrowseGenre": {
+    "description": "Browse by genre option"
+  },
+  "searchBrowseCountryAndLanguage": "Country & Language",
+  "@searchBrowseCountryAndLanguage": {
+    "description": "Browse by country and language option"
+  },
+  "searchBrowseService": "Service",
+  "@searchBrowseService": {
+    "description": "Browse by streaming service option"
+  },
+  "searchBrowseMostPopular": "Most Popular",
+  "@searchBrowseMostPopular": {
+    "description": "Browse most popular movies option"
+  },
+  "searchBrowseHighestRated": "Highest Rated",
+  "@searchBrowseHighestRated": {
+    "description": "Browse highest rated movies option"
+  },
+  "searchBrowseMostAnticipated": "Most Anticipated",
+  "@searchBrowseMostAnticipated": {
+    "description": "Browse most anticipated movies option"
+  },
+  "searchBrowseFeaturedLists": "Featured Lists",
+  "@searchBrowseFeaturedLists": {
+    "description": "Browse featured lists option"
   }
 }

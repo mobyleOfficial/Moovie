@@ -46,17 +46,17 @@ class AppRouter extends RootStackRouter {
                 AutoRoute(page: SocialRoute.page, initial: true),
               ],
             ),
+            AutoRoute(
+              page: ProfileTab.page,
+              children: [
+                AutoRoute(page: ProfileRoute.page, initial: true),
+              ],
+            ),
           ],
         ),
         AutoRoute(page: MovieDetailRoute.page),
         CustomRoute(
           page: NewUserActivityRoute.page,
-          transitionsBuilder: TransitionsBuilders.slideBottom,
-          duration: _animationDuration,
-          reverseDuration: _animationDuration,
-        ),
-        CustomRoute(
-          page: ProfileRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
           duration: _animationDuration,
           reverseDuration: _animationDuration,
@@ -77,5 +77,10 @@ class SearchTabPage extends AutoRouter {
 @RoutePage(name: 'SocialTab')
 class SocialTabPage extends AutoRouter {
   const SocialTabPage({super.key});
+}
+
+@RoutePage(name: 'ProfileTab')
+class ProfileTabPage extends AutoRouter {
+  const ProfileTabPage({super.key});
 }
 
