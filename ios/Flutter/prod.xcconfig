@@ -1,0 +1,3 @@
+#include "Generated.xcconfig"
+DISPLAY_NAME=Moovie
+BUNDLE_ID_SUFFIX=

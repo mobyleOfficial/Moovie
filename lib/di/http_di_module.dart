@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:moovie/config/app_config.dart';
 
 @module
 abstract class HttpDiModule {
@@ -21,7 +22,7 @@ abstract class HttpDiModule {
   @Named('backend')
   Dio get backendDio => Dio(
         BaseOptions(
-          baseUrl: const String.fromEnvironment('BACKEND_URL'),
+          baseUrl: AppConfig.instance.backendUrl,
           headers: {
             'accept': 'application/json',
           },

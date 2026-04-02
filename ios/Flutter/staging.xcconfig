@@ -1,0 +1,3 @@
+#include "Generated.xcconfig"
+DISPLAY_NAME=MoovieStg
+BUNDLE_ID_SUFFIX=.staging
