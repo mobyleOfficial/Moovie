@@ -37,6 +37,22 @@ class MainScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: AnimatedSwitcher(
                     duration: _animationDuration,
+                    transitionBuilder: (child, animation) {
+                      final slideAnimation = Tween<Offset>(
+                        begin: const Offset(0, 0.3),
+                        end: Offset.zero,
+                      ).animate(CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.easeOut,
+                      ));
+                      return FadeTransition(
+                        opacity: animation,
+                        child: SlideTransition(
+                          position: slideAnimation,
+                          child: child,
+                        ),
+                      );
+                    },
                     child: Text(
                       tabTitles[tabsRouter.activeIndex],
                       key: ValueKey(tabsRouter.activeIndex),
