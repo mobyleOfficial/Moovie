@@ -16,11 +16,7 @@ class MainScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return AutoTabsRouter(
-      routes: const [
-        HomeTab(),
-        SearchTab(),
-        SocialTab(),
-      ],
+      routes: const [HomeTab(), SearchTab(), SocialTab()],
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
         final isHomeTab = tabsRouter.activeIndex == 0;
@@ -31,20 +27,22 @@ class MainScreen extends StatelessWidget {
               child: AnimatedAlign(
                 duration: _animationDuration,
                 curve: Curves.easeInOut,
-                alignment:
-                    isHomeTab ? Alignment.center : Alignment.centerLeft,
+                alignment: isHomeTab ? Alignment.center : Alignment.centerLeft,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: AnimatedSwitcher(
                     duration: _animationDuration,
                     transitionBuilder: (child, animation) {
-                      final slideAnimation = Tween<Offset>(
-                        begin: const Offset(0, 0.3),
-                        end: Offset.zero,
-                      ).animate(CurvedAnimation(
-                        parent: animation,
-                        curve: Curves.easeOut,
-                      ));
+                      final slideAnimation =
+                          Tween<Offset>(
+                            begin: const Offset(0, 0.3),
+                            end: Offset.zero,
+                          ).animate(
+                            CurvedAnimation(
+                              parent: animation,
+                              curve: Curves.easeOut,
+                            ),
+                          );
                       return FadeTransition(
                         opacity: animation,
                         child: SlideTransition(
@@ -75,9 +73,8 @@ class MainScreen extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             backgroundColor: MoovieColors.secondary,
             foregroundColor: MoovieColors.onSecondaryContainer,
-            onPressed: () {
-              context.router.root.push(const NewUserActivityRoute());
-            },
+            onPressed: () =>
+                context.router.root.push(const NewUserActivityRoute()),
             child: const Icon(Icons.add),
           ),
           bottomNavigationBar: MoovieBottomNavigationBar(
