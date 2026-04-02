@@ -129,9 +129,11 @@ class _BrowseItem extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return ListTile(
-      leading: Icon(icon, color: colorScheme.onSurface),
+      leading: ExcludeSemantics(child: Icon(icon, color: colorScheme.onSurface)),
       title: Text(label),
-      trailing: Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
+      trailing: ExcludeSemantics(
+        child: Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
+      ),
       onTap: () {},
     );
   }

@@ -26,12 +26,9 @@ class HomeScreen extends StatelessWidget {
         builder: (context, child, tabController) {
           return Column(
             children: [
-              TabBar(
+              MoovieTabBar(
                 controller: tabController,
-                tabs: [
-                  Tab(text: l10n.moviesTab),
-                  Tab(text: l10n.reviewsTab),
-                ],
+                tabs: [l10n.moviesTab, l10n.reviewsTab],
               ),
               Expanded(child: child),
             ],

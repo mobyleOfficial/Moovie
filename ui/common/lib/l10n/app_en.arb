@@ -111,5 +111,23 @@
   "searchBrowseFeaturedLists": "Featured Lists",
   "@searchBrowseFeaturedLists": {
     "description": "Browse featured lists option"
-  }
+  },
+  "profileTabProfile": "Profile",
+  "@profileTabProfile": { "description": "Profile tab label on the profile screen" },
+  "profileTabDiary": "Diary",
+  "@profileTabDiary": { "description": "Diary tab label on the profile screen" },
+  "profileTabLists": "Lists",
+  "@profileTabLists": { "description": "Lists tab label on the profile screen" },
+  "profileTabWatchlist": "Watchlist",
+  "@profileTabWatchlist": { "description": "Watchlist tab label on the profile screen" },
+  "profileFollowers": "Followers",
+  "@profileFollowers": { "description": "Followers stat label on the profile screen" },
+  "profileFollowing": "Following",
+  "@profileFollowing": { "description": "Following stat label on the profile screen" },
+  "profileMoviesWatched": "Movies",
+  "@profileMoviesWatched": { "description": "Movies watched stat label on the profile screen" },
+  "profileEditProfile": "Edit Profile",
+  "@profileEditProfile": { "description": "Edit profile button label" },
+  "profileRecentMovies": "Recent Movies",
+  "@profileRecentMovies": { "description": "Recent movies section header on the profile screen" }
 }

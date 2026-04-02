@@ -237,6 +237,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Featured Lists'**
   String get searchBrowseFeaturedLists;
+
+  /// Profile tab label on the profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTabProfile;
+
+  /// Diary tab label on the profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Diary'**
+  String get profileTabDiary;
+
+  /// Lists tab label on the profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Lists'**
+  String get profileTabLists;
+
+  /// Watchlist tab label on the profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Watchlist'**
+  String get profileTabWatchlist;
+
+  /// Followers stat label on the profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Followers'**
+  String get profileFollowers;
+
+  /// Following stat label on the profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Following'**
+  String get profileFollowing;
+
+  /// Movies watched stat label on the profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Movies'**
+  String get profileMoviesWatched;
+
+  /// Edit profile button label
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get profileEditProfile;
+
+  /// Recent movies section header on the profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Movies'**
+  String get profileRecentMovies;
 }
 
 class _AppLocalizationsDelegate

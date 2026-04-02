@@ -9,4 +9,5 @@ export 'src/moovie_icon_button.dart';
 export 'src/moovie_scaffold.dart';
 export 'src/moovie_slider.dart';
 export 'src/moovie_switch.dart';
+export 'src/moovie_tab_bar.dart';
 export 'src/moovie_text_field.dart';

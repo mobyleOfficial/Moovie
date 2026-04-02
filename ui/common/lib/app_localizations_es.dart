@@ -84,4 +84,31 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get searchBrowseFeaturedLists => 'Listas destacadas';
+
+  @override
+  String get profileTabProfile => 'Perfil';
+
+  @override
+  String get profileTabDiary => 'Diario';
+
+  @override
+  String get profileTabLists => 'Listas';
+
+  @override
+  String get profileTabWatchlist => 'Ver después';
+
+  @override
+  String get profileFollowers => 'Seguidores';
+
+  @override
+  String get profileFollowing => 'Siguiendo';
+
+  @override
+  String get profileMoviesWatched => 'Películas';
+
+  @override
+  String get profileEditProfile => 'Editar perfil';
+
+  @override
+  String get profileRecentMovies => 'Películas recientes';
 }

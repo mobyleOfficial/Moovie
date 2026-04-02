@@ -22,5 +22,14 @@
   "searchBrowseMostPopular": "Más populares",
   "searchBrowseHighestRated": "Mejor valoradas",
   "searchBrowseMostAnticipated": "Más esperadas",
-  "searchBrowseFeaturedLists": "Listas destacadas"
+  "searchBrowseFeaturedLists": "Listas destacadas",
+  "profileTabProfile": "Perfil",
+  "profileTabDiary": "Diario",
+  "profileTabLists": "Listas",
+  "profileTabWatchlist": "Ver después",
+  "profileFollowers": "Seguidores",
+  "profileFollowing": "Siguiendo",
+  "profileMoviesWatched": "Películas",
+  "profileEditProfile": "Editar perfil",
+  "profileRecentMovies": "Películas recientes"
 }

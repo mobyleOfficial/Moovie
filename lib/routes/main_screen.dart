@@ -124,9 +124,10 @@ class MainScreen extends StatelessWidget {
                 top: 8,
                 child: FloatingActionButton(
                   onPressed: () => context.router.root.push(const NewUserActivityRoute()),
+                  tooltip: l10n.newUserActivityTab,
                   backgroundColor: colorScheme.secondary,
                   foregroundColor: colorScheme.onSecondary,
-                  child: const Icon(Icons.add),
+                  child: const Icon(Icons.add, semanticLabel: ''),
                 ),
               ),
             ],

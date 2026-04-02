@@ -14,6 +14,7 @@ class NewUserActivityScreen extends StatelessWidget {
     appBar: AppBar(
       title: Text(AppLocalizations.of(context)!.newUserActivityTab),
       leading: IconButton(
+        tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
         icon: const Icon(Icons.close),
         onPressed: () => Navigator.of(context).pop(),
       ),
