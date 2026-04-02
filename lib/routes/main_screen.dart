@@ -5,6 +5,8 @@ import 'package:moovie/routes/app_router.dart';
 import 'package:new_user_activity/new_user_activity_router.dart';
 import 'package:profile_ui/profile_router.dart';
 
+const _animationDuration = Duration(milliseconds: 300);
+
 @RoutePage()
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -25,8 +27,25 @@ class MainScreen extends StatelessWidget {
         final tabTitles = [l10n.appTitle, l10n.search, l10n.socialTab];
         return Scaffold(
           appBar: AppBar(
-            title: Text(tabTitles[tabsRouter.activeIndex]),
-            centerTitle: isHomeTab,
+            flexibleSpace: SafeArea(
+              child: AnimatedAlign(
+                duration: _animationDuration,
+                curve: Curves.easeInOut,
+                alignment:
+                    isHomeTab ? Alignment.center : Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: AnimatedSwitcher(
+                    duration: _animationDuration,
+                    child: Text(
+                      tabTitles[tabsRouter.activeIndex],
+                      key: ValueKey(tabsRouter.activeIndex),
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                ),
+              ),
+            ),
             actions: [
               IconButton(
                 icon: const Icon(Icons.person_outline),
