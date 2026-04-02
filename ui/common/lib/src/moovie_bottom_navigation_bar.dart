@@ -50,7 +50,6 @@ class MoovieBottomNavigationBar extends StatelessWidget {
     return NavigationBar(
       selectedIndex: currentIndex,
       onDestinationSelected: onTap,
-      indicatorColor: MoovieColors.secondary,
       labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
       destinations: items
           .map(

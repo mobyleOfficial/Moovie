@@ -68,8 +68,8 @@
   "@activitiesTab": {
     "description": "Bottom navigation activities tab label"
   },
-  "newUserRecordTab": "New Record",
-  "@newUserRecordTab": {
-    "description": "Bottom navigation new user record tab label"
+  "newUserActivityTab": "New Activity",
+  "@newUserActivityTab": {
+    "description": "Bottom navigation new user activity tab label"
   }
 }

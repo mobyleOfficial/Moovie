@@ -4,12 +4,14 @@ import 'package:home/home_router.dart';
 import 'package:moovie/routes/main_screen.dart';
 import 'package:movie_detail/movie_detail_router.dart';
 import 'package:movies_list/movies_list_router.dart';
-import 'package:new_user_record/new_user_record_router.dart';
+import 'package:new_user_activity/new_user_activity_router.dart';
 import 'package:profile_ui/profile_router.dart';
 import 'package:reviews/reviews_router.dart';
 import 'package:search/search_router.dart';
 
 part 'app_router.gr.dart';
+
+const _animationDuration = Duration(milliseconds: 300);
 
 @AutoRouterConfig()
 class AppRouter extends RootStackRouter {
@@ -48,16 +50,16 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(page: MovieDetailRoute.page),
         CustomRoute(
-          page: NewUserRecordRoute.page,
+          page: NewUserActivityRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
-          duration: const Duration(milliseconds: 300),
-          reverseDuration: const Duration(milliseconds: 300),
+          duration: _animationDuration,
+          reverseDuration: _animationDuration,
         ),
         CustomRoute(
           page: ProfileRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
-          duration: const Duration(milliseconds: 200),
-          reverseDuration: const Duration(milliseconds: 200),
+          duration: _animationDuration,
+          reverseDuration: _animationDuration,
         ),
       ];
 }

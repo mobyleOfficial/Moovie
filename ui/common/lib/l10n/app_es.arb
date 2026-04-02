@@ -12,5 +12,5 @@
   "movieRuntime": "Duración: {minutes} min",
   "movieGenres": "Géneros: {genres}",
   "activitiesTab": "Actividades",
-  "newUserRecordTab": "Nuevo Récord"
+  "newUserActivityTab": "Nueva Actividad"
 }

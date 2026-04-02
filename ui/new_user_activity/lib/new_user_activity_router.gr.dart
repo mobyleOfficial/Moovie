@@ -8,20 +8,20 @@
 // ignore_for_file: type=lint
 // coverage:ignore-file
 
-part of 'new_user_record_router.dart';
+part of 'new_user_activity_router.dart';
 
 /// generated route for
-/// [NewUserRecordPage]
-class NewUserRecordRoute extends PageRouteInfo<void> {
-  const NewUserRecordRoute({List<PageRouteInfo>? children})
-    : super(NewUserRecordRoute.name, initialChildren: children);
+/// [NewUserActivityPage]
+class NewUserActivityRoute extends PageRouteInfo<void> {
+  const NewUserActivityRoute({List<PageRouteInfo>? children})
+    : super(NewUserActivityRoute.name, initialChildren: children);
 
-  static const String name = 'NewUserRecordRoute';
+  static const String name = 'NewUserActivityRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const NewUserRecordPage();
+      return const NewUserActivityPage();
     },
   );
 }

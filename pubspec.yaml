@@ -67,8 +67,8 @@ dependencies:
     path: ui/search
   activities:
     path: ui/activities
-  new_user_record:
-    path: ui/new_user_record
+  new_user_activity:
+    path: ui/new_user_activity
   auto_route: ^11.1.0
   get_it: ^8.0.3
   injectable: ^2.5.0
