@@ -172,11 +172,11 @@ abstract class AppLocalizations {
   /// **'Activities'**
   String get activitiesTab;
 
-  /// Bottom navigation new user record tab label
+  /// Bottom navigation new user activity tab label
   ///
   /// In en, this message translates to:
-  /// **'New Record'**
-  String get newUserRecordTab;
+  /// **'New Activity'**
+  String get newUserActivityTab;
 }
 
 class _AppLocalizationsDelegate

@@ -1,5 +1,5 @@
-name: new_user_record
-description: NewUserRecord UI module
+name: new_user_activity
+description: NewUserActivity UI module
 publish_to: none
 
 environment:

@@ -53,5 +53,5 @@ class AppLocalizationsEn extends AppLocalizations {
   String get activitiesTab => 'Activities';
 
   @override
-  String get newUserRecordTab => 'New Record';
+  String get newUserActivityTab => 'New Activity';
 }

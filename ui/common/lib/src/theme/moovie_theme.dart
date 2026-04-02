@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:common/src/theme/moovie_color_scheme.dart';
+import 'package:common/src/theme/moovie_colors.dart';
 import 'package:common/src/theme/moovie_text_theme.dart';
 
 abstract final class MoovieTheme {
@@ -39,6 +40,7 @@ abstract final class MoovieTheme {
         ),
         navigationBarTheme: NavigationBarThemeData(
           elevation: 0,
+          indicatorColor: MoovieColors.secondary,
           indicatorShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -85,6 +87,7 @@ abstract final class MoovieTheme {
         ),
         navigationBarTheme: NavigationBarThemeData(
           elevation: 0,
+          indicatorColor: MoovieColors.primary,
           indicatorShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),

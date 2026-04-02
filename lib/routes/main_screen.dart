@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:moovie/routes/app_router.dart';
-import 'package:new_user_record/new_user_record_router.dart';
+import 'package:new_user_activity/new_user_activity_router.dart';
 import 'package:profile_ui/profile_router.dart';
 
 @RoutePage()
@@ -39,7 +39,7 @@ class MainScreen extends StatelessWidget {
             backgroundColor: MoovieColors.secondary,
             foregroundColor: MoovieColors.onSecondaryContainer,
             onPressed: () {
-              context.router.root.push(const NewUserRecordRoute());
+              context.router.root.push(const NewUserActivityRoute());
             },
             child: const Icon(Icons.add),
           ),

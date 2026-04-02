@@ -53,5 +53,5 @@ class AppLocalizationsPt extends AppLocalizations {
   String get activitiesTab => 'Atividades';
 
   @override
-  String get newUserRecordTab => 'Novo Recorde';
+  String get newUserActivityTab => 'Nova Atividade';
 }
