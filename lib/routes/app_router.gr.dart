@@ -59,17 +59,17 @@ class SearchTab extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [ActivitiesTabPage]
-class ActivitiesTab extends PageRouteInfo<void> {
-  const ActivitiesTab({List<PageRouteInfo>? children})
-    : super(ActivitiesTab.name, initialChildren: children);
+/// [SocialTabPage]
+class SocialTab extends PageRouteInfo<void> {
+  const SocialTab({List<PageRouteInfo>? children})
+    : super(SocialTab.name, initialChildren: children);
 
-  static const String name = 'ActivitiesTab';
+  static const String name = 'SocialTab';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const ActivitiesTabPage();
+      return const SocialTabPage();
     },
   );
 }

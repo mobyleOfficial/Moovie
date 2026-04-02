@@ -11,6 +11,6 @@
   "movieRating": "Avaliação: {rating}",
   "movieRuntime": "Duração: {minutes} min",
   "movieGenres": "Gêneros: {genres}",
-  "activitiesTab": "Atividades",
+  "socialTab": "Social",
   "newUserActivityTab": "Nova Atividade"
 }

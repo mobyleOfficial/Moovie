@@ -50,7 +50,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get activitiesTab => 'Actividades';
+  String get socialTab => 'Social';
 
   @override
   String get newUserActivityTab => 'Nueva Actividad';

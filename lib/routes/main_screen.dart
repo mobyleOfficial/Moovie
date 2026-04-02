@@ -17,14 +17,16 @@ class MainScreen extends StatelessWidget {
       routes: const [
         HomeTab(),
         SearchTab(),
-        ActivitiesTab(),
+        SocialTab(),
       ],
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
+        final isHomeTab = tabsRouter.activeIndex == 0;
+        final tabTitles = [l10n.appTitle, l10n.search, l10n.socialTab];
         return Scaffold(
           appBar: AppBar(
-            title: Text(l10n.appTitle),
-            centerTitle: true,
+            title: Text(tabTitles[tabsRouter.activeIndex]),
+            centerTitle: isHomeTab,
             actions: [
               IconButton(
                 icon: const Icon(Icons.person_outline),
@@ -59,7 +61,7 @@ class MainScreen extends StatelessWidget {
               MoovieBottomNavigationBarItem(
                 icon: Icons.directions_run_outlined,
                 activeIcon: Icons.directions_run,
-                label: l10n.activitiesTab,
+                label: l10n.socialTab,
               ),
             ],
           ),

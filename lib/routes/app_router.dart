@@ -1,4 +1,4 @@
-import 'package:activities/activities_router.dart';
+import 'package:social/social_router.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:home/home_router.dart';
 import 'package:moovie/routes/main_screen.dart';
@@ -41,9 +41,9 @@ class AppRouter extends RootStackRouter {
               ],
             ),
             AutoRoute(
-              page: ActivitiesTab.page,
+              page: SocialTab.page,
               children: [
-                AutoRoute(page: ActivitiesRoute.page, initial: true),
+                AutoRoute(page: SocialRoute.page, initial: true),
               ],
             ),
           ],
@@ -74,8 +74,8 @@ class SearchTabPage extends AutoRouter {
   const SearchTabPage({super.key});
 }
 
-@RoutePage(name: 'ActivitiesTab')
-class ActivitiesTabPage extends AutoRouter {
-  const ActivitiesTabPage({super.key});
+@RoutePage(name: 'SocialTab')
+class SocialTabPage extends AutoRouter {
+  const SocialTabPage({super.key});
 }
 

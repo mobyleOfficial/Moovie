@@ -64,9 +64,9 @@
       }
     }
   },
-  "activitiesTab": "Activities",
-  "@activitiesTab": {
-    "description": "Bottom navigation activities tab label"
+  "socialTab": "Social",
+  "@socialTab": {
+    "description": "Bottom navigation social tab label"
   },
   "newUserActivityTab": "New Activity",
   "@newUserActivityTab": {

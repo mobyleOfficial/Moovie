@@ -65,8 +65,8 @@ dependencies:
     path: ui/reviews
   search:
     path: ui/search
-  activities:
-    path: ui/activities
+  social:
+    path: ui/social
   new_user_activity:
     path: ui/new_user_activity
   auto_route: ^11.1.0

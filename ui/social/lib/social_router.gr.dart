@@ -8,20 +8,20 @@
 // ignore_for_file: type=lint
 // coverage:ignore-file
 
-part of 'activities_router.dart';
+part of 'social_router.dart';
 
 /// generated route for
-/// [ActivitiesPage]
-class ActivitiesRoute extends PageRouteInfo<void> {
-  const ActivitiesRoute({List<PageRouteInfo>? children})
-    : super(ActivitiesRoute.name, initialChildren: children);
+/// [SocialPage]
+class SocialRoute extends PageRouteInfo<void> {
+  const SocialRoute({List<PageRouteInfo>? children})
+    : super(SocialRoute.name, initialChildren: children);
 
-  static const String name = 'ActivitiesRoute';
+  static const String name = 'SocialRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const ActivitiesPage();
+      return const SocialPage();
     },
   );
 }

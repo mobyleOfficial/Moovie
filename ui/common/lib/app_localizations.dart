@@ -166,11 +166,11 @@ abstract class AppLocalizations {
   /// **'Genres: {genres}'**
   String movieGenres(String genres);
 
-  /// Bottom navigation activities tab label
+  /// Bottom navigation social tab label
   ///
   /// In en, this message translates to:
-  /// **'Activities'**
-  String get activitiesTab;
+  /// **'Social'**
+  String get socialTab;
 
   /// Bottom navigation new user activity tab label
   ///
