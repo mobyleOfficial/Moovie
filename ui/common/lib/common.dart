@@ -10,4 +10,7 @@ export 'src/moovie_scaffold.dart';
 export 'src/moovie_slider.dart';
 export 'src/moovie_switch.dart';
 export 'src/moovie_tab_bar.dart';
+export 'src/platform_helper.dart';
 export 'src/moovie_text_field.dart';
+export 'src/moovie_edit_text.dart';
+export 'src/moovie_close_button.dart';

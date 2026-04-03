@@ -137,5 +137,9 @@
   "moviesListListsTab": "Lists",
   "@moviesListListsTab": { "description": "Lists tab label on the movies list screen" },
   "moviesListArticlesTab": "Articles",
-  "@moviesListArticlesTab": { "description": "Articles tab label on the movies list screen" }
+  "@moviesListArticlesTab": { "description": "Articles tab label on the movies list screen" },
+  "newUserActivityDraftsSection": "Drafts",
+  "@newUserActivityDraftsSection": { "description": "Drafts section header on the new activity screen" },
+  "newUserActivityRecentSection": "Recent",
+  "@newUserActivityRecentSection": { "description": "Recent searches section header on the new activity screen" }
 }

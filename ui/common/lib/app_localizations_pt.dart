@@ -123,4 +123,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get moviesListArticlesTab => 'Artigos';
+
+  @override
+  String get newUserActivityDraftsSection => 'Rascunhos';
+
+  @override
+  String get newUserActivityRecentSection => 'Recentes';
 }
