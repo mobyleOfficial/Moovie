@@ -66,9 +66,6 @@ class _MainScreenState extends State<MainScreen> {
               body: SafeArea(
                 child: Column(
                   children: [
-                    // -------------------------------------------------
-                    // App bar — rebuilds when AppBarController notifies
-                    // -------------------------------------------------
                     ListenableBuilder(
                       listenable: _appBarController,
                       builder: (context, _) {

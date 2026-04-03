@@ -6,9 +6,6 @@ import 'package:movie_detail/movie_detail_router.dart';
 import 'package:public_profile/public_profile_bloc.dart';
 import 'package:public_profile/public_profile_state.dart';
 
-// ---------------------------------------------------------------------------
-// Mock data
-// ---------------------------------------------------------------------------
 
 class _MockUser {
   final String displayName;
@@ -115,9 +112,6 @@ const _mockUsers = <String, _MockUser>{
   ),
 };
 
-// ---------------------------------------------------------------------------
-// Screen
-// ---------------------------------------------------------------------------
 
 class PublicProfileScreen extends StatefulWidget {
   final PublicProfileCubit cubit;
@@ -186,9 +180,6 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Profile info tab
-// ---------------------------------------------------------------------------
 
 class _ProfileInfoTab extends StatelessWidget {
   final _MockUser user;
@@ -387,9 +378,6 @@ class _ProfileStat extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Diary tab
-// ---------------------------------------------------------------------------
 
 class _DiaryTab extends StatelessWidget {
   const _DiaryTab();
@@ -512,9 +500,6 @@ class _DiaryEntryTile extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Lists tab
-// ---------------------------------------------------------------------------
 
 class _ListsTab extends StatelessWidget {
   const _ListsTab();

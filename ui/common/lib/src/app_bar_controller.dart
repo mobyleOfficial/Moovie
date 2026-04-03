@@ -1,9 +1,5 @@
 import 'package:flutter/widgets.dart';
 
-// ---------------------------------------------------------------------------
-// AppBarController — per-tab title overrides set by detail pages
-// ---------------------------------------------------------------------------
-
 class AppBarController extends ChangeNotifier {
   final Map<int, String> _overrides = {};
   final Map<int, VoidCallback> _backActions = {};
@@ -29,10 +25,6 @@ class AppBarController extends ChangeNotifier {
   }
 }
 
-// ---------------------------------------------------------------------------
-// AppBarControllerScope — provides controller to descendants
-// ---------------------------------------------------------------------------
-
 class AppBarControllerScope extends InheritedNotifier<AppBarController> {
   const AppBarControllerScope({
     super.key,
@@ -43,11 +35,6 @@ class AppBarControllerScope extends InheritedNotifier<AppBarController> {
   static AppBarController? find(BuildContext context) =>
       context.findAncestorWidgetOfExactType<AppBarControllerScope>()?.notifier;
 }
-
-// ---------------------------------------------------------------------------
-// TabIndexScope — lets pages read their tab index at mount time,
-// and lets screens detect whether they are inside the tabbed shell
-// ---------------------------------------------------------------------------
 
 class TabIndexScope extends StatelessWidget {
   final int tabIndex;

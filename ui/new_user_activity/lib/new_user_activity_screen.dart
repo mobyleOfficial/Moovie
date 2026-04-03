@@ -3,37 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:new_user_activity/model/tab_items.dart';
 import 'package:new_user_activity/new_user_activity_bloc.dart';
 import 'package:new_user_activity/new_user_activity_state.dart';
-
-// ---------------------------------------------------------------------------
-// Data models
-// ---------------------------------------------------------------------------
-
-sealed class _ActivityItem {
-  const _ActivityItem();
-}
-
-class _SectionHeader extends _ActivityItem {
-  final String label;
-  const _SectionHeader(this.label);
-}
-
-class _DraftItem extends _ActivityItem {
-  final String title;
-  final String subtitle;
-  const _DraftItem({required this.title, required this.subtitle});
-}
-
-class _SearchItem extends _ActivityItem {
-  final String query;
-  final String time;
-  const _SearchItem({required this.query, required this.time});
-}
-
-// ---------------------------------------------------------------------------
-// Screen
-// ---------------------------------------------------------------------------
 
 class NewUserActivityScreen extends StatefulWidget {
   final NewUserActivityCubit cubit;
@@ -61,21 +33,21 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
     super.dispose();
   }
 
-  List<_ActivityItem> _buildItems(AppLocalizations l10n) => [
-        _SectionHeader(l10n.newUserActivityDraftsSection),
-        const _DraftItem(
+  List<ActivityItem> _buildItems(AppLocalizations l10n) => [
+        SectionHeader(l10n.newUserActivityDraftsSection),
+        const DraftItem(
           title: 'Review of Dune: Part Two',
           subtitle: 'Edited · 2 hours ago',
         ),
-        const _DraftItem(
+        const DraftItem(
           title: 'My Top Sci-Fi Films of 2024',
           subtitle: 'Edited · Yesterday',
         ),
-        _SectionHeader(l10n.newUserActivityRecentSection),
-        const _SearchItem(query: 'Christopher Nolan films', time: '5m ago'),
-        const _SearchItem(query: 'best horror movies 2024', time: '1h ago'),
-        const _SearchItem(query: 'Wes Anderson', time: 'Yesterday'),
-        const _SearchItem(query: 'A24 films ranked', time: '2 days ago'),
+        SectionHeader(l10n.newUserActivityRecentSection),
+        const SearchItem(query: 'Christopher Nolan films', time: '5m ago'),
+        const SearchItem(query: 'best horror movies 2024', time: '1h ago'),
+        const SearchItem(query: 'Wes Anderson', time: 'Yesterday'),
+        const SearchItem(query: 'A24 films ranked', time: '2 days ago'),
       ];
 
   @override
@@ -129,12 +101,12 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
               NewUserActivitySuccess() => ListView.builder(
                   itemCount: items.length,
                   itemBuilder: (context, index) => switch (items[index]) {
-                    _SectionHeader(:final label) => _SectionHeaderTile(label: label),
-                    _DraftItem(:final title, :final subtitle) => _DraftTile(
+                    SectionHeader(:final label) => _SectionHeaderTile(label: label),
+                    DraftItem(:final title, :final subtitle) => _DraftTile(
                         title: title,
                         subtitle: subtitle,
                       ),
-                    _SearchItem(:final query, :final time) => _SearchTile(
+                    SearchItem(:final query, :final time) => _SearchTile(
                         query: query,
                         time: time,
                       ),
@@ -147,10 +119,6 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
     );
   }
 }
-
-// ---------------------------------------------------------------------------
-// List item widgets
-// ---------------------------------------------------------------------------
 
 class _SectionHeaderTile extends StatelessWidget {
   final String label;
