@@ -1,5 +1,5 @@
-name: social
-description: Social UI module
+name: public_profile
+description: Public Profile UI module for Moovie
 publish_to: none
 
 environment:
@@ -13,5 +13,3 @@ dependencies:
   auto_route: ^11.1.0
   common:
     path: ../common
-  public_profile:
-    path: ../public_profile

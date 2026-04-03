@@ -129,4 +129,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get newUserActivityRecentSection => 'Recentes';
+
+  @override
+  String get profileFollow => 'Seguir';
 }
