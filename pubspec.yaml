@@ -69,6 +69,8 @@ dependencies:
     path: ui/social
   new_user_activity:
     path: ui/new_user_activity
+  public_profile:
+    path: ui/public_profile
   auto_route: ^11.1.0
   get_it: ^8.0.3
   injectable: ^2.5.0

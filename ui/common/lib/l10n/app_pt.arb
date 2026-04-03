@@ -37,5 +37,6 @@
   "moviesListListsTab": "Listas",
   "moviesListArticlesTab": "Artigos",
   "newUserActivityDraftsSection": "Rascunhos",
-  "newUserActivityRecentSection": "Recentes"
+  "newUserActivityRecentSection": "Recentes",
+  "profileFollow": "Seguir"
 }

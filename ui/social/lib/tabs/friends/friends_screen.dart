@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:public_profile/public_profile_router.dart';
 
 class FriendsScreen extends StatelessWidget {
   const FriendsScreen({super.key});
@@ -35,8 +37,11 @@ class _FriendTile extends StatelessWidget {
 
     return Semantics(
       label: '${friend.name}, ${friend.moviesWatched} movies watched',
-      button: false,
+      button: true,
       child: ListTile(
+        onTap: () => context.router.root.push(
+          PublicProfileRoute(userId: friend.name),
+        ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         leading: ExcludeSemantics(
           child: CircleAvatar(

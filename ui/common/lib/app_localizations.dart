@@ -327,6 +327,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recent'**
   String get newUserActivityRecentSection;
+
+  /// Follow button label on public profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Follow'**
+  String get profileFollow;
 }
 
 class _AppLocalizationsDelegate

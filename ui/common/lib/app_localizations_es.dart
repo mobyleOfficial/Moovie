@@ -129,4 +129,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get newUserActivityRecentSection => 'Recientes';
+
+  @override
+  String get profileFollow => 'Seguir';
 }
