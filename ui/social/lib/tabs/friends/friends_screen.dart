@@ -39,7 +39,7 @@ class _FriendTile extends StatelessWidget {
       label: '${friend.name}, ${friend.moviesWatched} movies watched',
       button: true,
       child: ListTile(
-        onTap: () => context.router.root.push(
+        onTap: () => context.router.push(
           PublicProfileRoute(userId: friend.name),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),

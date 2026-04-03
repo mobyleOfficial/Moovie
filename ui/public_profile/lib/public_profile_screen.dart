@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_detail/movie_detail_router.dart';
 import 'package:public_profile/public_profile_bloc.dart';
 import 'package:public_profile/public_profile_state.dart';
 
@@ -197,6 +199,14 @@ class _ProfileInfoTab extends StatelessWidget {
     required this.onFollowToggle,
   });
 
+  static const _recentMovies = [
+    (title: 'Dune: Part Two', id: 693134),
+    (title: 'Oppenheimer', id: 872585),
+    (title: 'Poor Things', id: 792307),
+    (title: 'The Zone of Interest', id: 929590),
+    (title: 'Society of the Snow', id: 876969),
+  ];
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -317,14 +327,22 @@ class _ProfileInfoTab extends StatelessWidget {
             height: 120,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              itemCount: posterColors.length,
+              itemCount: _recentMovies.length,
               separatorBuilder: (_, __) => const SizedBox(width: 8),
-              itemBuilder: (_, index) => ExcludeSemantics(
-                child: Container(
-                  width: 80,
-                  decoration: BoxDecoration(
-                    color: posterColors[index],
-                    borderRadius: BorderRadius.circular(8),
+              itemBuilder: (context, index) => Semantics(
+                label: _recentMovies[index].title,
+                button: true,
+                child: InkWell(
+                  onTap: () => context.router.root.push(
+                    MovieDetailRoute(movieId: _recentMovies[index].id),
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    width: 80,
+                    decoration: BoxDecoration(
+                      color: posterColors[index],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
               ),

@@ -13,3 +13,5 @@ dependencies:
   auto_route: ^11.1.0
   common:
     path: ../common
+  movie_detail:
+    path: ../movie_detail

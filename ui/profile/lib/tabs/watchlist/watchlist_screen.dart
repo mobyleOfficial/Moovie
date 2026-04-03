@@ -1,15 +1,17 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_detail/movie_detail_router.dart';
 
 class WatchlistScreen extends StatelessWidget {
   const WatchlistScreen({super.key});
 
   static const _movies = [
-    'Dune: Part Three',
-    'A Quiet Place: Day One',
-    'Kingdom of the Planet of the Apes',
-    'Furiosa',
-    'Inside Out 2',
-    'Alien: Romulus',
+    (title: 'Dune: Part Three', id: 895538),
+    (title: 'A Quiet Place: Day One', id: 762441),
+    (title: 'Kingdom of the Planet of the Apes', id: 653346),
+    (title: 'Furiosa', id: 786892),
+    (title: 'Inside Out 2', id: 1022789),
+    (title: 'Alien: Romulus', id: 945961),
   ];
 
   @override
@@ -34,8 +36,9 @@ class WatchlistScreen extends StatelessWidget {
       ),
       itemCount: _movies.length,
       itemBuilder: (context, index) => _WatchlistMovieTile(
-        title: _movies[index],
+        title: _movies[index].title,
         posterColor: posterColors[index],
+        movieId: _movies[index].id,
       ),
     );
   }
@@ -44,8 +47,13 @@ class WatchlistScreen extends StatelessWidget {
 class _WatchlistMovieTile extends StatelessWidget {
   final String title;
   final Color posterColor;
+  final int movieId;
 
-  const _WatchlistMovieTile({required this.title, required this.posterColor});
+  const _WatchlistMovieTile({
+    required this.title,
+    required this.posterColor,
+    required this.movieId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,32 +62,38 @@ class _WatchlistMovieTile extends StatelessWidget {
 
     return Semantics(
       label: title,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: ExcludeSemantics(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: posterColor,
-                  borderRadius: BorderRadius.circular(10),
+      button: true,
+      child: InkWell(
+        onTap: () =>
+            context.router.root.push(MovieDetailRoute(movieId: movieId)),
+        borderRadius: BorderRadius.circular(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: ExcludeSemantics(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: posterColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 6),
-          ExcludeSemantics(
-            child: Text(
-              title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: textTheme.bodySmall?.copyWith(
-                color: colorScheme.onSurface,
-                fontWeight: FontWeight.w500,
+            const SizedBox(height: 6),
+            ExcludeSemantics(
+              child: Text(
+                title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurface,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

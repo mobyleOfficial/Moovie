@@ -39,7 +39,7 @@ class _ConversationTile extends StatelessWidget {
       label: '${conversation.senderName}, ${conversation.lastMessage}, ${conversation.time}',
       button: true,
       child: InkWell(
-        onTap: () => context.router.root.push(
+        onTap: () => context.router.push(
           PublicProfileRoute(userId: conversation.senderName),
         ),
         child: Padding(

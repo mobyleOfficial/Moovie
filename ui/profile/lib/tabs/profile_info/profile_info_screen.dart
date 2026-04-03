@@ -1,8 +1,18 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_detail/movie_detail_router.dart';
 
 class ProfileInfoScreen extends StatelessWidget {
   const ProfileInfoScreen({super.key});
+
+  static const _recentMovies = [
+    (title: 'Dune: Part Two', id: 693134),
+    (title: 'Oppenheimer', id: 872585),
+    (title: 'Poor Things', id: 792307),
+    (title: 'The Zone of Interest', id: 929590),
+    (title: 'Society of the Snow', id: 876969),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -50,20 +60,24 @@ class ProfileInfoScreen extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             'Movie lover & critic',
-            style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+            style: textTheme.bodyMedium
+                ?.copyWith(color: colorScheme.onSurfaceVariant),
           ),
           const SizedBox(height: 24),
           Semantics(
-            label: '248 ${l10n.profileMoviesWatched}, 32 ${l10n.profileFollowing}, 156 ${l10n.profileFollowers}',
+            label:
+                '248 ${l10n.profileMoviesWatched}, 32 ${l10n.profileFollowing}, 156 ${l10n.profileFollowers}',
             excludeSemantics: true,
             child: IntrinsicHeight(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _ProfileStat(value: '248', label: l10n.profileMoviesWatched),
-                  VerticalDivider(color: colorScheme.outlineVariant, width: 1),
+                  VerticalDivider(
+                      color: colorScheme.outlineVariant, width: 1),
                   _ProfileStat(value: '32', label: l10n.profileFollowing),
-                  VerticalDivider(color: colorScheme.outlineVariant, width: 1),
+                  VerticalDivider(
+                      color: colorScheme.outlineVariant, width: 1),
                   _ProfileStat(value: '156', label: l10n.profileFollowers),
                 ],
               ),
@@ -86,7 +100,8 @@ class ProfileInfoScreen extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               l10n.profileRecentMovies,
-              style: textTheme.titleSmall?.copyWith(color: colorScheme.onSurface),
+              style:
+                  textTheme.titleSmall?.copyWith(color: colorScheme.onSurface),
             ),
           ),
           const SizedBox(height: 12),
@@ -94,14 +109,22 @@ class ProfileInfoScreen extends StatelessWidget {
             height: 120,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              itemCount: posterColors.length,
+              itemCount: _recentMovies.length,
               separatorBuilder: (_, __) => const SizedBox(width: 8),
-              itemBuilder: (_, index) => ExcludeSemantics(
-                child: Container(
-                  width: 80,
-                  decoration: BoxDecoration(
-                    color: posterColors[index],
-                    borderRadius: BorderRadius.circular(8),
+              itemBuilder: (context, index) => Semantics(
+                label: _recentMovies[index].title,
+                button: true,
+                child: InkWell(
+                  onTap: () => context.router.root.push(
+                    MovieDetailRoute(movieId: _recentMovies[index].id),
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    width: 80,
+                    decoration: BoxDecoration(
+                      color: posterColors[index],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
               ),
@@ -136,7 +159,8 @@ class _ProfileStat extends StatelessWidget {
         ),
         Text(
           label,
-          style: textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant),
+          style: textTheme.labelSmall
+              ?.copyWith(color: colorScheme.onSurfaceVariant),
         ),
       ],
     );
