@@ -7,7 +7,7 @@ import 'package:movies_list/movies_list_router.dart';
 import 'package:new_user_activity/new_user_activity_router.dart';
 import 'package:profile_ui/profile_router.dart';
 import 'package:public_profile/public_profile_router.dart';
-import 'package:reviews/reviews_router.dart';
+import 'package:reviews/reviews_list/reviews_router.dart';
 import 'package:search/search_router.dart';
 
 part 'app_router.gr.dart';
@@ -45,6 +45,7 @@ class AppRouter extends RootStackRouter {
               page: SocialTab.page,
               children: [
                 AutoRoute(page: SocialRoute.page, initial: true),
+                AutoRoute(page: PublicProfileRoute.page),
               ],
             ),
             AutoRoute(

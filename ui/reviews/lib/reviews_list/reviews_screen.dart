@@ -1,8 +1,8 @@
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reviews/reviews_bloc.dart';
-import 'package:reviews/reviews_state.dart';
+import 'package:reviews/reviews_list/reviews_bloc.dart';
+import 'package:reviews/reviews_list/reviews_state.dart';
 
 class ReviewsScreen extends StatelessWidget {
   final ReviewsCubit cubit;
