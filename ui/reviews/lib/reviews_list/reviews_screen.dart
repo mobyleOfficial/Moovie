@@ -36,10 +36,6 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
       );
 }
 
-// ---------------------------------------------------------------------------
-// Reviews list
-// ---------------------------------------------------------------------------
-
 class _ReviewsList extends StatelessWidget {
   const _ReviewsList();
 
@@ -118,10 +114,6 @@ class _ReviewsList extends StatelessWidget {
     );
   }
 }
-
-// ---------------------------------------------------------------------------
-// Review tile
-// ---------------------------------------------------------------------------
 
 class _ReviewTile extends StatelessWidget {
   final String title;
