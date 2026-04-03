@@ -6,6 +6,9 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies/movies.dart';
 import 'package:movies_list/movies_list_bloc.dart';
 import 'package:movies_list/movies_list_state.dart';
+import 'package:movies_list/tabs/reviews/movies_reviews_screen.dart';
+import 'package:movies_list/tabs/lists/movies_lists_screen.dart';
+import 'package:movies_list/tabs/articles/movies_articles_screen.dart';
 
 class MoviesListScreen extends StatelessWidget {
   final MoviesListCubit cubit;
@@ -17,56 +20,92 @@ class MoviesListScreen extends StatelessWidget {
     required this.onMovieTap,
   });
 
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    return BlocProvider.value(
+      value: cubit,
+      child: BlocListener<MoviesListCubit, MoviesListState>(
+        listener: (context, state) {},
+        child: DefaultTabController(
+          length: 4,
+          child: Column(
+            children: [
+              MoovieTabBar(tabs: [
+                l10n.moviesTab,
+                l10n.reviewsTab,
+                l10n.moviesListListsTab,
+                l10n.moviesListArticlesTab,
+              ]),
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    _MoviesGrid(onMovieTap: onMovieTap),
+                    const MoviesReviewsScreen(),
+                    const MoviesListsScreen(),
+                    const MoviesArticlesScreen(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MoviesGrid extends StatelessWidget {
+  final void Function(int movieId) onMovieTap;
+
+  const _MoviesGrid({required this.onMovieTap});
+
   static const String _posterBaseUrl = 'https://image.tmdb.org/t/p/w342';
   static const int _gridCrossAxisCount = 3;
   static const double _gridChildAspectRatio = 2 / 3;
   static const double _gridSpacing = 8;
   static const double _gridPadding = 16;
-  static const double _cardBorderRadius = 10;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: cubit,
-      child: BlocListener<MoviesListCubit, MoviesListState>(
-        listener: (context, state) {},
-        child: PagingListener(
-          controller: cubit.pagingController,
-          builder: (context, pagingState, fetchNextPage) =>
-              PagedGridView<int, Movie>(
-                state: pagingState,
-                fetchNextPage: fetchNextPage,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: _gridPadding,
-                  vertical: _gridPadding,
-                ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: _gridCrossAxisCount,
-                  childAspectRatio: _gridChildAspectRatio,
-                  crossAxisSpacing: _gridSpacing,
-                  mainAxisSpacing: _gridSpacing,
-                ),
-                builderDelegate: PagedChildBuilderDelegate<Movie>(
-                  itemBuilder: (context, movie, index) => _MoviePosterCard(
-                    movie: movie,
-                    onTap: () => onMovieTap(movie.id),
-                  ),
-                  firstPageProgressIndicatorBuilder: (_) =>
-                      const Center(child: CircularProgressIndicator()),
-                  firstPageErrorIndicatorBuilder: (_) =>
-                      BlocBuilder<MoviesListCubit, MoviesListState>(
-                        builder: (context, state) => Center(
-                          child: Text(
-                            state is MoviesListError
-                                ? state.message
-                                : AppLocalizations.of(context)!.unknownError,
-                          ),
-                        ),
-                      ),
-                ),
+    final cubit = context.read<MoviesListCubit>();
+
+    return PagingListener(
+      controller: cubit.pagingController,
+      builder: (context, pagingState, fetchNextPage) =>
+          PagedGridView<int, Movie>(
+            state: pagingState,
+            fetchNextPage: fetchNextPage,
+            padding: const EdgeInsets.symmetric(
+              horizontal: _gridPadding,
+              vertical: _gridPadding,
+            ),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: _gridCrossAxisCount,
+              childAspectRatio: _gridChildAspectRatio,
+              crossAxisSpacing: _gridSpacing,
+              mainAxisSpacing: _gridSpacing,
+            ),
+            builderDelegate: PagedChildBuilderDelegate<Movie>(
+              itemBuilder: (context, movie, index) => _MoviePosterCard(
+                movie: movie,
+                onTap: () => onMovieTap(movie.id),
               ),
-        ),
-      ),
+              firstPageProgressIndicatorBuilder: (_) =>
+                  const Center(child: CircularProgressIndicator()),
+              firstPageErrorIndicatorBuilder: (_) =>
+                  BlocBuilder<MoviesListCubit, MoviesListState>(
+                    builder: (context, state) => Center(
+                      child: Text(
+                        state is MoviesListError
+                            ? state.message
+                            : AppLocalizations.of(context)!.unknownError,
+                      ),
+                    ),
+                  ),
+            ),
+          ),
     );
   }
 }
@@ -75,12 +114,14 @@ class _MoviePosterCard extends StatelessWidget {
   final Movie movie;
   final VoidCallback onTap;
 
+  static const double _cardBorderRadius = 10;
+
   const _MoviePosterCard({required this.movie, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(MoviesListScreen._cardBorderRadius),
+      borderRadius: BorderRadius.circular(_cardBorderRadius),
       child: Material(
         color: Theme.of(context).colorScheme.surfaceContainerHighest,
         child: InkWell(
@@ -88,7 +129,7 @@ class _MoviePosterCard extends StatelessWidget {
           child: movie.posterPath.isNotEmpty
               ? Ink.image(
                   image: CachedNetworkImageProvider(
-                    '${MoviesListScreen._posterBaseUrl}${movie.posterPath}',
+                    '${_MoviesGrid._posterBaseUrl}${movie.posterPath}',
                   ),
                   fit: BoxFit.cover,
                 )

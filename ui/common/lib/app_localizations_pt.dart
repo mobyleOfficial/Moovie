@@ -117,4 +117,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get socialMessagesTab => 'Mensagens';
+
+  @override
+  String get moviesListListsTab => 'Listas';
+
+  @override
+  String get moviesListArticlesTab => 'Artigos';
 }

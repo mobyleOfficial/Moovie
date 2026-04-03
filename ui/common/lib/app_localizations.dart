@@ -303,6 +303,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Messages'**
   String get socialMessagesTab;
+
+  /// Lists tab label on the movies list screen
+  ///
+  /// In en, this message translates to:
+  /// **'Lists'**
+  String get moviesListListsTab;
+
+  /// Articles tab label on the movies list screen
+  ///
+  /// In en, this message translates to:
+  /// **'Articles'**
+  String get moviesListArticlesTab;
 }
 
 class _AppLocalizationsDelegate

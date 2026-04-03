@@ -33,5 +33,7 @@
   "profileEditProfile": "Editar perfil",
   "profileRecentMovies": "Películas recientes",
   "socialFriendsTab": "Amigos",
-  "socialMessagesTab": "Mensajes"
+  "socialMessagesTab": "Mensajes",
+  "moviesListListsTab": "Listas",
+  "moviesListArticlesTab": "Artículos"
 }
