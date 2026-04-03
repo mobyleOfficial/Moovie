@@ -23,6 +23,8 @@ class MoovieEditText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     if (isIOS) {
       return CupertinoSearchTextField(
         controller: controller,
@@ -30,9 +32,9 @@ class MoovieEditText extends StatelessWidget {
         placeholder: placeholder,
         onChanged: onChanged,
         onSubmitted: onSubmitted,
-        style: const TextStyle(color: CupertinoColors.white),
-        itemColor: CupertinoColors.white.withValues(alpha: 0.6),
-        backgroundColor: CupertinoColors.white.withValues(alpha: 0.12),
+        style: TextStyle(color: colorScheme.onSurface),
+        itemColor: colorScheme.onSurfaceVariant,
+        backgroundColor: colorScheme.surfaceContainerHighest,
         prefixInsets: const EdgeInsetsDirectional.fromSTEB(8, 0, 4, 2),
       );
     }
@@ -43,23 +45,31 @@ class MoovieEditText extends StatelessWidget {
       onChanged: onChanged,
       onSubmitted: onSubmitted,
       textInputAction: textInputAction ?? TextInputAction.search,
-      style: const TextStyle(color: Colors.white),
-      cursorColor: Colors.white,
+      style: TextStyle(color: colorScheme.onSurface),
+      cursorColor: colorScheme.primary,
       decoration: InputDecoration(
         hintText: placeholder,
-        hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.5)),
+        hintStyle: TextStyle(color: colorScheme.onSurfaceVariant),
         prefixIcon: Icon(
           Icons.search,
-          color: Colors.white.withValues(alpha: 0.6),
+          color: colorScheme.onSurfaceVariant,
           size: 20,
         ),
         filled: true,
-        fillColor: Colors.white.withValues(alpha: 0.12),
+        fillColor: colorScheme.surfaceContainerHighest,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(28),
           borderSide: BorderSide.none,
         ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 8),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(28),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(28),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         isDense: true,
       ),
     );

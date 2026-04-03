@@ -3,12 +3,13 @@ description: NewUserActivity UI module
 publish_to: none
 
 environment:
-  sdk: ^3.0.0
+  sdk: ^3.11.4
 
 dependencies:
   flutter:
     sdk: flutter
-  flutter_bloc: any
-  auto_route: any
+  flutter_bloc: ^9.1.1
+  bloc: ^9.2.0
+  auto_route: ^11.1.0
   common:
     path: ../common

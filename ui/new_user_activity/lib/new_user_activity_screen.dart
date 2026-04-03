@@ -82,11 +82,22 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final items = _buildItems(l10n);
-    final searchField = MoovieEditText(
-      controller: _searchController,
-      focusNode: _focusNode,
-      placeholder: l10n.searchHint,
-      textInputAction: TextInputAction.search,
+    final colorScheme = Theme.of(context).colorScheme;
+    final searchField = Theme(
+      data: Theme.of(context).copyWith(
+        colorScheme: colorScheme.copyWith(
+          surfaceContainerHighest: Colors.white.withValues(alpha: 0.15),
+          onSurface: Colors.white,
+          onSurfaceVariant: Colors.white.withValues(alpha: 0.7),
+          primary: Colors.white,
+        ),
+      ),
+      child: MoovieEditText(
+        controller: _searchController,
+        focusNode: _focusNode,
+        placeholder: l10n.searchHint,
+        textInputAction: TextInputAction.search,
+      ),
     );
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
