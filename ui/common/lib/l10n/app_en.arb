@@ -129,5 +129,9 @@
   "profileEditProfile": "Edit Profile",
   "@profileEditProfile": { "description": "Edit profile button label" },
   "profileRecentMovies": "Recent Movies",
-  "@profileRecentMovies": { "description": "Recent movies section header on the profile screen" }
+  "@profileRecentMovies": { "description": "Recent movies section header on the profile screen" },
+  "socialFriendsTab": "Friends",
+  "@socialFriendsTab": { "description": "Friends tab label on the social screen" },
+  "socialMessagesTab": "Messages",
+  "@socialMessagesTab": { "description": "Messages tab label on the social screen" }
 }

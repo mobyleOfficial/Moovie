@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:moovie/routes/app_router.dart';
 import 'package:new_user_activity/new_user_activity_router.dart';
 
@@ -20,9 +21,10 @@ class MainScreen extends StatelessWidget {
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
         final isHomeTab = tabsRouter.activeIndex == 0;
-        final isSearchTab = tabsRouter.activeIndex == 1;
+        final shouldHideAppBar = tabsRouter.activeIndex == 1 || tabsRouter.activeIndex == 2;
         final tabTitles = [l10n.appTitle, l10n.search, l10n.socialTab, l10n.profile];
         final colorScheme = Theme.of(context).colorScheme;
+        final brightness = Theme.of(context).brightness;
         final isIOS = Theme.of(context).platform == TargetPlatform.iOS;
         final addButtonIcon = Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -32,49 +34,55 @@ class MainScreen extends StatelessWidget {
           ),
           child: Icon(Icons.add, color: colorScheme.onSecondary),
         );
-        return Scaffold(
-          appBar: isSearchTab
-              ? null
-              : AppBar(
-                  flexibleSpace: SafeArea(
-                    child: AnimatedAlign(
-                      duration: _animationDuration,
-                      curve: Curves.easeInOut,
-                      alignment: isHomeTab ? Alignment.center : Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: AnimatedSwitcher(
-                          duration: _animationDuration,
-                          transitionBuilder: (child, animation) {
-                            final slideAnimation =
-                                Tween<Offset>(
-                                  begin: const Offset(0, 0.3),
-                                  end: Offset.zero,
-                                ).animate(
-                                  CurvedAnimation(
-                                    parent: animation,
-                                    curve: Curves.easeOut,
-                                  ),
-                                );
-                            return FadeTransition(
-                              opacity: animation,
-                              child: SlideTransition(
-                                position: slideAnimation,
-                                child: child,
-                              ),
-                            );
-                          },
-                          child: Text(
-                            tabTitles[tabsRouter.activeIndex],
-                            key: ValueKey(tabsRouter.activeIndex),
-                            style: Theme.of(context).textTheme.titleLarge,
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value: brightness == Brightness.dark
+              ? SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent)
+              : SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent),
+          child: Scaffold(
+            body: SafeArea(
+            child: Column(
+              children: [
+                ClipRect(
+                  child: AnimatedAlign(
+                    duration: _animationDuration,
+                    curve: Curves.easeInOut,
+                    alignment: Alignment.topCenter,
+                    heightFactor: shouldHideAppBar ? 0.0 : 1.0,
+                    child: SizedBox(
+                      height: kToolbarHeight,
+                      child: AnimatedAlign(
+                        duration: _animationDuration,
+                        curve: Curves.easeInOut,
+                        alignment: isHomeTab ? Alignment.center : Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: AnimatedSwitcher(
+                            duration: _animationDuration,
+                            transitionBuilder: (child, animation) {
+                              final slideAnimation = Tween<Offset>(
+                                begin: const Offset(0, 0.3),
+                                end: Offset.zero,
+                              ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut));
+                              return FadeTransition(
+                                opacity: animation,
+                                child: SlideTransition(position: slideAnimation, child: child),
+                              );
+                            },
+                            child: Text(
+                              tabTitles[tabsRouter.activeIndex],
+                              key: ValueKey(tabsRouter.activeIndex),
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-          body: SafeArea(child: child),
+                Expanded(child: child),
+              ],
+            ),
+          ),
           bottomNavigationBar: Stack(
             clipBehavior: Clip.none,
             alignment: Alignment.topCenter,
@@ -131,6 +139,7 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
             ],
+          ),
           ),
         );
       },

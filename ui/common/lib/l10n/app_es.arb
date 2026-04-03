@@ -31,5 +31,7 @@
   "profileFollowing": "Siguiendo",
   "profileMoviesWatched": "Películas",
   "profileEditProfile": "Editar perfil",
-  "profileRecentMovies": "Películas recientes"
+  "profileRecentMovies": "Películas recientes",
+  "socialFriendsTab": "Amigos",
+  "socialMessagesTab": "Mensajes"
 }

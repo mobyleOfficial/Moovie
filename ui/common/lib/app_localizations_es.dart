@@ -111,4 +111,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get profileRecentMovies => 'Películas recientes';
+
+  @override
+  String get socialFriendsTab => 'Amigos';
+
+  @override
+  String get socialMessagesTab => 'Mensajes';
 }

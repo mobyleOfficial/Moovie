@@ -36,8 +36,7 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-            child: Expanded(
-              child: TextField(
+            child: TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
                   hintText: l10n.searchHint,
@@ -63,7 +62,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
             ),
-          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
             child: Text(

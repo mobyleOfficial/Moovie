@@ -291,6 +291,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recent Movies'**
   String get profileRecentMovies;
+
+  /// Friends tab label on the social screen
+  ///
+  /// In en, this message translates to:
+  /// **'Friends'**
+  String get socialFriendsTab;
+
+  /// Messages tab label on the social screen
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get socialMessagesTab;
 }
 
 class _AppLocalizationsDelegate
