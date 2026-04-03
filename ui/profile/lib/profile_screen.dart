@@ -29,7 +29,7 @@ class ProfileScreen extends StatelessWidget {
             child: TabBarView(
               children: [
                 ProfileInfoScreen(),
-                const ReviewsScreen(),
+                ReviewsScreen(),
                 ListsScreen(),
                 WatchlistScreen(),
               ],
