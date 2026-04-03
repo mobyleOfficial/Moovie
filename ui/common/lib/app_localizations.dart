@@ -315,6 +315,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Articles'**
   String get moviesListArticlesTab;
+
+  /// Drafts section header on the new activity screen
+  ///
+  /// In en, this message translates to:
+  /// **'Drafts'**
+  String get newUserActivityDraftsSection;
+
+  /// Recent searches section header on the new activity screen
+  ///
+  /// In en, this message translates to:
+  /// **'Recent'**
+  String get newUserActivityRecentSection;
 }
 
 class _AppLocalizationsDelegate

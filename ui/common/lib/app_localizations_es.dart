@@ -123,4 +123,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get moviesListArticlesTab => 'Artículos';
+
+  @override
+  String get newUserActivityDraftsSection => 'Borradores';
+
+  @override
+  String get newUserActivityRecentSection => 'Recientes';
 }

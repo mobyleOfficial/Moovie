@@ -35,5 +35,7 @@
   "socialFriendsTab": "Amigos",
   "socialMessagesTab": "Mensajes",
   "moviesListListsTab": "Listas",
-  "moviesListArticlesTab": "Artículos"
+  "moviesListArticlesTab": "Artículos",
+  "newUserActivityDraftsSection": "Borradores",
+  "newUserActivityRecentSection": "Recientes"
 }
