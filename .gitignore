@@ -28,6 +28,9 @@ doc/api/
 .flutter-plugins
 .flutter-plugins-dependencies
 
+# IDE
+.idea/
+
 # Claude Code
 .claude/
 
