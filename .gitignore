@@ -51,5 +51,8 @@ secrets/*
 !secrets/ios/provisioning_profiles/
 !secrets/ios/provisioning_profiles/.gitkeep
 
+# Fastlane
+fastlane/report.xml
+
 # Local research notes
 tmdb_endpoints.txt
