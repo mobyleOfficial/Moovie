@@ -303,16 +303,16 @@ bundle exec fastlane test         # Run tests
 bundle exec fastlane ios build flavor:dev
 bundle exec fastlane android build flavor:staging
 
-# Release builds (signing/upload configured later)
+# Test release (dry run - default, safe)
 bundle exec fastlane ios release flavor:prod
 bundle exec fastlane android release flavor:prod
 
-# Test release without submission (dry run)
-bundle exec fastlane ios release flavor:prod dry_run:true
-bundle exec fastlane android release flavor:prod dry_run:true
+# Production release (requires confirmation)
+bundle exec fastlane ios release flavor:prod dry_run:false
+bundle exec fastlane android release flavor:prod dry_run:false
 ```
 
-Use `dry_run:true` to test the full build and release process without submitting to TestFlight or Google Play.
+**Dry run is the default** to prevent accidental production submissions. Add `dry_run:false` to submit to TestFlight or Google Play (requires confirmation prompt).
 
 See `fastlane/README.md` for detailed documentation.
 

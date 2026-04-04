@@ -49,25 +49,38 @@ This will ask for:
 
 The values are securely prompted (hidden for API keys) and saved to `secrets/.env`.
 
-## Dry Run Mode
+## Dry Run Mode (Default)
 
-All release lanes support a `dry_run` parameter to test the full build process without submitting to stores:
+All release lanes **default to dry_run mode** for safety. This means:
 
 ```bash
-# Test build without TestFlight submission
-bundle exec fastlane ios release flavor:prod dry_run:true
-
-# Test build without Google Play submission
-bundle exec fastlane android release flavor:prod dry_run:true
+# Default: test build (no submission)
+bundle exec fastlane ios release flavor:prod
+bundle exec fastlane android release flavor:prod
 ```
 
-Dry run mode:
+**To submit to production**, you must explicitly disable dry_run:
+
+```bash
+# Real submission to TestFlight/App Store (requires confirmation)
+bundle exec fastlane ios release flavor:prod dry_run:false
+
+# Real submission to Google Play (requires confirmation)
+bundle exec fastlane android release flavor:prod dry_run:false
+```
+
+**Dry run mode** (default):
 - ✅ Builds the app successfully
 - ❌ Skips TestFlight/Google Play submission
 - ❌ Does NOT create/push GitHub tags or releases
 - ❌ Does NOT increment version numbers
 
-Use this to test the entire build pipeline before actual production submission.
+**Production mode** (dry_run:false):
+- Requires confirmation prompt before submission
+- Submits to TestFlight or Google Play
+- Creates version tags and releases (when implemented)
+
+This ensures accidental `fastlane release` commands won't deploy to production.
 
 ## Secrets Management
 
