@@ -45,4 +45,46 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
   end
+
+  # Clean up generic Debug and Release xcconfigs since they're unused
+  debug_xcconfig = File.join(__dir__, 'Flutter', 'Debug.xcconfig')
+  release_xcconfig = File.join(__dir__, 'Flutter', 'Release.xcconfig')
+
+  File.write(debug_xcconfig, "#include \"Generated.xcconfig\"\n") if File.exist?(debug_xcconfig)
+  File.write(release_xcconfig, "#include \"Generated.xcconfig\"\n") if File.exist?(release_xcconfig)
+
+  # Set base configurations for Runner target build configs
+  runner_project = Xcodeproj::Project.open('Runner.xcodeproj')
+  runner_target = runner_project.targets.select { |t| t.name == 'Runner' }.first
+
+  if runner_target
+    # Map build configurations to their xcconfig files
+    config_map = {
+      'Debug-dev' => 'Flutter/Debug-dev.xcconfig',
+      'Debug-staging' => 'Flutter/Debug-staging.xcconfig',
+      'Debug-prod' => 'Flutter/Debug-prod.xcconfig',
+      'Release-dev' => 'Flutter/Release-dev.xcconfig',
+      'Release-staging' => 'Flutter/Release-staging.xcconfig',
+      'Release-prod' => 'Flutter/Release-prod.xcconfig',
+      'Profile-dev' => 'Flutter/Profile-dev.xcconfig',
+      'Profile-staging' => 'Flutter/Profile-staging.xcconfig',
+      'Profile-prod' => 'Flutter/Profile-prod.xcconfig',
+    }
+
+    runner_project.build_configuration_list.build_configurations.each do |config|
+      if config_map[config.name]
+        # Find or create the file reference
+        file_ref = runner_project.files.select { |f| f.real_path.to_s.end_with?(config_map[config.name]) }.first
+        unless file_ref
+          file_ref = runner_project.new_file(config_map[config.name])
+        end
+        config.base_configuration_reference = file_ref
+      else
+        # Clear base config for non-flavor configs (Debug, Release)
+        config.base_configuration_reference = nil
+      end
+    end
+
+    runner_project.save
+  end
 end
