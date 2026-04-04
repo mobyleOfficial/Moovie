@@ -49,6 +49,26 @@ This will ask for:
 
 The values are securely prompted (hidden for API keys) and saved to `secrets/.env`.
 
+## Dry Run Mode
+
+All release lanes support a `dry_run` parameter to test the full build process without submitting to stores:
+
+```bash
+# Test build without TestFlight submission
+bundle exec fastlane ios release flavor:prod dry_run:true
+
+# Test build without Google Play submission
+bundle exec fastlane android release flavor:prod dry_run:true
+```
+
+Dry run mode:
+- ✅ Builds the app successfully
+- ❌ Skips TestFlight/Google Play submission
+- ❌ Does NOT create/push GitHub tags or releases
+- ❌ Does NOT increment version numbers
+
+Use this to test the entire build pipeline before actual production submission.
+
 ## Secrets Management
 
 Sensitive files live in the `secrets/` folder (ignored by git):

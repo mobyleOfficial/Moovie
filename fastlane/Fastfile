@@ -75,10 +75,22 @@ platform :ios do
   desc "Release iOS (build + prepare for upload)"
   lane :release do |options|
     flavor = options[:flavor] || "prod"
+    dry_run = options[:dry_run] == true || options[:dry_run] == "true"
+
+    if dry_run
+      UI.important("🏃 DRY RUN MODE - No changes will be submitted")
+    end
+
     build(flavor: flavor)
     UI.important("iOS build complete!")
-    UI.important("Signing configuration and upload not yet implemented")
-    UI.important("Next steps: Configure signing certificates and provisioning profiles in secrets/ios/")
+
+    if dry_run
+      UI.success("DRY RUN: Build succeeded, but skipped TestFlight/App Store submission")
+      UI.message("To submit for real, run: bundle exec fastlane ios release flavor:#{flavor}")
+    else
+      UI.important("Signing configuration and upload not yet implemented")
+      UI.important("Next steps: Configure signing certificates and provisioning profiles in secrets/ios/")
+    end
   end
 end
 
@@ -93,10 +105,22 @@ platform :android do
   desc "Release Android (build + prepare for upload)"
   lane :release do |options|
     flavor = options[:flavor] || "prod"
+    dry_run = options[:dry_run] == true || options[:dry_run] == "true"
+
+    if dry_run
+      UI.important("🏃 DRY RUN MODE - No changes will be submitted")
+    end
+
     build(flavor: flavor)
     UI.important("Android build complete!")
-    UI.important("Signing configuration and upload not yet implemented")
-    UI.important("Next steps: Configure keystore in secrets/android/")
+
+    if dry_run
+      UI.success("DRY RUN: Build succeeded, but skipped Google Play submission")
+      UI.message("To submit for real, run: bundle exec fastlane android release flavor:#{flavor}")
+    else
+      UI.important("Signing configuration and upload not yet implemented")
+      UI.important("Next steps: Configure keystore in secrets/android/")
+    end
   end
 end
 
