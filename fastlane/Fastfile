@@ -22,6 +22,38 @@ lane :setup_ide do
   UI.success("IDE configurations ready! Reload your IDE to see the new run configurations.")
 end
 
+desc "Configure environment variables (secrets/.env)"
+lane :setup_env do
+  env_path = "../secrets/.env"
+
+  UI.header("Environment Configuration Setup")
+  UI.message("This will create or update #{env_path}")
+  UI.message("")
+
+  # Prompt for TMDB API Key
+  tmdb_key = prompt(text: "Enter TMDB API Key: ", secure_text: true)
+
+  # Prompt for Backend URL
+  backend_url = prompt(
+    text: "Enter Backend URL (e.g., https://api.example.com): ",
+    secure_text: false
+  )
+
+  # Create secrets directory if it doesn't exist
+  FileUtils.mkdir_p("../secrets")
+
+  # Generate .env file
+  env_content = <<~ENV
+    TMDB_API_KEY=#{tmdb_key}
+    BACKEND_URL=#{backend_url}
+  ENV
+
+  File.write(env_path, env_content)
+
+  UI.success("✓ Environment file created at #{env_path}")
+  UI.success("Ready to build with: bundle exec fastlane ios build flavor:dev")
+end
+
 desc "Run tests"
 lane :test do
   sh("cd #{Dir.pwd} && flutter test")

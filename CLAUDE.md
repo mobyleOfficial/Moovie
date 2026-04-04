@@ -27,12 +27,27 @@ All build automation and IDE configuration runs through Fastlane:
 
 ```bash
 bundle install                    # Install Ruby gems (one-time)
+bundle exec fastlane setup_env    # Configure environment variables (interactive)
 bundle exec fastlane setup_ide    # Generate IDE run configurations
 bundle exec fastlane lint         # Run Flutter linter
 bundle exec fastlane test         # Run tests
 ```
 
 **Always use `bundle exec`** to ensure the correct gem versions are used.
+
+### setup_env Lane
+
+The `setup_env` lane prompts you to enter credentials and generates the `secrets/.env` file:
+
+```bash
+bundle exec fastlane setup_env
+```
+
+This will ask for:
+- **TMDB API Key** — Your TMDB bearer token
+- **Backend URL** — The API endpoint for the Moovie backend
+
+The values are securely prompted (hidden for API keys) and saved to `secrets/.env`.
 
 ## Secrets Management
 

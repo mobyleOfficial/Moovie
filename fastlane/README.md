@@ -21,6 +21,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Setup IDE run configurations
 
+### setup_env
+
+```sh
+[bundle exec] fastlane setup_env
+```
+
+Configure environment variables (secrets/.env)
+
 ### test
 
 ```sh

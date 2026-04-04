@@ -36,9 +36,9 @@ cd moovie
 rbenv local 3.2.0
 bundle install
 
-# 3. Create the secrets/env file (see Configuration section)
-cp secrets/.env.example secrets/.env
-# Edit secrets/.env with real values
+# 3. Setup environment variables interactively
+bundle exec fastlane setup_env
+# (Or copy manually: cp secrets/.env.example secrets/.env)
 
 # 4. Install Flutter dependencies (root + all packages)
 flutter pub get
@@ -291,16 +291,15 @@ flutter run -t lib/main_dev.dart                                   # Run dev fla
 All fastlane commands must be run with `bundle exec` to use the locked Ruby gems:
 
 ```bash
-# Setup IDE run configurations (after initial checkout)
-bundle exec fastlane setup_ide
+# Initial setup (after checkout)
+bundle exec fastlane setup_env    # Configure environment variables interactively
+bundle exec fastlane setup_ide    # Generate IDE run configurations
 
-# Lint
-bundle exec fastlane lint
+# Linting and testing
+bundle exec fastlane lint         # Run flutter analyze
+bundle exec fastlane test         # Run tests
 
-# Test
-bundle exec fastlane test
-
-# Build for a specific flavor
+# Building for a specific flavor
 bundle exec fastlane ios build flavor:dev
 bundle exec fastlane android build flavor:staging
 
