@@ -288,33 +288,18 @@ flutter run -t lib/main_dev.dart                                   # Run dev fla
 
 ### Fastlane commands
 
+See [`fastlane/README.md`](fastlane/README.md) for all available fastlane lanes and commands.
+
 All fastlane commands must be run with `bundle exec` to use the locked Ruby gems:
 
 ```bash
-# Initial setup (after checkout)
-bundle exec fastlane setup_env    # Configure environment variables interactively
-bundle exec fastlane setup_ide    # Generate IDE run configurations
-
-# Linting and testing
-bundle exec fastlane lint         # Run flutter analyze
-bundle exec fastlane test         # Run tests
-
-# Building for a specific flavor
-bundle exec fastlane ios build flavor:dev
-bundle exec fastlane android build flavor:staging
-
-# Test release (dry run - default, safe)
-bundle exec fastlane ios release flavor:prod
-bundle exec fastlane android release flavor:prod
-
-# Production release (requires confirmation)
-bundle exec fastlane ios release flavor:prod dry_run:false
-bundle exec fastlane android release flavor:prod dry_run:false
+bundle exec fastlane <lane_name> [options]
 ```
 
-**Dry run is the default** to prevent accidental production submissions. Add `dry_run:false` to submit to TestFlight or Google Play (requires confirmation prompt).
-
-See `fastlane/README.md` for detailed documentation.
+**Key points:**
+- Initial setup: `bundle exec fastlane setup_env` and `bundle exec fastlane setup_ide`
+- Dry run is the default for all release lanes (safe by default)
+- Explicit `dry_run:false` required to submit to production (with confirmation)
 
 ### Adding a new feature
 
