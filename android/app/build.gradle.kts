@@ -27,21 +27,21 @@ android {
         versionName = flutter.versionName
     }
 
-    flavorDimensions += "env"
+    flavorDimensions += ".env"
 
     productFlavors {
         create("dev") {
-            dimension = "env"
+            dimension = ".env"
             applicationIdSuffix = ".dev"
             resValue("string", "app_name", "MoovieDev")
         }
         create("staging") {
-            dimension = "env"
+            dimension = ".env"
             applicationIdSuffix = ".staging"
             resValue("string", "app_name", "MoovieStg")
         }
         create("prod") {
-            dimension = "env"
+            dimension = ".env"
             resValue("string", "app_name", "Moovie")
         }
     }

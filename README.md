@@ -31,7 +31,7 @@ Moovie is a multi-flavor Flutter application that consumes The Movie Database (T
 git clone <repo-url>
 cd moovie
 
-# 2. Create the .env file (see Configuration section)
+# 2. Create the ..env file (see Configuration section)
 
 # 3. Install dependencies (root + all packages)
 flutter pub get
