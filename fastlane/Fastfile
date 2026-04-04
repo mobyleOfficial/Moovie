@@ -1,0 +1,82 @@
+default_platform(:ios)
+
+# Common lanes (available for all platforms)
+desc "Setup IDE run configurations"
+lane :setup_ide do
+  idea_dir = "../.idea/runConfigurations"
+  FileUtils.mkdir_p(idea_dir)
+
+  configurations = {
+    "Dev.xml" => "dev",
+    "Staging.xml" => "staging",
+    "Prod.xml" => "prod"
+  }
+
+  configurations.each do |filename, flavor|
+    path = File.join(idea_dir, filename)
+    content = generate_run_config(flavor)
+    File.write(path, content)
+    UI.success("✓ Generated #{path}")
+  end
+
+  UI.success("IDE configurations ready! Reload your IDE to see the new run configurations.")
+end
+
+desc "Run tests"
+lane :test do
+  sh("cd #{Dir.pwd} && flutter test")
+end
+
+desc "Run linter (dart analyze)"
+lane :lint do
+  sh("cd #{Dir.pwd} && flutter analyze")
+end
+
+platform :ios do
+  desc "Build iOS app for a given flavor"
+  lane :build do |options|
+    flavor = options[:flavor] || "dev"
+    UI.message("Building iOS with flavor: #{flavor}")
+    sh("cd #{Dir.pwd} && flutter build ios --flavor=#{flavor} --dart-define-from-file=secrets/.env")
+  end
+
+  desc "Release iOS (build + prepare for upload)"
+  lane :release do |options|
+    flavor = options[:flavor] || "prod"
+    build(flavor: flavor)
+    UI.important("iOS build complete!")
+    UI.important("Signing configuration and upload not yet implemented")
+    UI.important("Next steps: Configure signing certificates and provisioning profiles in secrets/ios/")
+  end
+end
+
+platform :android do
+  desc "Build Android app for a given flavor"
+  lane :build do |options|
+    flavor = options[:flavor] || "dev"
+    UI.message("Building Android with flavor: #{flavor}")
+    sh("cd #{Dir.pwd} && flutter build apk --flavor=#{flavor} --dart-define-from-file=secrets/.env")
+  end
+
+  desc "Release Android (build + prepare for upload)"
+  lane :release do |options|
+    flavor = options[:flavor] || "prod"
+    build(flavor: flavor)
+    UI.important("Android build complete!")
+    UI.important("Signing configuration and upload not yet implemented")
+    UI.important("Next steps: Configure keystore in secrets/android/")
+  end
+end
+
+# Helper method to generate run configuration XML
+def generate_run_config(flavor)
+  <<~XML
+    <component name="ProjectRunConfigurationManager">
+      <configuration default="false" name="#{flavor.capitalize}" type="FlutterRunConfigurationType" factoryName="Flutter">
+        <option name="additionalArgs" value="--flavor #{flavor} --dart-define-from-file=secrets/.env" />
+        <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
+        <method v="2" />
+      </configuration>
+    </component>
+  XML
+end
