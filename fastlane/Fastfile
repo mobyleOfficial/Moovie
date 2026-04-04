@@ -64,6 +64,30 @@ lane :lint do
   sh("cd #{Dir.pwd} && flutter analyze")
 end
 
+desc "Clean iOS and Android build artifacts"
+lane :clean do
+  UI.message("Cleaning build artifacts...")
+
+  # Clean Dart/Flutter
+  sh("cd #{Dir.pwd} && rm -rf build/ .dart_tool/")
+  UI.success("✓ Removed build/ and .dart_tool/")
+
+  # Clean iOS
+  sh("cd #{Dir.pwd} && rm -rf ios/Pods/ ios/Podfile.lock")
+  UI.success("✓ Removed ios/Pods/ and ios/Podfile.lock")
+
+  # Clean Android
+  sh("cd #{Dir.pwd} && rm -rf android/.gradle/")
+  UI.success("✓ Removed android/.gradle/")
+
+  # Reinstall dependencies
+  UI.message("Reinstalling dependencies...")
+  sh("cd #{Dir.pwd} && flutter pub get")
+  UI.success("✓ Dependencies reinstalled")
+
+  UI.success("✓ Cleanup complete! Ready to build.")
+end
+
 platform :ios do
   desc "Build iOS app for a given flavor"
   lane :build do |options|
