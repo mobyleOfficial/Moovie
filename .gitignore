@@ -56,3 +56,9 @@ fastlane/report.xml
 
 # Local research notes
 tmdb_endpoints.txt
+
+# Generated code (build_runner, auto_route, injectable)
+*.gr.dart
+*.g.dart
+*.freezed.dart
+injection.config.dart
