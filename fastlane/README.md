@@ -45,6 +45,14 @@ Run tests
 
 Run linter (dart analyze)
 
+### clean
+
+```sh
+[bundle exec] fastlane clean
+```
+
+Clean iOS and Android build artifacts
+
 ----
 
 
