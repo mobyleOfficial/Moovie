@@ -13,19 +13,19 @@ abstract class MoviesModule {
   MoviesRepository moviesRepository(MoviesRemoteDataSource dataSource) =>
       MoviesRepositoryImpl(dataSource);
 
-  @lazySingleton
+  @injectable
   GetTrendingMovies getTrendingMovies(MoviesRepository repository) =>
       GetTrendingMovies(repository);
 
-  @lazySingleton
+  @injectable
   GetMovieDetail getMovieDetail(MoviesRepository repository) =>
       GetMovieDetail(repository);
 
-  @lazySingleton
+  @injectable
   GetMovieReviews getMovieReviews(MoviesRepository repository) =>
       GetMovieReviews(repository);
 
-  @lazySingleton
+  @injectable
   GetMovieCollections getMovieCollections(MoviesRepository repository) =>
       GetMovieCollections(repository);
 }

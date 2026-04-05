@@ -3,15 +3,15 @@ import 'package:movies_domain/domain.dart';
 
 @module
 abstract class MoviesDiModule {
-  @lazySingleton
+  @injectable
   GetTrendingMovies getTrendingMovies(MoviesRepository moviesRepository) =>
       GetTrendingMovies(moviesRepository);
 
-  @lazySingleton
+  @injectable
   GetMovieReviews getMovieReviews(MoviesRepository moviesRepository) =>
       GetMovieReviews(moviesRepository);
 
-  @lazySingleton
+  @injectable
   GetMovieCollections getMovieCollections(MoviesRepository moviesRepository) =>
       GetMovieCollections(moviesRepository);
 }
