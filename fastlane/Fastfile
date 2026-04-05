@@ -1,0 +1,176 @@
+default_platform(:ios)
+
+# Common lanes (available for all platforms)
+desc "Setup IDE run configurations"
+lane :setup_ide do
+  idea_dir = "../.idea/runConfigurations"
+  FileUtils.mkdir_p(idea_dir)
+
+  configurations = {
+    "Dev.xml" => "dev",
+    "Staging.xml" => "staging",
+    "Prod.xml" => "prod"
+  }
+
+  configurations.each do |filename, flavor|
+    path = File.join(idea_dir, filename)
+    content = generate_run_config(flavor)
+    File.write(path, content)
+    UI.success("✓ Generated #{path}")
+  end
+
+  UI.success("IDE configurations ready! Reload your IDE to see the new run configurations.")
+end
+
+desc "Configure environment variables (secrets/.env)"
+lane :setup_env do
+  env_path = "../secrets/.env"
+
+  UI.header("Environment Configuration Setup")
+  UI.message("This will create or update #{env_path}")
+  UI.message("")
+
+  # Prompt for TMDB API Key
+  tmdb_key = prompt(text: "Enter TMDB API Key: ", secure_text: true)
+
+  # Prompt for Backend URL
+  backend_url = prompt(
+    text: "Enter Backend URL (e.g., https://api.example.com): ",
+    secure_text: false
+  )
+
+  # Create secrets directory if it doesn't exist
+  FileUtils.mkdir_p("../secrets")
+
+  # Generate .env file
+  env_content = <<~ENV
+    TMDB_API_KEY=#{tmdb_key}
+    BACKEND_URL=#{backend_url}
+  ENV
+
+  File.write(env_path, env_content)
+
+  UI.success("✓ Environment file created at #{env_path}")
+  UI.success("Ready to build with: bundle exec fastlane ios build flavor:dev")
+end
+
+desc "Run tests"
+lane :test do
+  sh("cd #{Dir.pwd} && flutter test")
+end
+
+desc "Run linter (dart analyze)"
+lane :lint do
+  sh("cd #{Dir.pwd} && flutter analyze")
+end
+
+desc "Clean iOS and Android build artifacts"
+lane :clean do
+  UI.message("Cleaning build artifacts...")
+
+  # Clean Dart/Flutter
+  sh("cd #{Dir.pwd} && rm -rf build/ .dart_tool/")
+  UI.success("✓ Removed build/ and .dart_tool/")
+
+  # Clean iOS
+  sh("cd #{Dir.pwd} && rm -rf ios/Pods/ ios/Podfile.lock")
+  UI.success("✓ Removed ios/Pods/ and ios/Podfile.lock")
+
+  # Clean Android
+  sh("cd #{Dir.pwd} && rm -rf android/.gradle/")
+  UI.success("✓ Removed android/.gradle/")
+
+  # Reinstall dependencies
+  UI.message("Reinstalling dependencies...")
+  sh("cd #{Dir.pwd} && flutter pub get")
+  UI.success("✓ Dependencies reinstalled")
+
+  UI.success("✓ Cleanup complete! Ready to build.")
+end
+
+platform :ios do
+  desc "Build iOS app for a given flavor"
+  lane :build do |options|
+    flavor = options[:flavor] || "dev"
+    UI.message("Building iOS with flavor: #{flavor}")
+    sh("cd #{Dir.pwd} && flutter build ios --flavor=#{flavor} --dart-define-from-file=secrets/.env")
+  end
+
+  desc "Release iOS (build + prepare for upload)"
+  lane :release do |options|
+    flavor = options[:flavor] || "prod"
+    # Default to dry_run: true for safety (must explicitly set dry_run:false to submit)
+    dry_run = options[:dry_run].nil? || options[:dry_run] == true || options[:dry_run] == "true"
+
+    if dry_run
+      UI.important("🏃 DRY RUN MODE - No changes will be submitted")
+    else
+      UI.error("⚠️  PRODUCTION MODE - Submitting to TestFlight/App Store")
+      unless UI.confirm("Are you sure you want to submit to production? (yes/no)")
+        UI.user_error!("Release cancelled")
+      end
+    end
+
+    build(flavor: flavor)
+    UI.important("iOS build complete!")
+
+    if dry_run
+      UI.success("✓ DRY RUN succeeded - Build is ready")
+      UI.message("To submit to TestFlight/App Store, run:")
+      UI.message("  bundle exec fastlane ios release flavor:#{flavor} dry_run:false")
+    else
+      UI.important("Signing configuration and upload not yet implemented")
+      UI.important("Next steps: Configure signing certificates and provisioning profiles in secrets/ios/")
+    end
+  end
+end
+
+platform :android do
+  desc "Build Android app for a given flavor"
+  lane :build do |options|
+    flavor = options[:flavor] || "dev"
+    UI.message("Building Android with flavor: #{flavor}")
+    sh("cd #{Dir.pwd} && flutter build apk --flavor=#{flavor} --dart-define-from-file=secrets/.env")
+  end
+
+  desc "Release Android (build + prepare for upload)"
+  lane :release do |options|
+    flavor = options[:flavor] || "prod"
+    # Default to dry_run: true for safety (must explicitly set dry_run:false to submit)
+    dry_run = options[:dry_run].nil? || options[:dry_run] == true || options[:dry_run] == "true"
+
+    if dry_run
+      UI.important("🏃 DRY RUN MODE - No changes will be submitted")
+    else
+      UI.error("⚠️  PRODUCTION MODE - Submitting to Google Play")
+      unless UI.confirm("Are you sure you want to submit to production? (yes/no)")
+        UI.user_error!("Release cancelled")
+      end
+    end
+
+    build(flavor: flavor)
+    UI.important("Android build complete!")
+
+    if dry_run
+      UI.success("✓ DRY RUN succeeded - Build is ready")
+      UI.message("To submit to Google Play, run:")
+      UI.message("  bundle exec fastlane android release flavor:#{flavor} dry_run:false")
+    else
+      UI.important("Signing configuration and upload not yet implemented")
+      UI.important("Next steps: Configure keystore in secrets/android/")
+    end
+  end
+end
+
+# Helper method to generate run configuration XML
+def generate_run_config(flavor)
+  <<~XML
+    <component name="ProjectRunConfigurationManager">
+      <configuration default="false" name="#{flavor.capitalize}" type="FlutterRunConfigurationType" factoryName="Flutter">
+        <option name="additionalArgs" value="--flavor #{flavor} --dart-define-from-file=secrets/.env" />
+        <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
+        <method v="2" />
+      </configuration>
+    </component>
+  XML
+end

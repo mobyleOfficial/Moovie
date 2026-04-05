@@ -21,8 +21,9 @@ Moovie is a multi-flavor Flutter application that consumes The Movie Database (T
 ### Prerequisites
 
 - Flutter SDK (Dart `^3.11.4`)
+- Ruby 3.2.0 (via rbenv or system)
 - Android Studio or VS Code with Flutter extension
-- A `.env` file at the project root (see [Configuration](#configuration))
+- Environment file at `secrets/.env` (see [Configuration](#configuration))
 
 ### Steps
 
@@ -31,15 +32,24 @@ Moovie is a multi-flavor Flutter application that consumes The Movie Database (T
 git clone <repo-url>
 cd moovie
 
-# 2. Create the .env file (see Configuration section)
+# 2. Setup environment
+rbenv local 3.2.0
+bundle install
 
-# 3. Install dependencies (root + all packages)
+# 3. Setup environment variables interactively
+bundle exec fastlane setup_env
+# (Or copy manually: cp secrets/.env.example secrets/.env)
+
+# 4. Install Flutter dependencies (root + all packages)
 flutter pub get
 
-# 4. Run code generation (routing, DI, ObjectBox)
+# 5. Run code generation (routing, DI, ObjectBox)
 dart run build_runner build --delete-conflicting-outputs
 
-# 5. Run the app
+# 6. Setup IDE run configurations
+bundle exec fastlane setup_ide
+
+# 7. Run the app
 flutter run                              # production flavor
 flutter run -t lib/main_dev.dart        # dev flavor
 flutter run -t lib/main_staging.dart    # staging flavor
@@ -49,7 +59,13 @@ flutter run -t lib/main_staging.dart    # staging flavor
 
 ## Configuration
 
-The app reads environment variables at build time. Create a `.env` file in the project root:
+The app reads environment variables at build time. Create a `.env` file in the `secrets/` folder:
+
+```bash
+cp secrets/.env.example secrets/.env
+```
+
+Then edit `secrets/.env`:
 
 ```env
 TMDB_API_KEY=your_tmdb_bearer_token
@@ -265,10 +281,25 @@ flutter pub get                                                    # After pubsp
 dart run build_runner build --delete-conflicting-outputs           # After annotation changes
 flutter gen-l10n                                                   # After ARB changes
 dart format .                                                      # Format code
-dart analyze                                                       # Lint
-flutter test                                                       # Run tests
+bundle exec fastlane lint                                          # Lint
+bundle exec fastlane test                                          # Run tests
 flutter run -t lib/main_dev.dart                                   # Run dev flavor
 ```
+
+### Fastlane commands
+
+See [`fastlane/README.md`](fastlane/README.md) for all available fastlane lanes and commands.
+
+All fastlane commands must be run with `bundle exec` to use the locked Ruby gems:
+
+```bash
+bundle exec fastlane <lane_name> [options]
+```
+
+**Key points:**
+- Initial setup: `bundle exec fastlane setup_env` and `bundle exec fastlane setup_ide`
+- Dry run is the default for all release lanes (safe by default)
+- Explicit `dry_run:false` required to submit to production (with confirmation)
 
 ### Adding a new feature
 

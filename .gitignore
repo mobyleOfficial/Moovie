@@ -38,5 +38,21 @@ ios/Flutter/EnvDefines.xcconfig
 # Claude Code
 .claude/
 
+# Secrets - signing keys, certificates, env files
+secrets/*
+!secrets/.gitignore
+!secrets/.env.example
+!secrets/android/
+!secrets/android/.gitkeep
+!secrets/ios/
+!secrets/ios/.gitkeep
+!secrets/ios/certificates/
+!secrets/ios/certificates/.gitkeep
+!secrets/ios/provisioning_profiles/
+!secrets/ios/provisioning_profiles/.gitkeep
+
+# Fastlane
+fastlane/report.xml
+
 # Local research notes
 tmdb_endpoints.txt
