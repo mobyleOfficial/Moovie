@@ -339,6 +339,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'My Review'**
   String get reviewDetailsBodyTitle;
+
+  /// Message shown when a search returns no results
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get noResults;
 }
 
 class _AppLocalizationsDelegate

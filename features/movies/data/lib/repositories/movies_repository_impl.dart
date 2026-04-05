@@ -55,4 +55,17 @@ class MoviesRepositoryImpl implements MoviesRepository {
       Failure(:final error) => Failure(error),
     };
   }
+
+  @override
+  Future<Result<TrendingMovieListing>> searchMovies({
+    required String query,
+    required int page,
+  }) async {
+    final result = await _dataSource.searchMovies(query: query, page: page);
+
+    return switch (result) {
+      Success(:final data) => Success(data.toDomain()),
+      Failure(:final error) => Failure(error),
+    };
+  }
 }

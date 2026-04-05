@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common/common.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/movies.dart';
 import 'package:new_user_activity/model/tab_items.dart';
 import 'package:new_user_activity/new_user_activity_bloc.dart';
 import 'package:new_user_activity/new_user_activity_state.dart';
@@ -69,6 +71,7 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
         focusNode: _focusNode,
         placeholder: l10n.searchHint,
         textInputAction: TextInputAction.search,
+        onChanged: widget.cubit.onSearchChanged,
       ),
     );
 
@@ -98,6 +101,12 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
               NewUserActivityError() => Center(
                   child: Text(state.message),
                 ),
+              NewUserActivitySearching() => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              NewUserActivitySearchResults() => _SearchResultsList(
+                  movies: state.movies,
+                ),
               NewUserActivitySuccess() => ListView.builder(
                   itemCount: items.length,
                   itemBuilder: (context, index) => switch (items[index]) {
@@ -113,6 +122,149 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
                   },
                 ),
             },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SearchResultsList extends StatelessWidget {
+  final List<Movie> movies;
+
+  static const String _posterBaseUrl = 'https://image.tmdb.org/t/p/w92';
+
+  const _SearchResultsList({required this.movies});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    if (movies.isEmpty) {
+      return Center(
+        child: Text(
+          AppLocalizations.of(context)!.noResults,
+          style: TextStyle(color: colorScheme.onSurfaceVariant),
+        ),
+      );
+    }
+
+    return ListView.separated(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      itemCount: movies.length,
+      separatorBuilder: (_, __) => Divider(
+        indent: 72,
+        height: 1,
+        color: colorScheme.outlineVariant,
+      ),
+      itemBuilder: (context, index) => _MovieResultTile(movie: movies[index]),
+    );
+  }
+}
+
+class _MovieResultTile extends StatelessWidget {
+  final Movie movie;
+
+  const _MovieResultTile({required this.movie});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return Semantics(
+      label: '${movie.title}, ${movie.releaseDate}',
+      button: true,
+      child: InkWell(
+        onTap: () {},
+        child: ExcludeSemantics(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: SizedBox(
+                    width: 44,
+                    height: 64,
+                    child: movie.posterPath.isNotEmpty
+                        ? CachedNetworkImage(
+                            imageUrl:
+                                '${_SearchResultsList._posterBaseUrl}${movie.posterPath}',
+                            fit: BoxFit.cover,
+                            placeholder: (_, __) => Container(
+                              color: colorScheme.surfaceContainerHighest,
+                            ),
+                            errorWidget: (_, __, ___) => Container(
+                              color: colorScheme.surfaceContainerHighest,
+                              child: Icon(
+                                Icons.movie,
+                                size: 20,
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            color: colorScheme.surfaceContainerHighest,
+                            child: Icon(
+                              Icons.movie,
+                              size: 20,
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        movie.title,
+                        style: textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: colorScheme.onSurface,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      if (movie.releaseDate.isNotEmpty) ...[
+                        const SizedBox(height: 4),
+                        Text(
+                          movie.releaseDate.length >= 4
+                              ? movie.releaseDate.substring(0, 4)
+                              : movie.releaseDate,
+                          style: textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                if (movie.voteAverage > 0) ...[
+                  const SizedBox(width: 8),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.star,
+                        size: 14,
+                        color: colorScheme.onTertiaryContainer,
+                      ),
+                      const SizedBox(width: 2),
+                      Text(
+                        movie.voteAverage.toStringAsFixed(1),
+                        style: textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ],
+            ),
           ),
         ),
       ),

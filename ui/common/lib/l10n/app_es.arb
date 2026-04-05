@@ -39,5 +39,6 @@
   "newUserActivityDraftsSection": "Borradores",
   "newUserActivityRecentSection": "Recientes",
   "profileFollow": "Seguir",
-  "reviewDetailsBodyTitle": "Mi reseña"
+  "reviewDetailsBodyTitle": "Mi reseña",
+  "noResults": "No se encontraron resultados"
 }

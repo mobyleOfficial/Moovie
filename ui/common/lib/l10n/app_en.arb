@@ -145,5 +145,7 @@
   "profileFollow": "Follow",
   "@profileFollow": { "description": "Follow button label on public profile screen" },
   "reviewDetailsBodyTitle": "My Review",
-  "@reviewDetailsBodyTitle": { "description": "Section header for the review body text on the review details screen" }
+  "@reviewDetailsBodyTitle": { "description": "Section header for the review body text on the review details screen" },
+  "noResults": "No results found",
+  "@noResults": { "description": "Message shown when a search returns no results" }
 }

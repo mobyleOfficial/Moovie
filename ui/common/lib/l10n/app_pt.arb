@@ -39,5 +39,6 @@
   "newUserActivityDraftsSection": "Rascunhos",
   "newUserActivityRecentSection": "Recentes",
   "profileFollow": "Seguir",
-  "reviewDetailsBodyTitle": "Minha avaliação"
+  "reviewDetailsBodyTitle": "Minha avaliação",
+  "noResults": "Nenhum resultado encontrado"
 }

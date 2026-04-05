@@ -135,4 +135,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewDetailsBodyTitle => 'My Review';
+
+  @override
+  String get noResults => 'No results found';
 }
