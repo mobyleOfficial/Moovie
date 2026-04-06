@@ -180,4 +180,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get movieReviewTagEmotional => 'Emocionante';
+
+  @override
+  String get movieReviewSend => 'Enviar avaliação';
 }

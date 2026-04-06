@@ -54,5 +54,6 @@
   "movieReviewTagDisappointing": "Decepcionante",
   "movieReviewTagFeelGood": "Para sentirse bien",
   "movieReviewTagMindBending": "Desconcertante",
-  "movieReviewTagEmotional": "Emotiva"
+  "movieReviewTagEmotional": "Emotiva",
+  "movieReviewSend": "Enviar reseña"
 }

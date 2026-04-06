@@ -50,7 +50,20 @@ class _MovieReviewScreenState extends State<MovieReviewScreen> {
     return BlocProvider.value(
       value: widget.cubit,
       child: Scaffold(
-        appBar: AppBar(title: Text(l10n.movieReviewTitle)),
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          title: Text(l10n.movieReviewTitle),
+          actions: [
+            Tooltip(
+              message: l10n.movieReviewSend,
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.send),
+              ),
+            ),
+          ],
+        ),
         body: BlocBuilder<MovieReviewCubit, MovieReviewState>(
           builder: (context, state) => switch (state) {
             MovieReviewLoading() => const Center(

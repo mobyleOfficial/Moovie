@@ -175,5 +175,7 @@
   "movieReviewTagMindBending": "Mind Bending",
   "@movieReviewTagMindBending": { "description": "Predefined tag for movie review" },
   "movieReviewTagEmotional": "Emotional",
-  "@movieReviewTagEmotional": { "description": "Predefined tag for movie review" }
+  "@movieReviewTagEmotional": { "description": "Predefined tag for movie review" },
+  "movieReviewSend": "Send review",
+  "@movieReviewSend": { "description": "Tooltip for the send review button in the app bar" }
 }

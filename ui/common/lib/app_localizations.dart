@@ -429,6 +429,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Emotional'**
   String get movieReviewTagEmotional;
+
+  /// Tooltip for the send review button in the app bar
+  ///
+  /// In en, this message translates to:
+  /// **'Send review'**
+  String get movieReviewSend;
 }
 
 class _AppLocalizationsDelegate
