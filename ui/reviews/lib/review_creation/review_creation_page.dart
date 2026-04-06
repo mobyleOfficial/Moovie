@@ -1,18 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/movies.dart';
-import 'package:movie_review/movie_review_bloc.dart';
-import 'package:movie_review/movie_review_screen.dart';
+import 'package:reviews/review_creation/review_creation_bloc.dart';
+import 'package:reviews/review_creation/review_creation_screen.dart';
 
 @RoutePage()
-class MovieReviewPage extends StatefulWidget {
+class ReviewCreationPage extends StatefulWidget {
   final UpsertMovieReview upsertMovieReview;
   final int movieId;
   final String movieTitle;
   final String posterPath;
   final MovieReviewDraft? initialDraft;
 
-  const MovieReviewPage({
+  const ReviewCreationPage({
     super.key,
     required this.upsertMovieReview,
     required this.movieId,
@@ -22,11 +22,11 @@ class MovieReviewPage extends StatefulWidget {
   });
 
   @override
-  State<MovieReviewPage> createState() => _MovieReviewPageState();
+  State<ReviewCreationPage> createState() => _ReviewCreationPageState();
 }
 
-class _MovieReviewPageState extends State<MovieReviewPage> {
-  late final MovieReviewCubit _cubit = MovieReviewCubit(
+class _ReviewCreationPageState extends State<ReviewCreationPage> {
+  late final ReviewCreationCubit _cubit = ReviewCreationCubit(
     upsertMovieReview: widget.upsertMovieReview,
     movieId: widget.movieId,
     movieTitle: widget.movieTitle,
@@ -41,7 +41,7 @@ class _MovieReviewPageState extends State<MovieReviewPage> {
   }
 
   @override
-  Widget build(BuildContext context) => MovieReviewScreen(
+  Widget build(BuildContext context) => ReviewCreationScreen(
         cubit: _cubit,
         movieTitle: widget.movieTitle,
         posterPath: widget.posterPath,

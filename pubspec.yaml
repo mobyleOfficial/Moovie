@@ -52,12 +52,8 @@ dependencies:
     path: features/news
   profile:
     path: features/profile
-  movies_list:
-    path: ui/movies_list
-  movie_detail:
-    path: ui/movie_detail
-  movie_review:
-    path: ui/movie_review
+  movies_ui:
+    path: ui/movies_ui
   home:
     path: ui/home
   common:

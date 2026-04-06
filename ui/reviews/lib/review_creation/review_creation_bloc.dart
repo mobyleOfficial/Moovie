@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/movies.dart';
-import 'package:movie_review/movie_review_state.dart';
+import 'package:reviews/review_creation/review_creation_state.dart';
 
-class MovieReviewCubit extends Cubit<MovieReviewState> {
+class ReviewCreationCubit extends Cubit<ReviewCreationState> {
   final UpsertMovieReview _upsertMovieReview;
   final int movieId;
   final String movieTitle;
@@ -11,7 +11,7 @@ class MovieReviewCubit extends Cubit<MovieReviewState> {
 
   late String _currentReviewTitle;
 
-  MovieReviewCubit({
+  ReviewCreationCubit({
     required UpsertMovieReview upsertMovieReview,
     required this.movieId,
     required this.movieTitle,
@@ -19,14 +19,14 @@ class MovieReviewCubit extends Cubit<MovieReviewState> {
     this.initialDraft,
   })  : _upsertMovieReview = upsertMovieReview,
         _currentReviewTitle = initialDraft?.reviewTitle ?? '',
-        super(const MovieReviewLoading()) {
+        super(const ReviewCreationLoading()) {
     _load();
   }
 
   void _load() {
     final draft = initialDraft;
     if (draft != null) {
-      emit(MovieReviewReady(
+      emit(ReviewCreationReady(
         reviewTitle: draft.reviewTitle,
         rating: draft.rating,
         isFavorite: draft.isFavorite,
@@ -34,13 +34,13 @@ class MovieReviewCubit extends Cubit<MovieReviewState> {
         selectedTags: draft.tags.toSet(),
       ));
     } else {
-      emit(const MovieReviewReady());
+      emit(const ReviewCreationReady());
     }
   }
 
   void updateRating(double rating) {
     final currentState = state;
-    if (currentState is MovieReviewReady) {
+    if (currentState is ReviewCreationReady) {
       final updated = currentState.copyWith(rating: rating);
       emit(updated);
       _saveDraft(updated);
@@ -49,7 +49,7 @@ class MovieReviewCubit extends Cubit<MovieReviewState> {
 
   void toggleFavorite() {
     final currentState = state;
-    if (currentState is MovieReviewReady) {
+    if (currentState is ReviewCreationReady) {
       final updated = currentState.copyWith(isFavorite: !currentState.isFavorite);
       emit(updated);
       _saveDraft(updated);
@@ -58,7 +58,7 @@ class MovieReviewCubit extends Cubit<MovieReviewState> {
 
   void toggleRewatch() {
     final currentState = state;
-    if (currentState is MovieReviewReady) {
+    if (currentState is ReviewCreationReady) {
       final updated = currentState.copyWith(isRewatch: !currentState.isRewatch);
       emit(updated);
       _saveDraft(updated);
@@ -67,7 +67,7 @@ class MovieReviewCubit extends Cubit<MovieReviewState> {
 
   void toggleTag(String tag) {
     final currentState = state;
-    if (currentState is MovieReviewReady) {
+    if (currentState is ReviewCreationReady) {
       final updatedTags = Set<String>.from(currentState.selectedTags);
       if (updatedTags.contains(tag)) {
         updatedTags.remove(tag);
@@ -82,13 +82,13 @@ class MovieReviewCubit extends Cubit<MovieReviewState> {
 
   void updateReviewTitle(String title) {
     final currentState = state;
-    if (currentState is MovieReviewReady) {
+    if (currentState is ReviewCreationReady) {
       _currentReviewTitle = title;
       _saveDraft(currentState);
     }
   }
 
-  void _saveDraft(MovieReviewReady reviewState) {
+  void _saveDraft(ReviewCreationReady reviewState) {
     final draft = MovieReviewDraft(
       id: 0,
       movieId: movieId,

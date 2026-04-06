@@ -3,7 +3,7 @@ import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:movie_detail/movie_detail_router.dart';
+import 'package:movies_ui/movie_detail/movie_detail_router.dart';
 import 'package:movies/movies.dart';
 import 'package:reviews/review_details/review_details_router.dart';
 import 'package:reviews/reviews_list/reviews_bloc.dart';

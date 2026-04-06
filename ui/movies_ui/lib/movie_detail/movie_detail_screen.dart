@@ -1,9 +1,8 @@
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:movie_detail/movie_detail_bloc.dart';
-import 'package:movie_detail/movie_detail_state.dart';
+import 'package:movies_ui/movie_detail/movie_detail_bloc.dart';
+import 'package:movies_ui/movie_detail/movie_detail_state.dart';
 
 class MovieDetailScreen extends StatelessWidget {
   final MovieDetailCubit cubit;

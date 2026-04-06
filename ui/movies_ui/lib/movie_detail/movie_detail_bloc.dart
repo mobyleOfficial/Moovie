@@ -1,8 +1,7 @@
 import 'package:core/core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/movies.dart';
-
-import 'package:movie_detail/movie_detail_state.dart';
+import 'package:movies_ui/movie_detail/movie_detail_state.dart';
 
 class MovieDetailCubit extends Cubit<MovieDetailState> {
   final GetMovieDetail _getMovieDetail;

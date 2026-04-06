@@ -21,8 +21,8 @@ dependencies:
     path: ../../core
   movies:
     path: ../../features/movies
-  movie_detail:
-    path: ../movie_detail
+  movies_ui:
+    path: ../movies_ui
   reviews:
     path: ../reviews
 

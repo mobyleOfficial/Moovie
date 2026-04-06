@@ -20,3 +20,6 @@ export 'src/moovie_star_rating.dart';
 export 'src/moovie_tag.dart';
 export 'src/format_time_ago.dart';
 export 'src/moovie_animated_app_bar.dart';
+export 'src/moovie_bottom_sheet.dart';
+export 'src/moovie_review_editor.dart';
+export 'src/moovie_html_preview.dart';
