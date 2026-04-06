@@ -233,14 +233,10 @@ class _MoovieReviewEditorState extends State<MoovieReviewEditor>
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
     return PopScope(
-      canPop: true,
-      onPopInvokedWithResult: (didPop, _) {
-        if (didPop && !_didPop) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (mounted) {
-              Navigator.of(context).pop(_buildResult());
-            }
-          });
+      canPop: false,
+      onPopInvokedWithResult: (_, __) {
+        if (!_didPop) {
+          _onDone();
         }
       },
       child: Container(
@@ -252,7 +248,7 @@ class _MoovieReviewEditorState extends State<MoovieReviewEditor>
         ),
         child: Column(
           children: [
-            _DragHandle(),
+            _DragHandle(onDismiss: _onDone),
             _EditorTabBar(controller: _tabController),
             Expanded(
               child: TabBarView(
@@ -315,18 +311,35 @@ class _MoovieReviewEditorState extends State<MoovieReviewEditor>
 }
 
 class _DragHandle extends StatelessWidget {
+  final VoidCallback onDismiss;
+
+  const _DragHandle({required this.onDismiss});
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 12, bottom: 4),
-      child: Container(
-        width: 36,
-        height: 4,
-        decoration: BoxDecoration(
-          color: colorScheme.onSurfaceVariant.withValues(alpha: 0.3),
-          borderRadius: BorderRadius.circular(2),
+    return GestureDetector(
+      onVerticalDragEnd: (details) {
+        if (details.primaryVelocity != null && details.primaryVelocity! > 300) {
+          onDismiss();
+        }
+      },
+      behavior: HitTestBehavior.opaque,
+      child: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 12, bottom: 4),
+          child: Center(
+            child: Container(
+              width: 36,
+              height: 4,
+              decoration: BoxDecoration(
+                color: colorScheme.onSurfaceVariant.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
         ),
       ),
     );
