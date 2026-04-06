@@ -36,4 +36,7 @@ abstract class HttpDiModule {
   @singleton
   @Named('backend')
   HttpClient backendClient(@Named('backend') Dio dio) => DioHttpClient(dio);
+
+  @singleton
+  LocalClient get localClient => ObjectBoxClient();
 }

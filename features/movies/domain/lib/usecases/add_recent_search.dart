@@ -7,6 +7,6 @@ class AddRecentSearch extends UseCase<String, Result<void>> {
   AddRecentSearch(this._moviesRepository);
 
   @override
-  Future<Result<void>> call([String? params]) =>
+  Future<Result<void>> call([String? params]) async =>
       _moviesRepository.addRecentSearch(query: params!);
 }
