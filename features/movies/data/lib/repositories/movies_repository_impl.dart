@@ -73,45 +73,27 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
-  Future<Result<void>> upsertMovieReview({
+  Result<void> upsertMovieReview({
     required MovieReviewDraft draft,
     required MovieReviewStatus status,
-  }) async {
-    try {
+  }) =>
       _localDataSource
           .upsertMovieReviewDraft(LocalMovieReviewDraft.fromDomain(draft, status));
-      return const Success(null);
-    } catch (_) {
-      return const Failure(AppError.unknown);
-    }
-  }
 
   @override
   Stream<List<MovieReviewDraft>> observeMovieReviewDraftsList() =>
-      _localDataSource.watchDrafts().map(
+      _localDataSource.observeDraftsList().map(
             (localDrafts) =>
                 localDrafts.map((draft) => draft.toDomain()).toList(),
           );
 
   @override
-  Future<Result<void>> deleteDraft({required int movieId}) async {
-    try {
+  Result<void> deleteDraft({required int movieId}) =>
       _localDataSource.deleteDraftByMovieId(movieId);
-      return const Success(null);
-    } catch (_) {
-      return const Failure(AppError.unknown);
-    }
-  }
 
   @override
-  Future<Result<void>> addRecentSearch({required String query}) async {
-    try {
+  Result<void> addRecentSearch({required String query}) =>
       _localDataSource.addRecentSearch(query);
-      return const Success(null);
-    } catch (_) {
-      return const Failure(AppError.unknown);
-    }
-  }
 
   @override
   Stream<List<RecentSearch>> observeRecentSearches() =>

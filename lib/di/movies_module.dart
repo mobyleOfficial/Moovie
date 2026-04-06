@@ -11,10 +11,14 @@ abstract class MoviesModule {
   ) => MoviesRemoteDataSourceImpl(httpClient);
 
   @lazySingleton
-  MoviesLocalDataSource moviesLocalDataSource(Store store) =>
+  MoviesLocalDataSource moviesLocalDataSource(
+    Store store,
+    LocalClient localClient,
+  ) =>
       MoviesLocalDataSourceImpl(
         store.box<LocalMovieReviewDraft>(),
         store.box<LocalRecentSearch>(),
+        localClient,
       );
 
   @lazySingleton
