@@ -21,13 +21,18 @@ class NewUserActivityCubit extends Cubit<NewUserActivityState> {
   static const _debounceDuration = Duration(milliseconds: 300);
   static const _minQueryLength = 3;
 
-  NewUserActivityCubit(this._searchMovies, this._observeMovieReviewDraftsList, this._deleteDraft)
-      : super(const NewUserActivityLoading()) {
+  NewUserActivityCubit(
+    this._searchMovies,
+    this._observeMovieReviewDraftsList,
+    this._deleteDraft,
+  ) : super(const NewUserActivityLoading()) {
     _querySubscription = _queryController.stream
         .distinct()
         .debounce(_debounceDuration)
         .listen(_onQueryChanged);
-    _draftsSubscription = _observeMovieReviewDraftsList().listen(_onDraftsChanged);
+    _draftsSubscription = _observeMovieReviewDraftsList().listen(
+      _onDraftsChanged,
+    );
   }
 
   void _onDraftsChanged(List<MovieReviewDraft> drafts) {
@@ -37,12 +42,17 @@ class NewUserActivityCubit extends Cubit<NewUserActivityState> {
     }
   }
 
-  void onSearchChanged(String query) => _queryController.add(query);
-
-  void _onQueryChanged(String query) {
+  void onSearchChanged(String query) {
     if (query.length < _minQueryLength) {
       _isSearching = false;
       emit(NewUserActivitySuccess(drafts: _currentDrafts));
+    }
+
+    _queryController.add(query);
+  }
+
+  void _onQueryChanged(String query) {
+    if (query.length < _minQueryLength) {
       return;
     }
 
