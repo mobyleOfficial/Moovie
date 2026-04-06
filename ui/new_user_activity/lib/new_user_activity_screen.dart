@@ -4,7 +4,7 @@ import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_review/movie_review_router.dart';
+import 'package:reviews/review_creation/review_creation_router.dart';
 import 'package:movies/movies.dart';
 import 'package:new_user_activity/model/tab_items.dart';
 import 'package:new_user_activity/new_user_activity_bloc.dart';
@@ -153,7 +153,7 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
                                         subtitle: subtitle,
                                         onTap: () =>
                                             context.router.root.push(
-                                          MovieReviewRoute(
+                                          ReviewCreationRoute(
                                             movieId: draft.movieId,
                                             movieTitle: draft.movieTitle,
                                             posterPath: draft.posterPath,
@@ -246,7 +246,7 @@ class _MovieResultTile extends StatelessWidget {
         onTap: () {
           onTap?.call();
           context.router.root.push(
-            MovieReviewRoute(
+            ReviewCreationRoute(
               movieId: movie.id,
               movieTitle: movie.title,
               posterPath: movie.posterPath,

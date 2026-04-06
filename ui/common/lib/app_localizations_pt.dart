@@ -196,4 +196,22 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get cancel => 'Cancelar';
+
+  @override
+  String get reviewEditorTitle => 'Escrever uma avaliação';
+
+  @override
+  String get reviewEditorPlaceholder => 'Comece a escrever sua avaliação...';
+
+  @override
+  String get reviewEditorClear => 'Limpar tudo';
+
+  @override
+  String get reviewEditorClearConfirmTitle => 'Limpar avaliação?';
+
+  @override
+  String get reviewEditorClearConfirmContent => 'Todo o texto será removido.';
+
+  @override
+  String get reviewDetailsAddReview => 'Adicionar uma avaliação...';
 }

@@ -1,19 +1,19 @@
-sealed class MovieReviewState {
-  const MovieReviewState();
+sealed class ReviewCreationState {
+  const ReviewCreationState();
 }
 
-class MovieReviewLoading extends MovieReviewState {
-  const MovieReviewLoading();
+class ReviewCreationLoading extends ReviewCreationState {
+  const ReviewCreationLoading();
 }
 
-class MovieReviewReady extends MovieReviewState {
+class ReviewCreationReady extends ReviewCreationState {
   final String reviewTitle;
   final double rating;
   final bool isFavorite;
   final bool isRewatch;
   final Set<String> selectedTags;
 
-  const MovieReviewReady({
+  const ReviewCreationReady({
     this.reviewTitle = '',
     this.rating = 0,
     this.isFavorite = false,
@@ -21,14 +21,14 @@ class MovieReviewReady extends MovieReviewState {
     this.selectedTags = const {},
   });
 
-  MovieReviewReady copyWith({
+  ReviewCreationReady copyWith({
     String? reviewTitle,
     double? rating,
     bool? isFavorite,
     bool? isRewatch,
     Set<String>? selectedTags,
   }) =>
-      MovieReviewReady(
+      ReviewCreationReady(
         reviewTitle: reviewTitle ?? this.reviewTitle,
         rating: rating ?? this.rating,
         isFavorite: isFavorite ?? this.isFavorite,
@@ -37,8 +37,8 @@ class MovieReviewReady extends MovieReviewState {
       );
 }
 
-class MovieReviewError extends MovieReviewState {
+class ReviewCreationError extends ReviewCreationState {
   final String message;
 
-  const MovieReviewError(this.message);
+  const ReviewCreationError(this.message);
 }

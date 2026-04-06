@@ -59,5 +59,11 @@
   "deleteDraftTitle": "Eliminar borrador?",
   "deleteDraftContent": "Este borrador se eliminará permanentemente.",
   "delete": "Eliminar",
-  "cancel": "Cancelar"
+  "cancel": "Cancelar",
+  "reviewEditorTitle": "Escribir una reseña",
+  "reviewEditorPlaceholder": "Empieza a escribir tu reseña...",
+  "reviewEditorClear": "Borrar todo",
+  "reviewEditorClearConfirmTitle": "¿Borrar reseña?",
+  "reviewEditorClearConfirmContent": "Se eliminará todo el texto.",
+  "reviewDetailsAddReview": "Agregar una reseña..."
 }

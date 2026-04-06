@@ -195,4 +195,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancel => 'Cancel';
+
+  @override
+  String get reviewEditorTitle => 'Write a review';
+
+  @override
+  String get reviewEditorPlaceholder => 'Start writing your review...';
+
+  @override
+  String get reviewEditorClear => 'Clear all';
+
+  @override
+  String get reviewEditorClearConfirmTitle => 'Clear review?';
+
+  @override
+  String get reviewEditorClearConfirmContent => 'All text will be removed.';
+
+  @override
+  String get reviewDetailsAddReview => 'Add a review...';
 }

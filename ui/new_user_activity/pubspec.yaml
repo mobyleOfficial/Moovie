@@ -19,5 +19,5 @@ dependencies:
     path: ../../core
   movies:
     path: ../../features/movies
-  movie_review:
-    path: ../movie_review
+  reviews:
+    path: ../reviews
