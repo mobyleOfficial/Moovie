@@ -29,6 +29,7 @@ class AppRouter extends RootStackRouter {
                 AutoRoute(page: MoviesHomeRoute.page, initial: true),
                 AutoRoute(page: ReviewsRoute.page),
                 AutoRoute(page: ReviewDetailsRoute.page),
+                AutoRoute(page: MovieDetailRoute.page),
               ],
             ),
             AutoRoute(
@@ -42,6 +43,7 @@ class AppRouter extends RootStackRouter {
               children: [
                 AutoRoute(page: SocialRoute.page, initial: true),
                 AutoRoute(page: PublicProfileRoute.page),
+                AutoRoute(page: MovieDetailRoute.page),
               ],
             ),
             AutoRoute(
@@ -49,11 +51,11 @@ class AppRouter extends RootStackRouter {
               children: [
                 AutoRoute(page: ProfileRoute.page, initial: true),
                 AutoRoute(page: ReviewDetailsRoute.page),
+                AutoRoute(page: MovieDetailRoute.page),
               ],
             ),
           ],
         ),
-        AutoRoute(page: MovieDetailRoute.page),
         AutoRoute(page: ReviewCreationRoute.page),
         AutoRoute(page: PublicProfileRoute.page),
         CustomRoute(

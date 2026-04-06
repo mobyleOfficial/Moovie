@@ -10,7 +10,7 @@ import 'package:reviews/reviews_list/reviews_screen.dart';
 
 class MoviesHomeScreen extends StatelessWidget {
   final TrendingMoviesCubit cubit;
-  final void Function(int movieId) onMovieTap;
+  final void Function(int movieId, String movieTitle) onMovieTap;
   final GetMovieReviews getMovieReviews;
   final GetMovieCollections getMovieCollections;
 

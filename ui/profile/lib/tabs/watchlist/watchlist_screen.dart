@@ -65,7 +65,7 @@ class _WatchlistMovieTile extends StatelessWidget {
       button: true,
       child: InkWell(
         onTap: () =>
-            context.router.root.push(MovieDetailRoute(movieId: movieId)),
+            context.router.push(MovieDetailRoute(movieId: movieId, movieTitle: title)),
         borderRadius: BorderRadius.circular(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

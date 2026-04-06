@@ -24,7 +24,6 @@ class MovieDetailScreen extends StatelessWidget {
               body: Center(child: Text(message)),
             ),
           MovieDetailSuccess(:final detail) => Scaffold(
-              appBar: AppBar(title: Text(detail.title)),
               body: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +40,18 @@ class MovieDetailScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (detail.tagline.isNotEmpty)
+                          Text(
+                            detail.title,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.onSurface,
+                                ),
+                          ),
+                          if (detail.tagline.isNotEmpty) ...[
+                            const SizedBox(height: 8),
                             Text(
                               detail.tagline,
                               style: Theme.of(context)
@@ -49,6 +59,7 @@ class MovieDetailScreen extends StatelessWidget {
                                   .bodyMedium
                                   ?.copyWith(fontStyle: FontStyle.italic),
                             ),
+                          ],
                           const SizedBox(height: 8),
                           Text(detail.overview),
                           const SizedBox(height: 16),

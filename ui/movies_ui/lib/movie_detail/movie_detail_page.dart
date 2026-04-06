@@ -8,11 +8,13 @@ import 'package:movies_ui/movie_detail/movie_detail_screen.dart';
 class MovieDetailPage extends StatefulWidget {
   final GetMovieDetail getMovieDetail;
   final int movieId;
+  final String movieTitle;
 
   const MovieDetailPage({
     super.key,
     required this.getMovieDetail,
     required this.movieId,
+    required this.movieTitle,
   });
 
   @override

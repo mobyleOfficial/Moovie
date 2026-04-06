@@ -115,8 +115,11 @@ class ProfileInfoScreen extends StatelessWidget {
                 label: _recentMovies[index].title,
                 button: true,
                 child: InkWell(
-                  onTap: () => context.router.root.push(
-                    MovieDetailRoute(movieId: _recentMovies[index].id),
+                  onTap: () => context.router.push(
+                    MovieDetailRoute(
+                      movieId: _recentMovies[index].id,
+                      movieTitle: _recentMovies[index].title,
+                    ),
                   ),
                   borderRadius: BorderRadius.circular(8),
                   child: Container(

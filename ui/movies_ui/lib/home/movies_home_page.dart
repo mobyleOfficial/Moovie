@@ -34,8 +34,8 @@ class _MoviesHomePageState extends State<MoviesHomePage> {
   @override
   Widget build(BuildContext context) => MoviesHomeScreen(
         cubit: _cubit,
-        onMovieTap: (movieId) => context.router.root.push(
-          MovieDetailRoute(movieId: movieId),
+        onMovieTap: (movieId, movieTitle) => context.router.push(
+          MovieDetailRoute(movieId: movieId, movieTitle: movieTitle),
         ),
         getMovieReviews: widget.getMovieReviews,
         getMovieCollections: widget.getMovieCollections,
