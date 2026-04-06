@@ -10,8 +10,12 @@ class NewUserActivityLoading extends NewUserActivityState {
 
 class NewUserActivitySuccess extends NewUserActivityState {
   final List<MovieReviewDraft> drafts;
+  final List<RecentSearch> recentSearches;
 
-  const NewUserActivitySuccess({this.drafts = const []});
+  const NewUserActivitySuccess({
+    this.drafts = const [],
+    this.recentSearches = const [],
+  });
 }
 
 class NewUserActivitySearching extends NewUserActivityState {

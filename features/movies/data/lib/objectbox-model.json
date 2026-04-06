@@ -68,10 +68,36 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "2:8861921888700839333",
+      "lastPropertyId": "3:4351401831268948934",
+      "name": "LocalRecentSearch",
+      "properties": [
+        {
+          "id": "1:7872867946049279107",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2769940816338134549",
+          "name": "query",
+          "indexId": "2:7097129463505146758",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "3:4351401831268948934",
+          "name": "searchedAt",
+          "type": 10
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:7225164119965359674",
-  "lastIndexId": "1:7950825517565266487",
+  "lastEntityId": "2:8861921888700839333",
+  "lastIndexId": "2:7097129463505146758",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

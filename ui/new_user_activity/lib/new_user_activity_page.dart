@@ -9,12 +9,16 @@ class NewUserActivityPage extends StatefulWidget {
   final SearchMovies searchMovies;
   final ObserveMovieReviewDraftsList observeMovieReviewDraftsList;
   final DeleteDraft deleteDraft;
+  final AddRecentSearch addRecentSearch;
+  final ObserveRecentSearches observeRecentSearches;
 
   const NewUserActivityPage({
     super.key,
     required this.searchMovies,
     required this.observeMovieReviewDraftsList,
     required this.deleteDraft,
+    required this.addRecentSearch,
+    required this.observeRecentSearches,
   });
 
   @override
@@ -26,6 +30,8 @@ class _NewUserActivityPageState extends State<NewUserActivityPage> {
     widget.searchMovies,
     widget.observeMovieReviewDraftsList,
     widget.deleteDraft,
+    widget.addRecentSearch,
+    widget.observeRecentSearches,
   );
 
   @override
