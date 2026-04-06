@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies/movies.dart';
-import 'package:movies_list/movies_list_bloc.dart';
-import 'package:movies_list/movies_list_state.dart';
-import 'package:movies_list/tabs/lists/movies_lists_screen.dart';
-import 'package:movies_list/tabs/articles/movies_articles_screen.dart';
+import 'package:movies_ui/movies_list/movies_list_bloc.dart';
+import 'package:movies_ui/movies_list/movies_list_state.dart';
+import 'package:movies_ui/tabs/lists/movies_lists_screen.dart';
+import 'package:movies_ui/tabs/articles/movies_articles_screen.dart';
 import 'package:reviews/reviews_list/reviews_screen.dart';
 
 class MoviesListScreen extends StatelessWidget {
@@ -124,8 +124,7 @@ class _MoviePosterCard extends StatelessWidget {
   const _MoviePosterCard({required this.movie, required this.onTap});
 
   @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
+  Widget build(BuildContext context) => ClipRRect(
       borderRadius: BorderRadius.circular(_cardBorderRadius),
       child: Material(
         color: Theme.of(context).colorScheme.surfaceContainerHighest,
@@ -144,5 +143,4 @@ class _MoviePosterCard extends StatelessWidget {
         ),
       ),
     );
-  }
 }

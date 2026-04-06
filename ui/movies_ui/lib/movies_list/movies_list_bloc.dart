@@ -2,7 +2,7 @@ import 'package:core/core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies/movies.dart';
-import 'package:movies_list/movies_list_state.dart';
+import 'package:movies_ui/movies_list/movies_list_state.dart';
 
 class MoviesListCubit extends Cubit<MoviesListState> {
   final GetTrendingMovies _getTrendingMovies;

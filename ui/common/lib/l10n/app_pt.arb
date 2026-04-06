@@ -59,5 +59,11 @@
   "deleteDraftTitle": "Excluir rascunho?",
   "deleteDraftContent": "Este rascunho será excluído permanentemente.",
   "delete": "Excluir",
-  "cancel": "Cancelar"
+  "cancel": "Cancelar",
+  "reviewEditorTitle": "Escrever uma avaliação",
+  "reviewEditorPlaceholder": "Comece a escrever sua avaliação...",
+  "reviewEditorClear": "Limpar tudo",
+  "reviewEditorClearConfirmTitle": "Limpar avaliação?",
+  "reviewEditorClearConfirmContent": "Todo o texto será removido.",
+  "reviewDetailsAddReview": "Adicionar uma avaliação..."
 }

@@ -15,8 +15,8 @@ dependencies:
   auto_route: ^11.1.0
   common:
     path: ../common
-  movies_list:
-    path: ../movies_list
+  movies_ui:
+    path: ../movies_ui
   reviews:
     path: ../reviews
 

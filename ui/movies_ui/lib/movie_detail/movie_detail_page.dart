@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/movies.dart';
-
-import 'package:movie_detail/movie_detail_bloc.dart';
-import 'package:movie_detail/movie_detail_screen.dart';
+import 'package:movies_ui/movie_detail/movie_detail_bloc.dart';
+import 'package:movies_ui/movie_detail/movie_detail_screen.dart';
 
 @RoutePage()
 class MovieDetailPage extends StatefulWidget {
@@ -31,7 +30,5 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return MovieDetailScreen(cubit: _cubit);
-  }
+  Widget build(BuildContext context) => MovieDetailScreen(cubit: _cubit);
 }

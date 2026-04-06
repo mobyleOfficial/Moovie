@@ -2,15 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_review/movie_review_bloc.dart';
-import 'package:movie_review/movie_review_state.dart';
+import 'package:reviews/review_creation/review_creation_bloc.dart';
+import 'package:reviews/review_creation/review_creation_state.dart';
 
-class MovieReviewScreen extends StatefulWidget {
-  final MovieReviewCubit cubit;
+class ReviewCreationScreen extends StatefulWidget {
+  final ReviewCreationCubit cubit;
   final String movieTitle;
   final String posterPath;
 
-  const MovieReviewScreen({
+  const ReviewCreationScreen({
     super.key,
     required this.cubit,
     required this.movieTitle,
@@ -18,12 +18,13 @@ class MovieReviewScreen extends StatefulWidget {
   });
 
   @override
-  State<MovieReviewScreen> createState() => _MovieReviewScreenState();
+  State<ReviewCreationScreen> createState() => _ReviewCreationScreenState();
 }
 
-class _MovieReviewScreenState extends State<MovieReviewScreen> {
+class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
   late final TextEditingController _reviewNameController =
       TextEditingController(text: widget.cubit.initialDraft?.reviewTitle);
+  String? _reviewHtml;
 
   static const String _posterBaseUrl = 'https://image.tmdb.org/t/p/w185';
 
@@ -31,6 +32,19 @@ class _MovieReviewScreenState extends State<MovieReviewScreen> {
   void dispose() {
     _reviewNameController.dispose();
     super.dispose();
+  }
+
+  Future<void> _openReviewEditor() async {
+    final result = await MoovieReviewEditor.show(
+      context,
+      initialHtml: _reviewHtml,
+    );
+
+    if (!mounted) return;
+
+    setState(() {
+      _reviewHtml = result;
+    });
   }
 
   List<String> _buildTags(AppLocalizations l10n) => [
@@ -65,15 +79,15 @@ class _MovieReviewScreenState extends State<MovieReviewScreen> {
             ),
           ],
         ),
-        body: BlocBuilder<MovieReviewCubit, MovieReviewState>(
+        body: BlocBuilder<ReviewCreationCubit, ReviewCreationState>(
           builder: (context, state) => switch (state) {
-            MovieReviewLoading() => const Center(
+            ReviewCreationLoading() => const Center(
                 child: CircularProgressIndicator(),
               ),
-            MovieReviewError(:final message) => Center(
+            ReviewCreationError(:final message) => Center(
                 child: Text(message),
               ),
-            MovieReviewReady() => _ReviewBody(
+            ReviewCreationReady() => _ReviewBody(
                 state: state,
                 movieTitle: widget.movieTitle,
                 posterPath: widget.posterPath,
@@ -81,6 +95,8 @@ class _MovieReviewScreenState extends State<MovieReviewScreen> {
                 reviewNameController: _reviewNameController,
                 tags: _buildTags(l10n),
                 l10n: l10n,
+                reviewHtml: _reviewHtml,
+                onAddReview: _openReviewEditor,
               ),
           },
         ),
@@ -90,13 +106,15 @@ class _MovieReviewScreenState extends State<MovieReviewScreen> {
 }
 
 class _ReviewBody extends StatelessWidget {
-  final MovieReviewReady state;
+  final ReviewCreationReady state;
   final String movieTitle;
   final String posterPath;
   final String posterBaseUrl;
   final TextEditingController reviewNameController;
   final List<String> tags;
   final AppLocalizations l10n;
+  final String? reviewHtml;
+  final VoidCallback onAddReview;
 
   const _ReviewBody({
     required this.state,
@@ -106,13 +124,15 @@ class _ReviewBody extends StatelessWidget {
     required this.reviewNameController,
     required this.tags,
     required this.l10n,
+    required this.reviewHtml,
+    required this.onAddReview,
   });
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final cubit = context.read<MovieReviewCubit>();
+    final cubit = context.read<ReviewCreationCubit>();
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -157,38 +177,9 @@ class _ReviewBody extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
-          Semantics(
-            label: l10n.movieReviewAddReview,
-            button: true,
-            child: InkWell(
-              onTap: () {},
-              borderRadius: BorderRadius.circular(12),
-              child: ExcludeSemantics(
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: colorScheme.outlineVariant),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.rate_review_outlined,
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        l10n.movieReviewAddReview,
-                        style: textTheme.bodyLarge?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+          _AddReviewSection(
+            html: reviewHtml,
+            onTap: onAddReview,
           ),
           const SizedBox(height: 24),
           Row(
@@ -243,6 +234,58 @@ class _ReviewBody extends StatelessWidget {
                 .toList(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _AddReviewSection extends StatelessWidget {
+  final String? html;
+  final VoidCallback onTap;
+
+  const _AddReviewSection({required this.html, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final hasContent = html != null && html!.isNotEmpty;
+
+    return Semantics(
+      label: hasContent ? 'Edit your review' : l10n.movieReviewAddReview,
+      button: true,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: hasContent
+                ? colorScheme.surfaceContainerHighest.withValues(alpha: 0.5)
+                : null,
+            border: Border.all(color: colorScheme.outlineVariant),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: hasContent
+              ? MoovieHtmlPreview(html: html!)
+              : Row(
+                  children: [
+                    Icon(
+                      Icons.rate_review_outlined,
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      l10n.movieReviewAddReview,
+                      style: textTheme.bodyLarge?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+        ),
       ),
     );
   }

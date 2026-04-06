@@ -459,6 +459,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// Title for the review editor bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Write a review'**
+  String get reviewEditorTitle;
+
+  /// Placeholder text for the review editor
+  ///
+  /// In en, this message translates to:
+  /// **'Start writing your review...'**
+  String get reviewEditorPlaceholder;
+
+  /// Button to clear all text in the review editor
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all'**
+  String get reviewEditorClear;
+
+  /// Title for the clear review confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Clear review?'**
+  String get reviewEditorClearConfirmTitle;
+
+  /// Content for the clear review confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'All text will be removed.'**
+  String get reviewEditorClearConfirmContent;
+
+  /// Placeholder text for the add review section on the review details screen
+  ///
+  /// In en, this message translates to:
+  /// **'Add a review...'**
+  String get reviewDetailsAddReview;
 }
 
 class _AppLocalizationsDelegate

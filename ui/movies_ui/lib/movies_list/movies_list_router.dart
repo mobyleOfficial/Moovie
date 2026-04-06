@@ -1,8 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:get_it/get_it.dart';
 import 'package:movies/movies.dart';
-
-import 'package:movies_list/movies_list_page.dart';
+import 'package:movies_ui/movies_list/movies_list_page.dart';
 
 part 'movies_list_router.gr.dart';
 

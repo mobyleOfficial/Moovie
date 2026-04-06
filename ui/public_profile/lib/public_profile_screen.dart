@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_detail/movie_detail_router.dart';
+import 'package:movies_ui/movie_detail/movie_detail_router.dart';
 import 'package:public_profile/public_profile_bloc.dart';
 import 'package:public_profile/public_profile_state.dart';
 
