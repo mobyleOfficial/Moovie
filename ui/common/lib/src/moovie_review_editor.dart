@@ -117,8 +117,69 @@ class _MoovieReviewEditorState extends State<MoovieReviewEditor>
   static String editableToHtml(String text) {
     if (text.trim().isEmpty) return '';
 
-    var result = text;
+    final lines = text.split('\n');
+    final buffer = StringBuffer();
+    var inList = false;
+    final paragraphLines = <String>[];
 
+    void flushParagraph() {
+      if (paragraphLines.isEmpty) return;
+      final merged = paragraphLines.join(' ');
+      buffer.write('<p>${_applyInlineFormatting(merged)}</p>');
+      paragraphLines.clear();
+    }
+
+    for (final line in lines) {
+      final trimmed = line.trim();
+
+      if (trimmed.startsWith('# ')) {
+        flushParagraph();
+        if (inList) {
+          buffer.write('</ul>');
+          inList = false;
+        }
+        buffer.write('<h1>${_applyInlineFormatting(trimmed.substring(2))}</h1>');
+      } else if (trimmed.startsWith('## ')) {
+        flushParagraph();
+        if (inList) {
+          buffer.write('</ul>');
+          inList = false;
+        }
+        buffer.write('<h2>${_applyInlineFormatting(trimmed.substring(3))}</h2>');
+      } else if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+        flushParagraph();
+        if (!inList) {
+          buffer.write('<ul>');
+          inList = true;
+        }
+        buffer.write('<li>${_applyInlineFormatting(trimmed.substring(2))}</li>');
+      } else if (trimmed.isEmpty) {
+        flushParagraph();
+        if (inList) {
+          buffer.write('</ul>');
+          inList = false;
+        }
+      } else {
+        if (inList) {
+          flushParagraph();
+          buffer.write('</ul>');
+          inList = false;
+        }
+        paragraphLines.add(trimmed);
+      }
+    }
+
+    flushParagraph();
+
+    if (inList) {
+      buffer.write('</ul>');
+    }
+
+    return buffer.toString();
+  }
+
+  static String _applyInlineFormatting(String text) {
+    var result = text;
     result = result.replaceAllMapped(
       RegExp(r'\*\*(.+?)\*\*'),
       (match) => '<b>${match.group(1)}</b>',
@@ -135,51 +196,7 @@ class _MoovieReviewEditorState extends State<MoovieReviewEditor>
       RegExp(r'\|\|(.+?)\|\|'),
       (match) => '<span class="spoiler">${match.group(1)}</span>',
     );
-
-    final lines = result.split('\n');
-    final buffer = StringBuffer();
-    var inList = false;
-
-    for (final line in lines) {
-      final trimmed = line.trim();
-
-      if (trimmed.startsWith('# ')) {
-        if (inList) {
-          buffer.write('</ul>');
-          inList = false;
-        }
-        buffer.write('<h1>${trimmed.substring(2)}</h1>');
-      } else if (trimmed.startsWith('## ')) {
-        if (inList) {
-          buffer.write('</ul>');
-          inList = false;
-        }
-        buffer.write('<h2>${trimmed.substring(3)}</h2>');
-      } else if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-        if (!inList) {
-          buffer.write('<ul>');
-          inList = true;
-        }
-        buffer.write('<li>${trimmed.substring(2)}</li>');
-      } else if (trimmed.isEmpty) {
-        if (inList) {
-          buffer.write('</ul>');
-          inList = false;
-        }
-      } else {
-        if (inList) {
-          buffer.write('</ul>');
-          inList = false;
-        }
-        buffer.write('<p>$trimmed</p>');
-      }
-    }
-
-    if (inList) {
-      buffer.write('</ul>');
-    }
-
-    return buffer.toString();
+    return result;
   }
 
   static String htmlToEditable(String html) {
