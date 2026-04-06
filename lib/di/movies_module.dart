@@ -12,7 +12,10 @@ abstract class MoviesModule {
 
   @lazySingleton
   MoviesLocalDataSource moviesLocalDataSource(Store store) =>
-      MoviesLocalDataSourceImpl(store.box<LocalMovieReviewDraft>());
+      MoviesLocalDataSourceImpl(
+        store.box<LocalMovieReviewDraft>(),
+        store.box<LocalRecentSearch>(),
+      );
 
   @lazySingleton
   MoviesRepository moviesRepository(
@@ -52,4 +55,12 @@ abstract class MoviesModule {
   @injectable
   DeleteDraft deleteDraft(MoviesRepository repository) =>
       DeleteDraft(repository);
+
+  @injectable
+  AddRecentSearch addRecentSearch(MoviesRepository repository) =>
+      AddRecentSearch(repository);
+
+  @injectable
+  ObserveRecentSearches observeRecentSearches(MoviesRepository repository) =>
+      ObserveRecentSearches(repository);
 }

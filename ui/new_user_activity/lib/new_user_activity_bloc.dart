@@ -10,12 +10,16 @@ class NewUserActivityCubit extends Cubit<NewUserActivityState> {
   final SearchMovies _searchMovies;
   final ObserveMovieReviewDraftsList _observeMovieReviewDraftsList;
   final DeleteDraft _deleteDraft;
+  final AddRecentSearch _addRecentSearch;
+  final ObserveRecentSearches _observeRecentSearches;
 
   final StreamController<String> _queryController = StreamController<String>();
   late final StreamSubscription<String> _querySubscription;
   late final StreamSubscription<List<MovieReviewDraft>> _draftsSubscription;
+  late final StreamSubscription<List<RecentSearch>> _recentSearchesSubscription;
 
   List<MovieReviewDraft> _currentDrafts = [];
+  List<RecentSearch> _currentRecentSearches = [];
   bool _isSearching = false;
 
   static const _debounceDuration = Duration(milliseconds: 300);
@@ -25,6 +29,8 @@ class NewUserActivityCubit extends Cubit<NewUserActivityState> {
     this._searchMovies,
     this._observeMovieReviewDraftsList,
     this._deleteDraft,
+    this._addRecentSearch,
+    this._observeRecentSearches,
   ) : super(const NewUserActivityLoading()) {
     _querySubscription = _queryController.stream
         .distinct()
@@ -33,19 +39,34 @@ class NewUserActivityCubit extends Cubit<NewUserActivityState> {
     _draftsSubscription = _observeMovieReviewDraftsList().listen(
       _onDraftsChanged,
     );
+    _recentSearchesSubscription = _observeRecentSearches().listen(
+      _onRecentSearchesChanged,
+    );
   }
 
   void _onDraftsChanged(List<MovieReviewDraft> drafts) {
     _currentDrafts = drafts;
     if (!_isSearching) {
-      emit(NewUserActivitySuccess(drafts: drafts));
+      _emitSuccess();
     }
   }
+
+  void _onRecentSearchesChanged(List<RecentSearch> searches) {
+    _currentRecentSearches = searches;
+    if (!_isSearching) {
+      _emitSuccess();
+    }
+  }
+
+  void _emitSuccess() => emit(NewUserActivitySuccess(
+        drafts: _currentDrafts,
+        recentSearches: _currentRecentSearches,
+      ));
 
   void onSearchChanged(String query) {
     if (query.length < _minQueryLength) {
       _isSearching = false;
-      emit(NewUserActivitySuccess(drafts: _currentDrafts));
+      _emitSuccess();
     }
 
     _queryController.add(query);
@@ -59,6 +80,11 @@ class NewUserActivityCubit extends Cubit<NewUserActivityState> {
     _isSearching = true;
     emit(const NewUserActivitySearching());
     _search(query);
+  }
+
+  Future<void> onSearchSubmitted(String query) async {
+    if (query.length < _minQueryLength) return;
+    await _addRecentSearch(query);
   }
 
   Future<void> _search(String query) async {
@@ -81,6 +107,7 @@ class NewUserActivityCubit extends Cubit<NewUserActivityState> {
     _querySubscription.cancel();
     _queryController.close();
     _draftsSubscription.cancel();
+    _recentSearchesSubscription.cancel();
     return super.close();
   }
 }
