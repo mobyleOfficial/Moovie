@@ -1,17 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/movies.dart';
+import 'package:movies_ui/home/movies_home_screen.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
-import 'package:movies_ui/movies_list/movies_list_bloc.dart';
-import 'package:movies_ui/movies_list/movies_list_screen.dart';
+import 'package:movies_ui/tabs/trending_movies/trending_movies_bloc.dart';
 
 @RoutePage()
-class MoviesListPage extends StatefulWidget {
+class MoviesHomePage extends StatefulWidget {
   final GetTrendingMovies getTrendingMovies;
   final GetMovieReviews getMovieReviews;
   final GetMovieCollections getMovieCollections;
 
-  const MoviesListPage({
+  const MoviesHomePage({
     super.key,
     required this.getTrendingMovies,
     required this.getMovieReviews,
@@ -19,11 +19,11 @@ class MoviesListPage extends StatefulWidget {
   });
 
   @override
-  State<MoviesListPage> createState() => _MoviesListPageState();
+  State<MoviesHomePage> createState() => _MoviesHomePageState();
 }
 
-class _MoviesListPageState extends State<MoviesListPage> {
-  late final MoviesListCubit _cubit = MoviesListCubit(widget.getTrendingMovies);
+class _MoviesHomePageState extends State<MoviesHomePage> {
+  late final TrendingMoviesCubit _cubit = TrendingMoviesCubit(widget.getTrendingMovies);
 
   @override
   void dispose() {
@@ -32,7 +32,7 @@ class _MoviesListPageState extends State<MoviesListPage> {
   }
 
   @override
-  Widget build(BuildContext context) => MoviesListScreen(
+  Widget build(BuildContext context) => MoviesHomeScreen(
         cubit: _cubit,
         onMovieTap: (movieId) => context.router.root.push(
           MovieDetailRoute(movieId: movieId),

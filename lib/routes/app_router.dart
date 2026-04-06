@@ -3,7 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:moovie/routes/main_screen.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
 import 'package:reviews/review_creation/review_creation_router.dart';
-import 'package:movies_ui/movies_list/movies_list_router.dart';
+import 'package:movies_ui/home/movies_home_router.dart';
 import 'package:new_user_activity/new_user_activity_router.dart';
 import 'package:profile_ui/profile_router.dart';
 import 'package:public_profile/public_profile_router.dart';
@@ -26,7 +26,7 @@ class AppRouter extends RootStackRouter {
             AutoRoute(
               page: HomeTab.page,
               children: [
-                AutoRoute(page: MoviesListRoute.page, initial: true),
+                AutoRoute(page: MoviesHomeRoute.page, initial: true),
                 AutoRoute(page: ReviewsRoute.page),
                 AutoRoute(page: ReviewDetailsRoute.page),
               ],

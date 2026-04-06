@@ -24,3 +24,4 @@ export 'src/moovie_bottom_sheet.dart';
 export 'src/moovie_review_editor.dart';
 export 'src/moovie_html_preview.dart';
 export 'src/moovie_keep_alive_tab.dart';
+export 'src/moovie_movies_grid.dart';
