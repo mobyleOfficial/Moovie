@@ -19,3 +19,7 @@ dependencies:
   injectable: any
   core:
     path: ../../../core
+
+dev_dependencies:
+  build_runner: ^2.13.1
+  objectbox_generator: ^5.3.1

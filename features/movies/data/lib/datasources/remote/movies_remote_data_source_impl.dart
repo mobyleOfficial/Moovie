@@ -123,4 +123,21 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
       collections: pageCollections,
     ));
   }
+
+  @override
+  Future<Result<RemoteTrendingMovieListing>> searchMovies({
+    required String query,
+    required int page,
+  }) async {
+    final result = await _httpClient.get<Map<String, dynamic>>(
+      'search/movie',
+      queryParams: {'query': query, 'page': page},
+    );
+
+    return switch (result) {
+      Success<Map<String, dynamic>>(:final data) =>
+        Success(RemoteTrendingMovieListing.fromJson(data)),
+      Failure<Map<String, dynamic>>(:final error) => Failure(error),
+    };
+  }
 }

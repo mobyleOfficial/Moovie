@@ -10,4 +10,5 @@ abstract interface class MoviesRemoteDataSource {
   Future<Result<RemoteMovieDetail>> getMovieDetail({required int movieId});
   Future<Result<RemoteMovieReviewListing>> getMovieReviews({required int page});
   Future<Result<RemoteMovieCollectionListing>> getMovieCollections({required int page});
+  Future<Result<RemoteTrendingMovieListing>> searchMovies({required String query, required int page});
 }

@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies/movies.dart';
+import 'package:objectbox/objectbox.dart';
 
 @module
 abstract class MoviesModule {
@@ -10,8 +11,15 @@ abstract class MoviesModule {
   ) => MoviesRemoteDataSourceImpl(httpClient);
 
   @lazySingleton
-  MoviesRepository moviesRepository(MoviesRemoteDataSource dataSource) =>
-      MoviesRepositoryImpl(dataSource);
+  MoviesLocalDataSource moviesLocalDataSource(Store store) =>
+      MoviesLocalDataSourceImpl(store.box<LocalMovieReviewDraft>());
+
+  @lazySingleton
+  MoviesRepository moviesRepository(
+    MoviesRemoteDataSource remoteDataSource,
+    MoviesLocalDataSource localDataSource,
+  ) =>
+      MoviesRepositoryImpl(remoteDataSource, localDataSource);
 
   @injectable
   GetTrendingMovies getTrendingMovies(MoviesRepository repository) =>
@@ -28,4 +36,20 @@ abstract class MoviesModule {
   @injectable
   GetMovieCollections getMovieCollections(MoviesRepository repository) =>
       GetMovieCollections(repository);
+
+  @injectable
+  SearchMovies searchMovies(MoviesRepository repository) =>
+      SearchMovies(repository);
+
+  @injectable
+  UpsertMovieReview upsertMovieReview(MoviesRepository repository) =>
+      UpsertMovieReview(repository);
+
+  @injectable
+  ObserveMovieReviewDraftsList observeMovieReviewDraftsList(MoviesRepository repository) =>
+      ObserveMovieReviewDraftsList(repository);
+
+  @injectable
+  DeleteDraft deleteDraft(MoviesRepository repository) =>
+      DeleteDraft(repository);
 }

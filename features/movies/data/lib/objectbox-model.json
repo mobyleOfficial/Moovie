@@ -1,0 +1,84 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:7225164119965359674",
+      "lastPropertyId": "11:2501738230344671365",
+      "name": "LocalMovieReviewDraft",
+      "properties": [
+        {
+          "id": "1:2815098035594333875",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2737292559545308652",
+          "name": "movieId",
+          "indexId": "1:7950825517565266487",
+          "type": 6,
+          "flags": 40
+        },
+        {
+          "id": "3:8861445596641691518",
+          "name": "movieTitle",
+          "type": 9
+        },
+        {
+          "id": "4:987737510358984256",
+          "name": "posterPath",
+          "type": 9
+        },
+        {
+          "id": "5:9202375440511464123",
+          "name": "reviewTitle",
+          "type": 9
+        },
+        {
+          "id": "6:5283946133447879869",
+          "name": "rating",
+          "type": 8
+        },
+        {
+          "id": "7:1673376265115291891",
+          "name": "isFavorite",
+          "type": 1
+        },
+        {
+          "id": "8:7765618936995239801",
+          "name": "isRewatch",
+          "type": 1
+        },
+        {
+          "id": "9:453665522830252588",
+          "name": "tagsJson",
+          "type": 9
+        },
+        {
+          "id": "10:3150717083061644172",
+          "name": "statusIndex",
+          "type": 6
+        },
+        {
+          "id": "11:2501738230344671365",
+          "name": "updatedAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:7225164119965359674",
+  "lastIndexId": "1:7950825517565266487",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

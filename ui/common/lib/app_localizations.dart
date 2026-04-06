@@ -339,6 +339,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'My Review'**
   String get reviewDetailsBodyTitle;
+
+  /// Message shown when a search returns no results
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get noResults;
+
+  /// App bar title for the movie review screen
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get movieReviewTitle;
+
+  /// Hint text for the review name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Review title'**
+  String get movieReviewNameHint;
+
+  /// Placeholder text in the add review box
+  ///
+  /// In en, this message translates to:
+  /// **'Add a review...'**
+  String get movieReviewAddReview;
+
+  /// Label for the rewatch toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Rewatch'**
+  String get movieReviewRewatch;
+
+  /// Label for the first time watching toggle
+  ///
+  /// In en, this message translates to:
+  /// **'First time'**
+  String get movieReviewFirstTime;
+
+  /// Section header for the tags section
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get movieReviewTags;
+
+  /// Predefined tag for movie review
+  ///
+  /// In en, this message translates to:
+  /// **'Masterpiece'**
+  String get movieReviewTagMasterpiece;
+
+  /// Predefined tag for movie review
+  ///
+  /// In en, this message translates to:
+  /// **'Overrated'**
+  String get movieReviewTagOverrated;
+
+  /// Predefined tag for movie review
+  ///
+  /// In en, this message translates to:
+  /// **'Underrated'**
+  String get movieReviewTagUnderrated;
+
+  /// Predefined tag for movie review
+  ///
+  /// In en, this message translates to:
+  /// **'Must Watch'**
+  String get movieReviewTagMustWatch;
+
+  /// Predefined tag for movie review
+  ///
+  /// In en, this message translates to:
+  /// **'Disappointing'**
+  String get movieReviewTagDisappointing;
+
+  /// Predefined tag for movie review
+  ///
+  /// In en, this message translates to:
+  /// **'Feel Good'**
+  String get movieReviewTagFeelGood;
+
+  /// Predefined tag for movie review
+  ///
+  /// In en, this message translates to:
+  /// **'Mind Bending'**
+  String get movieReviewTagMindBending;
+
+  /// Predefined tag for movie review
+  ///
+  /// In en, this message translates to:
+  /// **'Emotional'**
+  String get movieReviewTagEmotional;
+
+  /// Tooltip for the send review button in the app bar
+  ///
+  /// In en, this message translates to:
+  /// **'Send review'**
+  String get movieReviewSend;
+
+  /// Title for the delete draft confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Delete draft?'**
+  String get deleteDraftTitle;
+
+  /// Content for the delete draft confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'This draft will be permanently deleted.'**
+  String get deleteDraftContent;
+
+  /// Delete action label
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// Cancel action label
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
 }
 
 class _AppLocalizationsDelegate
