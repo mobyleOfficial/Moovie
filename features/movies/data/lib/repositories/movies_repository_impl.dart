@@ -102,4 +102,21 @@ class MoviesRepositoryImpl implements MoviesRepository {
       return const Failure(AppError.unknown);
     }
   }
+
+  @override
+  Future<Result<void>> addRecentSearch({required String query}) async {
+    try {
+      _localDataSource.addRecentSearch(query);
+      return const Success(null);
+    } catch (_) {
+      return const Failure(AppError.unknown);
+    }
+  }
+
+  @override
+  Stream<List<RecentSearch>> observeRecentSearches() =>
+      _localDataSource.watchRecentSearches().map(
+            (localSearches) =>
+                localSearches.map((search) => search.toDomain()).toList(),
+          );
 }

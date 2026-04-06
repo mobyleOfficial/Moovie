@@ -39,6 +39,7 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
   List<ActivityItem> _buildItems(
     AppLocalizations l10n,
     List<MovieReviewDraft> drafts,
+    List<RecentSearch> recentSearches,
   ) =>
       [
         if (drafts.isNotEmpty) ...[
@@ -53,11 +54,15 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
             ),
           ),
         ],
-        SectionHeader(l10n.newUserActivityRecentSection),
-        const SearchItem(query: 'Christopher Nolan films', time: '5m ago'),
-        const SearchItem(query: 'best horror movies 2024', time: '1h ago'),
-        const SearchItem(query: 'Wes Anderson', time: 'Yesterday'),
-        const SearchItem(query: 'A24 films ranked', time: '2 days ago'),
+        if (recentSearches.isNotEmpty) ...[
+          SectionHeader(l10n.newUserActivityRecentSection),
+          ...recentSearches.map(
+            (search) => SearchItem(
+              query: search.query,
+              time: formatTimeAgo(search.searchedAt),
+            ),
+          ),
+        ],
       ];
 
   @override
@@ -79,6 +84,7 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
         placeholder: l10n.searchHint,
         textInputAction: TextInputAction.search,
         onChanged: widget.cubit.onSearchChanged,
+        onSubmitted: widget.cubit.onSearchSubmitted,
       ),
     );
 
@@ -114,11 +120,18 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
                             child: CircularProgressIndicator(),
                           ),
                         NewUserActivitySearchResults() =>
-                          _SearchResultsList(movies: state.movies),
+                          _SearchResultsList(
+                            movies: state.movies,
+                            onMovieSelected: () => widget.cubit
+                                .onSearchSubmitted(_searchController.text),
+                          ),
                         NewUserActivitySuccess() => Builder(
                             builder: (context) {
-                              final items =
-                                  _buildItems(l10n, state.drafts);
+                              final items = _buildItems(
+                                l10n,
+                                state.drafts,
+                                state.recentSearches,
+                              );
                               return ListView.builder(
                                 itemCount: items.length,
                                 itemBuilder: (context, index) =>
@@ -156,6 +169,10 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
                                     _SearchTile(
                                       query: query,
                                       time: time,
+                                      onTap: () {
+                                        _searchController.text = query;
+                                        widget.cubit.onSearchChanged(query);
+                                      },
                                     ),
                                 },
                               );
@@ -176,10 +193,11 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
 
 class _SearchResultsList extends StatelessWidget {
   final List<Movie> movies;
+  final VoidCallback? onMovieSelected;
 
   static const String _posterBaseUrl = 'https://image.tmdb.org/t/p/w92';
 
-  const _SearchResultsList({required this.movies});
+  const _SearchResultsList({required this.movies, this.onMovieSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -202,15 +220,19 @@ class _SearchResultsList extends StatelessWidget {
         height: 1,
         color: colorScheme.outlineVariant,
       ),
-      itemBuilder: (context, index) => _MovieResultTile(movie: movies[index]),
+      itemBuilder: (context, index) => _MovieResultTile(
+        movie: movies[index],
+        onTap: onMovieSelected,
+      ),
     );
   }
 }
 
 class _MovieResultTile extends StatelessWidget {
   final Movie movie;
+  final VoidCallback? onTap;
 
-  const _MovieResultTile({required this.movie});
+  const _MovieResultTile({required this.movie, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -221,13 +243,16 @@ class _MovieResultTile extends StatelessWidget {
       label: '${movie.title}, ${movie.releaseDate}',
       button: true,
       child: InkWell(
-        onTap: () => context.router.root.push(
-          MovieReviewRoute(
-            movieId: movie.id,
-            movieTitle: movie.title,
-            posterPath: movie.posterPath,
-          ),
-        ),
+        onTap: () {
+          onTap?.call();
+          context.router.root.push(
+            MovieReviewRoute(
+              movieId: movie.id,
+              movieTitle: movie.title,
+              posterPath: movie.posterPath,
+            ),
+          );
+        },
         child: ExcludeSemantics(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -468,8 +493,9 @@ class _DraftTile extends StatelessWidget {
 class _SearchTile extends StatelessWidget {
   final String query;
   final String time;
+  final VoidCallback? onTap;
 
-  const _SearchTile({required this.query, required this.time});
+  const _SearchTile({required this.query, required this.time, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -480,7 +506,7 @@ class _SearchTile extends StatelessWidget {
       label: '$query, $time',
       button: true,
       child: InkWell(
-        onTap: () {},
+        onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
