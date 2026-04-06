@@ -18,49 +18,56 @@ class MoovieStarRating extends StatelessWidget {
     this.inactiveColor,
   });
 
+  double _ratingFromPosition(double localX) {
+    final totalWidth = starSize * _starCount;
+    final clamped = localX.clamp(0.0, totalWidth);
+    final raw = clamped / starSize;
+    return (raw * 2).ceilToDouble() / 2;
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final filledColor = activeColor ?? colorScheme.onTertiaryContainer;
     final emptyColor = inactiveColor ?? colorScheme.outlineVariant;
+    final isInteractive = onRatingChanged != null;
 
-    return Row(
+    final stars = Row(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(_starCount, (index) {
-        final starValue = index + 1;
         final isFilled = index < rating.floor();
         final isHalf = !isFilled && index < rating;
 
-        return GestureDetector(
-          onTapUp: onRatingChanged == null
-              ? null
-              : (details) {
-                  final renderBox = context.findRenderObject() as RenderBox;
-                  final localPosition =
-                      renderBox.globalToLocal(details.globalPosition);
-                  final starStart = index * starSize;
-                  final tapInLeftHalf =
-                      localPosition.dx - starStart < starSize / 2;
-                  final newRating =
-                      tapInLeftHalf ? starValue - 0.5 : starValue.toDouble();
-                  onRatingChanged!(newRating == rating ? 0 : newRating);
-                },
-          child: Semantics(
-            label: isHalf
-                ? '${starValue - 0.5} stars'
-                : isFilled
-                    ? '$starValue stars'
-                    : '$starValue stars empty',
-            child: Icon(
-              isHalf
-                  ? Icons.star_half
-                  : (isFilled ? Icons.star : Icons.star_border),
-              size: starSize,
-              color: (isFilled || isHalf) ? filledColor : emptyColor,
-            ),
-          ),
+        return Icon(
+          isHalf
+              ? Icons.star_half
+              : (isFilled ? Icons.star : Icons.star_border),
+          size: starSize,
+          color: (isFilled || isHalf) ? filledColor : emptyColor,
         );
       }),
+    );
+
+    if (!isInteractive) {
+      return Semantics(
+        label: '$rating out of $_starCount stars',
+        child: ExcludeSemantics(child: stars),
+      );
+    }
+
+    return Semantics(
+      label: '$rating out of $_starCount stars',
+      slider: true,
+      value: '$rating',
+      child: ExcludeSemantics(
+        child: GestureDetector(
+          onTapUp: (details) =>
+              onRatingChanged!(_ratingFromPosition(details.localPosition.dx)),
+          onHorizontalDragUpdate: (details) =>
+              onRatingChanged!(_ratingFromPosition(details.localPosition.dx)),
+          child: stars,
+        ),
+      ),
     );
   }
 }
