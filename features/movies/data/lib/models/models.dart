@@ -1,6 +1,7 @@
 /// Data models barrel file.
 library;
 
+export 'local/local_movie_review_draft.dart';
 export 'remote/remote_movie.dart';
 export 'remote/remote_movie_collection.dart';
 export 'remote/remote_movie_collection_listing.dart';

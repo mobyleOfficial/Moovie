@@ -42,6 +42,7 @@ dependencies:
   intl: ^0.20.2
   objectbox: ^5.3.1
   objectbox_flutter_libs: ^5.3.1
+  path_provider: ^2.1.5
   dio: ^5.0.0
   core:
     path: core
@@ -55,6 +56,8 @@ dependencies:
     path: ui/movies_list
   movie_detail:
     path: ui/movie_detail
+  movie_review:
+    path: ui/movie_review
   home:
     path: ui/home
   common:

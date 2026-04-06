@@ -4,6 +4,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:moovie/config/app_config.dart';
 import 'package:moovie/di/injection.dart';
 import 'package:moovie/routes/app_router.dart';
+import 'package:movies/movies.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   AppConfig.instance = const AppConfig(
@@ -13,8 +15,11 @@ void main() {
   mainApp();
 }
 
-void mainApp() {
-  configureDependencies();
+Future<void> mainApp() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final appDir = await getApplicationDocumentsDirectory();
+  final store = await openStore(directory: '${appDir.path}/objectbox');
+  configureDependencies(store: store);
   runApp(MyApp());
 }
 

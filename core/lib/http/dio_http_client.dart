@@ -50,28 +50,25 @@ class DioHttpClient implements HttpClient {
       return Success(response.data as T);
     } on DioException catch (e) {
       return Failure(_mapDioError(e));
-    } catch (e) {
-      return Failure(UnknownError(e.toString()));
+    } catch (_) {
+      return const Failure(AppError.unknown);
     }
   }
 
-  HttpError _mapDioError(DioException e) {
-    return switch (e.type) {
-      DioExceptionType.connectionError => const NetworkError(),
-      DioExceptionType.connectionTimeout ||
-      DioExceptionType.receiveTimeout ||
-      DioExceptionType.sendTimeout =>
-        const TimeoutError(),
-      DioExceptionType.badResponse => _mapStatusCode(e.response?.statusCode),
-      _ => UnknownError(e.message ?? 'Unknown error'),
-    };
-  }
+  AppError _mapDioError(DioException e) => switch (e.type) {
+        DioExceptionType.connectionError => AppError.network,
+        DioExceptionType.connectionTimeout ||
+        DioExceptionType.receiveTimeout ||
+        DioExceptionType.sendTimeout =>
+          AppError.timeout,
+        DioExceptionType.badResponse => _mapStatusCode(e.response?.statusCode),
+        _ => AppError.unknown,
+      };
 
-  HttpError _mapStatusCode(int? statusCode) => switch (statusCode) {
-        401 => const UnauthorizedError(),
-        404 => const NotFoundError(),
-        _ when statusCode != null && statusCode >= 500 =>
-          ServerError(statusCode),
-        _ => const UnknownError(),
+  AppError _mapStatusCode(int? statusCode) => switch (statusCode) {
+        401 => AppError.unauthorized,
+        404 => AppError.notFound,
+        _ when statusCode != null && statusCode >= 500 => AppError.server,
+        _ => AppError.unknown,
       };
 }

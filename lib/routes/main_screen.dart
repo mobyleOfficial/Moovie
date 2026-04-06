@@ -134,95 +134,31 @@ class _MainScreenState extends State<MainScreen> {
                     builder: (context, _) {
                       final titleOverride = _appBarController.currentTitle;
                       final hasOverride = titleOverride != null;
-
                       final hideAppBar =
                           (activeIndex == 1 || activeIndex == 2) &&
                               !hasOverride;
 
-                      return ClipRect(
-                        child: AnimatedAlign(
-                          duration: _animationDuration,
-                          curve: Curves.easeInOut,
-                          alignment: Alignment.topCenter,
-                          heightFactor: hideAppBar ? 0.0 : 1.0,
-                          child: SizedBox(
-                            height: kToolbarHeight,
-                            child: Row(
-                              children: [
-                                AnimatedContainer(
-                                  duration: _animationDuration,
-                                  curve: Curves.easeInOut,
-                                  width: hasOverride ? 48.0 : 16.0,
-                                  child: hasOverride
-                                      ? IconButton(
-                                    icon:
-                                    const Icon(Icons.arrow_back),
-                                    tooltip:
-                                    MaterialLocalizations.of(
-                                        context)
-                                        .backButtonTooltip,
-                                    onPressed: () {
-                                      final tabsRouter = _tabsRouter;
-                                      if (tabsRouter == null) return;
-                                      final activeTabName =
-                                      _tabRouteNames[
-                                      tabsRouter.activeIndex];
-                                      tabsRouter
-                                          .innerRouterOf<StackRouter>(
+                      return MoovieAnimatedAppBar(
+                        title: titleOverride ?? tabTitles[activeIndex],
+                        visible: !hideAppBar,
+                        centerTitle: !hasOverride && isHomeTab,
+                        leading: hasOverride
+                            ? IconButton(
+                                icon: const Icon(Icons.arrow_back),
+                                tooltip: MaterialLocalizations.of(context)
+                                    .backButtonTooltip,
+                                onPressed: () {
+                                  final tabsRouter = _tabsRouter;
+                                  if (tabsRouter == null) return;
+                                  final activeTabName =
+                                      _tabRouteNames[tabsRouter.activeIndex];
+                                  tabsRouter
+                                      .innerRouterOf<StackRouter>(
                                           activeTabName)
-                                          ?.maybePop();
-                                    },
-                                  )
-                                      : null,
-                                ),
-                                Expanded(
-                                  child: AnimatedAlign(
-                                    duration: _animationDuration,
-                                    curve: Curves.easeInOut,
-                                    alignment:
-                                    (!hasOverride && isHomeTab)
-                                        ? Alignment.center
-                                        : Alignment.centerLeft,
-                                    child: AnimatedSwitcher(
-                                      duration: _animationDuration,
-                                      transitionBuilder:
-                                          (child, animation) {
-                                        final slide = Tween<Offset>(
-                                          begin: const Offset(0, 0.3),
-                                          end: Offset.zero,
-                                        ).animate(CurvedAnimation(
-                                          parent: animation,
-                                          curve: Curves.easeOut,
-                                        ));
-                                        return FadeTransition(
-                                          opacity: animation,
-                                          child: SlideTransition(
-                                            position: slide,
-                                            child: child,
-                                          ),
-                                        );
-                                      },
-                                      child: Text(
-                                        titleOverride ??
-                                            tabTitles[activeIndex],
-                                        key: ValueKey<String>(
-                                          titleOverride ??
-                                              tabTitles[activeIndex],
-                                        ),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 16),
-                              ],
-                            ),
-                          ),
-                        ),
+                                      ?.maybePop();
+                                },
+                              )
+                            : null,
                       );
                     },
                   ),

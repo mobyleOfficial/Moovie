@@ -1,5 +1,5 @@
-name: new_user_activity
-description: NewUserActivity UI module
+name: movie_review
+description: Movie Review UI module for Moovie
 publish_to: none
 
 environment:
@@ -19,5 +19,7 @@ dependencies:
     path: ../../core
   movies:
     path: ../../features/movies
-  movie_review:
-    path: ../movie_review
+
+dev_dependencies:
+  auto_route_generator: ^10.5.0
+  build_runner: ^2.13.1

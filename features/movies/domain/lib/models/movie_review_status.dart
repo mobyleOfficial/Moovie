@@ -1,0 +1,4 @@
+enum MovieReviewStatus {
+  draft,
+  published,
+}

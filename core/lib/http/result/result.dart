@@ -11,7 +11,7 @@ final class Success<T> extends Result<T> {
 }
 
 final class Failure<T> extends Result<T> {
-  final HttpError error;
+  final AppError error;
 
   const Failure(this.error);
 }

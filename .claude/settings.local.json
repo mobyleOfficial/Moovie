@@ -43,7 +43,8 @@
       "Bash(ruby:*)",
       "Bash(chmod +x:*)",
       "Bash(/Users/brunoabe/Desktop/Projects/Mobyle/Moovie/ios/generate_env_xcconfig.sh:*)",
-      "Bash(bundle exec:*)"
+      "Bash(bundle exec:*)",
+      "Bash(head:*)"
     ],
     "defaultMode": "acceptEdits"
   },
