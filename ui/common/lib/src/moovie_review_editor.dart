@@ -19,9 +19,12 @@ class MoovieReviewEditor extends StatefulWidget {
   State<MoovieReviewEditor> createState() => _MoovieReviewEditorState();
 }
 
-class _MoovieReviewEditorState extends State<MoovieReviewEditor> {
+class _MoovieReviewEditorState extends State<MoovieReviewEditor>
+    with SingleTickerProviderStateMixin {
   late final TextEditingController _controller;
   late final FocusNode _focusNode;
+  late final TabController _tabController;
+  bool _didPop = false;
 
   @override
   void initState() {
@@ -29,6 +32,7 @@ class _MoovieReviewEditorState extends State<MoovieReviewEditor> {
     final initialText = htmlToEditable(widget.initialHtml ?? '');
     _controller = TextEditingController(text: initialText);
     _focusNode = FocusNode();
+    _tabController = TabController(length: 2, vsync: this);
     WidgetsBinding.instance
         .addPostFrameCallback((_) => _focusNode.requestFocus());
   }
@@ -37,6 +41,7 @@ class _MoovieReviewEditorState extends State<MoovieReviewEditor> {
   void dispose() {
     _controller.dispose();
     _focusNode.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -99,9 +104,14 @@ class _MoovieReviewEditorState extends State<MoovieReviewEditor> {
     );
   }
 
-  void _onDone() {
+  String? _buildResult() {
     final html = editableToHtml(_controller.text);
-    Navigator.of(context).pop(html.trim().isEmpty ? null : html);
+    return html.trim().isEmpty ? null : html;
+  }
+
+  void _onDone() {
+    _didPop = true;
+    Navigator.of(context).pop(_buildResult());
   }
 
   static String editableToHtml(String text) {
@@ -222,60 +232,83 @@ class _MoovieReviewEditorState extends State<MoovieReviewEditor> {
     final textTheme = Theme.of(context).textTheme;
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.85,
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      child: Column(
-        children: [
-          _DragHandle(),
-          Expanded(
-            child: ColoredBox(
-              color: colorScheme.surfaceBright,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-                child: TextField(
-                  controller: _controller,
-                  focusNode: _focusNode,
-                  maxLines: null,
-                  expands: true,
-                  textAlignVertical: TextAlignVertical.top,
-                  keyboardType: TextInputType.multiline,
-                  textInputAction: TextInputAction.newline,
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurface,
-                    height: 1.7,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: l10n.reviewEditorPlaceholder,
-                    hintStyle: textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onSurfaceVariant
-                          .withValues(alpha: 0.6),
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop && !_didPop) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              Navigator.of(context).pop(_buildResult());
+            }
+          });
+        }
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.85,
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius:
+              const BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          children: [
+            _DragHandle(),
+            _EditorTabBar(controller: _tabController),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  ColoredBox(
+                    color: colorScheme.surfaceBright,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+                      child: TextField(
+                        controller: _controller,
+                        focusNode: _focusNode,
+                        maxLines: null,
+                        expands: true,
+                        textAlignVertical: TextAlignVertical.top,
+                        keyboardType: TextInputType.multiline,
+                        textInputAction: TextInputAction.newline,
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSurface,
+                          height: 1.7,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: l10n.reviewEditorPlaceholder,
+                          hintStyle: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onSurfaceVariant
+                                .withValues(alpha: 0.6),
+                          ),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                      ),
                     ),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.zero,
                   ),
-                ),
+                  _PreviewTab(
+                    controller: _controller,
+                    tabController: _tabController,
+                  ),
+                ],
               ),
             ),
-          ),
-          _FormattingToolbar(
-            onBold: () => _wrapSelection('**', '**'),
-            onItalic: () => _wrapSelection('*', '*'),
-            onStrikethrough: () => _wrapSelection('~~', '~~'),
-            onSpoiler: () => _wrapSelection('||', '||'),
-            onHeading: () => _insertBlock('# '),
-            onSubheading: () => _insertBlock('## '),
-            onList: () => _insertBlock('- '),
-            onParagraph: () => _insertBlock('\n'),
-            onClear: _onClear,
-            onDone: _onDone,
-            clearLabel: l10n.reviewEditorClear,
-          ),
-          SizedBox(height: bottomInset),
-        ],
+            _FormattingToolbar(
+              onBold: () => _wrapSelection('**', '**'),
+              onItalic: () => _wrapSelection('*', '*'),
+              onStrikethrough: () => _wrapSelection('~~', '~~'),
+              onSpoiler: () => _wrapSelection('||', '||'),
+              onHeading: () => _insertBlock('# '),
+              onSubheading: () => _insertBlock('## '),
+              onList: () => _insertBlock('- '),
+              onParagraph: () => _insertBlock('\n'),
+              onClear: _onClear,
+              onDone: _onDone,
+              clearLabel: l10n.reviewEditorClear,
+            ),
+            SizedBox(height: bottomInset),
+          ],
+        ),
       ),
     );
   }
@@ -294,6 +327,348 @@ class _DragHandle extends StatelessWidget {
         decoration: BoxDecoration(
           color: colorScheme.onSurfaceVariant.withValues(alpha: 0.3),
           borderRadius: BorderRadius.circular(2),
+        ),
+      ),
+    );
+  }
+}
+
+class _EditorTabBar extends StatelessWidget {
+  final TabController controller;
+
+  const _EditorTabBar({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+      child: Container(
+        height: 36,
+        decoration: BoxDecoration(
+          color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: TabBar(
+          controller: controller,
+          indicator: BoxDecoration(
+            color: colorScheme.primaryContainer,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          indicatorSize: TabBarIndicatorSize.tab,
+          indicatorPadding: const EdgeInsets.all(3),
+          dividerHeight: 0,
+          labelColor: colorScheme.onPrimaryContainer,
+          unselectedLabelColor: colorScheme.onSurfaceVariant,
+          labelStyle: textTheme.labelMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+          unselectedLabelStyle: textTheme.labelMedium,
+          splashBorderRadius: BorderRadius.circular(8),
+          tabs: const [
+            Tab(text: 'Write', height: 30),
+            Tab(text: 'Preview', height: 30),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PreviewTab extends StatefulWidget {
+  final TextEditingController controller;
+  final TabController tabController;
+
+  const _PreviewTab({
+    required this.controller,
+    required this.tabController,
+  });
+
+  @override
+  State<_PreviewTab> createState() => _PreviewTabState();
+}
+
+class _PreviewTabState extends State<_PreviewTab> {
+  final _revealedSpoilers = <int>{};
+
+  @override
+  void initState() {
+    super.initState();
+    widget.tabController.addListener(_onTabChanged);
+  }
+
+  @override
+  void dispose() {
+    widget.tabController.removeListener(_onTabChanged);
+    super.dispose();
+  }
+
+  void _onTabChanged() {
+    if (widget.tabController.index != 1 && _revealedSpoilers.isNotEmpty) {
+      setState(() => _revealedSpoilers.clear());
+    }
+  }
+
+  void _toggleSpoiler(int index) =>
+      setState(() {
+        if (_revealedSpoilers.contains(index)) {
+          _revealedSpoilers.remove(index);
+        } else {
+          _revealedSpoilers.add(index);
+        }
+      });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return ColoredBox(
+      color: colorScheme.surfaceBright,
+      child: ListenableBuilder(
+        listenable: widget.controller,
+        builder: (context, _) {
+          final html =
+              _MoovieReviewEditorState.editableToHtml(widget.controller.text);
+
+          if (html.trim().isEmpty) {
+            return Center(
+              child: Text(
+                'Nothing to preview yet',
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                ),
+              ),
+            );
+          }
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+            child: _HtmlPreviewWithSpoilers(
+              html: html,
+              revealedSpoilers: _revealedSpoilers,
+              onSpoilerDoubleTap: _toggleSpoiler,
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _HtmlPreviewWithSpoilers extends StatelessWidget {
+  final String html;
+  final Set<int> revealedSpoilers;
+  final ValueChanged<int> onSpoilerDoubleTap;
+
+  const _HtmlPreviewWithSpoilers({
+    required this.html,
+    required this.revealedSpoilers,
+    required this.onSpoilerDoubleTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final widgets = _parseHtml(html, textTheme, colorScheme);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: widgets,
+    );
+  }
+
+  List<Widget> _parseHtml(
+    String html,
+    TextTheme textTheme,
+    ColorScheme colorScheme,
+  ) {
+    final widgets = <Widget>[];
+    final tagRegex = RegExp(
+      r'<(h1|h2|p|li|ul|/ul)(?:\s[^>]*)?>(.*?)</\1>|<(ul|/ul)>',
+      dotAll: true,
+    );
+
+    final matches = tagRegex.allMatches(html);
+    if (matches.isEmpty) {
+      widgets.add(Text(
+        _stripTags(html),
+        style: textTheme.bodyMedium?.copyWith(
+          color: colorScheme.onSurface,
+          height: 1.6,
+        ),
+      ));
+      return widgets;
+    }
+
+    for (final match in matches) {
+      final tag = match.group(1) ?? match.group(3) ?? '';
+      final content = match.group(2) ?? '';
+
+      switch (tag) {
+        case 'h1':
+          widgets.add(Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text.rich(
+              _buildSpans(content, colorScheme),
+              style: textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
+              ),
+            ),
+          ));
+        case 'h2':
+          widgets.add(Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: Text.rich(
+              _buildSpans(content, colorScheme),
+              style: textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: colorScheme.onSurface,
+              ),
+            ),
+          ));
+        case 'p':
+          widgets.add(Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text.rich(
+              _buildSpans(content, colorScheme),
+              style: textTheme.bodyMedium?.copyWith(
+                color: colorScheme.onSurface,
+                height: 1.6,
+              ),
+            ),
+          ));
+        case 'li':
+          widgets.add(Padding(
+            padding: const EdgeInsets.only(left: 16, bottom: 4),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '\u2022 ',
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+                Expanded(
+                  child: Text.rich(
+                    _buildSpans(content, colorScheme),
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurface,
+                      height: 1.6,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ));
+      }
+    }
+
+    return widgets;
+  }
+
+  TextSpan _buildSpans(String content, ColorScheme colorScheme) {
+    final spans = <InlineSpan>[];
+    final inlineRegex = RegExp(
+      r'<(b|i|s)>(.*?)</\1>|<span class="spoiler">(.*?)</span>',
+      dotAll: true,
+    );
+
+    var lastEnd = 0;
+    var spoilerIndex = 0;
+
+    for (final match in inlineRegex.allMatches(content)) {
+      if (match.start > lastEnd) {
+        spans.add(TextSpan(text: content.substring(lastEnd, match.start)));
+      }
+
+      final tag = match.group(1);
+      final text = match.group(2) ?? match.group(3) ?? '';
+
+      switch (tag) {
+        case 'b':
+          spans.add(TextSpan(
+            text: text,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ));
+        case 'i':
+          spans.add(TextSpan(
+            text: text,
+            style: const TextStyle(fontStyle: FontStyle.italic),
+          ));
+        case 's':
+          spans.add(TextSpan(
+            text: text,
+            style: const TextStyle(decoration: TextDecoration.lineThrough),
+          ));
+        default:
+          final currentIndex = spoilerIndex++;
+          final revealed = revealedSpoilers.contains(currentIndex);
+          spans.add(WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: _SpoilerChip(
+              text: text,
+              revealed: revealed,
+              onDoubleTap: () => onSpoilerDoubleTap(currentIndex),
+              colorScheme: colorScheme,
+            ),
+          ));
+      }
+
+      lastEnd = match.end;
+    }
+
+    if (lastEnd < content.length) {
+      spans.add(TextSpan(text: content.substring(lastEnd)));
+    }
+
+    return TextSpan(children: spans);
+  }
+
+  static String _stripTags(String text) =>
+      text.replaceAll(RegExp(r'<[^>]+>'), '');
+}
+
+class _SpoilerChip extends StatelessWidget {
+  final String text;
+  final bool revealed;
+  final VoidCallback onDoubleTap;
+  final ColorScheme colorScheme;
+
+  const _SpoilerChip({
+    required this.text,
+    required this.revealed,
+    required this.onDoubleTap,
+    required this.colorScheme,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return GestureDetector(
+      onDoubleTap: onDoubleTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+        decoration: BoxDecoration(
+          color: revealed
+              ? colorScheme.tertiaryContainer
+              : colorScheme.onSurface,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Text(
+          revealed ? text : 'Spoiler',
+          style: textTheme.bodyMedium?.copyWith(
+            color: revealed
+                ? colorScheme.onTertiaryContainer
+                : colorScheme.onSurface,
+          ),
         ),
       ),
     );
