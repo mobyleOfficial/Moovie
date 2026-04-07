@@ -1,18 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:movies/movies.dart';
 import 'package:movies_ui/movie_detail/movie_detail_bloc.dart';
 import 'package:movies_ui/movie_detail/movie_detail_screen.dart';
 
 @RoutePage()
 class MovieDetailPage extends StatefulWidget {
-  final GetMovieDetail getMovieDetail;
   final int movieId;
   final String movieTitle;
 
   const MovieDetailPage({
     super.key,
-    required this.getMovieDetail,
     required this.movieId,
     required this.movieTitle,
   });
@@ -23,7 +22,7 @@ class MovieDetailPage extends StatefulWidget {
 
 class _MovieDetailPageState extends State<MovieDetailPage> {
   late final MovieDetailCubit _cubit =
-      MovieDetailCubit(widget.getMovieDetail, widget.movieId);
+      MovieDetailCubit(GetIt.I<GetMovieDetail>(), widget.movieId);
 
   @override
   void dispose() {

@@ -1,5 +1,6 @@
 import 'package:social/social_page.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 
 part 'social_router.gr.dart';
 

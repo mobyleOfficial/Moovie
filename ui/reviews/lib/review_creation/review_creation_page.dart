@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:movies/movies.dart';
 import 'package:reviews/review_creation/review_creation_bloc.dart';
 import 'package:reviews/review_creation/review_creation_screen.dart';
 
 @RoutePage()
 class ReviewCreationPage extends StatefulWidget {
-  final UpsertMovieReview upsertMovieReview;
   final int movieId;
   final String movieTitle;
   final String posterPath;
@@ -14,7 +14,6 @@ class ReviewCreationPage extends StatefulWidget {
 
   const ReviewCreationPage({
     super.key,
-    required this.upsertMovieReview,
     required this.movieId,
     required this.movieTitle,
     required this.posterPath,
@@ -27,7 +26,7 @@ class ReviewCreationPage extends StatefulWidget {
 
 class _ReviewCreationPageState extends State<ReviewCreationPage> {
   late final ReviewCreationCubit _cubit = ReviewCreationCubit(
-    upsertMovieReview: widget.upsertMovieReview,
+    upsertMovieReview: GetIt.I<UpsertMovieReview>(),
     movieId: widget.movieId,
     movieTitle: widget.movieTitle,
     posterPath: widget.posterPath,
