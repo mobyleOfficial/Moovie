@@ -6,7 +6,7 @@ import 'package:reviews/review_creation/review_creation_page.dart';
 
 part 'review_creation_router.gr.dart';
 
-@AutoRouterConfig(generateForDir: ['lib'])
+@AutoRouterConfig(generateForDir: ['lib/review_creation'])
 class ReviewCreationRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
