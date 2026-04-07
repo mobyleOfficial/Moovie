@@ -112,6 +112,30 @@ The app builds in three flavors (dev, staging, prod) with separate entry points 
 | staging | `lib/main_staging.dart` | Connects to staging backend |
 | prod | `lib/main.dart` | Production configuration |
 
+## Routing & Dependency Injection Convention
+
+Route pages must **never** receive use cases (e.g. `GetMovieDetail`, `UpsertMovieReview`) as constructor parameters. Instead, pages resolve their own dependencies internally from `GetIt.I`:
+
+```dart
+// Good — page resolves its own use case
+class MovieDetailPage extends StatefulWidget {
+  final int movieId;
+  const MovieDetailPage({super.key, required this.movieId});
+}
+
+class _MovieDetailPageState extends State<MovieDetailPage> {
+  late final _cubit = MovieDetailCubit(GetIt.I<GetMovieDetail>(), widget.movieId);
+}
+
+// Bad — use case passed through the route
+class MovieDetailPage extends StatefulWidget {
+  final GetMovieDetail getMovieDetail;
+  const MovieDetailPage({super.key, required this.getMovieDetail, required this.movieId});
+}
+```
+
+Route args should only carry **data** (IDs, titles, flags), not service objects. This ensures `initial: true` routes and deep-linked routes work without a caller to provide dependencies.
+
 ## Build Folders to Clean
 
 If you encounter build issues, clean these directories:
