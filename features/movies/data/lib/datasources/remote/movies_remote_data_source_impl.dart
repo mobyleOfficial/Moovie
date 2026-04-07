@@ -4,7 +4,9 @@ import 'package:injectable/injectable.dart';
 import 'package:movies_data/datasources/remote/movies_remote_data_source.dart';
 import 'package:movies_data/models/remote/remote_movie_collection.dart';
 import 'package:movies_data/models/remote/remote_movie_collection_listing.dart';
+import 'package:movies_data/models/remote/remote_movie.dart';
 import 'package:movies_data/models/remote/remote_movie_list.dart';
+import 'package:movies_data/models/remote/remote_movie_list_detail.dart';
 import 'package:movies_data/models/remote/remote_movie_list_listing.dart';
 import 'package:movies_data/models/remote/remote_movie_detail.dart';
 import 'package:movies_data/models/remote/remote_movie_review.dart';
@@ -134,7 +136,36 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
     ),
   ];
 
+  static const _mockedListMovies = [
+    RemoteMovie(id: 693134, title: 'Dune: Part Two', overview: 'Follow the mythic journey of Paul Atreides as he unites with Chani and the Fremen.', posterPath: '/8b8R8l88Qje9dn9OE8PY05Nez7C.jpg', backdropPath: '/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg', voteAverage: 8.2, releaseDate: '2024-02-27'),
+    RemoteMovie(id: 872585, title: 'Oppenheimer', overview: 'The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.', posterPath: '/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg', backdropPath: '/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg', voteAverage: 8.1, releaseDate: '2023-07-19'),
+    RemoteMovie(id: 792307, title: 'Poor Things', overview: 'Brought back to life by an unorthodox scientist, a young woman runs off with a debauched lawyer.', posterPath: '/kCGlIMHnOm8JPXq3rXM6c5wMxcT.jpg', backdropPath: '/bQS43HSLZzMjZkcHJz4fGc9fgrt.jpg', voteAverage: 7.9, releaseDate: '2023-12-07'),
+    RemoteMovie(id: 929590, title: 'The Zone of Interest', overview: 'The commandant of Auschwitz and his wife strive to build a dream life beside the camp.', posterPath: '/hUu9zyZmDd8VZegKi1iK1Vk0RYS.jpg', backdropPath: '/geLtY6DGe2d7wkNYfsDhMGSlVQ2.jpg', voteAverage: 7.4, releaseDate: '2023-12-15'),
+    RemoteMovie(id: 976573, title: 'Past Lives', overview: 'Two childhood friends are reunited in New York after decades apart.', posterPath: '/k3waqVXSnvCDWnTYDx4gT4LjESh.jpg', backdropPath: '/5wDLhJp4oIwwLDxewlMQXpZ3Mfd.jpg', voteAverage: 7.8, releaseDate: '2023-06-02'),
+    RemoteMovie(id: 840430, title: 'The Holdovers', overview: 'A curmudgeonly instructor at a prep school is forced to babysit a student over Christmas break.', posterPath: '/VHSzNBTwxV8vh7wylo7O9CLdac.jpg', backdropPath: '/rz8GGX5Id2hCW1PzgCY8HNONnBl.jpg', voteAverage: 7.9, releaseDate: '2023-10-27'),
+    RemoteMovie(id: 346698, title: 'Barbie', overview: 'Barbie and Ken are having the time of their lives in the colorful and seemingly perfect world of Barbie Land.', posterPath: '/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg', backdropPath: '/nHf61UzkfFno5X1ofIhugCPus2R.jpg', voteAverage: 7.0, releaseDate: '2023-07-19'),
+    RemoteMovie(id: 866398, title: 'The Brutalist', overview: 'A visionary architect escapes the horrors of post-war Europe for the promise of America.', posterPath: '/gPbM0MK8CP8A174kI2PGjGVdWHN.jpg', backdropPath: '/6DYFBb8Rf3Z7OqBCqtdzgFbEpxR.jpg', voteAverage: 7.6, releaseDate: '2024-12-20'),
+    RemoteMovie(id: 1064028, title: 'Anora', overview: 'A young sex worker from Brooklyn gets her chance at a Cinderella story.', posterPath: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg', backdropPath: '/4cp40IyTpFfsT2IKpl0YlUkMBIR.jpg', voteAverage: 7.5, releaseDate: '2024-10-18'),
+    RemoteMovie(id: 913209, title: 'Anatomy of a Fall', overview: 'A woman is suspected of her husband\'s murder, and their blind son faces a moral dilemma.', posterPath: '/kQs6gmBuYM2v7MuqGfnlAMFYasA.jpg', backdropPath: '/7uv7PsMbSEgTBkYQce9N0m2Gsps.jpg', voteAverage: 7.7, releaseDate: '2023-08-23'),
+    RemoteMovie(id: 507089, title: 'Five Nights at Freddy\'s', overview: 'A troubled security guard begins working at Freddy Fazbear\'s Pizza.', posterPath: '/7WsyChQLEftFiDhRDpZFHSunFD2.jpg', backdropPath: '/t5zCBSB5xMDKcDqe91qahCOUYVV.jpg', voteAverage: 7.0, releaseDate: '2023-10-25'),
+    RemoteMovie(id: 609681, title: 'The Beekeeper', overview: 'One man\'s brutal campaign for vengeance takes on national stakes.', posterPath: '/A7EByudX0eOzlkQ2FEBabMP1hTp.jpg', backdropPath: '/cedbbhXosPuEfkrq8cjWcnKFnjK.jpg', voteAverage: 7.1, releaseDate: '2024-01-08'),
+  ];
+
+  static const _mockedListTags = {
+    1: ['cozy', 'weekend', 'feel-good', 'family'],
+    2: ['thriller', 'mind-bending', 'suspense', 'twist'],
+    3: ['classic', 'feel-good', 'comfort', 'rom-com'],
+    4: ['foreign', 'subtitles', 'world-cinema', 'festival'],
+    5: ['auteur', 'masterpiece', 'cinema-history'],
+    6: ['underrated', '2024', 'hidden-gem'],
+    7: ['sci-fi', 'space', 'dystopia', 'future'],
+    8: ['romance', 'date-night', 'comedy'],
+    9: ['rewatch', 'comfort', 'nostalgia', 'all-time'],
+    10: ['awards', 'oscar', 'best-picture', 'performance'],
+  };
+
   static const int _pageSize = 4;
+  static const int _listDetailPageSize = 6;
 
   @override
   Future<Result<RemoteTrendingMovieListing>> getTrendingMovieList({
@@ -227,6 +258,41 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
       totalPages: totalPages,
       totalResults: _mockedLists.length,
       lists: pageLists,
+    ));
+  }
+
+  @override
+  Future<Result<RemoteMovieListDetail>> getMovieListDetail({
+    required int listId,
+    required int page,
+  }) async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+
+    final list = _mockedLists.firstWhere(
+      (l) => l.id == listId,
+      orElse: () => _mockedLists.first,
+    );
+
+    final totalPages = (_mockedListMovies.length / _listDetailPageSize).ceil();
+    final startIndex = (page - 1) * _listDetailPageSize;
+    final endIndex = startIndex + _listDetailPageSize;
+    final pageMovies = _mockedListMovies.sublist(
+      startIndex.clamp(0, _mockedListMovies.length),
+      endIndex.clamp(0, _mockedListMovies.length),
+    );
+
+    return Success(RemoteMovieListDetail(
+      id: list.id,
+      name: list.name,
+      creator: list.creator,
+      description: list.description,
+      movies: pageMovies,
+      totalMovies: _mockedListMovies.length,
+      totalPages: totalPages,
+      commentsCount: (listId * 7 + 3) % 50,
+      likesCount: (listId * 13 + 11) % 200,
+      isLiked: listId % 3 == 0,
+      tags: _mockedListTags[listId] ?? ['movies'],
     ));
   }
 
