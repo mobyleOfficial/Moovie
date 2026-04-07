@@ -138,6 +138,8 @@
   "@moviesListListsTab": { "description": "Lists tab label on the movies list screen" },
   "moviesListArticlesTab": "Articles",
   "@moviesListArticlesTab": { "description": "Articles tab label on the movies list screen" },
+  "moviesListPopularThisWeek": "Popular this week",
+  "@moviesListPopularThisWeek": { "description": "Header for popular lists section" },
   "newUserActivityDraftsSection": "Drafts",
   "@newUserActivityDraftsSection": { "description": "Drafts section header on the new activity screen" },
   "newUserActivityRecentSection": "Recent",

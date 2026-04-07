@@ -60,6 +60,18 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
+  Future<Result<MovieListListing>> getMovieLists({
+    required int page,
+  }) async {
+    final result = await _dataSource.getMovieLists(page: page);
+
+    return switch (result) {
+      Success(:final data) => Success(data.toDomain()),
+      Failure(:final error) => Failure(error),
+    };
+  }
+
+  @override
   Future<Result<TrendingMovieListing>> searchMovies({
     required String query,
     required int page,

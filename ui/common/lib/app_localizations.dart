@@ -316,6 +316,12 @@ abstract class AppLocalizations {
   /// **'Articles'**
   String get moviesListArticlesTab;
 
+  /// Header for popular lists section
+  ///
+  /// In en, this message translates to:
+  /// **'Popular this week'**
+  String get moviesListPopularThisWeek;
+
   /// Drafts section header on the new activity screen
   ///
   /// In en, this message translates to:

@@ -125,6 +125,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moviesListArticlesTab => 'Articles';
 
   @override
+  String get moviesListPopularThisWeek => 'Popular this week';
+
+  @override
   String get newUserActivityDraftsSection => 'Drafts';
 
   @override

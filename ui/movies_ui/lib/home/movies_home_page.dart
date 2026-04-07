@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:movies/movies.dart';
 import 'package:movies_ui/home/movies_home_screen.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
+import 'package:movies_ui/tabs/lists/movies_lists_bloc.dart';
 import 'package:movies_ui/tabs/trending_movies/trending_movies_bloc.dart';
 
 @RoutePage()
@@ -15,18 +16,22 @@ class MoviesHomePage extends StatefulWidget {
 }
 
 class _MoviesHomePageState extends State<MoviesHomePage> {
-  late final TrendingMoviesCubit _cubit =
+  late final TrendingMoviesCubit _trendingCubit =
       TrendingMoviesCubit(GetIt.I<GetTrendingMovies>());
+  late final MoviesListsCubit _listsCubit =
+      MoviesListsCubit(GetIt.I<GetMovieLists>());
 
   @override
   void dispose() {
-    _cubit.close();
+    _trendingCubit.close();
+    _listsCubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => MoviesHomeScreen(
-        cubit: _cubit,
+        cubit: _trendingCubit,
+        listsCubit: _listsCubit,
         onMovieTap: (movieId, movieTitle) => context.router.push(
           MovieDetailRoute(movieId: movieId, movieTitle: movieTitle),
         ),
