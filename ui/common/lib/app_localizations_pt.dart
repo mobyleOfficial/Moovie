@@ -128,6 +128,19 @@ class AppLocalizationsPt extends AppLocalizations {
   String get moviesListPopularThisWeek => 'Populares esta semana';
 
   @override
+  String movieListDetailMoviesTab(int count) {
+    return '$count Filmes';
+  }
+
+  @override
+  String movieListDetailCommentsTab(int count) {
+    return '$count Comentários';
+  }
+
+  @override
+  String get movieListDetailCommentsPlaceholder => 'Comentários em breve';
+
+  @override
   String get newUserActivityDraftsSection => 'Rascunhos';
 
   @override

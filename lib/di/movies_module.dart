@@ -49,6 +49,10 @@ abstract class MoviesModule {
       GetMovieLists(repository);
 
   @injectable
+  GetMovieListDetail getMovieListDetail(MoviesRepository repository) =>
+      GetMovieListDetail(repository);
+
+  @injectable
   SearchMovies searchMovies(MoviesRepository repository) =>
       SearchMovies(repository);
 

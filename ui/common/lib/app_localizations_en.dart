@@ -128,6 +128,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moviesListPopularThisWeek => 'Popular this week';
 
   @override
+  String movieListDetailMoviesTab(int count) {
+    return '$count Movies';
+  }
+
+  @override
+  String movieListDetailCommentsTab(int count) {
+    return '$count Comments';
+  }
+
+  @override
+  String get movieListDetailCommentsPlaceholder => 'Comments coming soon';
+
+  @override
   String get newUserActivityDraftsSection => 'Drafts';
 
   @override

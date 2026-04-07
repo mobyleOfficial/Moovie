@@ -7,6 +7,7 @@ export 'remote/remote_movie.dart';
 export 'remote/remote_movie_collection.dart';
 export 'remote/remote_movie_collection_listing.dart';
 export 'remote/remote_movie_list.dart';
+export 'remote/remote_movie_list_detail.dart';
 export 'remote/remote_movie_list_listing.dart';
 export 'remote/remote_movie_detail.dart';
 export 'remote/remote_movie_review.dart';
