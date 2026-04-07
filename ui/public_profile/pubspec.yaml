@@ -11,7 +11,10 @@ dependencies:
   flutter_bloc: ^9.1.1
   bloc: ^9.2.0
   auto_route: ^11.1.0
+  get_it: ^8.0.3
   common:
     path: ../common
+  movies:
+    path: ../../features/movies
   movies_ui:
     path: ../movies_ui

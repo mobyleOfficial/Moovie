@@ -1,25 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:movies/movies.dart';
 import 'package:new_user_activity/new_user_activity_bloc.dart';
 import 'package:new_user_activity/new_user_activity_screen.dart';
 
 @RoutePage()
 class NewUserActivityPage extends StatefulWidget {
-  final SearchMovies searchMovies;
-  final ObserveMovieReviewDraftsList observeMovieReviewDraftsList;
-  final DeleteDraft deleteDraft;
-  final AddRecentSearch addRecentSearch;
-  final ObserveRecentSearches observeRecentSearches;
-
-  const NewUserActivityPage({
-    super.key,
-    required this.searchMovies,
-    required this.observeMovieReviewDraftsList,
-    required this.deleteDraft,
-    required this.addRecentSearch,
-    required this.observeRecentSearches,
-  });
+  const NewUserActivityPage({super.key});
 
   @override
   State<NewUserActivityPage> createState() => _NewUserActivityPageState();
@@ -27,11 +15,11 @@ class NewUserActivityPage extends StatefulWidget {
 
 class _NewUserActivityPageState extends State<NewUserActivityPage> {
   late final NewUserActivityCubit _cubit = NewUserActivityCubit(
-    widget.searchMovies,
-    widget.observeMovieReviewDraftsList,
-    widget.deleteDraft,
-    widget.addRecentSearch,
-    widget.observeRecentSearches,
+    GetIt.I<SearchMovies>(),
+    GetIt.I<ObserveMovieReviewDraftsList>(),
+    GetIt.I<DeleteDraft>(),
+    GetIt.I<AddRecentSearch>(),
+    GetIt.I<ObserveRecentSearches>(),
   );
 
   @override

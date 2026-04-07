@@ -274,7 +274,7 @@ class _MoovieReviewEditorState extends State<MoovieReviewEditor>
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  ColoredBox(
+                  Material(
                     color: colorScheme.surfaceBright,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
