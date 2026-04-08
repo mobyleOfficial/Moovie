@@ -15,4 +15,11 @@ abstract interface class MoviesRemoteDataSource {
   Future<Result<RemoteMovieListListing>> getMovieLists({required int page});
   Future<Result<RemoteMovieListDetail>> getMovieListDetail({required int listId, required int page});
   Future<Result<RemoteTrendingMovieListing>> searchMovies({required String query, required int page});
+  Future<Result<RemoteTrendingMovieListing>> discoverMovies({
+    required int page,
+    int? primaryReleaseYear,
+    String? releaseDateGte,
+    String? releaseDateLte,
+    String? sortBy,
+  });
 }

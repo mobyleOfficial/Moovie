@@ -13,8 +13,17 @@ dependencies:
   flutter_bloc: ^9.1.1
   bloc: ^9.2.0
   auto_route: ^11.1.0
+  get_it: ^8.0.3
+  infinite_scroll_pagination: ^5.0.0
+  cached_network_image: ^3.4.1
   common:
     path: ../common
+  core:
+    path: ../../core
+  movies:
+    path: ../../features/movies
+  movies_ui:
+    path: ../movies_ui
 
 dev_dependencies:
   auto_route_generator: ^10.5.0

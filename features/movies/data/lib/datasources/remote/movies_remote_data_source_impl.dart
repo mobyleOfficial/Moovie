@@ -327,4 +327,38 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
       Failure<Map<String, dynamic>>(:final error) => Failure(error),
     };
   }
+
+  @override
+  Future<Result<RemoteTrendingMovieListing>> discoverMovies({
+    required int page,
+    int? primaryReleaseYear,
+    String? releaseDateGte,
+    String? releaseDateLte,
+    String? sortBy,
+  }) async {
+    final queryParams = <String, dynamic>{'page': page};
+    if (primaryReleaseYear != null) {
+      queryParams['primary_release_year'] = primaryReleaseYear;
+    }
+    if (releaseDateGte != null) {
+      queryParams['primary_release_date.gte'] = releaseDateGte;
+    }
+    if (releaseDateLte != null) {
+      queryParams['primary_release_date.lte'] = releaseDateLte;
+    }
+    if (sortBy != null) {
+      queryParams['sort_by'] = sortBy;
+    }
+
+    final result = await _httpClient.get<Map<String, dynamic>>(
+      'discover/movie',
+      queryParams: queryParams,
+    );
+
+    return switch (result) {
+      Success<Map<String, dynamic>>(:final data) =>
+        Success(RemoteTrendingMovieListing.fromJson(data)),
+      Failure<Map<String, dynamic>>(:final error) => Failure(error),
+    };
+  }
 }

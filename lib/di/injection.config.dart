@@ -75,6 +75,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i987.GetMovieListDetail>(
       () => moviesModule.getMovieListDetail(gh<_i987.MoviesRepository>()),
     );
+    gh.factory<_i987.DiscoverMovies>(
+      () => moviesModule.discoverMovies(gh<_i987.MoviesRepository>()),
+    );
     gh.factory<_i987.SearchMovies>(
       () => moviesModule.searchMovies(gh<_i987.MoviesRepository>()),
     );

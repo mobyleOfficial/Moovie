@@ -98,6 +98,28 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
+  Future<Result<TrendingMovieListing>> discoverMovies({
+    required int page,
+    int? primaryReleaseYear,
+    String? releaseDateGte,
+    String? releaseDateLte,
+    String? sortBy,
+  }) async {
+    final result = await _dataSource.discoverMovies(
+      page: page,
+      primaryReleaseYear: primaryReleaseYear,
+      releaseDateGte: releaseDateGte,
+      releaseDateLte: releaseDateLte,
+      sortBy: sortBy,
+    );
+
+    return switch (result) {
+      Success(:final data) => Success(data.toDomain()),
+      Failure(:final error) => Failure(error),
+    };
+  }
+
+  @override
   Result<void> upsertMovieReview({
     required MovieReviewDraft draft,
     required MovieReviewStatus status,
