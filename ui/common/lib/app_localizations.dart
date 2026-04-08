@@ -208,6 +208,24 @@ abstract class AppLocalizations {
   /// **'Country & Language'**
   String get searchBrowseCountryAndLanguage;
 
+  /// Merged browse option for genre, country and language
+  ///
+  /// In en, this message translates to:
+  /// **'Genre, Country & Language'**
+  String get searchBrowseGenreCountryLanguage;
+
+  /// Country tab label in browse categories
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get searchBrowseCountry;
+
+  /// Language tab label in browse categories
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get searchBrowseLanguage;
+
   /// Browse by streaming service option
   ///
   /// In en, this message translates to:

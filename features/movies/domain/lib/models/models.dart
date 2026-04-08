@@ -17,3 +17,6 @@ export 'search_movies_params.dart';
 export 'recent_search.dart';
 export 'trending_movie_listing.dart';
 export 'discover_movies_params.dart';
+export 'genre.dart';
+export 'country.dart';
+export 'language.dart';

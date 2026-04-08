@@ -8,6 +8,9 @@ import 'package:movies_domain/models/movie_review_draft.dart';
 import 'package:movies_domain/models/movie_review_listing.dart';
 import 'package:movies_domain/models/movie_review_status.dart';
 import 'package:movies_domain/models/recent_search.dart';
+import 'package:movies_domain/models/country.dart';
+import 'package:movies_domain/models/genre.dart';
+import 'package:movies_domain/models/language.dart';
 import 'package:movies_domain/models/trending_movie_listing.dart';
 
 abstract interface class MoviesRepository {
@@ -24,7 +27,13 @@ abstract interface class MoviesRepository {
     String? releaseDateGte,
     String? releaseDateLte,
     String? sortBy,
+    String? withGenres,
+    String? withOriginalLanguage,
+    String? withOriginCountry,
   });
+  Future<Result<List<Genre>>> getGenres();
+  Future<Result<List<Country>>> getCountries();
+  Future<Result<List<Language>>> getLanguages();
   Result<void> upsertMovieReview({required MovieReviewDraft draft, required MovieReviewStatus status});
   Stream<List<MovieReviewDraft>> observeMovieReviewDraftsList();
   Result<void> deleteDraft({required int movieId});

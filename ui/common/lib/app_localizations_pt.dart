@@ -71,6 +71,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get searchBrowseCountryAndLanguage => 'País e idioma';
 
   @override
+  String get searchBrowseGenreCountryLanguage => 'Gênero, País e Idioma';
+
+  @override
+  String get searchBrowseCountry => 'País';
+
+  @override
+  String get searchBrowseLanguage => 'Idioma';
+
+  @override
   String get searchBrowseService => 'Serviço';
 
   @override

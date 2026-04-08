@@ -20,5 +20,8 @@ class DiscoverMovies
         releaseDateGte: params?.releaseDateGte,
         releaseDateLte: params?.releaseDateLte,
         sortBy: params?.sortBy,
+        withGenres: params?.withGenres,
+        withOriginalLanguage: params?.withOriginalLanguage,
+        withOriginCountry: params?.withOriginCountry,
       );
 }

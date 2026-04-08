@@ -104,6 +104,9 @@ class MoviesRepositoryImpl implements MoviesRepository {
     String? releaseDateGte,
     String? releaseDateLte,
     String? sortBy,
+    String? withGenres,
+    String? withOriginalLanguage,
+    String? withOriginCountry,
   }) async {
     final result = await _dataSource.discoverMovies(
       page: page,
@@ -111,10 +114,46 @@ class MoviesRepositoryImpl implements MoviesRepository {
       releaseDateGte: releaseDateGte,
       releaseDateLte: releaseDateLte,
       sortBy: sortBy,
+      withGenres: withGenres,
+      withOriginalLanguage: withOriginalLanguage,
+      withOriginCountry: withOriginCountry,
     );
 
     return switch (result) {
       Success(:final data) => Success(data.toDomain()),
+      Failure(:final error) => Failure(error),
+    };
+  }
+
+  @override
+  Future<Result<List<Genre>>> getGenres() async {
+    final result = await _dataSource.getGenres();
+
+    return switch (result) {
+      Success(:final data) =>
+        Success(data.map((g) => g.toDomain()).toList()),
+      Failure(:final error) => Failure(error),
+    };
+  }
+
+  @override
+  Future<Result<List<Country>>> getCountries() async {
+    final result = await _dataSource.getCountries();
+
+    return switch (result) {
+      Success(:final data) =>
+        Success(data.map((c) => c.toDomain()).toList()),
+      Failure(:final error) => Failure(error),
+    };
+  }
+
+  @override
+  Future<Result<List<Language>>> getLanguages() async {
+    final result = await _dataSource.getLanguages();
+
+    return switch (result) {
+      Success(:final data) =>
+        Success(data.map((l) => l.toDomain()).toList()),
       Failure(:final error) => Failure(error),
     };
   }

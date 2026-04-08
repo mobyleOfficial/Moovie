@@ -11,6 +11,22 @@
 part of 'search_router.dart';
 
 /// generated route for
+/// [BrowseCategoriesPage]
+class BrowseCategoriesRoute extends PageRouteInfo<void> {
+  const BrowseCategoriesRoute({List<PageRouteInfo>? children})
+    : super(BrowseCategoriesRoute.name, initialChildren: children);
+
+  static const String name = 'BrowseCategoriesRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const BrowseCategoriesPage();
+    },
+  );
+}
+
+/// generated route for
 /// [ReleaseDateDecadesPage]
 class ReleaseDateDecadesRoute extends PageRouteInfo<void> {
   const ReleaseDateDecadesRoute({List<PageRouteInfo>? children})
@@ -36,6 +52,9 @@ class ReleaseDateMoviesRoute extends PageRouteInfo<ReleaseDateMoviesRouteArgs> {
     String? releaseDateGte,
     String? releaseDateLte,
     String? sortBy,
+    String? withGenres,
+    String? withOriginalLanguage,
+    String? withOriginCountry,
     List<PageRouteInfo>? children,
   }) : super(
          ReleaseDateMoviesRoute.name,
@@ -46,6 +65,9 @@ class ReleaseDateMoviesRoute extends PageRouteInfo<ReleaseDateMoviesRouteArgs> {
            releaseDateGte: releaseDateGte,
            releaseDateLte: releaseDateLte,
            sortBy: sortBy,
+           withGenres: withGenres,
+           withOriginalLanguage: withOriginalLanguage,
+           withOriginCountry: withOriginCountry,
          ),
          initialChildren: children,
        );
@@ -63,6 +85,9 @@ class ReleaseDateMoviesRoute extends PageRouteInfo<ReleaseDateMoviesRouteArgs> {
         releaseDateGte: args.releaseDateGte,
         releaseDateLte: args.releaseDateLte,
         sortBy: args.sortBy,
+        withGenres: args.withGenres,
+        withOriginalLanguage: args.withOriginalLanguage,
+        withOriginCountry: args.withOriginCountry,
       );
     },
   );
@@ -76,6 +101,9 @@ class ReleaseDateMoviesRouteArgs {
     this.releaseDateGte,
     this.releaseDateLte,
     this.sortBy,
+    this.withGenres,
+    this.withOriginalLanguage,
+    this.withOriginCountry,
   });
 
   final Key? key;
@@ -90,9 +118,15 @@ class ReleaseDateMoviesRouteArgs {
 
   final String? sortBy;
 
+  final String? withGenres;
+
+  final String? withOriginalLanguage;
+
+  final String? withOriginCountry;
+
   @override
   String toString() {
-    return 'ReleaseDateMoviesRouteArgs{key: $key, title: $title, primaryReleaseYear: $primaryReleaseYear, releaseDateGte: $releaseDateGte, releaseDateLte: $releaseDateLte, sortBy: $sortBy}';
+    return 'ReleaseDateMoviesRouteArgs{key: $key, title: $title, primaryReleaseYear: $primaryReleaseYear, releaseDateGte: $releaseDateGte, releaseDateLte: $releaseDateLte, sortBy: $sortBy, withGenres: $withGenres, withOriginalLanguage: $withOriginalLanguage, withOriginCountry: $withOriginCountry}';
   }
 
   @override
@@ -104,7 +138,10 @@ class ReleaseDateMoviesRouteArgs {
         primaryReleaseYear == other.primaryReleaseYear &&
         releaseDateGte == other.releaseDateGte &&
         releaseDateLte == other.releaseDateLte &&
-        sortBy == other.sortBy;
+        sortBy == other.sortBy &&
+        withGenres == other.withGenres &&
+        withOriginalLanguage == other.withOriginalLanguage &&
+        withOriginCountry == other.withOriginCountry;
   }
 
   @override
@@ -114,7 +151,10 @@ class ReleaseDateMoviesRouteArgs {
       primaryReleaseYear.hashCode ^
       releaseDateGte.hashCode ^
       releaseDateLte.hashCode ^
-      sortBy.hashCode;
+      sortBy.hashCode ^
+      withGenres.hashCode ^
+      withOriginalLanguage.hashCode ^
+      withOriginCountry.hashCode;
 }
 
 /// generated route for

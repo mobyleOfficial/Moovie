@@ -14,6 +14,9 @@ class ReleaseDateMoviesPage extends StatefulWidget {
   final String? releaseDateGte;
   final String? releaseDateLte;
   final String? sortBy;
+  final String? withGenres;
+  final String? withOriginalLanguage;
+  final String? withOriginCountry;
 
   const ReleaseDateMoviesPage({
     super.key,
@@ -22,6 +25,9 @@ class ReleaseDateMoviesPage extends StatefulWidget {
     this.releaseDateGte,
     this.releaseDateLte,
     this.sortBy,
+    this.withGenres,
+    this.withOriginalLanguage,
+    this.withOriginCountry,
   });
 
   @override
@@ -35,6 +41,9 @@ class _ReleaseDateMoviesPageState extends State<ReleaseDateMoviesPage> {
     releaseDateGte: widget.releaseDateGte,
     releaseDateLte: widget.releaseDateLte,
     sortBy: widget.sortBy,
+    withGenres: widget.withGenres,
+    withOriginalLanguage: widget.withOriginalLanguage,
+    withOriginCountry: widget.withOriginCountry,
   );
 
   @override
