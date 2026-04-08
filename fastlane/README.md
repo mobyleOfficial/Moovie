@@ -29,6 +29,14 @@ Setup IDE run configurations
 
 Configure environment variables (secrets/.env)
 
+### codegen
+
+```sh
+[bundle exec] fastlane codegen
+```
+
+Run code generation (build_runner) for all packages
+
 ### test
 
 ```sh

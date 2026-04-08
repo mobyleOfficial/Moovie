@@ -54,6 +54,21 @@ lane :setup_env do
   UI.success("Ready to build with: bundle exec fastlane ios build flavor:dev")
 end
 
+desc "Run code generation (build_runner) for all packages"
+lane :codegen do
+  root = File.expand_path("..", Dir.pwd)
+  packages = Dir.glob("#{root}/**/pubspec.yaml")
+    .select { |f| File.read(f).include?("build_runner") }
+    .map { |f| File.dirname(f) }
+
+  packages.each do |pkg|
+    UI.message("Running build_runner in #{pkg}...")
+    sh("cd #{pkg} && dart run build_runner build --delete-conflicting-outputs")
+  end
+
+  UI.success("Code generation complete for #{packages.size} packages")
+end
+
 desc "Run tests"
 lane :test do
   sh("cd #{Dir.pwd} && flutter test")
@@ -92,8 +107,11 @@ platform :ios do
   desc "Build iOS app for a given flavor"
   lane :build do |options|
     flavor = options[:flavor] || "dev"
-    UI.message("Building iOS with flavor: #{flavor}")
-    sh("cd #{Dir.pwd} && flutter build ios --flavor=#{flavor} --dart-define-from-file=secrets/.env")
+    simulator = options[:simulator] == true || options[:simulator] == "true"
+    UI.message("Building iOS with flavor: #{flavor}#{simulator ? ' (simulator)' : ''}")
+    cmd = "cd #{Dir.pwd} && flutter build ios --flavor=#{flavor} --dart-define-from-file=secrets/.env"
+    cmd += " --simulator" if simulator
+    sh(cmd)
   end
 
   desc "Release iOS (build + prepare for upload)"
