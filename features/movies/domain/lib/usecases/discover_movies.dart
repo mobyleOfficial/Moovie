@@ -23,5 +23,6 @@ class DiscoverMovies
         withGenres: params?.withGenres,
         withOriginalLanguage: params?.withOriginalLanguage,
         withOriginCountry: params?.withOriginCountry,
+        voteCountGte: params?.voteCountGte,
       );
 }

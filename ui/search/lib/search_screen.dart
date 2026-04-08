@@ -76,14 +76,23 @@ class _SearchScreenState extends State<SearchScreen> {
                 _BrowseItem(
                   icon: Icons.trending_up,
                   label: l10n?.searchBrowseMostPopular ?? '',
+                  onTap: () => context.router.push(
+                    const MostPopularRoute(),
+                  ),
                 ),
                 _BrowseItem(
                   icon: Icons.star_outline,
                   label: l10n?.searchBrowseHighestRated ?? '',
+                  onTap: () => context.router.push(
+                    const HighestRatedRoute(),
+                  ),
                 ),
                 _BrowseItem(
                   icon: Icons.schedule,
                   label: l10n?.searchBrowseMostAnticipated ?? '',
+                  onTap: () => context.router.push(
+                    const MostAnticipatedRoute(),
+                  ),
                 ),
                 _BrowseItem(
                   icon: Icons.list_alt,

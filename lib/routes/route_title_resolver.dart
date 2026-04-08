@@ -14,5 +14,8 @@ String? resolveRouteTitle(RouteData<dynamic> routeData) => switch (routeData.nam
       ReleaseDateYearsRoute.name => routeData.argsAs<ReleaseDateYearsRouteArgs>().decadeLabel,
       ReleaseDateMoviesRoute.name => routeData.argsAs<ReleaseDateMoviesRouteArgs>().title,
       BrowseCategoriesRoute.name => 'Browse',
+      MostPopularRoute.name => 'Most Popular',
+      HighestRatedRoute.name => 'Highest Rated',
+      MostAnticipatedRoute.name => 'Most Anticipated',
       _ => null,
     };
