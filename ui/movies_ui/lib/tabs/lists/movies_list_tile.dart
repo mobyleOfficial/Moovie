@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 
 class MoviesListTile extends StatelessWidget {
@@ -17,7 +18,6 @@ class MoviesListTile extends StatelessWidget {
     this.onTap,
   });
 
-  static const String _posterBaseUrl = 'https://image.tmdb.org/t/p/w185';
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class MoviesListTile extends StatelessWidget {
                   itemBuilder: (context, index) => ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: CachedNetworkImage(
-                      imageUrl: '$_posterBaseUrl${posterPaths[index]}',
+                      imageUrl: '${TmdbImageUrl.posterMedium}${posterPaths[index]}',
                       width: 80,
                       height: 120,
                       fit: BoxFit.cover,
