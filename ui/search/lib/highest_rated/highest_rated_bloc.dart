@@ -27,7 +27,7 @@ class HighestRatedCubit extends Cubit<HighestRatedState> {
       DiscoverMoviesParams(
         page: page,
         sortBy: 'vote_average.desc',
-        voteCountGte: 200,
+        minimumVoteCount: 200,
       ),
     );
 

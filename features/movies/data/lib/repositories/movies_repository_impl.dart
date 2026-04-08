@@ -107,7 +107,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
     String? withGenres,
     String? withOriginalLanguage,
     String? withOriginCountry,
-    int? voteCountGte,
+    int? minimumVoteCount,
   }) async {
     final result = await _dataSource.discoverMovies(
       page: page,
@@ -118,7 +118,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
       withGenres: withGenres,
       withOriginalLanguage: withOriginalLanguage,
       withOriginCountry: withOriginCountry,
-      voteCountGte: voteCountGte,
+      minimumVoteCount: minimumVoteCount,
     );
 
     return switch (result) {
