@@ -78,7 +78,7 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final detail = state.detail;
 
     return DefaultTabController(
@@ -86,8 +86,8 @@ class _Content extends StatelessWidget {
       child: Column(
         children: [
           MoovieTabBar(tabs: [
-            l10n.movieListDetailMoviesTab(detail.totalMovies),
-            l10n.movieListDetailCommentsTab(detail.commentsCount),
+            l10n?.movieListDetailMoviesTab(detail.totalMovies) ?? '',
+            l10n?.movieListDetailCommentsTab(detail.commentsCount) ?? '',
           ]),
           Expanded(
             child: TabBarView(
@@ -102,7 +102,7 @@ class _Content extends StatelessWidget {
                 ),
                 Center(
                   child: Text(
-                    l10n.movieListDetailCommentsPlaceholder,
+                    l10n?.movieListDetailCommentsPlaceholder ?? '',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),

@@ -19,7 +19,7 @@ class MoviesListsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -36,7 +36,7 @@ class MoviesListsScreen extends StatelessWidget {
             children: [
               if (index == 0 && showPopularHeader) ...[
                 Text(
-                  l10n.moviesListPopularThisWeek,
+                  l10n?.moviesListPopularThisWeek ?? '',
                   style: textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: colorScheme.onSurface,
@@ -65,7 +65,7 @@ class MoviesListsScreen extends StatelessWidget {
           firstPageProgressIndicatorBuilder: (_) =>
               const Center(child: CircularProgressIndicator()),
           firstPageErrorIndicatorBuilder: (_) => Center(
-            child: Text(l10n.unknownError),
+            child: Text(l10n?.unknownError ?? ''),
           ),
         ),
       ),

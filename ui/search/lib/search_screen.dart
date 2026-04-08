@@ -25,7 +25,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -38,13 +38,13 @@ class _SearchScreenState extends State<SearchScreen> {
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
             child: MoovieEditText(
               controller: _searchController,
-              placeholder: l10n.searchHint,
+              placeholder: l10n?.searchHint ?? '',
             ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
             child: Text(
-              l10n.searchBrowse,
+              l10n?.searchBrowse ?? '',
               style: textTheme.titleSmall?.copyWith(
                 color: colorScheme.onSurfaceVariant,
                 letterSpacing: 0.8,
@@ -56,35 +56,35 @@ class _SearchScreenState extends State<SearchScreen> {
               children: [
                 _BrowseItem(
                   icon: Icons.calendar_today_outlined,
-                  label: l10n.searchBrowseReleaseDate,
+                  label: l10n?.searchBrowseReleaseDate ?? '',
                 ),
                 _BrowseItem(
                   icon: Icons.category_outlined,
-                  label: l10n.searchBrowseGenre,
+                  label: l10n?.searchBrowseGenre ?? '',
                 ),
                 _BrowseItem(
                   icon: Icons.language,
-                  label: l10n.searchBrowseCountryAndLanguage,
+                  label: l10n?.searchBrowseCountryAndLanguage ?? '',
                 ),
                 _BrowseItem(
                   icon: Icons.play_circle_outline,
-                  label: l10n.searchBrowseService,
+                  label: l10n?.searchBrowseService ?? '',
                 ),
                 _BrowseItem(
                   icon: Icons.trending_up,
-                  label: l10n.searchBrowseMostPopular,
+                  label: l10n?.searchBrowseMostPopular ?? '',
                 ),
                 _BrowseItem(
                   icon: Icons.star_outline,
-                  label: l10n.searchBrowseHighestRated,
+                  label: l10n?.searchBrowseHighestRated ?? '',
                 ),
                 _BrowseItem(
                   icon: Icons.schedule,
-                  label: l10n.searchBrowseMostAnticipated,
+                  label: l10n?.searchBrowseMostAnticipated ?? '',
                 ),
                 _BrowseItem(
                   icon: Icons.list_alt,
-                  label: l10n.searchBrowseFeaturedLists,
+                  label: l10n?.searchBrowseFeaturedLists ?? '',
                 ),
               ],
             ),

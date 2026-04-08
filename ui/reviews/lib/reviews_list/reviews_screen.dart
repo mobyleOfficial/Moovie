@@ -73,7 +73,7 @@ class _ReviewsPaginatedList extends StatelessWidget {
           firstPageProgressIndicatorBuilder: (_) =>
               const Center(child: CircularProgressIndicator()),
           firstPageErrorIndicatorBuilder: (_) => Center(
-            child: Text(AppLocalizations.of(context)!.unknownError),
+            child: Text(AppLocalizations.of(context)?.unknownError ?? ''),
           ),
         ),
       ),

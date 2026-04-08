@@ -15,7 +15,7 @@ class GetMovieListDetail
     GetMovieListDetailParams? params,
   ]) async =>
       _moviesRepository.getMovieListDetail(
-        listId: params!.listId,
-        page: params.page,
+        listId: params?.listId ?? 0,
+        page: params?.page ?? 1,
       );
 }

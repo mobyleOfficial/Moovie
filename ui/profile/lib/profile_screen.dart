@@ -18,7 +18,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return DefaultTabController(
       length: 4,
@@ -26,10 +26,10 @@ class ProfileScreen extends StatelessWidget {
         children: [
           MoovieTabBar(
             tabs: [
-              l10n.profileTabProfile,
-              l10n.profileTabDiary,
-              l10n.profileTabLists,
-              l10n.profileTabWatchlist,
+              l10n?.profileTabProfile ?? '',
+              l10n?.profileTabDiary ?? '',
+              l10n?.profileTabLists ?? '',
+              l10n?.profileTabWatchlist ?? '',
             ],
           ),
           Expanded(

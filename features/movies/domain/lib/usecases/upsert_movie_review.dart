@@ -20,9 +20,11 @@ class UpsertMovieReview extends UseCase<UpsertMovieReviewParams, Result<void>> {
   UpsertMovieReview(this._moviesRepository);
 
   @override
-  Future<Result<void>> call([UpsertMovieReviewParams? params]) async =>
-      _moviesRepository.upsertMovieReview(
-        draft: params!.draft,
-        status: params.status,
-      );
+  Future<Result<void>> call([UpsertMovieReviewParams? params]) async {
+    if (params == null) return const Failure(AppError.unknown);
+    return _moviesRepository.upsertMovieReview(
+      draft: params.draft,
+      status: params.status,
+    );
+  }
 }

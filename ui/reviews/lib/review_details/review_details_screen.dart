@@ -103,7 +103,7 @@ class ReviewDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final posterColor = _posterColor(colorScheme);
@@ -177,7 +177,7 @@ class ReviewDetailsScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 24),
                         Text(
-                          l10n.reviewDetailsBodyTitle,
+                          l10n?.reviewDetailsBodyTitle ?? '',
                           style: textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.w600,
                             color: colorScheme.onSurface,

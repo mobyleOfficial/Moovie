@@ -9,5 +9,5 @@ class DeleteDraft extends UseCase<int, Result<void>> {
 
   @override
   Future<Result<void>> call([int? params]) async =>
-      _moviesRepository.deleteDraft(movieId: params!);
+      _moviesRepository.deleteDraft(movieId: params ?? 0);
 }

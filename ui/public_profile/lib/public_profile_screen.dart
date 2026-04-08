@@ -132,7 +132,7 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final user = _mockUsers[widget.userId] ?? _defaultUser;
 
     final inTabContext = TabIndexScope.find(context) != null;
@@ -152,9 +152,9 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                 child: Column(
                   children: [
                     MoovieTabBar(tabs: [
-                      l10n.profileTabProfile,
-                      l10n.profileTabDiary,
-                      l10n.profileTabLists,
+                      l10n?.profileTabProfile ?? '',
+                      l10n?.profileTabDiary ?? '',
+                      l10n?.profileTabLists ?? '',
                     ]),
                     Expanded(
                       child: TabBarView(
@@ -206,7 +206,7 @@ class _ProfileInfoTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     final posterColors = [
       colorScheme.primaryContainer,
@@ -258,7 +258,7 @@ class _ProfileInfoTab extends StatelessWidget {
           const SizedBox(height: 24),
           Semantics(
             label:
-                '${user.moviesWatched} ${l10n.profileMoviesWatched}, ${user.following} ${l10n.profileFollowing}, ${user.followers} ${l10n.profileFollowers}',
+                '${user.moviesWatched} ${l10n?.profileMoviesWatched ?? ''}, ${user.following} ${l10n?.profileFollowing ?? ''}, ${user.followers} ${l10n?.profileFollowers ?? ''}',
             excludeSemantics: true,
             child: IntrinsicHeight(
               child: Row(
@@ -266,7 +266,7 @@ class _ProfileInfoTab extends StatelessWidget {
                 children: [
                   _ProfileStat(
                     value: '${user.moviesWatched}',
-                    label: l10n.profileMoviesWatched,
+                    label: l10n?.profileMoviesWatched ?? '',
                   ),
                   VerticalDivider(
                     color: colorScheme.outlineVariant,
@@ -274,7 +274,7 @@ class _ProfileInfoTab extends StatelessWidget {
                   ),
                   _ProfileStat(
                     value: '${user.following}',
-                    label: l10n.profileFollowing,
+                    label: l10n?.profileFollowing ?? '',
                   ),
                   VerticalDivider(
                     color: colorScheme.outlineVariant,
@@ -282,7 +282,7 @@ class _ProfileInfoTab extends StatelessWidget {
                   ),
                   _ProfileStat(
                     value: '${user.followers}',
-                    label: l10n.profileFollowers,
+                    label: l10n?.profileFollowers ?? '',
                   ),
                 ],
               ),
@@ -304,7 +304,7 @@ class _ProfileInfoTab extends StatelessWidget {
                           BorderSide(color: colorScheme.onSecondaryContainer),
                     ),
               child: Text(
-                isFollowing ? l10n.profileFollowing : l10n.profileFollow,
+                isFollowing ? (l10n?.profileFollowing ?? '') : (l10n?.profileFollow ?? ''),
               ),
             ),
           ),
@@ -312,7 +312,7 @@ class _ProfileInfoTab extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              l10n.profileRecentMovies,
+              l10n?.profileRecentMovies ?? '',
               style:
                   textTheme.titleSmall?.copyWith(color: colorScheme.onSurface),
             ),
@@ -519,7 +519,7 @@ class _ListsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final coverColors = [
       colorScheme.primaryContainer,
       colorScheme.tertiaryContainer,
@@ -536,7 +536,7 @@ class _ListsTab extends StatelessWidget {
           title: _lists[index].title,
           movieCount: _lists[index].count,
           coverColor: coverColors[index],
-          moviesLabel: l10n.profileMoviesWatched.toLowerCase(),
+          moviesLabel: l10n?.profileMoviesWatched.toLowerCase() ?? '',
         ),
       ),
     );

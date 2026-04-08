@@ -33,8 +33,8 @@ class _MainScreenState extends State<MainScreen> {
     if (_tabsRouter == tabsRouter) return;
     _detachListeners();
     _tabsRouter = tabsRouter;
-    _tabsRouter!.addListener(_scheduleResolve);
-    _tabsRouter!.root.navigationHistory.addListener(_scheduleResolve);
+    tabsRouter.addListener(_scheduleResolve);
+    tabsRouter.root.navigationHistory.addListener(_scheduleResolve);
     _syncActiveTabRouter();
   }
 
@@ -98,7 +98,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return AutoTabsRouter(
       routes: const [HomeTab(), SearchTab(), SocialTab(), ProfileTab()],
@@ -112,10 +112,10 @@ class _MainScreenState extends State<MainScreen> {
         final activeIndex = tabsRouter.activeIndex;
         final isHomeTab = activeIndex == 0;
         final tabTitles = [
-          l10n.appTitle,
-          l10n.search,
-          l10n.socialTab,
-          l10n.profile,
+          l10n?.appTitle ?? '',
+          l10n?.search ?? '',
+          l10n?.socialTab ?? '',
+          l10n?.profile ?? '',
         ];
         final brightness = Theme.of(context).brightness;
 
@@ -174,7 +174,7 @@ class _MainScreenState extends State<MainScreen> {
               onTap: tabsRouter.setActiveIndex,
               centerItem: MoovieBottomNavigationBarItem(
                 icon: Icons.add,
-                label: l10n.newUserActivityTab,
+                label: l10n?.newUserActivityTab ?? '',
               ),
               onCenterTap: () => context.router.root
                   .push(const NewUserActivityRoute()),
@@ -182,21 +182,21 @@ class _MainScreenState extends State<MainScreen> {
                 MoovieBottomNavigationBarItem(
                   icon: Icons.home_outlined,
                   activeIcon: Icons.home,
-                  label: l10n.home,
+                  label: l10n?.home ?? '',
                 ),
                 MoovieBottomNavigationBarItem(
                   icon: Icons.search,
-                  label: l10n.search,
+                  label: l10n?.search ?? '',
                 ),
                 MoovieBottomNavigationBarItem(
                   icon: Icons.directions_run_outlined,
                   activeIcon: Icons.directions_run,
-                  label: l10n.socialTab,
+                  label: l10n?.socialTab ?? '',
                 ),
                 MoovieBottomNavigationBarItem(
                   icon: Icons.person_outline,
                   activeIcon: Icons.person,
-                  label: l10n.profile,
+                  label: l10n?.profile ?? '',
                 ),
               ],
             ),

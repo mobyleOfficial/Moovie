@@ -12,7 +12,7 @@ class SearchMovies extends UseCase<SearchMoviesParams, Result<TrendingMovieListi
   @override
   Future<Result<TrendingMovieListing>> call([SearchMoviesParams? params]) async =>
       _moviesRepository.searchMovies(
-        query: params!.query,
-        page: params.page,
+        query: params?.query ?? '',
+        page: params?.page ?? 1,
       );
 }

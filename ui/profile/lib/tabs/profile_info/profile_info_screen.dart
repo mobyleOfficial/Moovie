@@ -18,7 +18,7 @@ class ProfileInfoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     final posterColors = [
       colorScheme.primaryContainer,
@@ -35,7 +35,7 @@ class ProfileInfoScreen extends StatelessWidget {
         children: [
           const SizedBox(height: 24),
           Semantics(
-            label: l10n.profile,
+            label: l10n?.profile ?? '',
             image: true,
             child: CircleAvatar(
               radius: 52,
@@ -66,19 +66,19 @@ class ProfileInfoScreen extends StatelessWidget {
           const SizedBox(height: 24),
           Semantics(
             label:
-                '248 ${l10n.profileMoviesWatched}, 32 ${l10n.profileFollowing}, 156 ${l10n.profileFollowers}',
+                '248 ${l10n?.profileMoviesWatched ?? ''}, 32 ${l10n?.profileFollowing ?? ''}, 156 ${l10n?.profileFollowers ?? ''}',
             excludeSemantics: true,
             child: IntrinsicHeight(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _ProfileStat(value: '248', label: l10n.profileMoviesWatched),
+                  _ProfileStat(value: '248', label: l10n?.profileMoviesWatched ?? ''),
                   VerticalDivider(
                       color: colorScheme.outlineVariant, width: 1),
-                  _ProfileStat(value: '32', label: l10n.profileFollowing),
+                  _ProfileStat(value: '32', label: l10n?.profileFollowing ?? ''),
                   VerticalDivider(
                       color: colorScheme.outlineVariant, width: 1),
-                  _ProfileStat(value: '156', label: l10n.profileFollowers),
+                  _ProfileStat(value: '156', label: l10n?.profileFollowers ?? ''),
                 ],
               ),
             ),
@@ -92,14 +92,14 @@ class ProfileInfoScreen extends StatelessWidget {
                 foregroundColor: colorScheme.onSecondaryContainer,
                 side: BorderSide(color: colorScheme.onSecondaryContainer),
               ),
-              child: Text(l10n.profileEditProfile),
+              child: Text(l10n?.profileEditProfile ?? ''),
             ),
           ),
           const SizedBox(height: 28),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              l10n.profileRecentMovies,
+              l10n?.profileRecentMovies ?? '',
               style:
                   textTheme.titleSmall?.copyWith(color: colorScheme.onSurface),
             ),

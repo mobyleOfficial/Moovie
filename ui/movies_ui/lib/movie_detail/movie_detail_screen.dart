@@ -11,7 +11,7 @@ class MovieDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return BlocProvider.value(
       value: cubit,
@@ -63,12 +63,12 @@ class MovieDetailScreen extends StatelessWidget {
                           const SizedBox(height: 8),
                           Text(detail.overview),
                           const SizedBox(height: 16),
-                          Text(l10n.movieRelease(detail.releaseDate)),
-                          Text(l10n.movieRating(detail.voteAverage.toStringAsFixed(1))),
+                          Text(l10n?.movieRelease(detail.releaseDate) ?? ''),
+                          Text(l10n?.movieRating(detail.voteAverage.toStringAsFixed(1)) ?? ''),
                           if (detail.runtime != null)
-                            Text(l10n.movieRuntime(detail.runtime!)),
+                            Text(l10n?.movieRuntime(detail.runtime!) ?? ''),
                           if (detail.genres.isNotEmpty)
-                            Text(l10n.movieGenres(detail.genres.join(', '))),
+                            Text(l10n?.movieGenres(detail.genres.join(', ')) ?? ''),
                         ],
                       ),
                     ),

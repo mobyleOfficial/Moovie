@@ -27,7 +27,7 @@ class MoviesHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return BlocProvider.value(
       value: cubit,
@@ -36,10 +36,10 @@ class MoviesHomeScreen extends StatelessWidget {
         child: Column(
           children: [
             MoovieTabBar(tabs: [
-              l10n.moviesTab,
-              l10n.reviewsTab,
-              l10n.moviesListListsTab,
-              l10n.moviesListArticlesTab,
+              l10n?.moviesTab ?? '',
+              l10n?.reviewsTab ?? '',
+              l10n?.moviesListListsTab ?? '',
+              l10n?.moviesListArticlesTab ?? '',
             ]),
             Expanded(
               child: TabBarView(

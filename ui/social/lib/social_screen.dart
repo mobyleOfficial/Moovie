@@ -27,13 +27,13 @@ class SocialScreen extends StatelessWidget {
 class _SocialContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return DefaultTabController(
       length: 2,
       child: Column(
         children: [
-          MoovieTabBar(tabs: [l10n.socialFriendsTab, l10n.socialMessagesTab]),
+          MoovieTabBar(tabs: [l10n?.socialFriendsTab ?? '', l10n?.socialMessagesTab ?? '']),
           const Expanded(
             child: TabBarView(
               children: [

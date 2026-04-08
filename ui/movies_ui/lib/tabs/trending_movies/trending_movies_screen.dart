@@ -46,7 +46,7 @@ class TrendingMoviesScreen extends StatelessWidget {
                       child: Text(
                         state is TrendingMoviesError
                             ? state.message
-                            : AppLocalizations.of(context)!.unknownError,
+                            : AppLocalizations.of(context)?.unknownError ?? '',
                       ),
                     ),
                   ),

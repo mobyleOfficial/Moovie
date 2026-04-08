@@ -50,7 +50,7 @@ class _ListsScreenState extends State<ListsScreen> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final coverColors = [
       colorScheme.primaryContainer,
       colorScheme.tertiaryContainer,
@@ -72,13 +72,13 @@ class _ListsScreenState extends State<ListsScreen> {
               title: collection.title,
               movieCount: collection.movieCount,
               coverColor: coverColors[index % coverColors.length],
-              moviesLabel: l10n.profileMoviesWatched.toLowerCase(),
+              moviesLabel: l10n?.profileMoviesWatched.toLowerCase() ?? '',
             ),
           ),
           firstPageProgressIndicatorBuilder: (_) =>
               const Center(child: CircularProgressIndicator()),
           firstPageErrorIndicatorBuilder: (_) => Center(
-            child: Text(l10n.unknownError),
+            child: Text(l10n?.unknownError ?? ''),
           ),
         ),
       ),

@@ -93,7 +93,8 @@ class _MoovieReviewEditorState extends State<MoovieReviewEditor>
   }
 
   void _onClear() {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
+    if (l10n == null) return;
     MoovieDialog.show(
       context: context,
       title: l10n.reviewEditorClearConfirmTitle,
@@ -249,7 +250,7 @@ class _MoovieReviewEditorState extends State<MoovieReviewEditor>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
@@ -291,7 +292,7 @@ class _MoovieReviewEditorState extends State<MoovieReviewEditor>
                           height: 1.7,
                         ),
                         decoration: InputDecoration(
-                          hintText: l10n.reviewEditorPlaceholder,
+                          hintText: l10n?.reviewEditorPlaceholder ?? '',
                           hintStyle: textTheme.bodyMedium?.copyWith(
                             color: colorScheme.onSurfaceVariant
                                 .withValues(alpha: 0.6),
@@ -320,7 +321,7 @@ class _MoovieReviewEditorState extends State<MoovieReviewEditor>
               onParagraph: () => _insertBlock('\n'),
               onClear: _onClear,
               onDone: _onDone,
-              clearLabel: l10n.reviewEditorClear,
+              clearLabel: l10n?.reviewEditorClear ?? '',
             ),
             SizedBox(height: bottomInset),
           ],

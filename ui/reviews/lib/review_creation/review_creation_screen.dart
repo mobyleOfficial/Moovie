@@ -44,20 +44,20 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
     widget.cubit.updateReviewBody(result);
   }
 
-  List<String> _buildTags(AppLocalizations l10n) => [
-        l10n.movieReviewTagMasterpiece,
-        l10n.movieReviewTagOverrated,
-        l10n.movieReviewTagUnderrated,
-        l10n.movieReviewTagMustWatch,
-        l10n.movieReviewTagDisappointing,
-        l10n.movieReviewTagFeelGood,
-        l10n.movieReviewTagMindBending,
-        l10n.movieReviewTagEmotional,
+  List<String> _buildTags(AppLocalizations? l10n) => [
+        l10n?.movieReviewTagMasterpiece ?? '',
+        l10n?.movieReviewTagOverrated ?? '',
+        l10n?.movieReviewTagUnderrated ?? '',
+        l10n?.movieReviewTagMustWatch ?? '',
+        l10n?.movieReviewTagDisappointing ?? '',
+        l10n?.movieReviewTagFeelGood ?? '',
+        l10n?.movieReviewTagMindBending ?? '',
+        l10n?.movieReviewTagEmotional ?? '',
       ];
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return BlocProvider.value(
       value: widget.cubit,
@@ -65,10 +65,10 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
         appBar: AppBar(
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
-          title: Text(l10n.movieReviewTitle),
+          title: Text(l10n?.movieReviewTitle ?? ''),
           actions: [
             Tooltip(
-              message: l10n.movieReviewSend,
+              message: l10n?.movieReviewSend ?? '',
               child: IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.send),
@@ -109,7 +109,7 @@ class _ReviewBody extends StatelessWidget {
   final String posterBaseUrl;
   final TextEditingController reviewNameController;
   final List<String> tags;
-  final AppLocalizations l10n;
+  final AppLocalizations? l10n;
   final VoidCallback onAddReview;
 
   const _ReviewBody({
@@ -144,7 +144,7 @@ class _ReviewBody extends StatelessWidget {
             controller: reviewNameController,
             onChanged: cubit.updateReviewTitle,
             decoration: InputDecoration(
-              hintText: l10n.movieReviewNameHint,
+              hintText: l10n?.movieReviewNameHint ?? '',
               border: const OutlineInputBorder(),
             ),
           ),
@@ -181,8 +181,8 @@ class _ReviewBody extends StatelessWidget {
             children: [
               Tooltip(
                 message: state.isRewatch
-                    ? l10n.movieReviewRewatch
-                    : l10n.movieReviewFirstTime,
+                    ? (l10n?.movieReviewRewatch ?? '')
+                    : (l10n?.movieReviewFirstTime ?? ''),
                 child: IconButton(
                   onPressed: cubit.toggleRewatch,
                   icon: Icon(
@@ -197,8 +197,8 @@ class _ReviewBody extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 state.isRewatch
-                    ? l10n.movieReviewRewatch
-                    : l10n.movieReviewFirstTime,
+                    ? (l10n?.movieReviewRewatch ?? '')
+                    : (l10n?.movieReviewFirstTime ?? ''),
                 style: textTheme.bodyMedium?.copyWith(
                   color: colorScheme.onSurface,
                   fontWeight: FontWeight.w500,
@@ -208,7 +208,7 @@ class _ReviewBody extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Text(
-            l10n.movieReviewTags,
+            l10n?.movieReviewTags ?? '',
             style: textTheme.titleSmall?.copyWith(
               color: colorScheme.onSurface,
               fontWeight: FontWeight.w600,
@@ -242,13 +242,13 @@ class _AddReviewSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final hasContent = html != null && html!.isNotEmpty;
 
     return Semantics(
-      label: hasContent ? 'Edit your review' : l10n.movieReviewAddReview,
+      label: hasContent ? 'Edit your review' : l10n?.movieReviewAddReview ?? '',
       button: true,
       child: InkWell(
         onTap: onTap,
@@ -273,7 +273,7 @@ class _AddReviewSection extends StatelessWidget {
                     ),
                     const SizedBox(width: 12),
                     Text(
-                      l10n.movieReviewAddReview,
+                      l10n?.movieReviewAddReview ?? '',
                       style: textTheme.bodyLarge?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
