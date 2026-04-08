@@ -21,7 +21,9 @@ class ReleaseDateMoviesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
+    return ColoredBox(
+      color: Theme.of(context).colorScheme.surface,
+      child: BlocProvider.value(
       value: cubit,
       child: BlocBuilder<ReleaseDateMoviesCubit, ReleaseDateMoviesState>(
         builder: (context, state) => switch (state) {
@@ -61,6 +63,7 @@ class ReleaseDateMoviesScreen extends StatelessWidget {
               ),
             ),
         },
+      ),
       ),
     );
   }

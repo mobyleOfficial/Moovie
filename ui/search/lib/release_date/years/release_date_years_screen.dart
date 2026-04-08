@@ -17,7 +17,9 @@ class ReleaseDateYearsScreen extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final years = List.generate(10, (i) => decade + 9 - i);
 
-    return ListView.builder(
+    return ColoredBox(
+      color: Theme.of(context).colorScheme.surface,
+      child: ListView.builder(
       itemCount: years.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
@@ -47,6 +49,7 @@ class ReleaseDateYearsScreen extends StatelessWidget {
           onTap: () => onYearTap(year),
         );
       },
+      ),
     );
   }
 }
