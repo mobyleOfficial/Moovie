@@ -11,7 +11,6 @@ class ReleaseDateMoviesScreen extends StatelessWidget {
   final ReleaseDateMoviesCubit cubit;
   final void Function(int movieId, String movieTitle) onMovieTap;
 
-  static const String _posterBaseUrl = 'https://image.tmdb.org/t/p/w342';
 
   const ReleaseDateMoviesScreen({
     super.key,
@@ -48,7 +47,7 @@ class ReleaseDateMoviesScreen extends StatelessWidget {
                   itemBuilder: (context, movie, index) =>
                       MoovieMoviePosterCard(
                     imageUrl: movie.posterPath.isNotEmpty
-                        ? '$_posterBaseUrl${movie.posterPath}'
+                        ? '${TmdbImageUrl.posterLarge}${movie.posterPath}'
                         : null,
                     onTap: () => onMovieTap(movie.id, movie.title),
                   ),

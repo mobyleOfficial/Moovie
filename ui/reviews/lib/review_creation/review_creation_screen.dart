@@ -25,7 +25,6 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
   late final TextEditingController _reviewNameController =
       TextEditingController(text: widget.cubit.initialDraft?.reviewTitle);
 
-  static const String _posterBaseUrl = 'https://image.tmdb.org/t/p/w185';
 
   @override
   void dispose() {
@@ -88,7 +87,7 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
                 state: state,
                 movieTitle: widget.movieTitle,
                 posterPath: widget.posterPath,
-                posterBaseUrl: _posterBaseUrl,
+                posterBaseUrl: TmdbImageUrl.posterMedium,
                 reviewNameController: _reviewNameController,
                 tags: _buildTags(l10n),
                 l10n: l10n,

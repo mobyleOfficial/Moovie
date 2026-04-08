@@ -30,7 +30,7 @@ class MovieDetailScreen extends StatelessWidget {
                   children: [
                     if (detail.backdropPath.isNotEmpty)
                       Image.network(
-                        'https://image.tmdb.org/t/p/w780${detail.backdropPath}',
+                        '${TmdbImageUrl.backdrop}${detail.backdropPath}',
                         width: double.infinity,
                         height: 220,
                         fit: BoxFit.cover,
