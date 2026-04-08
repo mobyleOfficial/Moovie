@@ -316,6 +316,30 @@ abstract class AppLocalizations {
   /// **'Articles'**
   String get moviesListArticlesTab;
 
+  /// Header for popular lists section
+  ///
+  /// In en, this message translates to:
+  /// **'Popular this week'**
+  String get moviesListPopularThisWeek;
+
+  /// Movies tab label with count
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Movies'**
+  String movieListDetailMoviesTab(int count);
+
+  /// Comments tab label with count
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Comments'**
+  String movieListDetailCommentsTab(int count);
+
+  /// Placeholder for comments tab
+  ///
+  /// In en, this message translates to:
+  /// **'Comments coming soon'**
+  String get movieListDetailCommentsPlaceholder;
+
   /// Drafts section header on the new activity screen
   ///
   /// In en, this message translates to:
