@@ -30,6 +30,7 @@ abstract interface class MoviesRepository {
     String? withGenres,
     String? withOriginalLanguage,
     String? withOriginCountry,
+    int? minimumVoteCount,
   });
   Future<Result<List<Genre>>> getGenres();
   Future<Result<List<Country>>> getCountries();

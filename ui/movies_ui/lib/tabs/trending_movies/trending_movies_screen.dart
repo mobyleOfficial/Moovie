@@ -9,7 +9,6 @@ import 'package:movies_ui/tabs/trending_movies/trending_movies_state.dart';
 class TrendingMoviesScreen extends StatelessWidget {
   final void Function(int movieId, String movieTitle) onMovieTap;
 
-  static const String _posterBaseUrl = 'https://image.tmdb.org/t/p/w342';
 
   const TrendingMoviesScreen({
     super.key,
@@ -34,7 +33,7 @@ class TrendingMoviesScreen extends StatelessWidget {
             builderDelegate: PagedChildBuilderDelegate<Movie>(
               itemBuilder: (context, movie, index) => MoovieMoviePosterCard(
                 imageUrl: movie.posterPath.isNotEmpty
-                    ? '$_posterBaseUrl${movie.posterPath}'
+                    ? '${TmdbImageUrl.posterLarge}${movie.posterPath}'
                     : null,
                 onTap: () => onMovieTap(movie.id, movie.title),
               ),

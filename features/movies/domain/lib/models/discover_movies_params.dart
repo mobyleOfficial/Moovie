@@ -7,6 +7,7 @@ class DiscoverMoviesParams {
   final String? withGenres;
   final String? withOriginalLanguage;
   final String? withOriginCountry;
+  final int? minimumVoteCount;
 
   const DiscoverMoviesParams({
     this.page = 1,
@@ -17,5 +18,6 @@ class DiscoverMoviesParams {
     this.withGenres,
     this.withOriginalLanguage,
     this.withOriginCountry,
+    this.minimumVoteCount,
   });
 }
