@@ -1,13 +1,21 @@
+import 'package:movies/movies.dart';
+
 sealed class SearchState {
   const SearchState();
 }
 
-class SearchLoading extends SearchState {
-  const SearchLoading();
+class SearchIdle extends SearchState {
+  const SearchIdle();
 }
 
-class SearchSuccess extends SearchState {
-  const SearchSuccess();
+class SearchSearching extends SearchState {
+  const SearchSearching();
+}
+
+class SearchResults extends SearchState {
+  final List<Movie> movies;
+
+  const SearchResults(this.movies);
 }
 
 class SearchError extends SearchState {

@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:movies/movies.dart';
 
-import 'search_bloc.dart';
-import 'search_screen.dart';
+import 'package:search/search_bloc.dart';
+import 'package:search/search_screen.dart';
 
 @RoutePage()
 class SearchPage extends StatefulWidget {
@@ -13,7 +15,9 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final SearchCubit _cubit = SearchCubit();
+  late final SearchCubit _cubit = SearchCubit(
+    GetIt.I<SearchMovies>(),
+  );
 
   @override
   void dispose() {

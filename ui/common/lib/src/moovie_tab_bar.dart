@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 class MoovieTabBar extends StatefulWidget {
   final List<String> tabs;
   final TabController? controller;
+  final bool isScrollable;
 
   const MoovieTabBar({
     super.key,
     required this.tabs,
     this.controller,
+    this.isScrollable = false,
   });
 
   @override
@@ -93,6 +95,8 @@ class _MoovieTabBarState extends State<MoovieTabBar> {
 
     return TabBar(
       controller: tabController,
+      isScrollable: widget.isScrollable,
+      tabAlignment: widget.isScrollable ? TabAlignment.start : null,
       labelColor: colorScheme.onSecondaryContainer,
       unselectedLabelColor: colorScheme.onSurfaceVariant,
       indicatorColor: colorScheme.onSecondaryContainer,
