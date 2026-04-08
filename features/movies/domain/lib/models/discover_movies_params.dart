@@ -4,6 +4,9 @@ class DiscoverMoviesParams {
   final String? releaseDateGte;
   final String? releaseDateLte;
   final String? sortBy;
+  final String? withGenres;
+  final String? withOriginalLanguage;
+  final String? withOriginCountry;
 
   const DiscoverMoviesParams({
     this.page = 1,
@@ -11,5 +14,8 @@ class DiscoverMoviesParams {
     this.releaseDateGte,
     this.releaseDateLte,
     this.sortBy,
+    this.withGenres,
+    this.withOriginalLanguage,
+    this.withOriginCountry,
   });
 }

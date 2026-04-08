@@ -92,6 +92,18 @@
   "@searchBrowseCountryAndLanguage": {
     "description": "Browse by country and language option"
   },
+  "searchBrowseGenreCountryLanguage": "Genre, Country & Language",
+  "@searchBrowseGenreCountryLanguage": {
+    "description": "Merged browse option for genre, country and language"
+  },
+  "searchBrowseCountry": "Country",
+  "@searchBrowseCountry": {
+    "description": "Country tab label in browse categories"
+  },
+  "searchBrowseLanguage": "Language",
+  "@searchBrowseLanguage": {
+    "description": "Language tab label in browse categories"
+  },
   "searchBrowseService": "Service",
   "@searchBrowseService": {
     "description": "Browse by streaming service option"

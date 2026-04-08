@@ -11,6 +11,9 @@ class ReleaseDateMoviesCubit extends Cubit<ReleaseDateMoviesState> {
   final String? releaseDateGte;
   final String? releaseDateLte;
   final String? sortBy;
+  final String? withGenres;
+  final String? withOriginalLanguage;
+  final String? withOriginCountry;
 
   int _totalPages = 1;
 
@@ -29,6 +32,9 @@ class ReleaseDateMoviesCubit extends Cubit<ReleaseDateMoviesState> {
     this.releaseDateGte,
     this.releaseDateLte,
     this.sortBy,
+    this.withGenres,
+    this.withOriginalLanguage,
+    this.withOriginCountry,
   }) : super(const ReleaseDateMoviesSuccess());
 
   Future<List<Movie>> _fetchPage(int page) async {
@@ -39,6 +45,9 @@ class ReleaseDateMoviesCubit extends Cubit<ReleaseDateMoviesState> {
         releaseDateGte: releaseDateGte,
         releaseDateLte: releaseDateLte,
         sortBy: sortBy,
+        withGenres: withGenres,
+        withOriginalLanguage: withOriginalLanguage,
+        withOriginCountry: withOriginCountry,
       ),
     );
 

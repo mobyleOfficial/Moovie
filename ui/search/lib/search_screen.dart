@@ -64,11 +64,10 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 _BrowseItem(
                   icon: Icons.category_outlined,
-                  label: l10n?.searchBrowseGenre ?? '',
-                ),
-                _BrowseItem(
-                  icon: Icons.language,
-                  label: l10n?.searchBrowseCountryAndLanguage ?? '',
+                  label: l10n?.searchBrowseGenreCountryLanguage ?? '',
+                  onTap: () => context.router.push(
+                    const BrowseCategoriesRoute(),
+                  ),
                 ),
                 _BrowseItem(
                   icon: Icons.play_circle_outline,

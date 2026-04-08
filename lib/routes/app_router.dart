@@ -41,6 +41,7 @@ class AppRouter extends RootStackRouter {
                 AutoRoute(page: ReleaseDateDecadesRoute.page),
                 AutoRoute(page: ReleaseDateYearsRoute.page),
                 AutoRoute(page: ReleaseDateMoviesRoute.page),
+                AutoRoute(page: BrowseCategoriesRoute.page),
                 AutoRoute(page: MovieDetailRoute.page),
               ],
             ),
