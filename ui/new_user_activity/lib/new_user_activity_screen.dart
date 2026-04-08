@@ -195,7 +195,6 @@ class _SearchResultsList extends StatelessWidget {
   final List<Movie> movies;
   final VoidCallback? onMovieSelected;
 
-  static const String _posterBaseUrl = 'https://image.tmdb.org/t/p/w92';
 
   const _SearchResultsList({required this.movies, this.onMovieSelected});
 
@@ -266,7 +265,7 @@ class _MovieResultTile extends StatelessWidget {
                     child: movie.posterPath.isNotEmpty
                         ? CachedNetworkImage(
                             imageUrl:
-                                '${_SearchResultsList._posterBaseUrl}${movie.posterPath}',
+                                '${TmdbImageUrl.posterSmall}${movie.posterPath}',
                             fit: BoxFit.cover,
                             placeholder: (_, __) => Container(
                               color: colorScheme.surfaceContainerHighest,

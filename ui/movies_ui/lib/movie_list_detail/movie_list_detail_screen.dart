@@ -14,8 +14,6 @@ class MovieListDetailScreen extends StatefulWidget {
   final List<String> posterPaths;
   final void Function(int movieId, String movieTitle) onMovieTap;
 
-  static const String _posterBaseUrl = 'https://image.tmdb.org/t/p/w342';
-  static const String _headerBaseUrl = 'https://image.tmdb.org/t/p/w780';
 
   const MovieListDetailScreen({
     super.key,
@@ -50,8 +48,8 @@ class _MovieListDetailScreenState extends State<MovieListDetailScreen> {
               cubit: widget.cubit,
               headerPoster: _headerPoster,
               onMovieTap: widget.onMovieTap,
-              posterBaseUrl: MovieListDetailScreen._posterBaseUrl,
-              headerBaseUrl: MovieListDetailScreen._headerBaseUrl,
+              posterBaseUrl: TmdbImageUrl.posterLarge,
+              headerBaseUrl: TmdbImageUrl.backdrop,
             ),
         },
       ),
