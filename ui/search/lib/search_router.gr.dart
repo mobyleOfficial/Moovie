@@ -27,6 +27,54 @@ class BrowseCategoriesRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [HighestRatedPage]
+class HighestRatedRoute extends PageRouteInfo<void> {
+  const HighestRatedRoute({List<PageRouteInfo>? children})
+    : super(HighestRatedRoute.name, initialChildren: children);
+
+  static const String name = 'HighestRatedRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const HighestRatedPage();
+    },
+  );
+}
+
+/// generated route for
+/// [MostAnticipatedPage]
+class MostAnticipatedRoute extends PageRouteInfo<void> {
+  const MostAnticipatedRoute({List<PageRouteInfo>? children})
+    : super(MostAnticipatedRoute.name, initialChildren: children);
+
+  static const String name = 'MostAnticipatedRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const MostAnticipatedPage();
+    },
+  );
+}
+
+/// generated route for
+/// [MostPopularPage]
+class MostPopularRoute extends PageRouteInfo<void> {
+  const MostPopularRoute({List<PageRouteInfo>? children})
+    : super(MostPopularRoute.name, initialChildren: children);
+
+  static const String name = 'MostPopularRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const MostPopularPage();
+    },
+  );
+}
+
+/// generated route for
 /// [ReleaseDateDecadesPage]
 class ReleaseDateDecadesRoute extends PageRouteInfo<void> {
   const ReleaseDateDecadesRoute({List<PageRouteInfo>? children})

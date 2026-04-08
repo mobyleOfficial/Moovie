@@ -27,6 +27,7 @@ abstract interface class MoviesRemoteDataSource {
     String? withGenres,
     String? withOriginalLanguage,
     String? withOriginCountry,
+    int? voteCountGte,
   });
   Future<Result<List<RemoteGenre>>> getGenres();
   Future<Result<List<RemoteCountry>>> getCountries();
