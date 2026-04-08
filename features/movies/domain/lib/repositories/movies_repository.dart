@@ -18,6 +18,13 @@ abstract interface class MoviesRepository {
   Future<Result<MovieListListing>> getMovieLists({required int page});
   Future<Result<MovieListDetail>> getMovieListDetail({required int listId, required int page});
   Future<Result<TrendingMovieListing>> searchMovies({required String query, required int page});
+  Future<Result<TrendingMovieListing>> discoverMovies({
+    required int page,
+    int? primaryReleaseYear,
+    String? releaseDateGte,
+    String? releaseDateLte,
+    String? sortBy,
+  });
   Result<void> upsertMovieReview({required MovieReviewDraft draft, required MovieReviewStatus status});
   Stream<List<MovieReviewDraft>> observeMovieReviewDraftsList();
   Result<void> deleteDraft({required int movieId});

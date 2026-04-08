@@ -13,3 +13,4 @@ export 'search_movies.dart';
 export 'upsert_movie_review.dart';
 export 'observe_movie_review_drafts_list.dart';
 export 'observe_recent_searches.dart';
+export 'discover_movies.dart';
