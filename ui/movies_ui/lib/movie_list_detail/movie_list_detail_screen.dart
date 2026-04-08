@@ -240,8 +240,8 @@ class _MoviesTabState extends State<_MoviesTab>
                           gridSpacing: moovieGridSpacing,
                           screenWidth: screenWidth,
                           posterBaseUrl: widget.posterBaseUrl,
-                          onTap: (m) =>
-                              widget.onMovieTap(m.id, m.title),
+                          onTap: (movie) =>
+                              widget.onMovieTap(movie.id, movie.title),
                         ),
                         firstPageProgressIndicatorBuilder: (_) =>
                             const Center(

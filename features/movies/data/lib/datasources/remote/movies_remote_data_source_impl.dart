@@ -287,7 +287,7 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
     await Future<void>.delayed(const Duration(milliseconds: 500));
 
     final list = _mockedLists.firstWhere(
-      (l) => l.id == listId,
+      (list) => list.id == listId,
       orElse: () => _mockedLists.first,
     );
 
@@ -386,7 +386,7 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
     return switch (result) {
       Success<Map<String, dynamic>>(:final data) => Success(
           (data['genres'] as List)
-              .map((g) => RemoteGenre.fromJson(g as Map<String, dynamic>))
+              .map((genre) => RemoteGenre.fromJson(genre as Map<String, dynamic>))
               .toList(),
         ),
       Failure<Map<String, dynamic>>(:final error) => Failure(error),
@@ -402,9 +402,9 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
     return switch (result) {
       Success<List<dynamic>>(:final data) => Success(
           data
-              .map((c) => RemoteCountry.fromJson(c as Map<String, dynamic>))
+              .map((country) => RemoteCountry.fromJson(country as Map<String, dynamic>))
               .toList()
-            ..sort((a, b) => a.englishName.compareTo(b.englishName)),
+            ..sort((first, second) => first.englishName.compareTo(second.englishName)),
         ),
       Failure<List<dynamic>>(:final error) => Failure(error),
     };
@@ -419,7 +419,7 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
     return switch (result) {
       Success<List<dynamic>>(:final data) => Success(
           data
-              .map((l) => RemoteLanguage.fromJson(l as Map<String, dynamic>))
+              .map((language) => RemoteLanguage.fromJson(language as Map<String, dynamic>))
               .toList(),
         ),
       Failure<List<dynamic>>(:final error) => Failure(error),

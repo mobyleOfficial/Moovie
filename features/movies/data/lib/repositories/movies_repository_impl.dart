@@ -131,7 +131,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
 
     return switch (result) {
       Success(:final data) =>
-        Success(data.map((g) => g.toDomain()).toList()),
+        Success(data.map((genre) => genre.toDomain()).toList()),
       Failure(:final error) => Failure(error),
     };
   }
@@ -142,7 +142,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
 
     return switch (result) {
       Success(:final data) =>
-        Success(data.map((c) => c.toDomain()).toList()),
+        Success(data.map((country) => country.toDomain()).toList()),
       Failure(:final error) => Failure(error),
     };
   }
@@ -153,7 +153,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
 
     return switch (result) {
       Success(:final data) =>
-        Success(data.map((l) => l.toDomain()).toList()),
+        Success(data.map((language) => language.toDomain()).toList()),
       Failure(:final error) => Failure(error),
     };
   }

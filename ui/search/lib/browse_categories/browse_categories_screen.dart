@@ -98,21 +98,21 @@ class _ContentState extends State<_Content>
               MoovieKeepAliveTab(
                 child: _CategoryList<Genre>(
                   items: widget.state.genres,
-                  labelBuilder: (g) => g.name,
+                  labelBuilder: (genre) => genre.name,
                   onTap: widget.onGenreTap,
                 ),
               ),
               MoovieKeepAliveTab(
                 child: _CategoryList<Country>(
                   items: widget.state.countries,
-                  labelBuilder: (c) => c.englishName,
+                  labelBuilder: (country) => country.englishName,
                   onTap: widget.onCountryTap,
                 ),
               ),
               MoovieKeepAliveTab(
                 child: _CategoryList<Language>(
                   items: widget.state.languages,
-                  labelBuilder: (l) => l.englishName,
+                  labelBuilder: (language) => language.englishName,
                   onTap: widget.onLanguageTap,
                 ),
               ),
