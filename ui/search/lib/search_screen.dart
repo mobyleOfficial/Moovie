@@ -124,33 +124,10 @@ class _SearchResultsSectionState extends State<_SearchResultsSection> {
 
     return Column(
       children: [
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Row(
-            children: [
-              for (var index = 0; index < _categories.length; index++)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: FilterChip(
-                    label: Text(_categories[index]),
-                    selected: _selectedIndex == index,
-                    onSelected: (_) => setState(() => _selectedIndex = index),
-                    selectedColor: colorScheme.secondaryContainer,
-                    checkmarkColor: colorScheme.onSecondaryContainer,
-                    labelStyle: TextStyle(
-                      color: _selectedIndex == index
-                          ? colorScheme.onSecondaryContainer
-                          : colorScheme.onSurfaceVariant,
-                      fontWeight: _selectedIndex == index
-                          ? FontWeight.w600
-                          : FontWeight.normal,
-                    ),
-                    showCheckmark: false,
-                  ),
-                ),
-            ],
-          ),
+        MoovieFilterChipBar(
+          labels: _categories,
+          selectedIndex: _selectedIndex,
+          onSelected: (index) => setState(() => _selectedIndex = index),
         ),
         Divider(height: 1, color: colorScheme.outlineVariant),
         Expanded(
