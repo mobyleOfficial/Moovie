@@ -139,7 +139,7 @@ class _MoviesTab extends StatefulWidget {
 }
 
 class _MoviesTabState extends State<_MoviesTab>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   static const _animDuration = Duration(milliseconds: 450);
 
   late final AnimationController _controller = AnimationController(
@@ -152,6 +152,9 @@ class _MoviesTabState extends State<_MoviesTab>
     parent: _controller,
     curve: Curves.easeInOutCubic,
   );
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void dispose() {
@@ -174,6 +177,7 @@ class _MoviesTabState extends State<_MoviesTab>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final detail = widget.state.detail;
 
     return PagingListener(
