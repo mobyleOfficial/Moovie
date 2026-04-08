@@ -71,6 +71,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchBrowseCountryAndLanguage => 'Country & Language';
 
   @override
+  String get searchBrowseGenreCountryLanguage => 'Genre, Country & Language';
+
+  @override
+  String get searchBrowseCountry => 'Country';
+
+  @override
+  String get searchBrowseLanguage => 'Language';
+
+  @override
   String get searchBrowseService => 'Service';
 
   @override

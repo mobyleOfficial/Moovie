@@ -2,19 +2,19 @@ import 'package:movies_domain/domain.dart';
 
 import 'package:movies_data/models/remote/remote_movie.dart';
 
-class RemoteTrendingMovieListing {
+class RemoteMovieListing {
   final int totalPages;
   final int totalResults;
   final List<RemoteMovie> movies;
 
-  const RemoteTrendingMovieListing({
+  const RemoteMovieListing({
     required this.totalPages,
     required this.totalResults,
     required this.movies,
   });
 
-  factory RemoteTrendingMovieListing.fromJson(Map<String, dynamic> json) =>
-      RemoteTrendingMovieListing(
+  factory RemoteMovieListing.fromJson(Map<String, dynamic> json) =>
+      RemoteMovieListing(
         totalPages: json['total_pages'] as int,
         totalResults: json['total_results'] as int,
         movies: (json['results'] as List<dynamic>)
@@ -23,7 +23,7 @@ class RemoteTrendingMovieListing {
             .toList(),
       );
 
-  TrendingMovieListing toDomain() => TrendingMovieListing(
+  MovieListing toDomain() => MovieListing(
         totalPages: totalPages,
         totalResults: totalResults,
         movies: movies.map((movie) => movie.toDomain()).toList(),

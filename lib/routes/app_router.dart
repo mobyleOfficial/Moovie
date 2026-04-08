@@ -38,6 +38,11 @@ class AppRouter extends RootStackRouter {
               page: SearchTab.page,
               children: [
                 AutoRoute(page: SearchRoute.page, initial: true),
+                AutoRoute(page: ReleaseDateDecadesRoute.page),
+                AutoRoute(page: ReleaseDateYearsRoute.page),
+                AutoRoute(page: ReleaseDateMoviesRoute.page),
+                AutoRoute(page: BrowseCategoriesRoute.page),
+                AutoRoute(page: MovieDetailRoute.page),
               ],
             ),
             AutoRoute(

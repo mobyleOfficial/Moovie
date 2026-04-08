@@ -34,7 +34,7 @@ class RemoteMovieListDetail {
         name: name,
         creator: creator,
         description: description,
-        movies: movies.map((m) => m.toDomain()).toList(),
+        movies: movies.map((movie) => movie.toDomain()).toList(),
         totalMovies: totalMovies,
         totalPages: totalPages,
         commentsCount: commentsCount,

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:search/search_router.dart';
 import 'package:search/search_bloc.dart';
 import 'package:search/search_state.dart';
 
@@ -57,14 +58,16 @@ class _SearchScreenState extends State<SearchScreen> {
                 _BrowseItem(
                   icon: Icons.calendar_today_outlined,
                   label: l10n?.searchBrowseReleaseDate ?? '',
+                  onTap: () => context.router.push(
+                    const ReleaseDateDecadesRoute(),
+                  ),
                 ),
                 _BrowseItem(
                   icon: Icons.category_outlined,
-                  label: l10n?.searchBrowseGenre ?? '',
-                ),
-                _BrowseItem(
-                  icon: Icons.language,
-                  label: l10n?.searchBrowseCountryAndLanguage ?? '',
+                  label: l10n?.searchBrowseGenreCountryLanguage ?? '',
+                  onTap: () => context.router.push(
+                    const BrowseCategoriesRoute(),
+                  ),
                 ),
                 _BrowseItem(
                   icon: Icons.play_circle_outline,
@@ -98,8 +101,9 @@ class _SearchScreenState extends State<SearchScreen> {
 class _BrowseItem extends StatelessWidget {
   final IconData icon;
   final String label;
+  final VoidCallback? onTap;
 
-  const _BrowseItem({required this.icon, required this.label});
+  const _BrowseItem({required this.icon, required this.label, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +115,7 @@ class _BrowseItem extends StatelessWidget {
       trailing: ExcludeSemantics(
         child: Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
       ),
-      onTap: () {},
+      onTap: onTap ?? () {},
     );
   }
 }

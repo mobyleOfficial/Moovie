@@ -12,4 +12,7 @@ export 'remote/remote_movie_list_listing.dart';
 export 'remote/remote_movie_detail.dart';
 export 'remote/remote_movie_review.dart';
 export 'remote/remote_movie_review_listing.dart';
-export 'remote/remote_trending_movie_listing.dart';
+export 'remote/remote_movie_listing.dart';
+export 'remote/remote_genre.dart';
+export 'remote/remote_country.dart';
+export 'remote/remote_language.dart';
