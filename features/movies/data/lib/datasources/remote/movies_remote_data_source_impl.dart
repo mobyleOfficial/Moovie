@@ -341,7 +341,7 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
     String? withGenres,
     String? withOriginalLanguage,
     String? withOriginCountry,
-    int? voteCountGte,
+    int? minimumVoteCount,
   }) async {
     final queryParams = <String, dynamic>{'page': page};
     if (primaryReleaseYear != null) {
@@ -365,8 +365,8 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
     if (withOriginCountry != null) {
       queryParams['with_origin_country'] = withOriginCountry;
     }
-    if (voteCountGte != null) {
-      queryParams['vote_count.gte'] = voteCountGte;
+    if (minimumVoteCount != null) {
+      queryParams['vote_count.gte'] = minimumVoteCount;
     }
 
     final result = await _httpClient.get<Map<String, dynamic>>(
