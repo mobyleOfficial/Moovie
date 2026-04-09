@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies/movies.dart';
 
-import 'package:profile_ui/tabs/lists/profile_lists_state.dart';
+import 'package:profile_ui/tabs/lists/user_movie_lists_state.dart';
 
-class ProfileListsCubit extends Cubit<ProfileListsState> {
+class UserMovieListsCubit extends Cubit<UserMovieListsState> {
   final GetUserMovieLists _getUserMovieLists;
 
   int _totalPages = 1;
@@ -19,7 +19,7 @@ class ProfileListsCubit extends Cubit<ProfileListsState> {
     fetchPage: _fetchPage,
   );
 
-  ProfileListsCubit(this._getUserMovieLists) : super(const ProfileListsSuccess());
+  UserMovieListsCubit(this._getUserMovieLists) : super(const UserMovieListsSuccess());
 
   Future<List<MovieList>> _fetchPage(int page) async {
     final result = await _getUserMovieLists(page);

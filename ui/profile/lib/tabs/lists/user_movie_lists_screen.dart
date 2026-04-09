@@ -8,18 +8,18 @@ import 'package:movies/movies.dart';
 import 'package:movies_ui/movie_list_detail/movie_list_detail_router.dart';
 import 'package:movies_ui/tabs/lists/movies_list_tile.dart';
 
-import 'package:profile_ui/tabs/lists/profile_lists_bloc.dart';
-import 'package:profile_ui/tabs/lists/profile_lists_state.dart';
+import 'package:profile_ui/tabs/lists/user_movie_lists_bloc.dart';
+import 'package:profile_ui/tabs/lists/user_movie_lists_state.dart';
 
-class ListsScreen extends StatefulWidget {
-  const ListsScreen({super.key});
+class UserMovieListsScreen extends StatefulWidget {
+  const UserMovieListsScreen({super.key});
 
   @override
-  State<ListsScreen> createState() => _ListsScreenState();
+  State<UserMovieListsScreen> createState() => _UserMovieListsScreenState();
 }
 
-class _ListsScreenState extends State<ListsScreen> {
-  late final ProfileListsCubit _cubit = ProfileListsCubit(
+class _UserMovieListsScreenState extends State<UserMovieListsScreen> {
+  late final UserMovieListsCubit _cubit = UserMovieListsCubit(
     GetIt.I<GetUserMovieLists>(),
   );
 
@@ -33,15 +33,15 @@ class _ListsScreenState extends State<ListsScreen> {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: _cubit,
-      child: BlocBuilder<ProfileListsCubit, ProfileListsState>(
+      child: BlocBuilder<UserMovieListsCubit, UserMovieListsState>(
         builder: (context, state) => switch (state) {
-          ProfileListsLoading() => const Center(
+          UserMovieListsLoading() => const Center(
               child: CircularProgressIndicator(),
             ),
-          ProfileListsError(:final message) => Center(
+          UserMovieListsError(:final message) => Center(
               child: Text(message),
             ),
-          ProfileListsSuccess() => PagingListener(
+          UserMovieListsSuccess() => PagingListener(
               controller: _cubit.pagingController,
               builder: (context, pagingState, fetchNextPage) =>
                   PagedListView<int, MovieList>(
