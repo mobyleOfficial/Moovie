@@ -36,6 +36,5 @@ class _MoviesHomePageState extends State<MoviesHomePage> {
           MovieDetailRoute(movieId: movieId, movieTitle: movieTitle),
         ),
         getMovieReviews: GetIt.I<GetMovieReviews>(),
-        getMovieCollections: GetIt.I<GetMovieCollections>(),
       );
 }
