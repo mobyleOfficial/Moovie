@@ -8,12 +8,10 @@ import 'package:reviews/reviews_list/reviews_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final GetMovieReviews getMovieReviews;
-  final GetMovieCollections getMovieCollections;
 
   const ProfileScreen({
     super.key,
     required this.getMovieReviews,
-    required this.getMovieCollections,
   });
 
   @override
@@ -45,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               const ProfileInfoScreen(),
               ReviewsScreen(getMovieReviews: widget.getMovieReviews),
-              ListsScreen(getMovieCollections: widget.getMovieCollections),
+              const ListsScreen(),
               const WatchlistScreen(),
             ],
           ),

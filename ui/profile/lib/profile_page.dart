@@ -11,6 +11,5 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ProfileScreen(
         getMovieReviews: GetIt.I<GetMovieReviews>(),
-        getMovieCollections: GetIt.I<GetMovieCollections>(),
       );
 }

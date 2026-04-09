@@ -14,7 +14,6 @@ class MoviesHomeScreen extends StatefulWidget {
   final MoviesListsCubit listsCubit;
   final void Function(int movieId, String movieTitle) onMovieTap;
   final GetMovieReviews getMovieReviews;
-  final GetMovieCollections getMovieCollections;
 
   const MoviesHomeScreen({
     super.key,
@@ -22,7 +21,6 @@ class MoviesHomeScreen extends StatefulWidget {
     required this.listsCubit,
     required this.onMovieTap,
     required this.getMovieReviews,
-    required this.getMovieCollections,
   });
 
   @override

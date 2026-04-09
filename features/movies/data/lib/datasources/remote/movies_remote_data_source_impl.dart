@@ -280,6 +280,27 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   }
 
   @override
+  Future<Result<RemoteMovieListListing>> getUserMovieLists({
+    required int page,
+  }) async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+
+    final totalPages = (_mockedLists.length / _pageSize).ceil();
+    final startIndex = (page - 1) * _pageSize;
+    final endIndex = startIndex + _pageSize;
+    final pageLists = _mockedLists.sublist(
+      startIndex.clamp(0, _mockedLists.length),
+      endIndex.clamp(0, _mockedLists.length),
+    );
+
+    return Success(RemoteMovieListListing(
+      totalPages: totalPages,
+      totalResults: _mockedLists.length,
+      lists: pageLists,
+    ));
+  }
+
+  @override
   Future<Result<RemoteMovieListDetail>> getMovieListDetail({
     required int listId,
     required int page,
