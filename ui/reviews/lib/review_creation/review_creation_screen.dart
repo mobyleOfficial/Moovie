@@ -80,8 +80,11 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
             ReviewCreationLoading() => const Center(
                 child: CircularProgressIndicator(),
               ),
-            ReviewCreationError(:final message) => Center(
-                child: Text(message),
+            ReviewCreationError(:final message) => MoovieEmptyState(
+                title: l10n?.emptyStateErrorTitle ?? '',
+                message: message,
+                action: widget.cubit.reload,
+                actionLabel: l10n?.emptyStateRetry ?? '',
               ),
             ReviewCreationReady() => _ReviewBody(
                 state: state,
