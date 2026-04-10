@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies/movies.dart';
 import 'package:profile/profile.dart';
 import 'package:public_profile/user_review/user_reviews_bloc.dart';
+import 'package:reviews/review_details/review_details_router.dart';
 
 class UserReviewsScreen extends StatefulWidget {
   final GetUserReviews getUserReviews;
@@ -63,6 +65,7 @@ class _UserReviewsPaginatedList extends StatelessWidget {
                 ),
               _UserReviewTile(
                 review: review,
+                index: index,
                 posterColor: posterColors[index % posterColors.length],
               ),
             ],
@@ -80,10 +83,12 @@ class _UserReviewsPaginatedList extends StatelessWidget {
 
 class _UserReviewTile extends StatelessWidget {
   final MovieReview review;
+  final int index;
   final Color posterColor;
 
   const _UserReviewTile({
     required this.review,
+    required this.index,
     required this.posterColor,
   });
 
@@ -99,7 +104,14 @@ class _UserReviewTile extends StatelessWidget {
       label: '${review.title}, ${review.date}, $ratingLabel',
       button: true,
       child: InkWell(
-        onTap: () {},
+        onTap: () => context.router.push(
+          ReviewDetailsRoute(
+            movieTitle: review.title,
+            reviewDate: review.date,
+            rating: review.rating,
+            posterColorIndex: index % 4,
+          ),
+        ),
         child: ExcludeSemantics(
           child: Padding(
             padding:

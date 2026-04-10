@@ -20,6 +20,8 @@ dependencies:
     path: ../../core
   movies:
     path: ../../features/movies
+  profile:
+    path: ../../features/profile
   reviews:
     path: ../reviews
 

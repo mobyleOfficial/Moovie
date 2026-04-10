@@ -13,4 +13,8 @@ abstract class ProfileModule {
   @injectable
   GetUserReviews getUserReviews(ProfileRepository repository) =>
       GetUserReviews(repository);
+
+  @injectable
+  GetUserFavoriteMovies getUserFavoriteMovies(ProfileRepository repository) =>
+      GetUserFavoriteMovies(repository);
 }
