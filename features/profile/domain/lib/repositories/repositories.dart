@@ -1,1 +1,1 @@
-// Barrel file
+export 'profile_repository.dart';

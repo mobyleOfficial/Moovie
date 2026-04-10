@@ -10,5 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-a  core:
+  core:
     path: ../../../core
+  movies_domain:
+    path: ../../movies/domain

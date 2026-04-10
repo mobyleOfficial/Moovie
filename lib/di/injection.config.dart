@@ -15,7 +15,9 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:moovie/di/http_di_module.dart' as _i649;
 import 'package:moovie/di/movies_module.dart' as _i993;
+import 'package:moovie/di/profile_module.dart' as _i510;
 import 'package:movies/movies.dart' as _i987;
+import 'package:profile/profile.dart' as _i16;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -26,6 +28,7 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final httpDiModule = _$HttpDiModule();
     final moviesModule = _$MoviesModule();
+    final profileModule = _$ProfileModule();
     gh.singleton<_i494.LocalClient>(() => httpDiModule.localClient);
     gh.singleton<_i361.Dio>(
       () => httpDiModule.backendDio,
@@ -110,6 +113,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i987.ObserveRecentSearches>(
       () => moviesModule.observeRecentSearches(gh<_i987.MoviesRepository>()),
     );
+    gh.lazySingleton<_i16.ProfileRepository>(
+      () => profileModule.profileRepository(gh<_i987.MoviesRemoteDataSource>()),
+    );
+    gh.factory<_i16.GetUserReviews>(
+      () => profileModule.getUserReviews(gh<_i16.ProfileRepository>()),
+    );
     return this;
   }
 }
@@ -117,3 +126,5 @@ extension GetItInjectableX on _i174.GetIt {
 class _$HttpDiModule extends _i649.HttpDiModule {}
 
 class _$MoviesModule extends _i993.MoviesModule {}
+
+class _$ProfileModule extends _i510.ProfileModule {}

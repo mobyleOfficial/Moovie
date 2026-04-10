@@ -3,9 +3,10 @@ import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
+import 'package:profile/profile.dart';
 import 'package:public_profile/public_profile_bloc.dart';
 import 'package:public_profile/public_profile_state.dart';
-
+import 'package:public_profile/user_review/user_reviews_screen.dart';
 
 class _MockUser {
   final String displayName;
@@ -116,11 +117,13 @@ const _mockUsers = <String, _MockUser>{
 class PublicProfileScreen extends StatefulWidget {
   final PublicProfileCubit cubit;
   final String userId;
+  final GetUserReviews getUserReviews;
 
   const PublicProfileScreen({
     super.key,
     required this.cubit,
     required this.userId,
+    required this.getUserReviews,
   });
 
   @override
@@ -153,7 +156,7 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                   children: [
                     MoovieTabBar(tabs: [
                       l10n?.profileTabProfile ?? '',
-                      l10n?.profileTabDiary ?? '',
+                      l10n?.profileTabReviews ?? '',
                       l10n?.profileTabLists ?? '',
                     ]),
                     Expanded(
@@ -167,7 +170,11 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                                   setState(() => _isFollowing = !_isFollowing),
                             ),
                           ),
-                          const MoovieKeepAliveTab(child: _DiaryTab()),
+                          MoovieKeepAliveTab(
+                            child: UserReviewsScreen(
+                              getUserReviews: widget.getUserReviews,
+                            ),
+                          ),
                           const MoovieKeepAliveTab(child: _ListsTab()),
                         ],
                       ),
@@ -194,12 +201,28 @@ class _ProfileInfoTab extends StatelessWidget {
     required this.onFollowToggle,
   });
 
-  static const _recentMovies = [
-    (title: 'Dune: Part Two', id: 693134),
-    (title: 'Oppenheimer', id: 872585),
-    (title: 'Poor Things', id: 792307),
-    (title: 'The Zone of Interest', id: 929590),
-    (title: 'Society of the Snow', id: 876969),
+  static const _favoriteMovies = [
+    (title: 'Interstellar', id: 157336),
+    (title: 'The Godfather', id: 238),
+    (title: 'Parasite', id: 496243),
+    (title: 'Spirited Away', id: 129),
+    (title: 'The Dark Knight', id: 155),
+  ];
+
+  static const _recentActivities = [
+    (action: 'Watched', movie: 'Dune: Part Two', time: '2h ago'),
+    (action: 'Reviewed', movie: 'Oppenheimer', time: '1d ago'),
+    (action: 'Added to watchlist', movie: 'The Brutalist', time: '2d ago'),
+    (action: 'Liked review of', movie: 'Anora', time: '3d ago'),
+    (action: 'Watched', movie: 'Poor Things', time: '4d ago'),
+  ];
+
+  static const _watchlist = [
+    (title: 'Nosferatu', id: 426063),
+    (title: 'The Substance', id: 933260),
+    (title: 'A Real Pain', id: 1084199),
+    (title: 'Emilia Pérez', id: 1064028),
+    (title: 'Nickel Boys', id: 974453),
   ];
 
   @override
@@ -309,29 +332,114 @@ class _ProfileInfoTab extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 28),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              l10n?.profileRecentMovies ?? '',
-              style:
-                  textTheme.titleSmall?.copyWith(color: colorScheme.onSurface),
-            ),
+          _SectionHeader(
+            title: l10n?.profileFavoriteMovies ?? '',
+            seeAllLabel: l10n?.profileSeeAll ?? '',
+            onSeeAll: () {},
           ),
           const SizedBox(height: 12),
           SizedBox(
             height: 120,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              itemCount: _recentMovies.length,
+              itemCount: _favoriteMovies.length,
               separatorBuilder: (_, __) => const SizedBox(width: 8),
               itemBuilder: (context, index) => Semantics(
-                label: _recentMovies[index].title,
+                label: _favoriteMovies[index].title,
                 button: true,
                 child: InkWell(
                   onTap: () => context.router.push(
                     MovieDetailRoute(
-                      movieId: _recentMovies[index].id,
-                      movieTitle: _recentMovies[index].title,
+                      movieId: _favoriteMovies[index].id,
+                      movieTitle: _favoriteMovies[index].title,
+                    ),
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    width: 80,
+                    decoration: BoxDecoration(
+                      color: posterColors[index],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 28),
+          _SectionHeader(
+            title: l10n?.profileRecentActivity ?? '',
+            seeAllLabel: l10n?.profileSeeAll ?? '',
+            onSeeAll: () {},
+          ),
+          const SizedBox(height: 12),
+          ...List.generate(_recentActivities.length, (index) {
+            final activity = _recentActivities[index];
+            return Semantics(
+              label: '${activity.action} ${activity.movie}, ${activity.time}',
+              child: ExcludeSemantics(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    children: [
+                      Icon(
+                        _activityIcon(activity.action),
+                        size: 18,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: RichText(
+                          text: TextSpan(
+                            style: textTheme.bodyMedium?.copyWith(
+                              color: colorScheme.onSurface,
+                            ),
+                            children: [
+                              TextSpan(text: '${activity.action} '),
+                              TextSpan(
+                                text: activity.movie,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        activity.time,
+                        style: textTheme.labelSmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
+          const SizedBox(height: 28),
+          _SectionHeader(
+            title: l10n?.profileWatchlistSection ?? '',
+            seeAllLabel: l10n?.profileSeeAll ?? '',
+            onSeeAll: () {},
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            height: 120,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: _watchlist.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 8),
+              itemBuilder: (context, index) => Semantics(
+                label: _watchlist[index].title,
+                button: true,
+                child: InkWell(
+                  onTap: () => context.router.push(
+                    MovieDetailRoute(
+                      movieId: _watchlist[index].id,
+                      movieTitle: _watchlist[index].title,
                     ),
                   ),
                   borderRadius: BorderRadius.circular(8),
@@ -349,6 +457,58 @@ class _ProfileInfoTab extends StatelessWidget {
           const SizedBox(height: 24),
         ],
       ),
+    );
+  }
+
+  static IconData _activityIcon(String action) => switch (action) {
+        'Watched' => Icons.visibility,
+        'Reviewed' => Icons.rate_review,
+        'Added to watchlist' => Icons.bookmark_add,
+        'Liked review of' => Icons.favorite,
+        _ => Icons.movie,
+      };
+}
+
+class _SectionHeader extends StatelessWidget {
+  final String title;
+  final String seeAllLabel;
+  final VoidCallback onSeeAll;
+
+  const _SectionHeader({
+    required this.title,
+    required this.seeAllLabel,
+    required this.onSeeAll,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: textTheme.titleSmall?.copyWith(color: colorScheme.onSurface),
+        ),
+        Semantics(
+          button: true,
+          label: '$seeAllLabel $title',
+          child: GestureDetector(
+            onTap: onSeeAll,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Text(
+                seeAllLabel,
+                style: textTheme.labelMedium?.copyWith(
+                  color: colorScheme.primary,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -379,49 +539,6 @@ class _ProfileStat extends StatelessWidget {
               textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant),
         ),
       ],
-    );
-  }
-}
-
-
-class _DiaryTab extends StatelessWidget {
-  const _DiaryTab();
-
-  static const _entries = [
-    (title: 'The Brutalist', date: 'Mar 20, 2025', rating: 4.5),
-    (title: 'Anora', date: 'Mar 14, 2025', rating: 5.0),
-    (title: 'Conclave', date: 'Mar 8, 2025', rating: 4.0),
-    (title: 'A Complete Unknown', date: 'Feb 25, 2025', rating: 3.5),
-    (title: 'Emilia Pérez', date: 'Feb 18, 2025', rating: 4.0),
-    (title: 'Nickel Boys', date: 'Feb 10, 2025', rating: 4.5),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final posterColors = [
-      colorScheme.tertiaryContainer,
-      colorScheme.primaryContainer,
-      colorScheme.secondaryContainer,
-      colorScheme.surfaceContainerHighest,
-      colorScheme.tertiaryContainer,
-      colorScheme.secondaryContainer,
-    ];
-
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      itemCount: _entries.length,
-      separatorBuilder: (_, __) => Divider(
-        indent: 72,
-        height: 1,
-        color: colorScheme.outlineVariant,
-      ),
-      itemBuilder: (context, index) => _DiaryEntryTile(
-        title: _entries[index].title,
-        date: _entries[index].date,
-        rating: _entries[index].rating,
-        posterColor: posterColors[index],
-      ),
     );
   }
 }
