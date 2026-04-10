@@ -116,7 +116,12 @@ class ReviewDetailsScreen extends StatelessWidget {
             body: Center(child: CircularProgressIndicator()),
           ),
           ReviewDetailsError() => Scaffold(
-            body: Center(child: Text(state.message)),
+            body: MoovieEmptyState(
+              title: l10n?.emptyStateErrorTitle ?? '',
+              message: state.message,
+              action: cubit.reload,
+              actionLabel: l10n?.emptyStateRetry ?? '',
+            ),
           ),
           ReviewDetailsSuccess() => Scaffold(
             body: SingleChildScrollView(

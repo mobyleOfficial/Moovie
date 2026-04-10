@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies/movies.dart';
 import 'package:movies_ui/tabs/trending_movies/trending_movies_bloc.dart';
-import 'package:movies_ui/tabs/trending_movies/trending_movies_state.dart';
 
 class TrendingMoviesScreen extends StatelessWidget {
   final void Function(int movieId, String movieTitle) onMovieTap;
@@ -39,16 +38,16 @@ class TrendingMoviesScreen extends StatelessWidget {
               ),
               firstPageProgressIndicatorBuilder: (_) =>
                   const Center(child: CircularProgressIndicator()),
-              firstPageErrorIndicatorBuilder: (_) =>
-                  BlocBuilder<TrendingMoviesCubit, TrendingMoviesState>(
-                    builder: (context, state) => Center(
-                      child: Text(
-                        state is TrendingMoviesError
-                            ? state.message
-                            : AppLocalizations.of(context)?.unknownError ?? '',
-                      ),
-                    ),
-                  ),
+              firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+                title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+                message: AppLocalizations.of(context)?.emptyStateErrorMessage ?? '',
+                action: fetchNextPage,
+                actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+              ),
+              noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+                title: AppLocalizations.of(context)?.emptyStateNoItemsTitle ?? '',
+                message: AppLocalizations.of(context)?.emptyStateNoItemsMessage ?? '',
+              ),
             ),
           ),
     );

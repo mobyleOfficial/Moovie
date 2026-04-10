@@ -25,6 +25,8 @@ class ReviewCreationCubit extends Cubit<ReviewCreationState> {
     _load();
   }
 
+  void reload() => _load();
+
   void _load() {
     final draft = initialDraft;
     if (draft != null) {

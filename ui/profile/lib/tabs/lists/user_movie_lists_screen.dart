@@ -38,8 +38,9 @@ class _UserMovieListsScreenState extends State<UserMovieListsScreen> {
           UserMovieListsLoading() => const Center(
               child: CircularProgressIndicator(),
             ),
-          UserMovieListsError(:final message) => Center(
-              child: Text(message),
+          UserMovieListsError(:final message) => MoovieEmptyState(
+              title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+              message: message,
             ),
           UserMovieListsSuccess() => PagingListener(
               controller: _cubit.pagingController,
@@ -67,10 +68,15 @@ class _UserMovieListsScreenState extends State<UserMovieListsScreen> {
                   ),
                   firstPageProgressIndicatorBuilder: (_) =>
                       const Center(child: CircularProgressIndicator()),
-                  firstPageErrorIndicatorBuilder: (_) => Center(
-                    child: Text(
-                      AppLocalizations.of(context)?.unknownError ?? '',
-                    ),
+                  firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+                    title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+                    message: AppLocalizations.of(context)?.emptyStateErrorMessage ?? '',
+                    action: fetchNextPage,
+                    actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+                  ),
+                  noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+                    title: AppLocalizations.of(context)?.emptyStateNoItemsTitle ?? '',
+                    message: AppLocalizations.of(context)?.emptyStateNoItemsMessage ?? '',
                   ),
                 ),
               ),

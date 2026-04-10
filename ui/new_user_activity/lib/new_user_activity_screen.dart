@@ -113,8 +113,9 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
                         NewUserActivityLoading() => const Center(
                             child: CircularProgressIndicator(),
                           ),
-                        NewUserActivityError() => Center(
-                            child: Text(state.message),
+                        NewUserActivityError() => MoovieEmptyState(
+                            title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+                            message: state.message,
                           ),
                         NewUserActivitySearching() => const Center(
                             child: CircularProgressIndicator(),
