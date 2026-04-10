@@ -268,6 +268,12 @@ abstract class AppLocalizations {
   /// **'Diary'**
   String get profileTabDiary;
 
+  /// Reviews tab label on the profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get profileTabReviews;
+
   /// Lists tab label on the profile screen
   ///
   /// In en, this message translates to:
@@ -295,7 +301,7 @@ abstract class AppLocalizations {
   /// Movies watched stat label on the profile screen
   ///
   /// In en, this message translates to:
-  /// **'Movies'**
+  /// **'Watched'**
   String get profileMoviesWatched;
 
   /// Edit profile button label
@@ -309,6 +315,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recent Movies'**
   String get profileRecentMovies;
+
+  /// Favorite movies section header on the profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite Movies'**
+  String get profileFavoriteMovies;
+
+  /// Recent activity section header on the profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Activity'**
+  String get profileRecentActivity;
+
+  /// Movies section header on the profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Movies'**
+  String get profileMoviesSection;
+
+  /// Reviews section header on the profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get profileReviewsSection;
+
+  /// Watchlist section header on the profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Watchlist'**
+  String get profileWatchlistSection;
+
+  /// See all link label for profile sections
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get profileSeeAll;
 
   /// Friends tab label on the social screen
   ///
