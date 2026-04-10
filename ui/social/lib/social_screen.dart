@@ -12,21 +12,25 @@ class SocialScreen extends StatelessWidget {
   const SocialScreen({super.key, required this.cubit});
 
   @override
-  Widget build(BuildContext context) => BlocProvider.value(
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return BlocProvider.value(
     value: cubit,
     child: BlocBuilder<SocialCubit, SocialState>(
       builder: (context, state) => switch (state) {
         SocialLoading() => const Center(child: CircularProgressIndicator()),
         SocialError() => MoovieEmptyState(
-            title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+            title: l10n?.emptyStateErrorTitle ?? '',
             message: state.message,
             action: cubit.reload,
-            actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+            actionLabel: l10n?.emptyStateRetry ?? '',
           ),
         SocialSuccess() => _SocialContent(),
       },
     ),
   );
+  }
 }
 
 class _SocialContent extends StatelessWidget {

@@ -31,6 +31,8 @@ class _UserMovieListsScreenState extends State<UserMovieListsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return BlocProvider.value(
       value: _cubit,
       child: BlocBuilder<UserMovieListsCubit, UserMovieListsState>(
@@ -39,7 +41,7 @@ class _UserMovieListsScreenState extends State<UserMovieListsScreen> {
               child: CircularProgressIndicator(),
             ),
           UserMovieListsError(:final message) => MoovieEmptyState(
-              title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+              title: l10n?.emptyStateErrorTitle ?? '',
               message: message,
             ),
           UserMovieListsSuccess() => PagingListener(
@@ -69,14 +71,14 @@ class _UserMovieListsScreenState extends State<UserMovieListsScreen> {
                   firstPageProgressIndicatorBuilder: (_) =>
                       const Center(child: CircularProgressIndicator()),
                   firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
-                    title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
-                    message: AppLocalizations.of(context)?.emptyStateErrorMessage ?? '',
+                    title: l10n?.emptyStateErrorTitle ?? '',
+                    message: l10n?.emptyStateErrorMessage ?? '',
                     action: fetchNextPage,
-                    actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+                    actionLabel: l10n?.emptyStateRetry ?? '',
                   ),
                   noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
-                    title: AppLocalizations.of(context)?.emptyStateNoItemsTitle ?? '',
-                    message: AppLocalizations.of(context)?.emptyStateNoItemsMessage ?? '',
+                    title: l10n?.emptyStateNoItemsTitle ?? '',
+                    message: l10n?.emptyStateNoItemsMessage ?? '',
                   ),
                 ),
               ),
