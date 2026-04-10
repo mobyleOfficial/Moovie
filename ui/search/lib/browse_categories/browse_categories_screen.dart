@@ -31,8 +31,11 @@ class BrowseCategoriesScreen extends StatelessWidget {
             BrowseCategoriesLoading() => const Center(
                 child: CircularProgressIndicator(),
               ),
-            BrowseCategoriesError(:final message) => Center(
-                child: Text(message),
+            BrowseCategoriesError(:final message) => MoovieEmptyState(
+                title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+                message: message,
+                action: cubit.reload,
+                actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
               ),
             BrowseCategoriesSuccess() => _Content(
                 state: state,

@@ -40,7 +40,12 @@ class _MovieListDetailScreenState extends State<MovieListDetailScreen> {
                 body: Center(child: CircularProgressIndicator()),
               ),
             MovieListDetailError(:final message) => Scaffold(
-                body: Center(child: Text(message)),
+                body: MoovieEmptyState(
+                  title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+                  message: message,
+                  action: widget.cubit.reload,
+                  actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+                ),
               ),
             MovieListDetailSuccess() => _Content(
                 state: state,
@@ -170,6 +175,16 @@ class _MoviesTab extends StatelessWidget {
                     ),
                     firstPageProgressIndicatorBuilder: (_) =>
                         const Center(child: CircularProgressIndicator()),
+                    firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+                      title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+                      message: AppLocalizations.of(context)?.emptyStateErrorMessage ?? '',
+                      action: fetchNextPage,
+                      actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+                    ),
+                    noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+                      title: AppLocalizations.of(context)?.emptyStateNoItemsTitle ?? '',
+                      message: AppLocalizations.of(context)?.emptyStateNoItemsMessage ?? '',
+                    ),
                     newPageProgressIndicatorBuilder: (_) => const Padding(
                       padding: EdgeInsets.all(16),
                       child: Center(child: CircularProgressIndicator()),
@@ -190,6 +205,16 @@ class _MoviesTab extends StatelessWidget {
                   ),
                   firstPageProgressIndicatorBuilder: (_) =>
                       const Center(child: CircularProgressIndicator()),
+                  firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+                    title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+                    message: AppLocalizations.of(context)?.emptyStateErrorMessage ?? '',
+                    action: fetchNextPage,
+                    actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+                  ),
+                  noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+                    title: AppLocalizations.of(context)?.emptyStateNoItemsTitle ?? '',
+                    message: AppLocalizations.of(context)?.emptyStateNoItemsMessage ?? '',
+                  ),
                   newPageProgressIndicatorBuilder: (_) => const Padding(
                     padding: EdgeInsets.all(16),
                     child: Center(child: CircularProgressIndicator()),

@@ -29,8 +29,9 @@ class MostAnticipatedScreen extends StatelessWidget {
             MostAnticipatedLoading() => const Center(
                 child: CircularProgressIndicator(),
               ),
-            MostAnticipatedError(:final message) => Center(
-                child: Text(message),
+            MostAnticipatedError(:final message) => MoovieEmptyState(
+                title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+                message: message,
               ),
             MostAnticipatedSuccess() => PagingListener(
                 controller: cubit.pagingController,
@@ -53,10 +54,15 @@ class MostAnticipatedScreen extends StatelessWidget {
                     ),
                     firstPageProgressIndicatorBuilder: (_) =>
                         const Center(child: CircularProgressIndicator()),
-                    firstPageErrorIndicatorBuilder: (_) => Center(
-                      child: Text(
-                        AppLocalizations.of(context)?.unknownError ?? '',
-                      ),
+                    firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+                      title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+                      message: AppLocalizations.of(context)?.emptyStateErrorMessage ?? '',
+                      action: fetchNextPage,
+                      actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+                    ),
+                    noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+                      title: AppLocalizations.of(context)?.emptyStateNoItemsTitle ?? '',
+                      message: AppLocalizations.of(context)?.emptyStateNoItemsMessage ?? '',
                     ),
                   ),
                 ),

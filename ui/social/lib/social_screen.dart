@@ -17,7 +17,12 @@ class SocialScreen extends StatelessWidget {
     child: BlocBuilder<SocialCubit, SocialState>(
       builder: (context, state) => switch (state) {
         SocialLoading() => const Center(child: CircularProgressIndicator()),
-        SocialError() => Center(child: Text(state.message)),
+        SocialError() => MoovieEmptyState(
+            title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+            message: state.message,
+            action: cubit.reload,
+            actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+          ),
         SocialSuccess() => _SocialContent(),
       },
     ),

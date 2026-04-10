@@ -146,7 +146,12 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
             PublicProfileLoading() => const Center(
                 child: CircularProgressIndicator(),
               ),
-            PublicProfileError() => Center(child: Text(state.message)),
+            PublicProfileError() => MoovieEmptyState(
+                title: l10n?.emptyStateErrorTitle ?? '',
+                message: state.message,
+                action: widget.cubit.reload,
+                actionLabel: l10n?.emptyStateRetry ?? '',
+              ),
             PublicProfileSuccess() => DefaultTabController(
                 length: 3,
                 child: Column(

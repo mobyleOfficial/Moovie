@@ -21,7 +21,12 @@ class MovieDetailScreen extends StatelessWidget {
               body: Center(child: CircularProgressIndicator()),
             ),
           MovieDetailError(:final message) => Scaffold(
-              body: Center(child: Text(message)),
+              body: MoovieEmptyState(
+                title: l10n?.emptyStateErrorTitle ?? '',
+                message: message,
+                action: cubit.reload,
+                actionLabel: l10n?.emptyStateRetry ?? '',
+              ),
             ),
           MovieDetailSuccess(:final detail) => Scaffold(
               body: SingleChildScrollView(

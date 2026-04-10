@@ -29,8 +29,9 @@ class MostPopularScreen extends StatelessWidget {
             MostPopularLoading() => const Center(
                 child: CircularProgressIndicator(),
               ),
-            MostPopularError(:final message) => Center(
-                child: Text(message),
+            MostPopularError(:final message) => MoovieEmptyState(
+                title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+                message: message,
               ),
             MostPopularSuccess() => PagingListener(
                 controller: cubit.pagingController,
@@ -53,10 +54,15 @@ class MostPopularScreen extends StatelessWidget {
                     ),
                     firstPageProgressIndicatorBuilder: (_) =>
                         const Center(child: CircularProgressIndicator()),
-                    firstPageErrorIndicatorBuilder: (_) => Center(
-                      child: Text(
-                        AppLocalizations.of(context)?.unknownError ?? '',
-                      ),
+                    firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+                      title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+                      message: AppLocalizations.of(context)?.emptyStateErrorMessage ?? '',
+                      action: fetchNextPage,
+                      actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+                    ),
+                    noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+                      title: AppLocalizations.of(context)?.emptyStateNoItemsTitle ?? '',
+                      message: AppLocalizations.of(context)?.emptyStateNoItemsMessage ?? '',
                     ),
                   ),
                 ),

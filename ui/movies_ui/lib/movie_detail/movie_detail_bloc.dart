@@ -12,6 +12,11 @@ class MovieDetailCubit extends Cubit<MovieDetailState> {
     _fetchMovieDetail();
   }
 
+  void reload() {
+    emit(const MovieDetailLoading());
+    _fetchMovieDetail();
+  }
+
   Future<void> _fetchMovieDetail() async {
     final result = await _getMovieDetail(_movieId);
 

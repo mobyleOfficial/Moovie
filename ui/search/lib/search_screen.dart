@@ -190,7 +190,10 @@ class _MoviesResultsTab extends StatelessWidget {
                   movie: movies[index],
                 ),
               ),
-        SearchError(:final message) => Center(child: Text(message)),
+        SearchError(:final message) => MoovieEmptyState(
+            title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+            message: message,
+          ),
         SearchIdle() => const SizedBox.shrink(),
       },
     );
@@ -251,10 +254,15 @@ class _ReviewsResultsTabState extends State<_ReviewsResultsTab> {
             ),
             firstPageProgressIndicatorBuilder: (_) =>
                 const Center(child: CircularProgressIndicator()),
-            firstPageErrorIndicatorBuilder: (_) => Center(
-              child: Text(
-                AppLocalizations.of(context)?.unknownError ?? '',
-              ),
+            firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+              title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+              message: AppLocalizations.of(context)?.emptyStateErrorMessage ?? '',
+              action: fetchNextPage,
+              actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+            ),
+            noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+              title: AppLocalizations.of(context)?.emptyStateNoItemsTitle ?? '',
+              message: AppLocalizations.of(context)?.emptyStateNoItemsMessage ?? '',
             ),
           ),
         ),
@@ -393,10 +401,15 @@ class _ListsResultsTabState extends State<_ListsResultsTab> {
             ),
             firstPageProgressIndicatorBuilder: (_) =>
                 const Center(child: CircularProgressIndicator()),
-            firstPageErrorIndicatorBuilder: (_) => Center(
-              child: Text(
-                AppLocalizations.of(context)?.unknownError ?? '',
-              ),
+            firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+              title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+              message: AppLocalizations.of(context)?.emptyStateErrorMessage ?? '',
+              action: fetchNextPage,
+              actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+            ),
+            noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+              title: AppLocalizations.of(context)?.emptyStateNoItemsTitle ?? '',
+              message: AppLocalizations.of(context)?.emptyStateNoItemsMessage ?? '',
             ),
           ),
         ),

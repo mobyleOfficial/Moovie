@@ -6,5 +6,7 @@ class PublicProfileCubit extends Cubit<PublicProfileState> {
     _load();
   }
 
+  void reload() => _load();
+
   void _load() => emit(const PublicProfileSuccess());
 }
