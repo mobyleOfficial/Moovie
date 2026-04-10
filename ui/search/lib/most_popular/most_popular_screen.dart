@@ -20,6 +20,8 @@ class MostPopularScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return ColoredBox(
       color: Theme.of(context).colorScheme.surface,
       child: BlocProvider.value(
@@ -30,7 +32,7 @@ class MostPopularScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               ),
             MostPopularError(:final message) => MoovieEmptyState(
-                title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+                title: l10n?.emptyStateErrorTitle ?? '',
                 message: message,
               ),
             MostPopularSuccess() => PagingListener(
@@ -55,14 +57,14 @@ class MostPopularScreen extends StatelessWidget {
                     firstPageProgressIndicatorBuilder: (_) =>
                         const Center(child: CircularProgressIndicator()),
                     firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
-                      title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
-                      message: AppLocalizations.of(context)?.emptyStateErrorMessage ?? '',
+                      title: l10n?.emptyStateErrorTitle ?? '',
+                      message: l10n?.emptyStateErrorMessage ?? '',
                       action: fetchNextPage,
-                      actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+                      actionLabel: l10n?.emptyStateRetry ?? '',
                     ),
                     noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
-                      title: AppLocalizations.of(context)?.emptyStateNoItemsTitle ?? '',
-                      message: AppLocalizations.of(context)?.emptyStateNoItemsMessage ?? '',
+                      title: l10n?.emptyStateNoItemsTitle ?? '',
+                      message: l10n?.emptyStateNoItemsMessage ?? '',
                     ),
                   ),
                 ),

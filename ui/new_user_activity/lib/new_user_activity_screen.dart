@@ -114,7 +114,7 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
                             child: CircularProgressIndicator(),
                           ),
                         NewUserActivityError() => MoovieEmptyState(
-                            title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+                            title: l10n?.emptyStateErrorTitle ?? '',
                             message: state.message,
                           ),
                         NewUserActivitySearching() => const Center(
@@ -202,11 +202,12 @@ class _SearchResultsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     if (movies.isEmpty) {
       return Center(
         child: Text(
-          AppLocalizations.of(context)?.noResults ?? '',
+          l10n?.noResults ?? '',
           style: TextStyle(color: colorScheme.onSurfaceVariant),
         ),
       );

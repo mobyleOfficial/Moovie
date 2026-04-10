@@ -32,7 +32,10 @@ class _MovieListDetailScreenState extends State<MovieListDetailScreen> {
       : null;
 
   @override
-  Widget build(BuildContext context) => BlocProvider.value(
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return BlocProvider.value(
         value: widget.cubit,
         child: BlocBuilder<MovieListDetailCubit, MovieListDetailState>(
           builder: (context, state) => switch (state) {
@@ -41,10 +44,10 @@ class _MovieListDetailScreenState extends State<MovieListDetailScreen> {
               ),
             MovieListDetailError(:final message) => Scaffold(
                 body: MoovieEmptyState(
-                  title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
+                  title: l10n?.emptyStateErrorTitle ?? '',
                   message: message,
                   action: widget.cubit.reload,
-                  actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+                  actionLabel: l10n?.emptyStateRetry ?? '',
                 ),
               ),
             MovieListDetailSuccess() => _Content(
@@ -58,6 +61,7 @@ class _MovieListDetailScreenState extends State<MovieListDetailScreen> {
           },
         ),
       );
+  }
 }
 
 class _Content extends StatelessWidget {
@@ -136,7 +140,10 @@ class _MoviesTab extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => PagingListener(
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return PagingListener(
         controller: cubit.pagingController,
         builder: (context, pagingState, fetchNextPage) => CustomScrollView(
           slivers: [
@@ -176,14 +183,14 @@ class _MoviesTab extends StatelessWidget {
                     firstPageProgressIndicatorBuilder: (_) =>
                         const Center(child: CircularProgressIndicator()),
                     firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
-                      title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
-                      message: AppLocalizations.of(context)?.emptyStateErrorMessage ?? '',
+                      title: l10n?.emptyStateErrorTitle ?? '',
+                      message: l10n?.emptyStateErrorMessage ?? '',
                       action: fetchNextPage,
-                      actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+                      actionLabel: l10n?.emptyStateRetry ?? '',
                     ),
                     noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
-                      title: AppLocalizations.of(context)?.emptyStateNoItemsTitle ?? '',
-                      message: AppLocalizations.of(context)?.emptyStateNoItemsMessage ?? '',
+                      title: l10n?.emptyStateNoItemsTitle ?? '',
+                      message: l10n?.emptyStateNoItemsMessage ?? '',
                     ),
                     newPageProgressIndicatorBuilder: (_) => const Padding(
                       padding: EdgeInsets.all(16),
@@ -206,14 +213,14 @@ class _MoviesTab extends StatelessWidget {
                   firstPageProgressIndicatorBuilder: (_) =>
                       const Center(child: CircularProgressIndicator()),
                   firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
-                    title: AppLocalizations.of(context)?.emptyStateErrorTitle ?? '',
-                    message: AppLocalizations.of(context)?.emptyStateErrorMessage ?? '',
+                    title: l10n?.emptyStateErrorTitle ?? '',
+                    message: l10n?.emptyStateErrorMessage ?? '',
                     action: fetchNextPage,
-                    actionLabel: AppLocalizations.of(context)?.emptyStateRetry ?? '',
+                    actionLabel: l10n?.emptyStateRetry ?? '',
                   ),
                   noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
-                    title: AppLocalizations.of(context)?.emptyStateNoItemsTitle ?? '',
-                    message: AppLocalizations.of(context)?.emptyStateNoItemsMessage ?? '',
+                    title: l10n?.emptyStateNoItemsTitle ?? '',
+                    message: l10n?.emptyStateNoItemsMessage ?? '',
                   ),
                   newPageProgressIndicatorBuilder: (_) => const Padding(
                     padding: EdgeInsets.all(16),
@@ -224,6 +231,7 @@ class _MoviesTab extends StatelessWidget {
           ],
         ),
       );
+  }
 }
 
 class _MovieGridItem extends StatelessWidget {
