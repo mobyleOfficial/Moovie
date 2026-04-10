@@ -72,5 +72,7 @@
   "reviewEditorClear": "Borrar todo",
   "reviewEditorClearConfirmTitle": "¿Borrar reseña?",
   "reviewEditorClearConfirmContent": "Se eliminará todo el texto.",
-  "reviewDetailsAddReview": "Agregar una reseña..."
+  "reviewDetailsAddReview": "Agregar una reseña...",
+  "movieListDetailShowGridView": "Mostrar vista de cuadrícula",
+  "movieListDetailShowListView": "Mostrar vista de lista"
 }

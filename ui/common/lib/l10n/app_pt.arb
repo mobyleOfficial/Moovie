@@ -72,5 +72,7 @@
   "reviewEditorClear": "Limpar tudo",
   "reviewEditorClearConfirmTitle": "Limpar avaliação?",
   "reviewEditorClearConfirmContent": "Todo o texto será removido.",
-  "reviewDetailsAddReview": "Adicionar uma avaliação..."
+  "reviewDetailsAddReview": "Adicionar uma avaliação...",
+  "movieListDetailShowGridView": "Mostrar visualização em grade",
+  "movieListDetailShowListView": "Mostrar visualização em lista"
 }

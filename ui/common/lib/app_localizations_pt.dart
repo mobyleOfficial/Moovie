@@ -239,4 +239,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get reviewDetailsAddReview => 'Adicionar uma avaliação...';
+
+  @override
+  String get movieListDetailShowGridView => 'Mostrar visualização em grade';
+
+  @override
+  String get movieListDetailShowListView => 'Mostrar visualização em lista';
 }

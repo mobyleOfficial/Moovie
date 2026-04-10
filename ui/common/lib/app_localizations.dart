@@ -537,6 +537,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add a review...'**
   String get reviewDetailsAddReview;
+
+  /// Tooltip for the button that switches movie list detail to grid layout
+  ///
+  /// In en, this message translates to:
+  /// **'Show grid view'**
+  String get movieListDetailShowGridView;
+
+  /// Tooltip for the button that switches movie list detail to list layout
+  ///
+  /// In en, this message translates to:
+  /// **'Show list view'**
+  String get movieListDetailShowListView;
 }
 
 class _AppLocalizationsDelegate

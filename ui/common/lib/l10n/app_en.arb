@@ -217,5 +217,9 @@
   "reviewEditorClearConfirmContent": "All text will be removed.",
   "@reviewEditorClearConfirmContent": { "description": "Content for the clear review confirmation dialog" },
   "reviewDetailsAddReview": "Add a review...",
-  "@reviewDetailsAddReview": { "description": "Placeholder text for the add review section on the review details screen" }
+  "@reviewDetailsAddReview": { "description": "Placeholder text for the add review section on the review details screen" },
+  "movieListDetailShowGridView": "Show grid view",
+  "@movieListDetailShowGridView": { "description": "Tooltip for the button that switches movie list detail to grid layout" },
+  "movieListDetailShowListView": "Show list view",
+  "@movieListDetailShowListView": { "description": "Tooltip for the button that switches movie list detail to list layout" }
 }
