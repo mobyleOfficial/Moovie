@@ -113,11 +113,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i987.ObserveRecentSearches>(
       () => moviesModule.observeRecentSearches(gh<_i987.MoviesRepository>()),
     );
+    gh.factory<_i987.GetUserWatchList>(
+      () => moviesModule.getUserWatchList(gh<_i987.MoviesRepository>()),
+    );
     gh.lazySingleton<_i16.ProfileRepository>(
       () => profileModule.profileRepository(gh<_i987.MoviesRemoteDataSource>()),
     );
     gh.factory<_i16.GetUserReviews>(
       () => profileModule.getUserReviews(gh<_i16.ProfileRepository>()),
+    );
+    gh.factory<_i16.GetUserFavoriteMovies>(
+      () => profileModule.getUserFavoriteMovies(gh<_i16.ProfileRepository>()),
     );
     return this;
   }

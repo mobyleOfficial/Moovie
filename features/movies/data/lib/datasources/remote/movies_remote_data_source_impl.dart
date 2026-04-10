@@ -182,7 +182,39 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
     10: ['awards', 'oscar', 'best-picture', 'performance'],
   };
 
+  static const _mockedFavoriteMovies = [
+    RemoteMovie(id: 157336, title: 'Interstellar', overview: 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity\'s survival.', posterPath: '/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg', backdropPath: '/xJHokMbljXjADYdit5fK1B4Q2Nk.jpg', voteAverage: 8.7, releaseDate: '2014-11-05'),
+    RemoteMovie(id: 238, title: 'The Godfather', overview: 'Spanning the years 1945 to 1955, a chronicle of the fictional Italian-American Corleone crime family.', posterPath: '/3bhkrj58Vtu7enYsRolD1fZdja1.jpg', backdropPath: '/tmU7GeKVybMWFButWEGl2M4GeiP.jpg', voteAverage: 8.7, releaseDate: '1972-03-14'),
+    RemoteMovie(id: 496243, title: 'Parasite', overview: 'All unemployed, Ki-taek\'s family takes peculiar interest in the wealthy and glamorous Parks.', posterPath: '/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg', backdropPath: '/TU9aKQfPr1eiNkTOKHMm4azMkpO.jpg', voteAverage: 8.5, releaseDate: '2019-05-30'),
+    RemoteMovie(id: 129, title: 'Spirited Away', overview: 'A young girl wanders into a world ruled by gods, witches, and spirits.', posterPath: '/39wmItIWsg5sZMyRUHLkWBcuVCM.jpg', backdropPath: '/Ab8mkHmkYADjU7wQiOkia9BzGvS.jpg', voteAverage: 8.5, releaseDate: '2001-07-20'),
+    RemoteMovie(id: 155, title: 'The Dark Knight', overview: 'Batman raises the stakes in his war on crime in Gotham City.', posterPath: '/qJ2tW6WMUDux911BTUOlhi7GCPY.jpg', backdropPath: '/nMKdUUepR0i5zn0y1T4CsSB5ber.jpg', voteAverage: 8.5, releaseDate: '2008-07-16'),
+    RemoteMovie(id: 278, title: 'The Shawshank Redemption', overview: 'Framed in the 1940s for the double murder of his wife and her lover, Andy Dufresne begins a new life at the Shawshank prison.', posterPath: '/9cjIGRQL98cG3INaDB8Myjhqzjy.jpg', backdropPath: '/kXfqcdQKsToO0OUXHcrrNCHDBzO.jpg', voteAverage: 8.7, releaseDate: '1994-09-23'),
+    RemoteMovie(id: 680, title: 'Pulp Fiction', overview: 'The lives of two mob hitmen, a boxer, a gangster and his wife intertwine in four tales of violence and redemption.', posterPath: '/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg', backdropPath: '/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg', voteAverage: 8.5, releaseDate: '1994-09-10'),
+    RemoteMovie(id: 550, title: 'Fight Club', overview: 'A ticking-Loss bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy.', posterPath: '/pB8BM7pdSp6B6Ih7QI4S2t0GvHd.jpg', backdropPath: '/hZkgoQYus5dXo3H8T7Uef6DNknx.jpg', voteAverage: 8.4, releaseDate: '1999-10-15'),
+    RemoteMovie(id: 13, title: 'Forrest Gump', overview: 'A man with a low IQ has accomplished great things in his life and been present during significant historic events.', posterPath: '/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg', backdropPath: '/7c9UVPPiTPltouxRVY6N9uugaVA.jpg', voteAverage: 8.5, releaseDate: '1994-06-23'),
+    RemoteMovie(id: 120, title: 'The Lord of the Rings: The Fellowship of the Ring', overview: 'Young hobbit Frodo Baggins must destroy a powerful ring to stop the Dark Lord Sauron.', posterPath: '/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg', backdropPath: '/pIUvQ9Ed35wlWhY2oU6OmwEgzx8.jpg', voteAverage: 8.4, releaseDate: '2001-12-18'),
+    RemoteMovie(id: 424, title: 'Schindler\'s List', overview: 'The true story of how businessman Oskar Schindler saved over a thousand Jewish lives during the Holocaust.', posterPath: '/sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg', backdropPath: '/loRmRzQXZC0TGAzVeMpC6FjE8MR.jpg', voteAverage: 8.6, releaseDate: '1993-11-30'),
+    RemoteMovie(id: 694, title: 'The Shining', overview: 'Jack Torrance accepts a caretaker job at the Overlook Hotel, where he and his family become isolated.', posterPath: '/nRj5511mZdTl4saWEPoj9QroTIu.jpg', backdropPath: '/mmd1HnuvAzFc4iuVJcnBrhDNEKr.jpg', voteAverage: 8.2, releaseDate: '1980-05-23'),
+  ];
+
+  static const _mockedWatchList = [
+    RemoteMovie(id: 426063, title: 'Nosferatu', overview: 'A gothic tale of obsession between a haunted young woman and the terrifying vampire infatuated with her.', posterPath: '/5qGIxdEO841C0tdY0Fy4gkjqAbf.jpg', backdropPath: '/vZm6aSCP4UgFfJ5bEplajuMjBOb.jpg', voteAverage: 7.6, releaseDate: '2024-12-25'),
+    RemoteMovie(id: 933260, title: 'The Substance', overview: 'A fading celebrity decides to use a black market drug, a cell-replicating substance that temporarily creates a younger, better version of herself.', posterPath: '/lqoMzCcZYEFK729d6qzt349fB4o.jpg', backdropPath: '/t98L9uphqBSNn2Mkvdm3xSFCQyi.jpg', voteAverage: 7.3, releaseDate: '2024-09-07'),
+    RemoteMovie(id: 1084199, title: 'A Real Pain', overview: 'Mismatched cousins reunite for a tour through Poland to honor their beloved grandmother.', posterPath: '/gBKzgQJbMEBMfcU9X5OBYIfXN4p.jpg', backdropPath: '/kHuvRFWsigNOsJQ5U0EhgWRHPaF.jpg', voteAverage: 7.0, releaseDate: '2024-11-01'),
+    RemoteMovie(id: 1064028, title: 'Emilia Pérez', overview: 'A lawyer working for a large firm is recruited by the leader of a criminal organization.', posterPath: '/6EO0cjZt2vzAOmuDJZGED6GQmi4.jpg', backdropPath: '/4cp40IyTpFfsT2IKpl0YlWhY2oU.jpg', voteAverage: 7.5, releaseDate: '2024-08-21'),
+    RemoteMovie(id: 974453, title: 'Nickel Boys', overview: 'Based on the Pulitzer Prize-winning novel, two boys forge an unlikely bond at a brutal reform school.', posterPath: '/oJzayQz8jPycZuAvBIFdlPJRmce.jpg', backdropPath: '/pRhlaYLHHaso7V9fHhRN1qy6y40.jpg', voteAverage: 7.1, releaseDate: '2024-10-25'),
+    RemoteMovie(id: 823464, title: 'Godzilla x Kong: The New Empire', overview: 'Two ancient titans, Godzilla and Kong, clash in an epic battle as humans unravel their origins.', posterPath: '/fWSGD2yrzz6hscocnMD8AEXIThk.jpg', backdropPath: '/xRd1eJIDe7JHO5u4gtEYwGn5wtf.jpg', voteAverage: 7.2, releaseDate: '2024-03-27'),
+    RemoteMovie(id: 786892, title: 'Furiosa: A Mad Max Saga', overview: 'The origin story of the mighty warrior Furiosa before she joined forces with Mad Max.', posterPath: '/7qOSKoOAPgemYhBwbJgBWcCxPWZ.jpg', backdropPath: '/shrwC6U8Bkst9V9IKPmGMof8aS5.jpg', voteAverage: 7.6, releaseDate: '2024-05-22'),
+    RemoteMovie(id: 1022789, title: 'Inside Out 2', overview: 'A new set of emotions join Riley\'s mind as she enters her teenage years.', posterPath: '/lHKNS35r4RTa9GO72vdadMLxoiV.jpg', backdropPath: '/xg27NrXi7VXCGUr7MN75UqLl6Vg.jpg', voteAverage: 7.6, releaseDate: '2024-06-11'),
+    RemoteMovie(id: 945961, title: 'Alien: Romulus', overview: 'A group of young space colonists come face to face with the most terrifying life form in the universe.', posterPath: '/jB0W9tn4w07MFn7sTfqRTBLVytF.jpg', backdropPath: '/9SSEUrSqhljBMzRe4aBTh17wUjd.jpg', voteAverage: 7.2, releaseDate: '2024-08-14'),
+    RemoteMovie(id: 533535, title: 'Deadpool & Wolverine', overview: 'Deadpool is offered a place in the Marvel Cinematic Universe by the TVA.', posterPath: '/53YWSo75mSaw1vd2YEeX5kwkRos.jpg', backdropPath: '/yDHYTfA3R0jFYba16jBB1ef8oIt.jpg', voteAverage: 7.7, releaseDate: '2024-07-24'),
+    RemoteMovie(id: 653346, title: 'Kingdom of the Planet of the Apes', overview: 'Generations after Caesar, a young ape embarks on a journey that will determine the future of both apes and humans.', posterPath: '/hBGnLm2A1TapONoPo7QrMpj2B6B.jpg', backdropPath: '/fqv8v6AycXKsivp1T5yKtLbGXce.jpg', voteAverage: 7.1, releaseDate: '2024-05-08'),
+    RemoteMovie(id: 573435, title: 'Bad Boys: Ride or Die', overview: 'Miami detectives Mike and Marcus uncover a conspiracy involving their late captain.', posterPath: '/vnFFZ6Y1sudcrfNCioQW4e8NW5X.jpg', backdropPath: '/tncbMvfV0V07UZozXdBEfKTvCe2.jpg', voteAverage: 7.4, releaseDate: '2024-06-05'),
+  ];
+
   static const int _pageSize = 4;
+  static const int _favoriteMoviesPageSize = 6;
+  static const int _watchListPageSize = 6;
   static const int _listDetailPageSize = 6;
 
   @override
@@ -449,5 +481,51 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
         ),
       Failure<List<dynamic>>(:final error) => Failure(error),
     };
+  }
+
+  @override
+  Future<Result<RemoteMovieListing>> getUserFavoriteMovies({
+    required String userId,
+    required int page,
+  }) async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+
+    final totalPages =
+        (_mockedFavoriteMovies.length / _favoriteMoviesPageSize).ceil();
+    final startIndex = (page - 1) * _favoriteMoviesPageSize;
+    final endIndex = startIndex + _favoriteMoviesPageSize;
+    final pageMovies = _mockedFavoriteMovies.sublist(
+      startIndex.clamp(0, _mockedFavoriteMovies.length),
+      endIndex.clamp(0, _mockedFavoriteMovies.length),
+    );
+
+    return Success(RemoteMovieListing(
+      totalPages: totalPages,
+      totalResults: _mockedFavoriteMovies.length,
+      movies: pageMovies,
+    ));
+  }
+
+  @override
+  Future<Result<RemoteMovieListing>> getUserWatchList({
+    required String userId,
+    required int page,
+  }) async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+
+    final totalPages =
+        (_mockedWatchList.length / _watchListPageSize).ceil();
+    final startIndex = (page - 1) * _watchListPageSize;
+    final endIndex = startIndex + _watchListPageSize;
+    final pageMovies = _mockedWatchList.sublist(
+      startIndex.clamp(0, _mockedWatchList.length),
+      endIndex.clamp(0, _mockedWatchList.length),
+    );
+
+    return Success(RemoteMovieListing(
+      totalPages: totalPages,
+      totalResults: _mockedWatchList.length,
+      movies: pageMovies,
+    ));
   }
 }

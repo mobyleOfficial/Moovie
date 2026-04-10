@@ -2,10 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_ui/favorite_movies/favorite_movies_router.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
+import 'package:movies_ui/movie_list_detail/movie_list_detail_router.dart';
+import 'package:movies_ui/watch_list/watch_list_router.dart';
 import 'package:profile/profile.dart';
-import 'package:public_profile/public_profile_bloc.dart';
-import 'package:public_profile/public_profile_state.dart';
+import 'package:public_profile/public_profile_info/public_profile_bloc.dart';
+import 'package:public_profile/public_profile_info/public_profile_state.dart';
 import 'package:public_profile/user_review/user_reviews_screen.dart';
 
 class _MockUser {
@@ -165,6 +168,7 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                           MoovieKeepAliveTab(
                             child: _ProfileInfoTab(
                               user: user,
+                              userId: widget.userId,
                               isFollowing: _isFollowing,
                               onFollowToggle: () =>
                                   setState(() => _isFollowing = !_isFollowing),
@@ -192,11 +196,13 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
 
 class _ProfileInfoTab extends StatelessWidget {
   final _MockUser user;
+  final String userId;
   final bool isFollowing;
   final VoidCallback onFollowToggle;
 
   const _ProfileInfoTab({
     required this.user,
+    required this.userId,
     required this.isFollowing,
     required this.onFollowToggle,
   });
@@ -335,7 +341,12 @@ class _ProfileInfoTab extends StatelessWidget {
           _SectionHeader(
             title: l10n?.profileFavoriteMovies ?? '',
             seeAllLabel: l10n?.profileSeeAll ?? '',
-            onSeeAll: () {},
+            onSeeAll: () => context.router.push(
+              FavoriteMoviesRoute(
+                userId: userId,
+                userName: user.displayName,
+              ),
+            ),
           ),
           const SizedBox(height: 12),
           SizedBox(
@@ -423,7 +434,12 @@ class _ProfileInfoTab extends StatelessWidget {
           _SectionHeader(
             title: l10n?.profileWatchlistSection ?? '',
             seeAllLabel: l10n?.profileSeeAll ?? '',
-            onSeeAll: () {},
+            onSeeAll: () => context.router.push(
+              WatchListRoute(
+                userId: userId,
+                userName: user.displayName,
+              ),
+            ),
           ),
           const SizedBox(height: 12),
           SizedBox(
@@ -627,10 +643,10 @@ class _ListsTab extends StatelessWidget {
   const _ListsTab();
 
   static const _lists = [
-    (title: 'Favorites of 2025', count: 15),
-    (title: 'Sci-Fi Must-Watch', count: 22),
-    (title: 'Cozy Sunday Films', count: 11),
-    (title: 'Director Spotlight: Wes Anderson', count: 9),
+    (id: 1, title: 'Favorites of 2025', count: 15, posterPaths: <String>['/8LJJjLjAzAwXS40S5mx79PJ2jSs.jpg', '/6EO0cjZt2vzAOmuDJZGED6GQmi4.jpg']),
+    (id: 2, title: 'Sci-Fi Must-Watch', count: 22, posterPaths: <String>['/53YWSo75mSaw1vd2YEeX5kwkRos.jpg', '/iOdcXYSVzBgmBJzNIlIMOZ6fz0F.jpg']),
+    (id: 3, title: 'Cozy Sunday Films', count: 11, posterPaths: <String>['/1OsQJEoSXBjduuCvDOlRhoEUaHu.jpg', '/yRRuLt7sMBEQkHsd1S3KaaofZn7.jpg']),
+    (id: 4, title: 'Director Spotlight: Wes Anderson', count: 9, posterPaths: <String>['/lHKNS35r4RTa9GO72vdadMLxoiV.jpg', '/aNK6MA5EApIo0UJE7ZWSYcZBJKy.jpg']),
   ];
 
   @override
@@ -650,8 +666,10 @@ class _ListsTab extends StatelessWidget {
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.only(bottom: 12),
         child: _ListItemTile(
+          listId: _lists[index].id,
           title: _lists[index].title,
           movieCount: _lists[index].count,
+          posterPaths: _lists[index].posterPaths,
           coverColor: coverColors[index],
           moviesLabel: l10n?.profileMoviesWatched.toLowerCase() ?? '',
         ),
@@ -661,14 +679,18 @@ class _ListsTab extends StatelessWidget {
 }
 
 class _ListItemTile extends StatelessWidget {
+  final int listId;
   final String title;
   final int movieCount;
+  final List<String> posterPaths;
   final Color coverColor;
   final String moviesLabel;
 
   const _ListItemTile({
+    required this.listId,
     required this.title,
     required this.movieCount,
+    required this.posterPaths,
     required this.coverColor,
     required this.moviesLabel,
   });
@@ -682,7 +704,13 @@ class _ListItemTile extends StatelessWidget {
       label: '$title, $movieCount $moviesLabel',
       button: true,
       child: InkWell(
-        onTap: () {},
+        onTap: () => context.router.push(
+          MovieListDetailRoute(
+            listId: listId,
+            listName: title,
+            posterPaths: posterPaths,
+          ),
+        ),
         borderRadius: BorderRadius.circular(12),
         child: ExcludeSemantics(
           child: Container(

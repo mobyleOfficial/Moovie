@@ -95,4 +95,8 @@ abstract class MoviesModule {
   @injectable
   ObserveRecentSearches observeRecentSearches(MoviesRepository repository) =>
       ObserveRecentSearches(repository);
+
+  @injectable
+  GetUserWatchList getUserWatchList(MoviesRepository repository) =>
+      GetUserWatchList(repository);
 }

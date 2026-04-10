@@ -201,4 +201,20 @@ class MoviesRepositoryImpl implements MoviesRepository {
             (localSearches) =>
                 localSearches.map((search) => search.toDomain()).toList(),
           );
+
+  @override
+  Future<Result<MovieListing>> getUserWatchList({
+    required String userId,
+    required int page,
+  }) async {
+    final result = await _dataSource.getUserWatchList(
+      userId: userId,
+      page: page,
+    );
+
+    return switch (result) {
+      Success(:final data) => Success(data.toDomain()),
+      Failure(:final error) => Failure(error),
+    };
+  }
 }
