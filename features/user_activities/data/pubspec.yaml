@@ -1,0 +1,16 @@
+name: user_activities_data
+description: Data layer for the User Activities feature
+publish_to: 'none'
+
+version: 1.0.0
+
+environment:
+  sdk: ^3.11.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  core:
+    path: ../../../core
+  user_activities_domain:
+    path: ../domain

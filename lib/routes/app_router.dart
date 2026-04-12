@@ -7,7 +7,8 @@ import 'package:movies_ui/movie_list_detail/movie_list_detail_router.dart';
 import 'package:movies_ui/watch_list/watch_list_router.dart';
 import 'package:reviews/review_creation/review_creation_router.dart';
 import 'package:movies_ui/home/movies_home_router.dart';
-import 'package:new_user_activity/new_user_activity_router.dart';
+import 'package:user_activity/new_user_activity_router.dart';
+import 'package:user_activity/user_activities/user_activities_router.dart';
 import 'package:profile_ui/profile_router.dart';
 import 'package:public_profile/public_profile_router.dart';
 import 'package:reviews/review_details/review_details_router.dart';
@@ -64,6 +65,7 @@ class AppRouter extends RootStackRouter {
                 AutoRoute(page: MovieListDetailRoute.page),
                 AutoRoute(page: FavoriteMoviesRoute.page),
                 AutoRoute(page: WatchListRoute.page),
+                AutoRoute(page: UserActivitiesRoute.page),
               ],
             ),
             AutoRoute(

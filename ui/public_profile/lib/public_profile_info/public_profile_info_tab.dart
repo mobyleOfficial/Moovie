@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:movies_ui/favorite_movies/favorite_movies_router.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
 import 'package:movies_ui/watch_list/watch_list_router.dart';
+import 'package:user_activity/user_activities/user_activities_router.dart';
 import 'package:public_profile/public_profile_info/public_profile_info_bloc.dart';
 import 'package:public_profile/public_profile_info/public_profile_info_state.dart';
 import 'package:public_profile_domain/models/public_profile.dart';
@@ -218,7 +219,12 @@ class _ProfileInfoContent extends StatelessWidget {
           _SectionHeader(
             title: l10n?.profileRecentActivity ?? '',
             seeAllLabel: l10n?.profileSeeAll ?? '',
-            onSeeAll: () {},
+            onSeeAll: () => context.router.push(
+              UserActivitiesRoute(
+                userId: profile.id,
+                userName: profile.displayName,
+              ),
+            ),
           ),
           const SizedBox(height: 12),
           ...List.generate(profile.recentActivities.length, (index) {

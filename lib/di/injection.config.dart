@@ -17,9 +17,11 @@ import 'package:moovie/di/http_di_module.dart' as _i649;
 import 'package:moovie/di/movies_module.dart' as _i993;
 import 'package:moovie/di/profile_module.dart' as _i510;
 import 'package:moovie/di/public_profile_module.dart' as _i777;
+import 'package:moovie/di/user_activities_module.dart' as _i333;
 import 'package:movies/movies.dart' as _i987;
 import 'package:profile/profile.dart' as _i16;
 import 'package:public_profile_feature/public_profile_feature.dart' as _i888;
+import 'package:user_activities/user_activities.dart' as _i444;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -32,6 +34,7 @@ extension GetItInjectableX on _i174.GetIt {
     final moviesModule = _$MoviesModule();
     final profileModule = _$ProfileModule();
     final publicProfileModule = _$PublicProfileModule();
+    final userActivitiesModule = _$UserActivitiesModule();
     gh.singleton<_i494.LocalClient>(() => httpDiModule.localClient);
     gh.singleton<_i361.Dio>(
       () => httpDiModule.backendDio,
@@ -140,6 +143,21 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i888.PublicProfileRepository>(),
       ),
     );
+    gh.lazySingleton<_i444.UserActivitiesRemoteDataSource>(
+      () => userActivitiesModule.userActivitiesRemoteDataSource(
+        gh<_i494.HttpClient>(instanceName: 'tmdb'),
+      ),
+    );
+    gh.lazySingleton<_i444.UserActivitiesRepository>(
+      () => userActivitiesModule.userActivitiesRepository(
+        gh<_i444.UserActivitiesRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i444.GetUserActivities>(
+      () => userActivitiesModule.getUserActivities(
+        gh<_i444.UserActivitiesRepository>(),
+      ),
+    );
     return this;
   }
 }
@@ -151,3 +169,5 @@ class _$MoviesModule extends _i993.MoviesModule {}
 class _$ProfileModule extends _i510.ProfileModule {}
 
 class _$PublicProfileModule extends _i777.PublicProfileModule {}
+
+class _$UserActivitiesModule extends _i333.UserActivitiesModule {}

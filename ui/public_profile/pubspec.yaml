@@ -27,6 +27,8 @@ dependencies:
     path: ../../features/public_profile/domain
   public_profile_data:
     path: ../../features/public_profile/data
+  user_activity:
+    path: ../user_activity
   reviews:
     path: ../reviews
 

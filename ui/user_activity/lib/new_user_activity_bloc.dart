@@ -4,7 +4,7 @@ import 'package:common/common.dart';
 import 'package:core/core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/movies.dart';
-import 'package:new_user_activity/new_user_activity_state.dart';
+import 'package:user_activity/new_user_activity_state.dart';
 
 class NewUserActivityCubit extends Cubit<NewUserActivityState> {
   final SearchMovies _searchMovies;

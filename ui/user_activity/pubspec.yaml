@@ -1,5 +1,5 @@
-name: new_user_activity
-description: NewUserActivity UI module
+name: user_activity
+description: UserActivity UI module
 publish_to: none
 
 environment:
@@ -19,6 +19,8 @@ dependencies:
     path: ../../core
   movies:
     path: ../../features/movies
+  user_activities_domain:
+    path: ../../features/user_activities/domain
   reviews:
     path: ../reviews
 
