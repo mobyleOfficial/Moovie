@@ -25,4 +25,6 @@ class PublicProfileInfoCubit extends Cubit<PublicProfileInfoState> {
         emit(PublicProfileInfoError(error.message));
     }
   }
+
+  void reload() => _load();
 }

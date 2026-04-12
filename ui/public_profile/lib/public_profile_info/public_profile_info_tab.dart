@@ -15,10 +15,7 @@ import 'package:public_profile_domain/usecases/get_public_profile.dart';
 class ProfileInfoTab extends StatefulWidget {
   final String userId;
 
-  const ProfileInfoTab({
-    super.key,
-    required this.userId,
-  });
+  const ProfileInfoTab({super.key, required this.userId});
 
   @override
   State<ProfileInfoTab> createState() => _ProfileInfoTabState();
@@ -29,6 +26,7 @@ class _ProfileInfoTabState extends State<ProfileInfoTab> {
     getPublicProfile: GetIt.I<GetPublicProfile>(),
     userId: widget.userId,
   );
+
   bool _isFollowing = false;
 
   @override
@@ -38,23 +36,31 @@ class _ProfileInfoTabState extends State<ProfileInfoTab> {
   }
 
   @override
-  Widget build(BuildContext context) => BlocProvider.value(
-        value: _cubit,
-        child: BlocBuilder<PublicProfileInfoCubit, PublicProfileInfoState>(
-          builder: (context, state) => switch (state) {
-            PublicProfileInfoLoading() =>
-              const Center(child: CircularProgressIndicator()),
-            PublicProfileInfoError(:final message) =>
-              Center(child: Text(message)),
-            PublicProfileInfoSuccess(:final profile) => _ProfileInfoContent(
-                profile: profile,
-                isFollowing: _isFollowing,
-                onFollowToggle: () =>
-                    setState(() => _isFollowing = !_isFollowing),
-              ),
-          },
-        ),
-      );
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return BlocProvider.value(
+      value: _cubit,
+      child: BlocBuilder<PublicProfileInfoCubit, PublicProfileInfoState>(
+        builder: (context, state) => switch (state) {
+          PublicProfileInfoLoading() => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          PublicProfileInfoError() => MoovieEmptyState(
+            title: l10n?.emptyStateErrorTitle ?? '',
+            message: state.message,
+            action: _cubit.reload,
+            actionLabel: l10n?.emptyStateRetry ?? '',
+          ),
+          PublicProfileInfoSuccess(:final profile) => _ProfileInfoContent(
+            profile: profile,
+            isFollowing: _isFollowing,
+            onFollowToggle: () => setState(() => _isFollowing = !_isFollowing),
+          ),
+        },
+      ),
+    );
+  }
 }
 
 class _ProfileInfoContent extends StatelessWidget {
@@ -117,8 +123,9 @@ class _ProfileInfoContent extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             profile.bio,
-            style: textTheme.bodyMedium
-                ?.copyWith(color: colorScheme.onSurfaceVariant),
+            style: textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+            ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
@@ -134,18 +141,12 @@ class _ProfileInfoContent extends StatelessWidget {
                     value: '${profile.moviesWatched}',
                     label: l10n?.profileMoviesWatched ?? '',
                   ),
-                  VerticalDivider(
-                    color: colorScheme.outlineVariant,
-                    width: 1,
-                  ),
+                  VerticalDivider(color: colorScheme.outlineVariant, width: 1),
                   _ProfileStat(
                     value: '${profile.following}',
                     label: l10n?.profileFollowing ?? '',
                   ),
-                  VerticalDivider(
-                    color: colorScheme.outlineVariant,
-                    width: 1,
-                  ),
+                  VerticalDivider(color: colorScheme.outlineVariant, width: 1),
                   _ProfileStat(
                     value: '${profile.followers}',
                     label: l10n?.profileFollowers ?? '',
@@ -166,11 +167,12 @@ class _ProfileInfoContent extends StatelessWidget {
                     )
                   : OutlinedButton.styleFrom(
                       foregroundColor: colorScheme.onSecondaryContainer,
-                      side:
-                          BorderSide(color: colorScheme.onSecondaryContainer),
+                      side: BorderSide(color: colorScheme.onSecondaryContainer),
                     ),
               child: Text(
-                isFollowing ? (l10n?.profileFollowing ?? '') : (l10n?.profileFollow ?? ''),
+                isFollowing
+                    ? (l10n?.profileFollowing ?? '')
+                    : (l10n?.profileFollow ?? ''),
               ),
             ),
           ),
@@ -277,10 +279,7 @@ class _ProfileInfoContent extends StatelessWidget {
             title: l10n?.profileWatchlistSection ?? '',
             seeAllLabel: l10n?.profileSeeAll ?? '',
             onSeeAll: () => context.router.push(
-              WatchListRoute(
-                userId: profile.id,
-                userName: profile.displayName,
-              ),
+              WatchListRoute(userId: profile.id, userName: profile.displayName),
             ),
           ),
           const SizedBox(height: 12),
@@ -319,12 +318,12 @@ class _ProfileInfoContent extends StatelessWidget {
   }
 
   static IconData _activityIcon(String action) => switch (action) {
-        'Watched' => Icons.visibility,
-        'Reviewed' => Icons.rate_review,
-        'Added to watchlist' => Icons.bookmark_add,
-        'Liked review of' => Icons.favorite,
-        _ => Icons.movie,
-      };
+    'Watched' => Icons.visibility,
+    'Reviewed' => Icons.rate_review,
+    'Added to watchlist' => Icons.bookmark_add,
+    'Liked review of' => Icons.favorite,
+    _ => Icons.movie,
+  };
 }
 
 class _SectionHeader extends StatelessWidget {
@@ -393,8 +392,9 @@ class _ProfileStat extends StatelessWidget {
         ),
         Text(
           label,
-          style:
-              textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant),
+          style: textTheme.labelSmall?.copyWith(
+            color: colorScheme.onSurfaceVariant,
+          ),
         ),
       ],
     );
