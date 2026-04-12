@@ -1,8 +1,7 @@
 import 'package:core/core.dart';
-
 import 'package:movies_domain/models/movie_review_draft.dart';
 import 'package:movies_domain/models/movie_review_status.dart';
-import 'package:movies_domain/repositories/movies_repository.dart';
+import 'package:user_activities_domain/repositories/user_activities_repository.dart';
 
 class UpsertMovieReviewParams {
   final MovieReviewDraft draft;
@@ -15,14 +14,14 @@ class UpsertMovieReviewParams {
 }
 
 class UpsertMovieReview extends UseCase<UpsertMovieReviewParams, Result<void>> {
-  final MoviesRepository _moviesRepository;
+  final UserActivitiesRepository _userActivitiesRepository;
 
-  UpsertMovieReview(this._moviesRepository);
+  UpsertMovieReview(this._userActivitiesRepository);
 
   @override
   Future<Result<void>> call([UpsertMovieReviewParams? params]) async {
     if (params == null) return const Failure(AppError.unknown);
-    return _moviesRepository.upsertMovieReview(
+    return _userActivitiesRepository.upsertMovieReview(
       draft: params.draft,
       status: params.status,
     );

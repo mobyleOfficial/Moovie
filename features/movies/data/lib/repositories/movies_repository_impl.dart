@@ -4,8 +4,6 @@ import 'package:movies_domain/domain.dart';
 
 import 'package:movies_data/datasources/local/movies_local_data_source.dart';
 import 'package:movies_data/datasources/remote/movies_remote_data_source.dart';
-import 'package:movies_data/models/local/local_movie_review_draft.dart';
-
 @LazySingleton(as: MoviesRepository)
 class MoviesRepositoryImpl implements MoviesRepository {
   final MoviesRemoteDataSource _dataSource;
@@ -162,25 +160,6 @@ class MoviesRepositoryImpl implements MoviesRepository {
       Failure(:final error) => Failure(error),
     };
   }
-
-  @override
-  Result<void> upsertMovieReview({
-    required MovieReviewDraft draft,
-    required MovieReviewStatus status,
-  }) =>
-      _localDataSource
-          .upsertMovieReviewDraft(LocalMovieReviewDraft.fromDomain(draft, status));
-
-  @override
-  Stream<List<MovieReviewDraft>> observeMovieReviewDraftsList() =>
-      _localDataSource.observeDraftsList().map(
-            (localDrafts) =>
-                localDrafts.map((draft) => draft.toDomain()).toList(),
-          );
-
-  @override
-  Result<void> deleteDraft({required int movieId}) =>
-      _localDataSource.deleteDraftByMovieId(movieId);
 
   @override
   Result<void> addRecentSearch({required String query}) =>

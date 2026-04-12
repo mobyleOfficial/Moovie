@@ -12,3 +12,5 @@ dependencies:
     sdk: flutter
   core:
     path: ../../../core
+  movies_domain:
+    path: ../../movies/domain

@@ -99,17 +99,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i987.SearchMovies>(
       () => moviesModule.searchMovies(gh<_i987.MoviesRepository>()),
     );
-    gh.factory<_i987.UpsertMovieReview>(
-      () => moviesModule.upsertMovieReview(gh<_i987.MoviesRepository>()),
-    );
-    gh.factory<_i987.ObserveMovieReviewDraftsList>(
-      () => moviesModule.observeMovieReviewDraftsList(
-        gh<_i987.MoviesRepository>(),
-      ),
-    );
-    gh.factory<_i987.DeleteDraft>(
-      () => moviesModule.deleteDraft(gh<_i987.MoviesRepository>()),
-    );
     gh.factory<_i987.AddRecentSearch>(
       () => moviesModule.addRecentSearch(gh<_i987.MoviesRepository>()),
     );
@@ -148,13 +137,35 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i494.HttpClient>(instanceName: 'tmdb'),
       ),
     );
+    gh.lazySingleton<_i444.UserActivitiesLocalDataSource>(
+      () => userActivitiesModule.userActivitiesLocalDataSource(
+        gh<_i987.Store>(),
+        gh<_i494.LocalClient>(),
+      ),
+    );
     gh.lazySingleton<_i444.UserActivitiesRepository>(
       () => userActivitiesModule.userActivitiesRepository(
         gh<_i444.UserActivitiesRemoteDataSource>(),
+        gh<_i444.UserActivitiesLocalDataSource>(),
       ),
     );
     gh.factory<_i444.GetUserActivities>(
       () => userActivitiesModule.getUserActivities(
+        gh<_i444.UserActivitiesRepository>(),
+      ),
+    );
+    gh.factory<_i444.UpsertMovieReview>(
+      () => userActivitiesModule.upsertMovieReview(
+        gh<_i444.UserActivitiesRepository>(),
+      ),
+    );
+    gh.factory<_i444.ObserveMovieReviewDraftsList>(
+      () => userActivitiesModule.observeMovieReviewDraftsList(
+        gh<_i444.UserActivitiesRepository>(),
+      ),
+    );
+    gh.factory<_i444.DeleteDraft>(
+      () => userActivitiesModule.deleteDraft(
         gh<_i444.UserActivitiesRepository>(),
       ),
     );

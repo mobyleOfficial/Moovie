@@ -6,8 +6,6 @@ import 'package:moovie/routes/app_router.dart';
 import 'package:moovie/routes/route_title_resolver.dart';
 import 'package:user_activity/new_user_activity_router.dart';
 
-const _animationDuration = Duration(milliseconds: 300);
-
 @RoutePage()
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});

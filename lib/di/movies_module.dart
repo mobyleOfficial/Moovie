@@ -1,7 +1,6 @@
 import 'package:core/core.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies/movies.dart';
-import 'package:objectbox/objectbox.dart';
 
 @module
 abstract class MoviesModule {
@@ -16,7 +15,6 @@ abstract class MoviesModule {
     LocalClient localClient,
   ) =>
       MoviesLocalDataSourceImpl(
-        store.box<LocalMovieReviewDraft>(),
         store.box<LocalRecentSearch>(),
         localClient,
       );
@@ -71,18 +69,6 @@ abstract class MoviesModule {
   @injectable
   SearchMovies searchMovies(MoviesRepository repository) =>
       SearchMovies(repository);
-
-  @injectable
-  UpsertMovieReview upsertMovieReview(MoviesRepository repository) =>
-      UpsertMovieReview(repository);
-
-  @injectable
-  ObserveMovieReviewDraftsList observeMovieReviewDraftsList(MoviesRepository repository) =>
-      ObserveMovieReviewDraftsList(repository);
-
-  @injectable
-  DeleteDraft deleteDraft(MoviesRepository repository) =>
-      DeleteDraft(repository);
 
   @injectable
   AddRecentSearch addRecentSearch(MoviesRepository repository) =>

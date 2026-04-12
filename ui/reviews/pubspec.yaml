@@ -22,6 +22,8 @@ dependencies:
     path: ../../core
   movies:
     path: ../../features/movies
+  user_activities_domain:
+    path: ../../features/user_activities/domain
   movies_ui:
     path: ../movies_ui
 
