@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies/movies.dart';
 import 'package:profile/profile.dart';
@@ -9,16 +10,15 @@ import 'package:public_profile/user_review/user_reviews_bloc.dart';
 import 'package:reviews/review_details/review_details_router.dart';
 
 class UserReviewsScreen extends StatefulWidget {
-  final GetUserReviews getUserReviews;
-
-  const UserReviewsScreen({super.key, required this.getUserReviews});
+  const UserReviewsScreen({super.key});
 
   @override
   State<UserReviewsScreen> createState() => _UserReviewsScreenState();
 }
 
 class _UserReviewsScreenState extends State<UserReviewsScreen> {
-  late final UserReviewsCubit _cubit = UserReviewsCubit(widget.getUserReviews);
+  late final UserReviewsCubit _cubit =
+      UserReviewsCubit(GetIt.I<GetUserReviews>());
 
   @override
   void dispose() {

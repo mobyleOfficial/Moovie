@@ -1,18 +1,68 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:movies_ui/favorite_movies/favorite_movies_router.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
 import 'package:movies_ui/watch_list/watch_list_router.dart';
+import 'package:public_profile/public_profile_info/public_profile_info_bloc.dart';
+import 'package:public_profile/public_profile_info/public_profile_info_state.dart';
 import 'package:public_profile_domain/models/public_profile.dart';
+import 'package:public_profile_domain/usecases/get_public_profile.dart';
 
-class ProfileInfoTab extends StatelessWidget {
+class ProfileInfoTab extends StatefulWidget {
+  final String userId;
+
+  const ProfileInfoTab({
+    super.key,
+    required this.userId,
+  });
+
+  @override
+  State<ProfileInfoTab> createState() => _ProfileInfoTabState();
+}
+
+class _ProfileInfoTabState extends State<ProfileInfoTab> {
+  late final PublicProfileInfoCubit _cubit = PublicProfileInfoCubit(
+    getPublicProfile: GetIt.I<GetPublicProfile>(),
+    userId: widget.userId,
+  );
+  bool _isFollowing = false;
+
+  @override
+  void dispose() {
+    _cubit.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => BlocProvider.value(
+        value: _cubit,
+        child: BlocBuilder<PublicProfileInfoCubit, PublicProfileInfoState>(
+          builder: (context, state) => switch (state) {
+            PublicProfileInfoLoading() =>
+              const Center(child: CircularProgressIndicator()),
+            PublicProfileInfoError(:final message) =>
+              Center(child: Text(message)),
+            PublicProfileInfoSuccess(:final profile) => _ProfileInfoContent(
+                profile: profile,
+                isFollowing: _isFollowing,
+                onFollowToggle: () =>
+                    setState(() => _isFollowing = !_isFollowing),
+              ),
+          },
+        ),
+      );
+}
+
+class _ProfileInfoContent extends StatelessWidget {
   final PublicProfile profile;
   final bool isFollowing;
   final VoidCallback onFollowToggle;
 
-  const ProfileInfoTab({
-    super.key,
+  const _ProfileInfoContent({
     required this.profile,
     required this.isFollowing,
     required this.onFollowToggle,
