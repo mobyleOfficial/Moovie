@@ -2,8 +2,6 @@ import 'package:core/core.dart';
 import 'package:injectable/injectable.dart';
 
 import 'package:movies_data/datasources/remote/movies_remote_data_source.dart';
-import 'package:movies_data/models/remote/remote_movie_collection.dart';
-import 'package:movies_data/models/remote/remote_movie_collection_listing.dart';
 import 'package:movies_data/models/remote/remote_movie.dart';
 import 'package:movies_data/models/remote/remote_movie_list.dart';
 import 'package:movies_data/models/remote/remote_movie_list_detail.dart';
@@ -41,22 +39,7 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
     RemoteMovieReview(id: 753342, title: 'Napoleon', date: 'Dec 15, 2023', rating: 3.5),
   ];
 
-  static const _mockedCollections = [
-    RemoteMovieCollection(title: 'Best of 2024', movieCount: 24),
-    RemoteMovieCollection(title: 'Essential Sci-Fi', movieCount: 18),
-    RemoteMovieCollection(title: 'Weekend Picks', movieCount: 12),
-    RemoteMovieCollection(title: 'Must Watch Classics', movieCount: 30),
-    RemoteMovieCollection(title: 'Horror Gems', movieCount: 15),
-    RemoteMovieCollection(title: 'A24 Favorites', movieCount: 22),
-    RemoteMovieCollection(title: 'Oscar Winners', movieCount: 20),
-    RemoteMovieCollection(title: 'Hidden Gems 2023', movieCount: 16),
-    RemoteMovieCollection(title: 'Action Blockbusters', movieCount: 25),
-    RemoteMovieCollection(title: 'Indie Darlings', movieCount: 14),
-    RemoteMovieCollection(title: 'Documentary Essentials', movieCount: 10),
-    RemoteMovieCollection(title: 'Animation Masterpieces', movieCount: 19),
-  ];
-
-  static const _mockedLists = [
+static const _mockedLists = [
     RemoteMovieList(
       id: 1,
       name: 'Weekend Watchlist',
@@ -251,6 +234,7 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   @override
   Future<Result<RemoteMovieReviewListing>> getMovieReviews({
     required int page,
+    String? userId,
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
 
@@ -269,30 +253,11 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
     ));
   }
 
-  @override
-  Future<Result<RemoteMovieCollectionListing>> getMovieCollections({
-    required int page,
-  }) async {
-    await Future<void>.delayed(const Duration(milliseconds: 500));
-
-    final totalPages = (_mockedCollections.length / _pageSize).ceil();
-    final startIndex = (page - 1) * _pageSize;
-    final endIndex = startIndex + _pageSize;
-    final pageCollections = _mockedCollections.sublist(
-      startIndex.clamp(0, _mockedCollections.length),
-      endIndex.clamp(0, _mockedCollections.length),
-    );
-
-    return Success(RemoteMovieCollectionListing(
-      totalPages: totalPages,
-      totalResults: _mockedCollections.length,
-      collections: pageCollections,
-    ));
-  }
 
   @override
   Future<Result<RemoteMovieListListing>> getMovieLists({
     required int page,
+    String? userId,
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
 

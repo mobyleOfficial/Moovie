@@ -38,8 +38,9 @@ class MoviesRepositoryImpl implements MoviesRepository {
   @override
   Future<Result<MovieReviewListing>> getMovieReviews({
     required int page,
+    String? userId,
   }) async {
-    final result = await _dataSource.getMovieReviews(page: page);
+    final result = await _dataSource.getMovieReviews(page: page, userId: userId);
 
     return switch (result) {
       Success(:final data) => Success(data.toDomain()),
@@ -47,23 +48,13 @@ class MoviesRepositoryImpl implements MoviesRepository {
     };
   }
 
-  @override
-  Future<Result<MovieCollectionListing>> getMovieCollections({
-    required int page,
-  }) async {
-    final result = await _dataSource.getMovieCollections(page: page);
-
-    return switch (result) {
-      Success(:final data) => Success(data.toDomain()),
-      Failure(:final error) => Failure(error),
-    };
-  }
 
   @override
   Future<Result<MovieListListing>> getMovieLists({
     required int page,
+    String? userId,
   }) async {
-    final result = await _dataSource.getMovieLists(page: page);
+    final result = await _dataSource.getMovieLists(page: page, userId: userId);
 
     return switch (result) {
       Success(:final data) => Success(data.toDomain()),

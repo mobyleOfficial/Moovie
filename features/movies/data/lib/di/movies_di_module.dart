@@ -11,7 +11,4 @@ abstract class MoviesDiModule {
   GetMovieReviews getMovieReviews(MoviesRepository moviesRepository) =>
       GetMovieReviews(moviesRepository);
 
-  @injectable
-  GetMovieCollections getMovieCollections(MoviesRepository moviesRepository) =>
-      GetMovieCollections(moviesRepository);
 }

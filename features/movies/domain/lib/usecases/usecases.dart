@@ -3,7 +3,6 @@ library;
 
 export 'add_recent_search.dart';
 export 'delete_draft.dart';
-export 'get_movie_collections.dart';
 export 'get_movie_lists.dart';
 export 'get_movie_list_detail.dart';
 export 'get_movie_detail.dart';
