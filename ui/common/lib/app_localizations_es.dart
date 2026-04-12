@@ -266,4 +266,20 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get movieListDetailShowListView => 'Mostrar vista de lista';
+
+  @override
+  String get emptyStateErrorTitle => 'Algo salió mal';
+
+  @override
+  String get emptyStateErrorMessage =>
+      'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.';
+
+  @override
+  String get emptyStateRetry => 'Reintentar';
+
+  @override
+  String get emptyStateNoItemsTitle => 'Nada aquí todavía';
+
+  @override
+  String get emptyStateNoItemsMessage => 'No hay elementos para mostrar.';
 }

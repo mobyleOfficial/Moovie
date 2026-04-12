@@ -235,5 +235,15 @@
   "movieListDetailShowGridView": "Show grid view",
   "@movieListDetailShowGridView": { "description": "Tooltip for the button that switches movie list detail to grid layout" },
   "movieListDetailShowListView": "Show list view",
-  "@movieListDetailShowListView": { "description": "Tooltip for the button that switches movie list detail to list layout" }
+  "@movieListDetailShowListView": { "description": "Tooltip for the button that switches movie list detail to list layout" },
+  "emptyStateErrorTitle": "Something went wrong",
+  "@emptyStateErrorTitle": { "description": "Title for the error empty state" },
+  "emptyStateErrorMessage": "An unexpected error occurred. Please try again.",
+  "@emptyStateErrorMessage": { "description": "Message for the error empty state" },
+  "emptyStateRetry": "Retry",
+  "@emptyStateRetry": { "description": "Retry button label on the error empty state" },
+  "emptyStateNoItemsTitle": "Nothing here yet",
+  "@emptyStateNoItemsTitle": { "description": "Title for the empty list state" },
+  "emptyStateNoItemsMessage": "There are no items to display.",
+  "@emptyStateNoItemsMessage": { "description": "Message for the empty list state" }
 }

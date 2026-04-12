@@ -17,6 +17,11 @@ class BrowseCategoriesCubit extends Cubit<BrowseCategoriesState> {
     _load();
   }
 
+  void reload() {
+    emit(const BrowseCategoriesLoading());
+    _load();
+  }
+
   Future<void> _load() async {
     final results = await Future.wait([
       _getGenres(),

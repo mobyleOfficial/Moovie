@@ -22,6 +22,8 @@ class BrowseCategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return ColoredBox(
       color: Theme.of(context).colorScheme.surface,
       child: BlocProvider.value(
@@ -31,8 +33,11 @@ class BrowseCategoriesScreen extends StatelessWidget {
             BrowseCategoriesLoading() => const Center(
                 child: CircularProgressIndicator(),
               ),
-            BrowseCategoriesError(:final message) => Center(
-                child: Text(message),
+            BrowseCategoriesError(:final message) => MoovieEmptyState(
+                title: l10n?.emptyStateErrorTitle ?? '',
+                message: message,
+                action: cubit.reload,
+                actionLabel: l10n?.emptyStateRetry ?? '',
               ),
             BrowseCategoriesSuccess() => _Content(
                 state: state,
