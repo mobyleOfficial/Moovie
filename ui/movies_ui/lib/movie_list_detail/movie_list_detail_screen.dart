@@ -64,7 +64,7 @@ class _MovieListDetailScreenState extends State<MovieListDetailScreen> {
   }
 }
 
-class _Content extends StatelessWidget {
+class _Content extends StatefulWidget {
   final MovieListDetailSuccess state;
   final MovieListDetailCubit cubit;
   final String? headerPoster;
@@ -82,9 +82,14 @@ class _Content extends StatelessWidget {
   });
 
   @override
+  State<_Content> createState() => _ContentState();
+}
+
+class _ContentState extends State<_Content> {
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final detail = state.detail;
+    final detail = widget.state.detail;
 
     return DefaultTabController(
       length: 2,
@@ -98,12 +103,12 @@ class _Content extends StatelessWidget {
             child: TabBarView(
               children: [
                 _MoviesTab(
-                  state: state,
-                  cubit: cubit,
-                  headerPoster: headerPoster,
-                  onMovieTap: onMovieTap,
-                  posterBaseUrl: posterBaseUrl,
-                  headerBaseUrl: headerBaseUrl,
+                  state: widget.state,
+                  cubit: widget.cubit,
+                  headerPoster: widget.headerPoster,
+                  onMovieTap: widget.onMovieTap,
+                  posterBaseUrl: widget.posterBaseUrl,
+                  headerBaseUrl: widget.headerBaseUrl,
                 ),
                 Center(
                   child: Text(

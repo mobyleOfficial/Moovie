@@ -15,7 +15,13 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:moovie/di/http_di_module.dart' as _i649;
 import 'package:moovie/di/movies_module.dart' as _i993;
+import 'package:moovie/di/profile_module.dart' as _i510;
+import 'package:moovie/di/public_profile_module.dart' as _i777;
+import 'package:moovie/di/user_activities_module.dart' as _i333;
 import 'package:movies/movies.dart' as _i987;
+import 'package:profile/profile.dart' as _i16;
+import 'package:public_profile_feature/public_profile_feature.dart' as _i888;
+import 'package:user_activities/user_activities.dart' as _i444;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -26,6 +32,9 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final httpDiModule = _$HttpDiModule();
     final moviesModule = _$MoviesModule();
+    final profileModule = _$ProfileModule();
+    final publicProfileModule = _$PublicProfileModule();
+    final userActivitiesModule = _$UserActivitiesModule();
     gh.singleton<_i494.LocalClient>(() => httpDiModule.localClient);
     gh.singleton<_i361.Dio>(
       () => httpDiModule.backendDio,
@@ -66,9 +75,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i987.GetMovieReviews>(
       () => moviesModule.getMovieReviews(gh<_i987.MoviesRepository>()),
     );
-    gh.factory<_i987.GetMovieCollections>(
-      () => moviesModule.getMovieCollections(gh<_i987.MoviesRepository>()),
-    );
     gh.factory<_i987.GetMovieLists>(
       () => moviesModule.getMovieLists(gh<_i987.MoviesRepository>()),
     );
@@ -93,22 +99,75 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i987.SearchMovies>(
       () => moviesModule.searchMovies(gh<_i987.MoviesRepository>()),
     );
-    gh.factory<_i987.UpsertMovieReview>(
-      () => moviesModule.upsertMovieReview(gh<_i987.MoviesRepository>()),
-    );
-    gh.factory<_i987.ObserveMovieReviewDraftsList>(
-      () => moviesModule.observeMovieReviewDraftsList(
-        gh<_i987.MoviesRepository>(),
-      ),
-    );
-    gh.factory<_i987.DeleteDraft>(
-      () => moviesModule.deleteDraft(gh<_i987.MoviesRepository>()),
-    );
     gh.factory<_i987.AddRecentSearch>(
       () => moviesModule.addRecentSearch(gh<_i987.MoviesRepository>()),
     );
     gh.factory<_i987.ObserveRecentSearches>(
       () => moviesModule.observeRecentSearches(gh<_i987.MoviesRepository>()),
+    );
+    gh.factory<_i987.GetUserWatchList>(
+      () => moviesModule.getUserWatchList(gh<_i987.MoviesRepository>()),
+    );
+    gh.lazySingleton<_i16.ProfileRepository>(
+      () => profileModule.profileRepository(gh<_i987.MoviesRemoteDataSource>()),
+    );
+    gh.factory<_i16.GetUserReviews>(
+      () => profileModule.getUserReviews(gh<_i16.ProfileRepository>()),
+    );
+    gh.factory<_i16.GetUserFavoriteMovies>(
+      () => profileModule.getUserFavoriteMovies(gh<_i16.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i888.PublicProfileRemoteDataSource>(
+      () => publicProfileModule.publicProfileRemoteDataSource(
+        gh<_i494.HttpClient>(instanceName: 'tmdb'),
+      ),
+    );
+    gh.lazySingleton<_i888.PublicProfileRepository>(
+      () => publicProfileModule.publicProfileRepository(
+        gh<_i888.PublicProfileRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i888.GetPublicProfile>(
+      () => publicProfileModule.getPublicProfile(
+        gh<_i888.PublicProfileRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i444.UserActivitiesRemoteDataSource>(
+      () => userActivitiesModule.userActivitiesRemoteDataSource(
+        gh<_i494.HttpClient>(instanceName: 'tmdb'),
+      ),
+    );
+    gh.lazySingleton<_i444.UserActivitiesLocalDataSource>(
+      () => userActivitiesModule.userActivitiesLocalDataSource(
+        gh<_i987.Store>(),
+        gh<_i494.LocalClient>(),
+      ),
+    );
+    gh.lazySingleton<_i444.UserActivitiesRepository>(
+      () => userActivitiesModule.userActivitiesRepository(
+        gh<_i444.UserActivitiesRemoteDataSource>(),
+        gh<_i444.UserActivitiesLocalDataSource>(),
+      ),
+    );
+    gh.factory<_i444.GetUserActivities>(
+      () => userActivitiesModule.getUserActivities(
+        gh<_i444.UserActivitiesRepository>(),
+      ),
+    );
+    gh.factory<_i444.UpsertMovieReview>(
+      () => userActivitiesModule.upsertMovieReview(
+        gh<_i444.UserActivitiesRepository>(),
+      ),
+    );
+    gh.factory<_i444.ObserveMovieReviewDraftsList>(
+      () => userActivitiesModule.observeMovieReviewDraftsList(
+        gh<_i444.UserActivitiesRepository>(),
+      ),
+    );
+    gh.factory<_i444.DeleteDraft>(
+      () => userActivitiesModule.deleteDraft(
+        gh<_i444.UserActivitiesRepository>(),
+      ),
     );
     return this;
   }
@@ -117,3 +176,9 @@ extension GetItInjectableX on _i174.GetIt {
 class _$HttpDiModule extends _i649.HttpDiModule {}
 
 class _$MoviesModule extends _i993.MoviesModule {}
+
+class _$ProfileModule extends _i510.ProfileModule {}
+
+class _$PublicProfileModule extends _i777.PublicProfileModule {}
+
+class _$UserActivitiesModule extends _i333.UserActivitiesModule {}

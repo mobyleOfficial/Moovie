@@ -9,7 +9,7 @@ import 'package:movies_ui/tabs/lists/movies_lists_screen.dart';
 import 'package:movies_ui/tabs/articles/movies_articles_screen.dart';
 import 'package:reviews/reviews_list/reviews_screen.dart';
 
-class MoviesHomeScreen extends StatefulWidget {
+class MoviesHomeScreen extends StatelessWidget {
   final TrendingMoviesCubit cubit;
   final MoviesListsCubit listsCubit;
   final void Function(int movieId, String movieTitle) onMovieTap;
@@ -24,42 +24,39 @@ class MoviesHomeScreen extends StatefulWidget {
   });
 
   @override
-  State<MoviesHomeScreen> createState() => _MoviesHomeScreenState();
-}
-
-class _MoviesHomeScreenState extends State<MoviesHomeScreen> {
-  int _selectedIndex = 0;
-
-  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
     return BlocProvider.value(
-      value: widget.cubit,
-      child: Column(
-        children: [
-          MoovieFilterChipBar(
-            labels: [
+      value: cubit,
+      child: DefaultTabController(
+        length: 4,
+        child: Column(
+          children: [
+            MoovieTabBar(tabs: [
               l10n?.moviesTab ?? '',
               l10n?.reviewsTab ?? '',
               l10n?.moviesListListsTab ?? '',
               l10n?.moviesListArticlesTab ?? '',
-            ],
-            selectedIndex: _selectedIndex,
-            onSelected: (index) => setState(() => _selectedIndex = index),
-          ),
-          Expanded(
-            child: IndexedStack(
-              index: _selectedIndex,
-              children: [
-                TrendingMoviesScreen(onMovieTap: widget.onMovieTap),
-                ReviewsScreen(getMovieReviews: widget.getMovieReviews),
-                MoviesListsScreen(cubit: widget.listsCubit),
-                const MoviesArticlesScreen(),
-              ],
+            ]),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  MoovieKeepAliveTab(
+                    child: TrendingMoviesScreen(onMovieTap: onMovieTap),
+                  ),
+                  MoovieKeepAliveTab(
+                    child: ReviewsScreen(getMovieReviews: getMovieReviews),
+                  ),
+                  MoovieKeepAliveTab(
+                    child: MoviesListsScreen(cubit: listsCubit),
+                  ),
+                  const MoovieKeepAliveTab(child: MoviesArticlesScreen()),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

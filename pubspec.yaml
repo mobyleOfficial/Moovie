@@ -52,6 +52,10 @@ dependencies:
     path: features/news
   profile:
     path: features/profile
+  public_profile_feature:
+    path: features/public_profile
+  user_activities:
+    path: features/user_activities
   movies_ui:
     path: ui/movies_ui
   common:
@@ -64,8 +68,8 @@ dependencies:
     path: ui/search
   social:
     path: ui/social
-  new_user_activity:
-    path: ui/new_user_activity
+  user_activity:
+    path: ui/user_activity
   public_profile:
     path: ui/public_profile
   auto_route: ^11.1.0

@@ -21,10 +21,15 @@ class MoviesListsCubit extends Cubit<MoviesListsState> {
     fetchPage: _fetchPage,
   );
 
-  MoviesListsCubit(this._getMovieLists) : super(const MoviesListsLoading());
+  final String? userId;
+
+  MoviesListsCubit(this._getMovieLists, {this.userId})
+      : super(const MoviesListsLoading());
 
   Future<List<MovieList>> _fetchPage(int page) async {
-    final result = await _getMovieLists(page);
+    final result = await _getMovieLists(
+      GetMovieListsParams(page: page, userId: userId),
+    );
 
     switch (result) {
       case Success(:final data):

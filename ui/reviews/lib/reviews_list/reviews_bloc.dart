@@ -22,10 +22,15 @@ class ReviewsCubit extends Cubit<ReviewsState> {
     fetchPage: _fetchPage,
   );
 
-  ReviewsCubit(this._getMovieReviews) : super(const ReviewsLoading());
+  final String? userId;
+
+  ReviewsCubit(this._getMovieReviews, {this.userId})
+      : super(const ReviewsLoading());
 
   Future<List<MovieReview>> _fetchPage(int page) async {
-    final result = await _getMovieReviews(page);
+    final result = await _getMovieReviews(
+      GetMovieReviewsParams(page: page, userId: userId),
+    );
 
     switch (result) {
       case Success(:final data):

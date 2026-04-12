@@ -1,0 +1,11 @@
+import 'package:core/core.dart';
+import 'package:movies_domain/models/movie_review_draft.dart';
+import 'package:movies_domain/models/movie_review_status.dart';
+import 'package:user_activities_domain/models/user_activity.dart';
+
+abstract interface class UserActivitiesRepository {
+  Future<Result<List<UserActivity>>> getUserActivities({required String userId});
+  Result<void> upsertMovieReview({required MovieReviewDraft draft, required MovieReviewStatus status});
+  Stream<List<MovieReviewDraft>> observeMovieReviewDraftsList();
+  Result<void> deleteDraft({required int movieId});
+}

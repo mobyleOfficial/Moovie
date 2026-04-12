@@ -12,12 +12,25 @@ dependencies:
   bloc: ^9.2.0
   auto_route: ^11.1.0
   get_it: ^8.0.3
+  infinite_scroll_pagination: any
   common:
     path: ../common
+  core:
+    path: ../../core
   movies:
     path: ../../features/movies
   movies_ui:
     path: ../movies_ui
+  profile:
+    path: ../../features/profile
+  public_profile_domain:
+    path: ../../features/public_profile/domain
+  public_profile_data:
+    path: ../../features/public_profile/data
+  user_activity:
+    path: ../user_activity
+  reviews:
+    path: ../reviews
 
 dev_dependencies:
   auto_route_generator: ^10.5.0

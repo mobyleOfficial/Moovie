@@ -101,6 +101,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get profileTabDiary => 'Reviews';
 
   @override
+  String get profileTabReviews => 'Avaliações';
+
+  @override
   String get profileTabLists => 'Listas';
 
   @override
@@ -113,13 +116,31 @@ class AppLocalizationsPt extends AppLocalizations {
   String get profileFollowing => 'Seguindo';
 
   @override
-  String get profileMoviesWatched => 'Filmes';
+  String get profileMoviesWatched => 'Assistidos';
 
   @override
   String get profileEditProfile => 'Editar perfil';
 
   @override
   String get profileRecentMovies => 'Filmes recentes';
+
+  @override
+  String get profileFavoriteMovies => 'Filmes favoritos';
+
+  @override
+  String get profileRecentActivity => 'Atividade recente';
+
+  @override
+  String get profileMoviesSection => 'Filmes';
+
+  @override
+  String get profileReviewsSection => 'Avaliações';
+
+  @override
+  String get profileWatchlistSection => 'Watchlist';
+
+  @override
+  String get profileSeeAll => 'Ver tudo';
 
   @override
   String get socialFriendsTab => 'Amigos';

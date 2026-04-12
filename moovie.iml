@@ -39,6 +39,9 @@
       <excludeFolder url="file://$MODULE_DIR$/features/movies/data/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/features/movies/data/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/features/movies/data/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/movies_ui/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/movies_ui/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/movies_ui/build" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Dart SDK" level="project" />

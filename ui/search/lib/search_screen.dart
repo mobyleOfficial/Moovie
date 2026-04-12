@@ -116,40 +116,42 @@ class _SearchResultsSectionState extends State<_SearchResultsSection> {
     'Articles',
   ];
 
-  int _selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Column(
-      children: [
-        MoovieFilterChipBar(
-          labels: _categories,
-          selectedIndex: _selectedIndex,
-          onSelected: (index) => setState(() => _selectedIndex = index),
-        ),
-        Divider(height: 1, color: colorScheme.outlineVariant),
-        Expanded(
-          child: IndexedStack(
-            index: _selectedIndex,
-            children: [
-              _MoviesResultsTab(cubit: widget.cubit),
-              const _ReviewsResultsTab(),
-              const _ListsResultsTab(),
-              for (var index = 3; index < _categories.length; index++)
-                Center(
-                  child: Text(
-                    '${_categories[index]} coming soon',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                        ),
-                  ),
-                ),
-            ],
+    return DefaultTabController(
+      length: _categories.length,
+      child: Column(
+        children: [
+          MoovieTabBar(
+            isScrollable: true,
+            tabs: _categories,
           ),
-        ),
-      ],
+          Expanded(
+            child: TabBarView(
+              children: [
+                MoovieKeepAliveTab(
+                  child: _MoviesResultsTab(cubit: widget.cubit),
+                ),
+                const MoovieKeepAliveTab(child: _ReviewsResultsTab()),
+                const MoovieKeepAliveTab(child: _ListsResultsTab()),
+                for (var index = 3; index < _categories.length; index++)
+                  MoovieKeepAliveTab(
+                    child: Center(
+                      child: Text(
+                        '${_categories[index]} coming soon',
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

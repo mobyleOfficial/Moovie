@@ -26,5 +26,4 @@ export 'src/moovie_html_preview.dart';
 export 'src/moovie_keep_alive_tab.dart';
 export 'src/moovie_movies_grid.dart';
 export 'src/tmdb_image_url.dart';
-export 'src/moovie_filter_chip_bar.dart';
 export 'src/moovie_empty_state.dart';

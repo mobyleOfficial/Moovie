@@ -3,23 +3,23 @@ import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:movies_ui/movie_detail/movie_detail_router.dart';
 import 'package:movies/movies.dart';
 import 'package:reviews/review_details/review_details_router.dart';
 import 'package:reviews/reviews_list/reviews_bloc.dart';
-import 'package:reviews/reviews_list/reviews_state.dart';
 
 class ReviewsScreen extends StatefulWidget {
   final GetMovieReviews getMovieReviews;
+  final String? userId;
 
-  const ReviewsScreen({super.key, required this.getMovieReviews});
+  const ReviewsScreen({super.key, required this.getMovieReviews, this.userId});
 
   @override
   State<ReviewsScreen> createState() => _ReviewsScreenState();
 }
 
 class _ReviewsScreenState extends State<ReviewsScreen> {
-  late final ReviewsCubit _cubit = ReviewsCubit(widget.getMovieReviews);
+  late final ReviewsCubit _cubit =
+      ReviewsCubit(widget.getMovieReviews, userId: widget.userId);
 
   @override
   void dispose() {

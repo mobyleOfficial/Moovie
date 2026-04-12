@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moovie/routes/app_router.dart';
 import 'package:moovie/routes/route_title_resolver.dart';
-import 'package:new_user_activity/new_user_activity_router.dart';
-
-const _animationDuration = Duration(milliseconds: 300);
+import 'package:user_activity/new_user_activity_router.dart';
 
 @RoutePage()
 class MainScreen extends StatefulWidget {

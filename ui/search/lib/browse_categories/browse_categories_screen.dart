@@ -69,62 +69,49 @@ class _Content extends StatefulWidget {
   State<_Content> createState() => _ContentState();
 }
 
-class _ContentState extends State<_Content>
-    with SingleTickerProviderStateMixin {
-  late final TabController _tabController = TabController(
-    length: 3,
-    vsync: this,
-  );
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
+class _ContentState extends State<_Content> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Column(
-      children: [
-        MoovieTabBar(
-          controller: _tabController,
-          tabs: [
+    return DefaultTabController(
+      length: 3,
+      child: Column(
+        children: [
+          MoovieTabBar(tabs: [
             l10n?.searchBrowseGenre ?? '',
             l10n?.searchBrowseCountry ?? '',
             l10n?.searchBrowseLanguage ?? '',
-          ],
-        ),
-        Expanded(
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              MoovieKeepAliveTab(
-                child: _CategoryList<Genre>(
-                  items: widget.state.genres,
-                  labelBuilder: (genre) => genre.name,
-                  onTap: widget.onGenreTap,
+          ]),
+          Expanded(
+            child: TabBarView(
+              children: [
+                MoovieKeepAliveTab(
+                  child: _CategoryList<Genre>(
+                    items: widget.state.genres,
+                    labelBuilder: (genre) => genre.name,
+                    onTap: widget.onGenreTap,
+                  ),
                 ),
-              ),
-              MoovieKeepAliveTab(
-                child: _CategoryList<Country>(
-                  items: widget.state.countries,
-                  labelBuilder: (country) => country.englishName,
-                  onTap: widget.onCountryTap,
+                MoovieKeepAliveTab(
+                  child: _CategoryList<Country>(
+                    items: widget.state.countries,
+                    labelBuilder: (country) => country.englishName,
+                    onTap: widget.onCountryTap,
+                  ),
                 ),
-              ),
-              MoovieKeepAliveTab(
-                child: _CategoryList<Language>(
-                  items: widget.state.languages,
-                  labelBuilder: (language) => language.englishName,
-                  onTap: widget.onLanguageTap,
+                MoovieKeepAliveTab(
+                  child: _CategoryList<Language>(
+                    items: widget.state.languages,
+                    labelBuilder: (language) => language.englishName,
+                    onTap: widget.onLanguageTap,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

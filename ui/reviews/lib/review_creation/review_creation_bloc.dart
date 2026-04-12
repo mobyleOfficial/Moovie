@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/movies.dart';
+import 'package:user_activities_domain/domain.dart';
 import 'package:reviews/review_creation/review_creation_state.dart';
 
 class ReviewCreationCubit extends Cubit<ReviewCreationState> {

@@ -1,7 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:movies/movies.dart';
 import 'package:movies_ui/movie_detail/movie_detail_page.dart';
 
 part 'movie_detail_router.gr.dart';

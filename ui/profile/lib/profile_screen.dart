@@ -6,7 +6,7 @@ import 'package:profile_ui/tabs/profile_info/profile_info_screen.dart';
 import 'package:profile_ui/tabs/watchlist/watchlist_screen.dart' show WatchlistScreen;
 import 'package:reviews/reviews_list/reviews_screen.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   final GetMovieReviews getMovieReviews;
 
   const ProfileScreen({
@@ -15,40 +15,33 @@ class ProfileScreen extends StatefulWidget {
   });
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  int _selectedIndex = 0;
-
-  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Column(
-      children: [
-        MoovieFilterChipBar(
-          labels: [
+    return DefaultTabController(
+      length: 4,
+      child: Column(
+        children: [
+          MoovieTabBar(tabs: [
             l10n?.profileTabProfile ?? '',
             l10n?.profileTabDiary ?? '',
             l10n?.profileTabLists ?? '',
             l10n?.profileTabWatchlist ?? '',
-          ],
-          selectedIndex: _selectedIndex,
-          onSelected: (index) => setState(() => _selectedIndex = index),
-        ),
-        Expanded(
-          child: IndexedStack(
-            index: _selectedIndex,
-            children: [
-              const ProfileInfoScreen(),
-              ReviewsScreen(getMovieReviews: widget.getMovieReviews),
-              const UserMovieListsScreen(),
-              const WatchlistScreen(),
-            ],
+          ]),
+          Expanded(
+            child: TabBarView(
+              children: [
+                const MoovieKeepAliveTab(child: ProfileInfoScreen()),
+                MoovieKeepAliveTab(
+                  child: ReviewsScreen(getMovieReviews: getMovieReviews),
+                ),
+                const MoovieKeepAliveTab(child: UserMovieListsScreen()),
+                const MoovieKeepAliveTab(child: WatchlistScreen()),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

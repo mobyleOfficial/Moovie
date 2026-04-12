@@ -4,8 +4,6 @@ import 'package:movies_domain/domain.dart';
 
 import 'package:movies_data/datasources/local/movies_local_data_source.dart';
 import 'package:movies_data/datasources/remote/movies_remote_data_source.dart';
-import 'package:movies_data/models/local/local_movie_review_draft.dart';
-
 @LazySingleton(as: MoviesRepository)
 class MoviesRepositoryImpl implements MoviesRepository {
   final MoviesRemoteDataSource _dataSource;
@@ -38,8 +36,9 @@ class MoviesRepositoryImpl implements MoviesRepository {
   @override
   Future<Result<MovieReviewListing>> getMovieReviews({
     required int page,
+    String? userId,
   }) async {
-    final result = await _dataSource.getMovieReviews(page: page);
+    final result = await _dataSource.getMovieReviews(page: page, userId: userId);
 
     return switch (result) {
       Success(:final data) => Success(data.toDomain()),
@@ -47,23 +46,13 @@ class MoviesRepositoryImpl implements MoviesRepository {
     };
   }
 
-  @override
-  Future<Result<MovieCollectionListing>> getMovieCollections({
-    required int page,
-  }) async {
-    final result = await _dataSource.getMovieCollections(page: page);
-
-    return switch (result) {
-      Success(:final data) => Success(data.toDomain()),
-      Failure(:final error) => Failure(error),
-    };
-  }
 
   @override
   Future<Result<MovieListListing>> getMovieLists({
     required int page,
+    String? userId,
   }) async {
-    final result = await _dataSource.getMovieLists(page: page);
+    final result = await _dataSource.getMovieLists(page: page, userId: userId);
 
     return switch (result) {
       Success(:final data) => Success(data.toDomain()),
@@ -173,25 +162,6 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
-  Result<void> upsertMovieReview({
-    required MovieReviewDraft draft,
-    required MovieReviewStatus status,
-  }) =>
-      _localDataSource
-          .upsertMovieReviewDraft(LocalMovieReviewDraft.fromDomain(draft, status));
-
-  @override
-  Stream<List<MovieReviewDraft>> observeMovieReviewDraftsList() =>
-      _localDataSource.observeDraftsList().map(
-            (localDrafts) =>
-                localDrafts.map((draft) => draft.toDomain()).toList(),
-          );
-
-  @override
-  Result<void> deleteDraft({required int movieId}) =>
-      _localDataSource.deleteDraftByMovieId(movieId);
-
-  @override
   Result<void> addRecentSearch({required String query}) =>
       _localDataSource.addRecentSearch(query);
 
@@ -201,4 +171,20 @@ class MoviesRepositoryImpl implements MoviesRepository {
             (localSearches) =>
                 localSearches.map((search) => search.toDomain()).toList(),
           );
+
+  @override
+  Future<Result<MovieListing>> getUserWatchList({
+    required String userId,
+    required int page,
+  }) async {
+    final result = await _dataSource.getUserWatchList(
+      userId: userId,
+      page: page,
+    );
+
+    return switch (result) {
+      Success(:final data) => Success(data.toDomain()),
+      Failure(:final error) => Failure(error),
+    };
+  }
 }
