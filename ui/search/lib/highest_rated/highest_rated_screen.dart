@@ -20,6 +20,8 @@ class HighestRatedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return ColoredBox(
       color: Theme.of(context).colorScheme.surface,
       child: BlocProvider.value(
@@ -29,8 +31,9 @@ class HighestRatedScreen extends StatelessWidget {
             HighestRatedLoading() => const Center(
                 child: CircularProgressIndicator(),
               ),
-            HighestRatedError(:final message) => Center(
-                child: Text(message),
+            HighestRatedError(:final message) => MoovieEmptyState(
+                title: l10n?.emptyStateErrorTitle ?? '',
+                message: message,
               ),
             HighestRatedSuccess() => PagingListener(
                 controller: cubit.pagingController,
@@ -53,10 +56,15 @@ class HighestRatedScreen extends StatelessWidget {
                     ),
                     firstPageProgressIndicatorBuilder: (_) =>
                         const Center(child: CircularProgressIndicator()),
-                    firstPageErrorIndicatorBuilder: (_) => Center(
-                      child: Text(
-                        AppLocalizations.of(context)?.unknownError ?? '',
-                      ),
+                    firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+                      title: l10n?.emptyStateErrorTitle ?? '',
+                      message: l10n?.emptyStateErrorMessage ?? '',
+                      action: fetchNextPage,
+                      actionLabel: l10n?.emptyStateRetry ?? '',
+                    ),
+                    noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+                      title: l10n?.emptyStateNoItemsTitle ?? '',
+                      message: l10n?.emptyStateNoItemsMessage ?? '',
                     ),
                   ),
                 ),

@@ -6,5 +6,7 @@ class SocialCubit extends Cubit<SocialState> {
     _load();
   }
 
+  void reload() => _load();
+
   void _load() => emit(const SocialSuccess());
 }

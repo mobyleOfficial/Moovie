@@ -40,6 +40,7 @@ class _ReviewsPaginatedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<ReviewsCubit>();
+    final l10n = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     final posterColors = [
       colorScheme.tertiaryContainer,
@@ -72,8 +73,15 @@ class _ReviewsPaginatedList extends StatelessWidget {
           ),
           firstPageProgressIndicatorBuilder: (_) =>
               const Center(child: CircularProgressIndicator()),
-          firstPageErrorIndicatorBuilder: (_) => Center(
-            child: Text(AppLocalizations.of(context)?.unknownError ?? ''),
+          firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+            title: l10n?.emptyStateErrorTitle ?? '',
+            message: l10n?.emptyStateErrorMessage ?? '',
+            action: fetchNextPage,
+            actionLabel: l10n?.emptyStateRetry ?? '',
+          ),
+          noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+            title: l10n?.emptyStateNoItemsTitle ?? '',
+            message: l10n?.emptyStateNoItemsMessage ?? '',
           ),
         ),
       ),

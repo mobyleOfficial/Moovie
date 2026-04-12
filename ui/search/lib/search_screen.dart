@@ -165,6 +165,7 @@ class _MoviesResultsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
 
     return BlocBuilder<SearchCubit, SearchState>(
       builder: (context, state) => switch (state) {
@@ -174,7 +175,7 @@ class _MoviesResultsTab extends StatelessWidget {
         SearchResults(:final movies) => movies.isEmpty
             ? Center(
                 child: Text(
-                  AppLocalizations.of(context)?.noResults ?? '',
+                  l10n?.noResults ?? '',
                   style: textTheme.bodyLarge?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                   ),
@@ -192,7 +193,10 @@ class _MoviesResultsTab extends StatelessWidget {
                   movie: movies[index],
                 ),
               ),
-        SearchError(:final message) => Center(child: Text(message)),
+        SearchError(:final message) => MoovieEmptyState(
+            title: l10n?.emptyStateErrorTitle ?? '',
+            message: message,
+          ),
         SearchIdle() => const SizedBox.shrink(),
       },
     );
@@ -220,6 +224,7 @@ class _ReviewsResultsTabState extends State<_ReviewsResultsTab> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     final posterColors = [
       colorScheme.tertiaryContainer,
       colorScheme.primaryContainer,
@@ -253,10 +258,15 @@ class _ReviewsResultsTabState extends State<_ReviewsResultsTab> {
             ),
             firstPageProgressIndicatorBuilder: (_) =>
                 const Center(child: CircularProgressIndicator()),
-            firstPageErrorIndicatorBuilder: (_) => Center(
-              child: Text(
-                AppLocalizations.of(context)?.unknownError ?? '',
-              ),
+            firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+              title: l10n?.emptyStateErrorTitle ?? '',
+              message: l10n?.emptyStateErrorMessage ?? '',
+              action: fetchNextPage,
+              actionLabel: l10n?.emptyStateRetry ?? '',
+            ),
+            noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+              title: l10n?.emptyStateNoItemsTitle ?? '',
+              message: l10n?.emptyStateNoItemsMessage ?? '',
             ),
           ),
         ),
@@ -367,6 +377,8 @@ class _ListsResultsTabState extends State<_ListsResultsTab> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return BlocProvider.value(
       value: _cubit,
       child: PagingListener(
@@ -395,10 +407,15 @@ class _ListsResultsTabState extends State<_ListsResultsTab> {
             ),
             firstPageProgressIndicatorBuilder: (_) =>
                 const Center(child: CircularProgressIndicator()),
-            firstPageErrorIndicatorBuilder: (_) => Center(
-              child: Text(
-                AppLocalizations.of(context)?.unknownError ?? '',
-              ),
+            firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+              title: l10n?.emptyStateErrorTitle ?? '',
+              message: l10n?.emptyStateErrorMessage ?? '',
+              action: fetchNextPage,
+              actionLabel: l10n?.emptyStateRetry ?? '',
+            ),
+            noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+              title: l10n?.emptyStateNoItemsTitle ?? '',
+              message: l10n?.emptyStateNoItemsMessage ?? '',
             ),
           ),
         ),

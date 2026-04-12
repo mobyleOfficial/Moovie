@@ -6,5 +6,7 @@ class ReviewDetailsCubit extends Cubit<ReviewDetailsState> {
     _load();
   }
 
+  void reload() => _load();
+
   void _load() => emit(const ReviewDetailsSuccess());
 }

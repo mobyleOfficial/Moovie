@@ -591,6 +591,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show list view'**
   String get movieListDetailShowListView;
+
+  /// Title for the error empty state
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get emptyStateErrorTitle;
+
+  /// Message for the error empty state
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error occurred. Please try again.'**
+  String get emptyStateErrorMessage;
+
+  /// Retry button label on the error empty state
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get emptyStateRetry;
+
+  /// Title for the empty list state
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet'**
+  String get emptyStateNoItemsTitle;
+
+  /// Message for the empty list state
+  ///
+  /// In en, this message translates to:
+  /// **'There are no items to display.'**
+  String get emptyStateNoItemsMessage;
 }
 
 class _AppLocalizationsDelegate

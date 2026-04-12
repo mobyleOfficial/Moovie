@@ -81,5 +81,10 @@
   "reviewEditorClearConfirmContent": "Se eliminará todo el texto.",
   "reviewDetailsAddReview": "Agregar una reseña...",
   "movieListDetailShowGridView": "Mostrar vista de cuadrícula",
-  "movieListDetailShowListView": "Mostrar vista de lista"
+  "movieListDetailShowListView": "Mostrar vista de lista",
+  "emptyStateErrorTitle": "Algo salió mal",
+  "emptyStateErrorMessage": "Ocurrió un error inesperado. Por favor, inténtalo de nuevo.",
+  "emptyStateRetry": "Reintentar",
+  "emptyStateNoItemsTitle": "Nada aquí todavía",
+  "emptyStateNoItemsMessage": "No hay elementos para mostrar."
 }
