@@ -52,6 +52,8 @@ dependencies:
     path: features/news
   profile:
     path: features/profile
+  public_profile_feature:
+    path: features/public_profile
   movies_ui:
     path: ui/movies_ui
   common:

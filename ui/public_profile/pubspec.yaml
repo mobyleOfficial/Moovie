@@ -23,6 +23,10 @@ dependencies:
     path: ../movies_ui
   profile:
     path: ../../features/profile
+  public_profile_domain:
+    path: ../../features/public_profile/domain
+  public_profile_data:
+    path: ../../features/public_profile/data
   reviews:
     path: ../reviews
 
