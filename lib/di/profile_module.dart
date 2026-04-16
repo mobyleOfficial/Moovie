@@ -29,4 +29,8 @@ abstract class ProfileModule {
   @injectable
   UpdateUserProfile updateUserProfile(ProfileRepository repository) =>
       UpdateUserProfile(repository);
+
+  @injectable
+  GetUserProfile getUserProfile(ProfileRepository repository) =>
+      GetUserProfile(repository);
 }

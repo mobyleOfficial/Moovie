@@ -45,4 +45,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
     required UserProfile profile,
   }) async =>
       _profileRemoteDataSource.updateUserProfile(profile: profile);
+
+  @override
+  Future<Result<UserProfile>> getUserProfile() async =>
+      _profileRemoteDataSource.getUserProfile();
 }

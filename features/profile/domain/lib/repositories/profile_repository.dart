@@ -7,4 +7,5 @@ abstract interface class ProfileRepository {
   Future<Result<MovieReviewListing>> getUserReviews({required int page});
   Future<Result<MovieListing>> getUserFavoriteMovies({required String userId, required int page});
   Future<Result<void>> updateUserProfile({required UserProfile profile});
+  Future<Result<UserProfile>> getUserProfile();
 }
