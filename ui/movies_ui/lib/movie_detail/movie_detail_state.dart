@@ -9,7 +9,7 @@ class MovieDetailLoading extends MovieDetailState {
 }
 
 class MovieDetailSuccess extends MovieDetailState {
-  final MovieDetail detail;
+  final Movie detail;
 
   const MovieDetailSuccess(this.detail);
 }

@@ -42,7 +42,7 @@ class RemoteMovieDetail {
             .toList(),
       );
 
-  MovieDetail toDomain() => MovieDetail(
+  Movie toDomain() => Movie(
         id: id,
         title: title,
         overview: overview,

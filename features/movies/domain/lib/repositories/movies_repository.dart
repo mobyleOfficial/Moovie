@@ -1,8 +1,8 @@
 import 'package:core/core.dart';
 
-import 'package:movies_domain/models/movie_list_detail.dart';
+import 'package:movies_domain/models/movie_list.dart';
 import 'package:movies_domain/models/movie_list_listing.dart';
-import 'package:movies_domain/models/movie_detail.dart';
+import 'package:movies_domain/models/movie.dart';
 import 'package:movies_domain/models/movie_review_listing.dart';
 import 'package:movies_domain/models/recent_search.dart';
 import 'package:movies_domain/models/country.dart';
@@ -12,11 +12,11 @@ import 'package:movies_domain/models/movie_listing.dart';
 
 abstract interface class MoviesRepository {
   Future<Result<MovieListing>> getTrendingMovieList({required int page});
-  Future<Result<MovieDetail>> getMovieDetail({required int movieId});
+  Future<Result<Movie>> getMovieDetail({required int movieId});
   Future<Result<MovieReviewListing>> getMovieReviews({required int page, String? userId});
   Future<Result<MovieListListing>> getMovieLists({required int page, String? userId});
   Future<Result<MovieListListing>> getUserMovieLists({required int page});
-  Future<Result<MovieListDetail>> getMovieListDetail({required int listId, required int page});
+  Future<Result<MovieList>> getMovieListDetail({required int listId, required int page});
   Future<Result<MovieListing>> searchMovies({required String query, required int page});
   Future<Result<MovieListing>> discoverMovies({
     required int page,
