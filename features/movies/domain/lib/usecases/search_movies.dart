@@ -1,8 +1,17 @@
 import 'package:core/core.dart';
 
-import 'package:movies_domain/models/search_movies_params.dart';
 import 'package:movies_domain/models/movie_listing.dart';
 import 'package:movies_domain/repositories/movies_repository.dart';
+
+class SearchMoviesParams {
+  final String query;
+  final int page;
+
+  const SearchMoviesParams({
+    required this.query,
+    this.page = 1,
+  });
+}
 
 class SearchMovies extends UseCase<SearchMoviesParams, Result<MovieListing>> {
   final MoviesRepository _moviesRepository;

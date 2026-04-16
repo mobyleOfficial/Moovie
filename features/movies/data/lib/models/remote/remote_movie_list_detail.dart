@@ -29,11 +29,13 @@ class RemoteMovieListDetail {
     required this.tags,
   });
 
-  MovieListDetail toDomain() => MovieListDetail(
+  MovieList toDomain() => MovieList(
         id: id,
         name: name,
         creator: creator,
         description: description,
+        movieCount: totalMovies,
+        posterPaths: movies.map((movie) => movie.posterPath).toList(),
         movies: movies.map((movie) => movie.toDomain()).toList(),
         totalMovies: totalMovies,
         totalPages: totalPages,

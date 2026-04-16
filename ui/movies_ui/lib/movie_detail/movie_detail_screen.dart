@@ -55,10 +55,10 @@ class MovieDetailScreen extends StatelessWidget {
                                   color: Theme.of(context).colorScheme.onSurface,
                                 ),
                           ),
-                          if (detail.tagline.isNotEmpty) ...[
+                          if (detail.tagline?.isNotEmpty ?? false) ...[
                             const SizedBox(height: 8),
                             Text(
-                              detail.tagline,
+                              detail.tagline ?? '',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
@@ -72,8 +72,8 @@ class MovieDetailScreen extends StatelessWidget {
                           Text(l10n?.movieRating(detail.voteAverage.toStringAsFixed(1)) ?? ''),
                           if (detail.runtime != null)
                             Text(l10n?.movieRuntime(detail.runtime!) ?? ''),
-                          if (detail.genres.isNotEmpty)
-                            Text(l10n?.movieGenres(detail.genres.join(', ')) ?? ''),
+                          if (detail.genres?.isNotEmpty ?? false)
+                            Text(l10n?.movieGenres(detail.genres!.join(', ')) ?? ''),
                         ],
                       ),
                     ),
