@@ -119,6 +119,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileMoviesWatched => 'Watched';
 
   @override
+  String get profileMoviesWatchedTitle => 'Movies watched';
+
+  @override
+  String get profileFollowingTitle => 'Following';
+
+  @override
+  String get profileFollowersTitle => 'Followers';
+
+  @override
+  String get profileEmptyMoviesWatched => 'No movies watched yet';
+
+  @override
+  String get profileEmptyFollowing => 'Not following anyone yet';
+
+  @override
+  String get profileEmptyFollowers => 'No followers yet';
+
+  @override
   String get profileEditProfile => 'Edit Profile';
 
   @override

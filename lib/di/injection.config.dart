@@ -96,6 +96,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i16.UpdateUserProfile>(
       () => profileModule.updateUserProfile(gh<_i16.ProfileRepository>()),
     );
+    gh.factory<_i16.GetUserProfile>(
+      () => profileModule.getUserProfile(gh<_i16.ProfileRepository>()),
+    );
     gh.lazySingleton<_i987.MoviesRepository>(
       () => moviesModule.moviesRepository(
         gh<_i987.MoviesRemoteDataSource>(),

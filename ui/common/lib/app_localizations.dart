@@ -304,6 +304,42 @@ abstract class AppLocalizations {
   /// **'Watched'**
   String get profileMoviesWatched;
 
+  /// Title for the movies watched bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Movies watched'**
+  String get profileMoviesWatchedTitle;
+
+  /// Title for the following bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Following'**
+  String get profileFollowingTitle;
+
+  /// Title for the followers bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Followers'**
+  String get profileFollowersTitle;
+
+  /// Empty state message for movies watched
+  ///
+  /// In en, this message translates to:
+  /// **'No movies watched yet'**
+  String get profileEmptyMoviesWatched;
+
+  /// Empty state message for following list
+  ///
+  /// In en, this message translates to:
+  /// **'Not following anyone yet'**
+  String get profileEmptyFollowing;
+
+  /// Empty state message for followers list
+  ///
+  /// In en, this message translates to:
+  /// **'No followers yet'**
+  String get profileEmptyFollowers;
+
   /// Edit profile button label
   ///
   /// In en, this message translates to:
