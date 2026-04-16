@@ -161,6 +161,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i824.UserActivitiesRepository>(),
       ),
     );
+    gh.factory<_i824.GetFriendsActivities>(
+      () => userActivitiesModule.getFriendsActivities(
+        gh<_i824.UserActivitiesRepository>(),
+      ),
+    );
     gh.factory<_i16.GetUserReviews>(
       () => profileModule.getUserReviews(gh<_i16.ProfileRepository>()),
     );

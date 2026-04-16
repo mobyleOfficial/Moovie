@@ -146,7 +146,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get socialFriendsTab => 'Amigos';
 
   @override
-  String get socialMessagesTab => 'Mensagens';
+  String get socialActivitiesTab => 'Atividades';
 
   @override
   String get moviesListListsTab => 'Listas';

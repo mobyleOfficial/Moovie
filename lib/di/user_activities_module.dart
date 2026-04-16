@@ -45,4 +45,10 @@ abstract class UserActivitiesModule {
   @injectable
   DeleteDraft deleteDraft(UserActivitiesRepository repository) =>
       DeleteDraft(repository);
+
+  @injectable
+  GetFriendsActivities getFriendsActivities(
+    UserActivitiesRepository repository,
+  ) =>
+      GetFriendsActivities(repository);
 }

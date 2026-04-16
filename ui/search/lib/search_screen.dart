@@ -574,10 +574,6 @@ class _BrowseSection extends StatelessWidget {
                 ),
               ),
               _BrowseItem(
-                icon: Icons.play_circle_outline,
-                label: l10n?.searchBrowseService ?? '',
-              ),
-              _BrowseItem(
                 icon: Icons.trending_up,
                 label: l10n?.searchBrowseMostPopular ?? '',
                 onTap: () => context.router.push(

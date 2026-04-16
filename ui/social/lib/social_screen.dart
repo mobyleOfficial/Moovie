@@ -1,39 +1,49 @@
 import 'package:social/social_bloc.dart';
 import 'package:social/social_state.dart';
+import 'package:social/tabs/activities/activities_bloc.dart';
+import 'package:social/tabs/activities/activities_screen.dart';
 import 'package:social/tabs/friends/friends_screen.dart';
-import 'package:social/tabs/messages/messages_screen.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SocialScreen extends StatelessWidget {
   final SocialCubit cubit;
+  final ActivitiesCubit activitiesCubit;
 
-  const SocialScreen({super.key, required this.cubit});
+  const SocialScreen({
+    super.key,
+    required this.cubit,
+    required this.activitiesCubit,
+  });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
     return BlocProvider.value(
-    value: cubit,
-    child: BlocBuilder<SocialCubit, SocialState>(
-      builder: (context, state) => switch (state) {
-        SocialLoading() => const Center(child: CircularProgressIndicator()),
-        SocialError() => MoovieEmptyState(
-            title: l10n?.emptyStateErrorTitle ?? '',
-            message: state.message,
-            action: cubit.reload,
-            actionLabel: l10n?.emptyStateRetry ?? '',
-          ),
-        SocialSuccess() => _SocialContent(),
-      },
-    ),
-  );
+      value: cubit,
+      child: BlocBuilder<SocialCubit, SocialState>(
+        builder: (context, state) => switch (state) {
+          SocialLoading() => const Center(child: CircularProgressIndicator()),
+          SocialError() => MoovieEmptyState(
+              title: l10n?.emptyStateErrorTitle ?? '',
+              message: state.message,
+              action: cubit.reload,
+              actionLabel: l10n?.emptyStateRetry ?? '',
+            ),
+          SocialSuccess() => _SocialContent(activitiesCubit: activitiesCubit),
+        },
+      ),
+    );
   }
 }
 
 class _SocialContent extends StatelessWidget {
+  final ActivitiesCubit activitiesCubit;
+
+  const _SocialContent({required this.activitiesCubit});
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -42,12 +52,12 @@ class _SocialContent extends StatelessWidget {
       length: 2,
       child: Column(
         children: [
-          MoovieTabBar(tabs: [l10n?.socialFriendsTab ?? '', l10n?.socialMessagesTab ?? '']),
-          const Expanded(
+          MoovieTabBar(tabs: [l10n?.socialFriendsTab ?? '', l10n?.socialActivitiesTab ?? '']),
+          Expanded(
             child: TabBarView(
               children: [
-                MoovieKeepAliveTab(child: FriendsScreen()),
-                MoovieKeepAliveTab(child: MessagesScreen()),
+                const MoovieKeepAliveTab(child: FriendsScreen()),
+                MoovieKeepAliveTab(child: ActivitiesScreen(cubit: activitiesCubit)),
               ],
             ),
           ),

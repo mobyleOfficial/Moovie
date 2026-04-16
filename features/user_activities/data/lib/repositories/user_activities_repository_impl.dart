@@ -5,6 +5,7 @@ import 'package:movies_domain/models/movie_review_status.dart';
 import 'package:user_activities_data/datasources/local/user_activities_local_data_source.dart';
 import 'package:user_activities_data/datasources/remote/user_activities_remote_data_source.dart';
 import 'package:user_activities_domain/models/user_activity.dart';
+import 'package:user_activities_domain/models/user_activity_listing.dart';
 import 'package:user_activities_domain/repositories/user_activities_repository.dart';
 
 class UserActivitiesRepositoryImpl implements UserActivitiesRepository {
@@ -22,6 +23,18 @@ class UserActivitiesRepositoryImpl implements UserActivitiesRepository {
     return switch (result) {
       Success(:final data) =>
         Success(data.map((activity) => activity.toDomain()).toList()),
+      Failure(:final error) => Failure(error),
+    };
+  }
+
+  @override
+  Future<Result<UserActivityListing>> getFriendsActivities({
+    required int page,
+  }) async {
+    final result = await _remoteDataSource.getFriendsActivities(page: page);
+
+    return switch (result) {
+      Success(:final data) => Success(data.toDomain()),
       Failure(:final error) => Failure(error),
     };
   }

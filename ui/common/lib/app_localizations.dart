@@ -358,11 +358,11 @@ abstract class AppLocalizations {
   /// **'Friends'**
   String get socialFriendsTab;
 
-  /// Messages tab label on the social screen
+  /// Activities tab label on the social screen
   ///
   /// In en, this message translates to:
-  /// **'Messages'**
-  String get socialMessagesTab;
+  /// **'Activities'**
+  String get socialActivitiesTab;
 
   /// Lists tab label on the movies list screen
   ///
