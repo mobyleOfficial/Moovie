@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
+import 'package:profile_ui/profile_router.dart';
 
 class ProfileInfoScreen extends StatelessWidget {
   const ProfileInfoScreen({super.key});
@@ -87,7 +88,13 @@ class ProfileInfoScreen extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: OutlinedButton(
-              onPressed: () {},
+              onPressed: () => context.router.root.push(
+                EditProfileRoute(
+                  initialPhotoUrl: '',
+                  initialUsername: '@filmfan42',
+                  initialBio: 'Movie lover & critic',
+                ),
+              ),
               style: OutlinedButton.styleFrom(
                 foregroundColor: colorScheme.onSecondaryContainer,
                 side: BorderSide(color: colorScheme.onSecondaryContainer),

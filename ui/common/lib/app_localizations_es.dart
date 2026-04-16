@@ -122,6 +122,21 @@ class AppLocalizationsEs extends AppLocalizations {
   String get profileEditProfile => 'Editar perfil';
 
   @override
+  String get editProfileUsernameLabel => 'Nombre de usuario';
+
+  @override
+  String get editProfileUsernamePlaceholder => 'Ingresa tu nombre de usuario';
+
+  @override
+  String get editProfileBioLabel => 'Bio';
+
+  @override
+  String get editProfileBioPlaceholder => 'Cuéntanos sobre ti';
+
+  @override
+  String get editProfileChangePhoto => 'Cambiar foto';
+
+  @override
   String get profileRecentMovies => 'Películas recientes';
 
   @override

@@ -33,8 +33,8 @@ extension GetItInjectableX on _i174.GetIt {
     final httpDiModule = _$HttpDiModule();
     final moviesModule = _$MoviesModule();
     final userActivitiesModule = _$UserActivitiesModule();
-    final publicProfileModule = _$PublicProfileModule();
     final profileModule = _$ProfileModule();
+    final publicProfileModule = _$PublicProfileModule();
     gh.singleton<_i494.LocalClient>(() => httpDiModule.localClient);
     gh.singleton<_i361.Dio>(
       () => httpDiModule.backendDio,
@@ -66,6 +66,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i494.HttpClient>(instanceName: 'tmdb'),
       ),
     );
+    gh.lazySingleton<_i16.ProfileRemoteDataSource>(
+      () => profileModule.profileRemoteDataSource(
+        gh<_i494.HttpClient>(instanceName: 'tmdb'),
+      ),
+    );
     gh.lazySingleton<_i805.PublicProfileRemoteDataSource>(
       () => publicProfileModule.publicProfileRemoteDataSource(
         gh<_i494.HttpClient>(instanceName: 'tmdb'),
@@ -75,6 +80,21 @@ extension GetItInjectableX on _i174.GetIt {
       () => userActivitiesModule.userActivitiesRemoteDataSource(
         gh<_i494.HttpClient>(instanceName: 'tmdb'),
       ),
+    );
+    gh.lazySingleton<_i16.ProfileRepository>(
+      () => profileModule.profileRepository(
+        gh<_i987.MoviesRemoteDataSource>(),
+        gh<_i16.ProfileRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i16.GetUserReviews>(
+      () => profileModule.getUserReviews(gh<_i16.ProfileRepository>()),
+    );
+    gh.factory<_i16.GetUserFavoriteMovies>(
+      () => profileModule.getUserFavoriteMovies(gh<_i16.ProfileRepository>()),
+    );
+    gh.factory<_i16.UpdateUserProfile>(
+      () => profileModule.updateUserProfile(gh<_i16.ProfileRepository>()),
     );
     gh.lazySingleton<_i987.MoviesRepository>(
       () => moviesModule.moviesRepository(
@@ -127,9 +147,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i987.GetFeaturedLists>(
       () => moviesModule.getFeaturedLists(gh<_i987.MoviesRepository>()),
     );
-    gh.lazySingleton<_i16.ProfileRepository>(
-      () => profileModule.profileRepository(gh<_i987.MoviesRemoteDataSource>()),
-    );
     gh.lazySingleton<_i805.PublicProfileRepository>(
       () => publicProfileModule.publicProfileRepository(
         gh<_i805.PublicProfileRemoteDataSource>(),
@@ -166,12 +183,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i824.UserActivitiesRepository>(),
       ),
     );
-    gh.factory<_i16.GetUserReviews>(
-      () => profileModule.getUserReviews(gh<_i16.ProfileRepository>()),
-    );
-    gh.factory<_i16.GetUserFavoriteMovies>(
-      () => profileModule.getUserFavoriteMovies(gh<_i16.ProfileRepository>()),
-    );
     gh.factory<_i805.GetPublicProfile>(
       () => publicProfileModule.getPublicProfile(
         gh<_i805.PublicProfileRepository>(),
@@ -187,6 +198,6 @@ class _$MoviesModule extends _i993.MoviesModule {}
 
 class _$UserActivitiesModule extends _i1017.UserActivitiesModule {}
 
-class _$PublicProfileModule extends _i497.PublicProfileModule {}
-
 class _$ProfileModule extends _i510.ProfileModule {}
+
+class _$PublicProfileModule extends _i497.PublicProfileModule {}

@@ -310,6 +310,36 @@ abstract class AppLocalizations {
   /// **'Edit Profile'**
   String get profileEditProfile;
 
+  /// Username field label on the edit profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get editProfileUsernameLabel;
+
+  /// Username field placeholder on the edit profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your username'**
+  String get editProfileUsernamePlaceholder;
+
+  /// Bio field label on the edit profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Bio'**
+  String get editProfileBioLabel;
+
+  /// Bio field placeholder on the edit profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us about yourself'**
+  String get editProfileBioPlaceholder;
+
+  /// Change photo button label on the edit profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get editProfileChangePhoto;
+
   /// Recent movies section header on the profile screen
   ///
   /// In en, this message translates to:

@@ -1,1 +1,1 @@
-// Barrel file
+export 'user_profile.dart';
