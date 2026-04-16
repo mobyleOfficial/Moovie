@@ -46,13 +46,15 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     _hasChanges = true;
   }
 
-  Future<void> saveIfChanged() async {
-    if (!_hasChanges) return;
+  Future<UserProfile?> saveIfChanged() async {
+    if (!_hasChanges) return null;
 
-    await _updateUserProfile(UserProfile(
+    final profile = UserProfile(
       photoUrl: _photoUrl,
       username: _username,
       bio: _bio,
-    ));
+    );
+    await _updateUserProfile(profile);
+    return profile;
   }
 }

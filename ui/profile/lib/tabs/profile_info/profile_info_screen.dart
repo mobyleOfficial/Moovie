@@ -2,10 +2,20 @@ import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
+import 'package:profile/profile.dart';
 import 'package:profile_ui/profile_router.dart';
 
-class ProfileInfoScreen extends StatelessWidget {
+class ProfileInfoScreen extends StatefulWidget {
   const ProfileInfoScreen({super.key});
+
+  @override
+  State<ProfileInfoScreen> createState() => _ProfileInfoScreenState();
+}
+
+class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
+  String _photoUrl = '';
+  String _username = '@filmfan42';
+  String _bio = 'Movie lover & critic';
 
   static const _recentMovies = [
     (title: 'Dune: Part Two', id: 693134),
@@ -14,6 +24,24 @@ class ProfileInfoScreen extends StatelessWidget {
     (title: 'The Zone of Interest', id: 929590),
     (title: 'Society of the Snow', id: 876969),
   ];
+
+  Future<void> _openEditProfile() async {
+    final result = await context.router.root.push<UserProfile?>(
+      EditProfileRoute(
+        initialPhotoUrl: _photoUrl,
+        initialUsername: _username,
+        initialBio: _bio,
+      ),
+    );
+
+    if (result != null && mounted) {
+      setState(() {
+        _photoUrl = result.photoUrl;
+        _username = result.username;
+        _bio = result.bio;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +69,22 @@ class ProfileInfoScreen extends StatelessWidget {
             child: CircleAvatar(
               radius: 52,
               backgroundColor: colorScheme.secondaryContainer,
-              child: ExcludeSemantics(
-                child: Icon(
-                  Icons.person,
-                  size: 52,
-                  color: colorScheme.onSecondaryContainer,
-                ),
-              ),
+              backgroundImage:
+                  _photoUrl.isNotEmpty ? NetworkImage(_photoUrl) : null,
+              child: _photoUrl.isEmpty
+                  ? ExcludeSemantics(
+                      child: Icon(
+                        Icons.person,
+                        size: 52,
+                        color: colorScheme.onSecondaryContainer,
+                      ),
+                    )
+                  : null,
             ),
           ),
           const SizedBox(height: 12),
           Text(
-            '@filmfan42',
+            _username,
             style: textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: colorScheme.onSurface,
@@ -60,7 +92,7 @@ class ProfileInfoScreen extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            'Movie lover & critic',
+            _bio,
             style: textTheme.bodyMedium
                 ?.copyWith(color: colorScheme.onSurfaceVariant),
           ),
@@ -73,13 +105,17 @@ class ProfileInfoScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _ProfileStat(value: '248', label: l10n?.profileMoviesWatched ?? ''),
+                  _ProfileStat(
+                      value: '248',
+                      label: l10n?.profileMoviesWatched ?? ''),
                   VerticalDivider(
                       color: colorScheme.outlineVariant, width: 1),
-                  _ProfileStat(value: '32', label: l10n?.profileFollowing ?? ''),
+                  _ProfileStat(
+                      value: '32', label: l10n?.profileFollowing ?? ''),
                   VerticalDivider(
                       color: colorScheme.outlineVariant, width: 1),
-                  _ProfileStat(value: '156', label: l10n?.profileFollowers ?? ''),
+                  _ProfileStat(
+                      value: '156', label: l10n?.profileFollowers ?? ''),
                 ],
               ),
             ),
@@ -88,13 +124,7 @@ class ProfileInfoScreen extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: OutlinedButton(
-              onPressed: () => context.router.root.push(
-                EditProfileRoute(
-                  initialPhotoUrl: '',
-                  initialUsername: '@filmfan42',
-                  initialBio: 'Movie lover & critic',
-                ),
-              ),
+              onPressed: _openEditProfile,
               style: OutlinedButton.styleFrom(
                 foregroundColor: colorScheme.onSecondaryContainer,
                 side: BorderSide(color: colorScheme.onSecondaryContainer),
