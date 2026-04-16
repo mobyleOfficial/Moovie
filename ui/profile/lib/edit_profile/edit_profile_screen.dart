@@ -37,9 +37,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _onClose() async {
-    await widget.cubit.saveIfChanged();
+    final updatedProfile = await widget.cubit.saveIfChanged();
     if (mounted) {
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(updatedProfile);
     }
   }
 
