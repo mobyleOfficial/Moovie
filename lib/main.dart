@@ -4,7 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:moovie/config/app_config.dart';
 import 'package:moovie/di/injection.dart';
 import 'package:moovie/routes/app_router.dart';
-import 'package:moovie/worker/review_submission_worker.dart';
+import 'package:user_activities/user_activities.dart';
 import 'package:movies/movies.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:workmanager/workmanager.dart';

@@ -1,4 +1,6 @@
-import 'package:movies/movies.dart';
+import 'package:movies_data/models/local/local_movie_review_draft.dart';
+import 'package:movies_data/objectbox.g.dart';
+import 'package:movies_domain/models/movie_review_status.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:workmanager/workmanager.dart';
 

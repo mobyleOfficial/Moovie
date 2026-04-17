@@ -4,6 +4,7 @@ import 'package:movies_domain/models/movie_review_draft.dart';
 import 'package:movies_domain/models/movie_review_status.dart';
 import 'package:user_activities_data/datasources/local/user_activities_local_data_source.dart';
 import 'package:user_activities_data/datasources/remote/user_activities_remote_data_source.dart';
+import 'package:user_activities_data/worker/review_submission_worker.dart';
 import 'package:user_activities_domain/models/user_activity.dart';
 import 'package:user_activities_domain/models/user_activity_listing.dart';
 import 'package:user_activities_domain/repositories/user_activities_repository.dart';
@@ -11,6 +12,7 @@ import 'package:user_activities_domain/repositories/user_activities_repository.d
 class UserActivitiesRepositoryImpl implements UserActivitiesRepository {
   final UserActivitiesRemoteDataSource _remoteDataSource;
   final UserActivitiesLocalDataSource _localDataSource;
+  final Set<int> _scheduledWorkers = {};
 
   UserActivitiesRepositoryImpl(this._remoteDataSource, this._localDataSource);
 
@@ -71,8 +73,16 @@ class UserActivitiesRepositoryImpl implements UserActivitiesRepository {
 
   @override
   Stream<List<MovieReviewDraft>> observeSubmittingDrafts() =>
-      _localDataSource.observeSubmittingDrafts().map(
-            (localDrafts) =>
-                localDrafts.map((draft) => draft.toDomain()).toList(),
-          );
+      _localDataSource.observeSubmittingDrafts().map((localDrafts) {
+        final domainDrafts =
+            localDrafts.map((draft) => draft.toDomain()).toList();
+        for (final draft in domainDrafts) {
+          if (draft.status == MovieReviewStatus.submitting &&
+              !_scheduledWorkers.contains(draft.movieId)) {
+            _scheduledWorkers.add(draft.movieId);
+            scheduleReviewSubmission(movieId: draft.movieId);
+          }
+        }
+        return domainDrafts;
+      });
 }
