@@ -28,6 +28,7 @@ class ReviewCreationPage extends StatefulWidget {
 class _ReviewCreationPageState extends State<ReviewCreationPage> {
   late final ReviewCreationCubit _cubit = ReviewCreationCubit(
     upsertMovieReview: GetIt.I<UpsertMovieReview>(),
+    submitReview: GetIt.I<SubmitReview>(),
     movieId: widget.movieId,
     movieTitle: widget.movieTitle,
     posterPath: widget.posterPath,

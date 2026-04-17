@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,28 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
     super.dispose();
   }
 
+  Future<void> _showSubmitDialog() async {
+    FocusScope.of(context).unfocus();
+    if (!widget.cubit.validate()) return;
+
+    final l10n = AppLocalizations.of(context);
+    var confirmed = false;
+    await MoovieDialog.show(
+      context: context,
+      title: l10n?.submitReviewTitle ?? 'Submit Review',
+      content: l10n?.submitReviewContent ??
+          'Are you sure you want to submit this review?',
+      confirmText: l10n?.submit ?? 'Submit',
+      cancelText: l10n?.cancel ?? 'Cancel',
+      onConfirm: () => confirmed = true,
+    );
+
+    if (confirmed && mounted) {
+      widget.cubit.submitReview();
+      context.router.root.popUntilRoot();
+    }
+  }
+
   Future<void> _openReviewEditor(String? currentBody) async {
     final result = await MoovieReviewEditor.show(
       context,
@@ -58,9 +81,11 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return BlocProvider.value(
-      value: widget.cubit,
-      child: Scaffold(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: BlocProvider.value(
+        value: widget.cubit,
+        child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
@@ -69,7 +94,7 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
             Tooltip(
               message: l10n?.movieReviewSend ?? '',
               child: IconButton(
-                onPressed: () {},
+                onPressed: _showSubmitDialog,
                 icon: const Icon(Icons.send),
               ),
             ),
@@ -98,6 +123,7 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
                     _openReviewEditor(state.reviewBody.isEmpty ? null : state.reviewBody),
               ),
           },
+        ),
         ),
       ),
     );
@@ -148,6 +174,9 @@ class _ReviewBody extends StatelessWidget {
             decoration: InputDecoration(
               hintText: l10n?.movieReviewNameHint ?? '',
               border: const OutlineInputBorder(),
+              errorText: state.hasTitleError
+                  ? (l10n?.fieldRequired ?? '')
+                  : null,
             ),
           ),
           const SizedBox(height: 24),
@@ -173,11 +202,32 @@ class _ReviewBody extends StatelessWidget {
               ),
             ],
           ),
+          if (state.hasRatingError)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                l10n?.ratingRequired ?? '',
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.error,
+                ),
+              ),
+            ),
           const SizedBox(height: 24),
           _AddReviewSection(
             html: state.reviewBody.isEmpty ? null : state.reviewBody,
             onTap: onAddReview,
+            hasError: state.hasBodyError,
           ),
+          if (state.hasBodyError)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                l10n?.reviewBodyRequired ?? '',
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.error,
+                ),
+              ),
+            ),
           const SizedBox(height: 24),
           Row(
             children: [
@@ -230,6 +280,16 @@ class _ReviewBody extends StatelessWidget {
                 )
                 .toList(),
           ),
+          if (state.hasTagsError)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                l10n?.tagsRequired ?? '',
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.error,
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -239,8 +299,13 @@ class _ReviewBody extends StatelessWidget {
 class _AddReviewSection extends StatelessWidget {
   final String? html;
   final VoidCallback onTap;
+  final bool hasError;
 
-  const _AddReviewSection({required this.html, required this.onTap});
+  const _AddReviewSection({
+    required this.html,
+    required this.onTap,
+    this.hasError = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -262,7 +327,9 @@ class _AddReviewSection extends StatelessWidget {
             color: hasContent
                 ? colorScheme.surfaceContainerHighest.withValues(alpha: 0.5)
                 : null,
-            border: Border.all(color: colorScheme.outlineVariant),
+            border: Border.all(
+              color: hasError ? colorScheme.error : colorScheme.outlineVariant,
+            ),
             borderRadius: BorderRadius.circular(12),
           ),
           child: hasContent

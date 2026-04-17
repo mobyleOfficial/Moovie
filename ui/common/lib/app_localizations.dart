@@ -693,6 +693,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Clear'**
   String get clearSearch;
+
+  /// Title of the submit review confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Review'**
+  String get submitReviewTitle;
+
+  /// Content of the submit review confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to submit this review? It will be published and the draft will be removed.'**
+  String get submitReviewContent;
+
+  /// Submit button label
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submit;
+
+  /// Label shown while a review is being submitted
+  ///
+  /// In en, this message translates to:
+  /// **'Submitting review...'**
+  String get submittingReview;
+
+  /// Label shown when review submission fails
+  ///
+  /// In en, this message translates to:
+  /// **'Submission failed'**
+  String get submissionFailed;
+
+  /// Error message shown below a required field that is empty
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get fieldRequired;
+
+  /// Error message shown when rating is missing
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a rating'**
+  String get ratingRequired;
+
+  /// Error message shown when review body is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Please write a review'**
+  String get reviewBodyRequired;
+
+  /// Error message shown when no tags are selected
+  ///
+  /// In en, this message translates to:
+  /// **'Please select at least one tag'**
+  String get tagsRequired;
 }
 
 class _AppLocalizationsDelegate

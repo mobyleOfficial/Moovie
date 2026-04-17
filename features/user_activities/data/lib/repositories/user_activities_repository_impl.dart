@@ -4,6 +4,7 @@ import 'package:movies_domain/models/movie_review_draft.dart';
 import 'package:movies_domain/models/movie_review_status.dart';
 import 'package:user_activities_data/datasources/local/user_activities_local_data_source.dart';
 import 'package:user_activities_data/datasources/remote/user_activities_remote_data_source.dart';
+import 'package:user_activities_data/worker/review_submission_worker.dart';
 import 'package:user_activities_domain/models/user_activity.dart';
 import 'package:user_activities_domain/models/user_activity_listing.dart';
 import 'package:user_activities_domain/repositories/user_activities_repository.dart';
@@ -11,6 +12,7 @@ import 'package:user_activities_domain/repositories/user_activities_repository.d
 class UserActivitiesRepositoryImpl implements UserActivitiesRepository {
   final UserActivitiesRemoteDataSource _remoteDataSource;
   final UserActivitiesLocalDataSource _localDataSource;
+  final Set<int> _scheduledWorkers = {};
 
   UserActivitiesRepositoryImpl(this._remoteDataSource, this._localDataSource);
 
@@ -57,4 +59,30 @@ class UserActivitiesRepositoryImpl implements UserActivitiesRepository {
   @override
   Result<void> deleteDraft({required int movieId}) =>
       _localDataSource.deleteDraftByMovieId(movieId);
+
+  @override
+  Future<Result<void>> submitReview({required MovieReviewDraft draft}) =>
+      _remoteDataSource.submitReview(draft: draft);
+
+  @override
+  Result<void> updateDraftStatus({
+    required int movieId,
+    required MovieReviewStatus status,
+  }) =>
+      _localDataSource.updateDraftStatus(movieId: movieId, status: status);
+
+  @override
+  Stream<List<MovieReviewDraft>> observeSubmittingDrafts() =>
+      _localDataSource.observeSubmittingDrafts().map((localDrafts) {
+        final domainDrafts =
+            localDrafts.map((draft) => draft.toDomain()).toList();
+        for (final draft in domainDrafts) {
+          if (draft.status == MovieReviewStatus.submitting &&
+              !_scheduledWorkers.contains(draft.movieId)) {
+            _scheduledWorkers.add(draft.movieId);
+            scheduleReviewSubmission(movieId: draft.movieId);
+          }
+        }
+        return domainDrafts;
+      });
 }

@@ -186,6 +186,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i824.UserActivitiesRepository>(),
       ),
     );
+    gh.factory<_i824.SubmitReview>(
+      () => userActivitiesModule.submitReview(
+        gh<_i824.UserActivitiesRepository>(),
+      ),
+    );
+    gh.factory<_i824.ObserveSubmittingDrafts>(
+      () => userActivitiesModule.observeSubmittingDrafts(
+        gh<_i824.UserActivitiesRepository>(),
+      ),
+    );
     gh.factory<_i805.GetPublicProfile>(
       () => publicProfileModule.getPublicProfile(
         gh<_i805.PublicProfileRepository>(),

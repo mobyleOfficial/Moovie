@@ -2,8 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:moovie/routes/app_router.dart';
+import 'package:moovie/routes/main_bloc.dart';
+import 'package:moovie/routes/main_state.dart';
 import 'package:moovie/routes/route_title_resolver.dart';
+import 'package:reviews/review_creation/review_creation_router.dart';
 import 'package:user_activity/new_user_activity_router.dart';
 
 @RoutePage()
@@ -16,6 +21,10 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final _appBarController = AppBarController();
+  late final MainCubit _mainCubit = MainCubit(
+    GetIt.I(),
+    GetIt.I(),
+  );
   TabsRouter? _tabsRouter;
   RoutingController? _activeTabRouter;
   bool _resolveScheduled = false;
@@ -91,6 +100,7 @@ class _MainScreenState extends State<MainScreen> {
   void dispose() {
     _detachListeners();
     _appBarController.dispose();
+    _mainCubit.close();
     super.dispose();
   }
 
@@ -158,6 +168,48 @@ class _MainScreenState extends State<MainScreen> {
                               )
                             : null,
                       );
+                    },
+                  ),
+                  BlocBuilder<MainCubit, MainState>(
+                    bloc: _mainCubit,
+                    builder: (context, mainState) =>
+                        switch (mainState) {
+                      MainSuccess(
+                        :final hasSubmissions,
+                        :final hasError,
+                      ) =>
+                        () {
+                          if (!hasSubmissions) {
+                            return const SizedBox.shrink();
+                          }
+                          final draft = hasError
+                              ? mainState.firstError
+                              : mainState.firstSubmitting;
+                          if (draft == null) {
+                            return const SizedBox.shrink();
+                          }
+                          return MoovieSubmissionBanner(
+                            reviewTitle: draft.reviewTitle.isNotEmpty
+                                ? draft.reviewTitle
+                                : draft.movieTitle,
+                            isError: hasError,
+                            onTap: hasError
+                                ? () => context.router.root.push(
+                                      ReviewCreationRoute(
+                                        movieId: draft.movieId,
+                                        movieTitle: draft.movieTitle,
+                                        posterPath: draft.posterPath,
+                                        initialDraft: draft,
+                                      ),
+                                    )
+                                : null,
+                            onDismiss: hasError
+                                ? () => _mainCubit
+                                    .dismissError(draft.movieId)
+                                : null,
+                          );
+                        }(),
+                      _ => const SizedBox.shrink(),
                     },
                   ),
                   TabIndexScope(

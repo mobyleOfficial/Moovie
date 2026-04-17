@@ -318,4 +318,32 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get clearSearch => 'Limpar';
+
+  @override
+  String get submitReviewTitle => 'Enviar Avaliação';
+
+  @override
+  String get submitReviewContent =>
+      'Tem certeza de que deseja enviar esta avaliação? Ela será publicada e o rascunho será removido.';
+
+  @override
+  String get submit => 'Enviar';
+
+  @override
+  String get submittingReview => 'Enviando avaliação...';
+
+  @override
+  String get submissionFailed => 'Falha ao enviar';
+
+  @override
+  String get fieldRequired => 'Este campo é obrigatório';
+
+  @override
+  String get ratingRequired => 'Por favor selecione uma avaliação';
+
+  @override
+  String get reviewBodyRequired => 'Por favor escreva uma avaliação';
+
+  @override
+  String get tagsRequired => 'Por favor selecione pelo menos uma tag';
 }

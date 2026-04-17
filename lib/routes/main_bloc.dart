@@ -1,0 +1,32 @@
+import 'dart:async';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moovie/routes/main_state.dart';
+import 'package:movies/movies.dart';
+import 'package:user_activities/user_activities.dart';
+
+class MainCubit extends Cubit<MainState> {
+  final ObserveSubmittingDrafts _observeSubmittingDrafts;
+  final DeleteDraft _deleteDraft;
+
+  late final StreamSubscription<List<MovieReviewDraft>> _subscription;
+
+  MainCubit(
+    this._observeSubmittingDrafts,
+    this._deleteDraft,
+  ) : super(const MainLoading()) {
+    _subscription = _observeSubmittingDrafts().listen(_onDraftsChanged);
+  }
+
+  void _onDraftsChanged(List<MovieReviewDraft> drafts) =>
+      emit(MainSuccess(submittingDrafts: drafts));
+
+  Future<void> dismissError(int movieId) async =>
+      _deleteDraft(movieId);
+
+  @override
+  Future<void> close() {
+    _subscription.cancel();
+    return super.close();
+  }
+}

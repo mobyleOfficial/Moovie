@@ -51,4 +51,14 @@ abstract class UserActivitiesModule {
     UserActivitiesRepository repository,
   ) =>
       GetFriendsActivities(repository);
+
+  @injectable
+  SubmitReview submitReview(UserActivitiesRepository repository) =>
+      SubmitReview(repository);
+
+  @injectable
+  ObserveSubmittingDrafts observeSubmittingDrafts(
+    UserActivitiesRepository repository,
+  ) =>
+      ObserveSubmittingDrafts(repository);
 }
