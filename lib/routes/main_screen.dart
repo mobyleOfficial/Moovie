@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:moovie/review_submission/review_submission_cubit.dart';
-import 'package:moovie/review_submission/review_submission_state.dart';
 import 'package:moovie/routes/app_router.dart';
+import 'package:moovie/routes/main_bloc.dart';
+import 'package:moovie/routes/main_state.dart';
 import 'package:moovie/routes/route_title_resolver.dart';
 import 'package:reviews/review_creation/review_creation_router.dart';
 import 'package:user_activity/new_user_activity_router.dart';
@@ -21,6 +21,10 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final _appBarController = AppBarController();
+  late final MainCubit _mainCubit = MainCubit(
+    GetIt.I(),
+    GetIt.I(),
+  );
   TabsRouter? _tabsRouter;
   RoutingController? _activeTabRouter;
   bool _resolveScheduled = false;
@@ -96,6 +100,7 @@ class _MainScreenState extends State<MainScreen> {
   void dispose() {
     _detachListeners();
     _appBarController.dispose();
+    _mainCubit.close();
     super.dispose();
   }
 
@@ -165,17 +170,21 @@ class _MainScreenState extends State<MainScreen> {
                       );
                     },
                   ),
-                  BlocBuilder<ReviewSubmissionCubit,
-                      ReviewSubmissionState>(
-                    bloc: GetIt.I<ReviewSubmissionCubit>(),
-                    builder: (context, submissionState) =>
-                        switch (submissionState) {
-                      ReviewSubmissionActive(:final hasError) =>
+                  BlocBuilder<MainCubit, MainState>(
+                    bloc: _mainCubit,
+                    builder: (context, mainState) =>
+                        switch (mainState) {
+                      MainSuccess(
+                        :final hasSubmissions,
+                        :final hasError,
+                      ) =>
                         () {
-                          final active = submissionState;
+                          if (!hasSubmissions) {
+                            return const SizedBox.shrink();
+                          }
                           final draft = hasError
-                              ? active.firstError
-                              : active.firstSubmitting;
+                              ? mainState.firstError
+                              : mainState.firstSubmitting;
                           if (draft == null) {
                             return const SizedBox.shrink();
                           }
@@ -195,7 +204,7 @@ class _MainScreenState extends State<MainScreen> {
                                     )
                                 : null,
                             onDismiss: hasError
-                                ? () => GetIt.I<ReviewSubmissionCubit>()
+                                ? () => _mainCubit
                                     .dismissError(draft.movieId)
                                 : null,
                           );

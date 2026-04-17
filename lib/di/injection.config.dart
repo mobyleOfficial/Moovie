@@ -18,8 +18,6 @@ import 'package:moovie/di/movies_module.dart' as _i993;
 import 'package:moovie/di/profile_module.dart' as _i510;
 import 'package:moovie/di/public_profile_module.dart' as _i497;
 import 'package:moovie/di/user_activities_module.dart' as _i1017;
-import 'package:moovie/review_submission/review_submission_cubit.dart'
-    as _i250;
 import 'package:movies/movies.dart' as _i987;
 import 'package:profile/profile.dart' as _i16;
 import 'package:public_profile_feature/public_profile_feature.dart' as _i805;
@@ -196,12 +194,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i824.ObserveSubmittingDrafts>(
       () => userActivitiesModule.observeSubmittingDrafts(
         gh<_i824.UserActivitiesRepository>(),
-      ),
-    );
-    gh.lazySingleton<_i250.ReviewSubmissionCubit>(
-      () => _i250.ReviewSubmissionCubit(
-        gh<_i824.ObserveSubmittingDrafts>(),
-        gh<_i824.DeleteDraft>(),
       ),
     );
     gh.factory<_i805.GetPublicProfile>(

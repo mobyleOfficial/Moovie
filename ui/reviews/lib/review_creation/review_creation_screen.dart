@@ -34,6 +34,7 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
   }
 
   Future<void> _showSubmitDialog() async {
+    FocusScope.of(context).unfocus();
     if (!widget.cubit.validate()) return;
 
     final l10n = AppLocalizations.of(context);
