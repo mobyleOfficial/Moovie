@@ -24,7 +24,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
-  Future<Result<MovieDetail>> getMovieDetail({required int movieId}) async {
+  Future<Result<Movie>> getMovieDetail({required int movieId}) async {
     final result = await _dataSource.getMovieDetail(movieId: movieId);
 
     return switch (result) {
@@ -73,7 +73,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
-  Future<Result<MovieListDetail>> getMovieListDetail({
+  Future<Result<MovieList>> getMovieListDetail({
     required int listId,
     required int page,
   }) async {

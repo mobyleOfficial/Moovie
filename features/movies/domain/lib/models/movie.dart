@@ -6,6 +6,9 @@ class Movie {
   final String backdropPath;
   final double voteAverage;
   final String releaseDate;
+  final String? tagline;
+  final int? runtime;
+  final List<String>? genres;
 
   const Movie({
     required this.id,
@@ -15,5 +18,8 @@ class Movie {
     required this.backdropPath,
     required this.voteAverage,
     required this.releaseDate,
+    this.tagline,
+    this.runtime,
+    this.genres,
   });
 }

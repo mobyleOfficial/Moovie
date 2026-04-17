@@ -10,6 +10,7 @@ class MoovieEditText extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onSubmitted;
   final TextInputAction? textInputAction;
+  final Widget? suffixIcon;
 
   const MoovieEditText({
     super.key,
@@ -19,6 +20,7 @@ class MoovieEditText extends StatelessWidget {
     this.onChanged,
     this.onSubmitted,
     this.textInputAction,
+    this.suffixIcon,
   });
 
   @override
@@ -55,6 +57,7 @@ class MoovieEditText extends StatelessWidget {
           color: colorScheme.onSurfaceVariant,
           size: 20,
         ),
+        suffixIcon: suffixIcon,
         filled: true,
         fillColor: colorScheme.surfaceContainerHighest,
         border: OutlineInputBorder(

@@ -34,7 +34,18 @@
   "profileFollowers": "Seguidores",
   "profileFollowing": "Siguiendo",
   "profileMoviesWatched": "Vistas",
+  "profileMoviesWatchedTitle": "Películas vistas",
+  "profileFollowingTitle": "Siguiendo",
+  "profileFollowersTitle": "Seguidores",
+  "profileEmptyMoviesWatched": "Aún no has visto películas",
+  "profileEmptyFollowing": "Aún no sigues a nadie",
+  "profileEmptyFollowers": "Aún no tienes seguidores",
   "profileEditProfile": "Editar perfil",
+  "editProfileUsernameLabel": "Nombre de usuario",
+  "editProfileUsernamePlaceholder": "Ingresa tu nombre de usuario",
+  "editProfileBioLabel": "Bio",
+  "editProfileBioPlaceholder": "Cuéntanos sobre ti",
+  "editProfileChangePhoto": "Cambiar foto",
   "profileRecentMovies": "Películas recientes",
   "profileFavoriteMovies": "Películas favoritas",
   "profileRecentActivity": "Actividad reciente",
@@ -86,5 +97,6 @@
   "emptyStateErrorMessage": "Ocurrió un error inesperado. Por favor, inténtalo de nuevo.",
   "emptyStateRetry": "Reintentar",
   "emptyStateNoItemsTitle": "Nada aquí todavía",
-  "emptyStateNoItemsMessage": "No hay elementos para mostrar."
+  "emptyStateNoItemsMessage": "No hay elementos para mostrar.",
+  "clearSearch": "Limpiar"
 }

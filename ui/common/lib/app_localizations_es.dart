@@ -119,7 +119,40 @@ class AppLocalizationsEs extends AppLocalizations {
   String get profileMoviesWatched => 'Vistas';
 
   @override
+  String get profileMoviesWatchedTitle => 'Películas vistas';
+
+  @override
+  String get profileFollowingTitle => 'Siguiendo';
+
+  @override
+  String get profileFollowersTitle => 'Seguidores';
+
+  @override
+  String get profileEmptyMoviesWatched => 'Aún no has visto películas';
+
+  @override
+  String get profileEmptyFollowing => 'Aún no sigues a nadie';
+
+  @override
+  String get profileEmptyFollowers => 'Aún no tienes seguidores';
+
+  @override
   String get profileEditProfile => 'Editar perfil';
+
+  @override
+  String get editProfileUsernameLabel => 'Nombre de usuario';
+
+  @override
+  String get editProfileUsernamePlaceholder => 'Ingresa tu nombre de usuario';
+
+  @override
+  String get editProfileBioLabel => 'Bio';
+
+  @override
+  String get editProfileBioPlaceholder => 'Cuéntanos sobre ti';
+
+  @override
+  String get editProfileChangePhoto => 'Cambiar foto';
 
   @override
   String get profileRecentMovies => 'Películas recientes';
@@ -282,4 +315,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get emptyStateNoItemsMessage => 'No hay elementos para mostrar.';
+
+  @override
+  String get clearSearch => 'Limpiar';
 }
