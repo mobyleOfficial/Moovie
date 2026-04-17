@@ -1,5 +1,7 @@
 import 'package:public_profile_data/models/remote/remote_profile_favorite_movie.dart';
 import 'package:public_profile_data/models/remote/remote_profile_recent_activity.dart';
+import 'package:public_profile_data/models/remote/remote_profile_user.dart';
+import 'package:public_profile_data/models/remote/remote_profile_watched_movie.dart';
 import 'package:public_profile_data/models/remote/remote_profile_watchlist_item.dart';
 import 'package:public_profile_domain/models/public_profile.dart';
 
@@ -8,9 +10,9 @@ class RemotePublicProfile {
   final String displayName;
   final String initials;
   final String bio;
-  final int moviesWatched;
-  final int following;
-  final int followers;
+  final List<RemoteProfileWatchedMovie> moviesWatched;
+  final List<RemoteProfileUser> following;
+  final List<RemoteProfileUser> followers;
   final List<RemoteProfileFavoriteMovie> favoriteMovies;
   final List<RemoteProfileRecentActivity> recentActivities;
   final List<RemoteProfileWatchlistItem> watchlist;
@@ -34,9 +36,21 @@ class RemotePublicProfile {
         displayName: json['display_name'] as String? ?? '',
         initials: json['initials'] as String? ?? '',
         bio: json['bio'] as String? ?? '',
-        moviesWatched: json['movies_watched'] as int? ?? 0,
-        following: json['following'] as int? ?? 0,
-        followers: json['followers'] as int? ?? 0,
+        moviesWatched: (json['movies_watched'] as List<dynamic>?)
+                ?.cast<Map<String, dynamic>>()
+                .map(RemoteProfileWatchedMovie.fromJson)
+                .toList() ??
+            [],
+        following: (json['following'] as List<dynamic>?)
+                ?.cast<Map<String, dynamic>>()
+                .map(RemoteProfileUser.fromJson)
+                .toList() ??
+            [],
+        followers: (json['followers'] as List<dynamic>?)
+                ?.cast<Map<String, dynamic>>()
+                .map(RemoteProfileUser.fromJson)
+                .toList() ??
+            [],
         favoriteMovies: (json['favorite_movies'] as List<dynamic>?)
                 ?.cast<Map<String, dynamic>>()
                 .map(RemoteProfileFavoriteMovie.fromJson)
@@ -59,9 +73,10 @@ class RemotePublicProfile {
         displayName: displayName,
         initials: initials,
         bio: bio,
-        moviesWatched: moviesWatched,
-        following: following,
-        followers: followers,
+        moviesWatched:
+            moviesWatched.map((movie) => movie.toDomain()).toList(),
+        following: following.map((user) => user.toDomain()).toList(),
+        followers: followers.map((user) => user.toDomain()).toList(),
         favoriteMovies:
             favoriteMovies.map((movie) => movie.toDomain()).toList(),
         recentActivities:

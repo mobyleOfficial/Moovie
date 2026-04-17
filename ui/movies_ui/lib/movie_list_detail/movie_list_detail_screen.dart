@@ -96,8 +96,8 @@ class _ContentState extends State<_Content> {
       child: Column(
         children: [
           MoovieTabBar(tabs: [
-            l10n?.movieListDetailMoviesTab(detail.totalMovies) ?? '',
-            l10n?.movieListDetailCommentsTab(detail.commentsCount) ?? '',
+            l10n?.movieListDetailMoviesTab(detail.totalMovies ?? 0) ?? '',
+            l10n?.movieListDetailCommentsTab(detail.commentsCount ?? 0) ?? '',
           ]),
           Expanded(
             child: TabBarView(
@@ -407,7 +407,7 @@ class _MovieListItem extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  final MovieListDetail detail;
+  final MovieList detail;
   final String? headerPoster;
   final String headerBaseUrl;
   final bool isLiked;
@@ -467,11 +467,11 @@ class _Header extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              if (detail.tags.isNotEmpty) ...[
+              if (detail.tags?.isNotEmpty ?? false) ...[
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: detail.tags
+                  children: detail.tags!
                       .map((tag) => MoovieTag(label: tag))
                       .toList(),
                 ),

@@ -2,6 +2,8 @@ import 'package:core/core.dart';
 import 'package:public_profile_data/datasources/remote/public_profile_remote_data_source.dart';
 import 'package:public_profile_data/models/remote/remote_profile_favorite_movie.dart';
 import 'package:public_profile_data/models/remote/remote_profile_recent_activity.dart';
+import 'package:public_profile_data/models/remote/remote_profile_user.dart';
+import 'package:public_profile_data/models/remote/remote_profile_watched_movie.dart';
 import 'package:public_profile_data/models/remote/remote_profile_watchlist_item.dart';
 import 'package:public_profile_data/models/remote/remote_public_profile.dart';
 
@@ -34,15 +36,64 @@ class PublicProfileRemoteDataSourceImpl implements PublicProfileRemoteDataSource
     RemoteProfileWatchlistItem(id: 974453, title: 'Nickel Boys'),
   ];
 
+  static const _mockedMoviesWatched = [
+    RemoteProfileWatchedMovie(
+      id: 693134,
+      title: 'Dune: Part Two',
+      posterPath: '/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg',
+    ),
+    RemoteProfileWatchedMovie(
+      id: 872585,
+      title: 'Oppenheimer',
+      posterPath: '/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg',
+    ),
+    RemoteProfileWatchedMovie(
+      id: 792307,
+      title: 'Poor Things',
+      posterPath: '/kCGlIMHnOm8JPXq3rXM6c5wMxcT.jpg',
+    ),
+    RemoteProfileWatchedMovie(
+      id: 929590,
+      title: 'The Zone of Interest',
+      posterPath: '/hUu9zyZmDd8VZegKi1iK1Vk0RYS.jpg',
+    ),
+    RemoteProfileWatchedMovie(
+      id: 876969,
+      title: 'Society of the Snow',
+      posterPath: '/2e853FDVSIso600RqAMunPxiZjq.jpg',
+    ),
+    RemoteProfileWatchedMovie(
+      id: 872906,
+      title: 'The Holdovers',
+      posterPath: '/VCL6JEvXqR4n3OYejaOnOL2xsm.jpg',
+    ),
+  ];
+
+  static const _mockedFollowing = [
+    RemoteProfileUser(id: 'Alice Martins', displayName: 'Alice Martins', initials: 'AM'),
+    RemoteProfileUser(id: 'Bruno Carvalho', displayName: 'Bruno Carvalho', initials: 'BC'),
+    RemoteProfileUser(id: 'Camila Torres', displayName: 'Camila Torres', initials: 'CT'),
+    RemoteProfileUser(id: 'Diego Ferreira', displayName: 'Diego Ferreira', initials: 'DF'),
+  ];
+
+  static const _mockedFollowers = [
+    RemoteProfileUser(id: 'Elena Souza', displayName: 'Elena Souza', initials: 'ES'),
+    RemoteProfileUser(id: 'Felipe Lima', displayName: 'Felipe Lima', initials: 'FL'),
+    RemoteProfileUser(id: 'Gabriela Nunes', displayName: 'Gabriela Nunes', initials: 'GN'),
+    RemoteProfileUser(id: 'Henrique Costa', displayName: 'Henrique Costa', initials: 'HC'),
+    RemoteProfileUser(id: 'Alice Martins', displayName: 'Alice Martins', initials: 'AM'),
+    RemoteProfileUser(id: 'Bruno Carvalho', displayName: 'Bruno Carvalho', initials: 'BC'),
+  ];
+
   static const _mockedProfiles = <String, RemotePublicProfile>{
     'Alice Martins': RemotePublicProfile(
       id: 'Alice Martins',
       displayName: 'Alice Martins',
       initials: 'AM',
       bio: 'Drama & romance fan. Always crying at the cinema',
-      moviesWatched: 312,
-      following: 48,
-      followers: 204,
+      moviesWatched: _mockedMoviesWatched,
+      following: _mockedFollowing,
+      followers: _mockedFollowers,
       favoriteMovies: _mockedFavoriteMovies,
       recentActivities: _mockedRecentActivities,
       watchlist: _mockedWatchlist,
@@ -52,9 +103,9 @@ class PublicProfileRemoteDataSourceImpl implements PublicProfileRemoteDataSource
       displayName: 'Bruno Carvalho',
       initials: 'BC',
       bio: 'Horror & thriller lover. The scarier the better',
-      moviesWatched: 187,
-      following: 22,
-      followers: 95,
+      moviesWatched: _mockedMoviesWatched,
+      following: _mockedFollowing,
+      followers: _mockedFollowers,
       favoriteMovies: _mockedFavoriteMovies,
       recentActivities: _mockedRecentActivities,
       watchlist: _mockedWatchlist,
@@ -64,9 +115,9 @@ class PublicProfileRemoteDataSourceImpl implements PublicProfileRemoteDataSource
       displayName: 'Camila Torres',
       initials: 'CT',
       bio: 'Cinephile. Arthouse & world cinema devotee',
-      moviesWatched: 540,
-      following: 76,
-      followers: 413,
+      moviesWatched: _mockedMoviesWatched,
+      following: _mockedFollowing,
+      followers: _mockedFollowers,
       favoriteMovies: _mockedFavoriteMovies,
       recentActivities: _mockedRecentActivities,
       watchlist: _mockedWatchlist,
@@ -76,9 +127,9 @@ class PublicProfileRemoteDataSourceImpl implements PublicProfileRemoteDataSource
       displayName: 'Diego Ferreira',
       initials: 'DF',
       bio: 'Just getting into movies. Learning every day',
-      moviesWatched: 95,
-      following: 14,
-      followers: 32,
+      moviesWatched: _mockedMoviesWatched,
+      following: _mockedFollowing,
+      followers: _mockedFollowers,
       favoriteMovies: _mockedFavoriteMovies,
       recentActivities: _mockedRecentActivities,
       watchlist: _mockedWatchlist,
@@ -88,9 +139,9 @@ class PublicProfileRemoteDataSourceImpl implements PublicProfileRemoteDataSource
       displayName: 'Elena Souza',
       initials: 'ES',
       bio: 'Sci-fi & action aficionado. Blockbusters are my thing',
-      moviesWatched: 228,
-      following: 33,
-      followers: 167,
+      moviesWatched: _mockedMoviesWatched,
+      following: _mockedFollowing,
+      followers: _mockedFollowers,
       favoriteMovies: _mockedFavoriteMovies,
       recentActivities: _mockedRecentActivities,
       watchlist: _mockedWatchlist,
@@ -100,9 +151,9 @@ class PublicProfileRemoteDataSourceImpl implements PublicProfileRemoteDataSource
       displayName: 'Felipe Lima',
       initials: 'FL',
       bio: 'Film critic & list maker. Check out my top 10s',
-      moviesWatched: 413,
-      following: 58,
-      followers: 340,
+      moviesWatched: _mockedMoviesWatched,
+      following: _mockedFollowing,
+      followers: _mockedFollowers,
       favoriteMovies: _mockedFavoriteMovies,
       recentActivities: _mockedRecentActivities,
       watchlist: _mockedWatchlist,
@@ -112,9 +163,9 @@ class PublicProfileRemoteDataSourceImpl implements PublicProfileRemoteDataSource
       displayName: 'Gabriela Nunes',
       initials: 'GN',
       bio: 'Animated films fan & aspiring director',
-      moviesWatched: 76,
-      following: 10,
-      followers: 43,
+      moviesWatched: _mockedMoviesWatched,
+      following: _mockedFollowing,
+      followers: _mockedFollowers,
       favoriteMovies: _mockedFavoriteMovies,
       recentActivities: _mockedRecentActivities,
       watchlist: _mockedWatchlist,
@@ -124,9 +175,9 @@ class PublicProfileRemoteDataSourceImpl implements PublicProfileRemoteDataSource
       displayName: 'Henrique Costa',
       initials: 'HC',
       bio: 'Film festival regular. Cannes, Sundance, you name it',
-      moviesWatched: 601,
-      following: 92,
-      followers: 589,
+      moviesWatched: _mockedMoviesWatched,
+      following: _mockedFollowing,
+      followers: _mockedFollowers,
       favoriteMovies: _mockedFavoriteMovies,
       recentActivities: _mockedRecentActivities,
       watchlist: _mockedWatchlist,
@@ -138,9 +189,9 @@ class PublicProfileRemoteDataSourceImpl implements PublicProfileRemoteDataSource
     displayName: 'Unknown User',
     initials: '??',
     bio: '',
-    moviesWatched: 0,
-    following: 0,
-    followers: 0,
+    moviesWatched: [],
+    following: [],
+    followers: [],
     favoriteMovies: [],
     recentActivities: [],
     watchlist: [],

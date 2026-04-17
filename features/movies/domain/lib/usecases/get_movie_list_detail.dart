@@ -1,17 +1,26 @@
 import 'package:core/core.dart';
 
-import 'package:movies_domain/models/get_movie_list_detail_params.dart';
-import 'package:movies_domain/models/movie_list_detail.dart';
+import 'package:movies_domain/models/movie_list.dart';
 import 'package:movies_domain/repositories/movies_repository.dart';
 
+class GetMovieListDetailParams {
+  final int listId;
+  final int page;
+
+  const GetMovieListDetailParams({
+    required this.listId,
+    required this.page,
+  });
+}
+
 class GetMovieListDetail
-    extends UseCase<GetMovieListDetailParams, Result<MovieListDetail>> {
+    extends UseCase<GetMovieListDetailParams, Result<MovieList>> {
   final MoviesRepository _moviesRepository;
 
   GetMovieListDetail(this._moviesRepository);
 
   @override
-  Future<Result<MovieListDetail>> call([
+  Future<Result<MovieList>> call([
     GetMovieListDetailParams? params,
   ]) async =>
       _moviesRepository.getMovieListDetail(

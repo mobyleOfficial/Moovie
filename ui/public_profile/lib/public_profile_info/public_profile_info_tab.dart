@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,9 @@ import 'package:movies_ui/watch_list/watch_list_router.dart';
 import 'package:user_activity/user_activities/user_activities_router.dart';
 import 'package:public_profile/public_profile_info/public_profile_info_bloc.dart';
 import 'package:public_profile/public_profile_info/public_profile_info_state.dart';
+import 'package:public_profile/public_profile_router.dart';
+import 'package:public_profile_domain/models/profile_user.dart';
+import 'package:public_profile_domain/models/profile_watched_movie.dart';
 import 'package:public_profile_domain/models/public_profile.dart';
 import 'package:public_profile_domain/usecases/get_public_profile.dart';
 
@@ -129,30 +133,49 @@ class _ProfileInfoContent extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
-          Semantics(
-            label:
-                '${profile.moviesWatched} ${l10n?.profileMoviesWatched ?? ''}, ${profile.following} ${l10n?.profileFollowing ?? ''}, ${profile.followers} ${l10n?.profileFollowers ?? ''}',
-            excludeSemantics: true,
-            child: IntrinsicHeight(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _ProfileStat(
-                    value: '${profile.moviesWatched}',
-                    label: l10n?.profileMoviesWatched ?? '',
+          IntrinsicHeight(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _ProfileStat(
+                  value: '${profile.moviesWatched.length}',
+                  label: l10n?.profileMoviesWatched ?? '',
+                  onTap: () => MoovieBottomSheet.show(
+                    context: context,
+                    builder: (_) => _MoviesListSheet(
+                      title: l10n?.profileMoviesWatchedTitle ?? '',
+                      emptyMessage: l10n?.profileEmptyMoviesWatched ?? '',
+                      movies: profile.moviesWatched,
+                    ),
                   ),
-                  VerticalDivider(color: colorScheme.outlineVariant, width: 1),
-                  _ProfileStat(
-                    value: '${profile.following}',
-                    label: l10n?.profileFollowing ?? '',
+                ),
+                VerticalDivider(color: colorScheme.outlineVariant, width: 1),
+                _ProfileStat(
+                  value: '${profile.following.length}',
+                  label: l10n?.profileFollowing ?? '',
+                  onTap: () => MoovieBottomSheet.show(
+                    context: context,
+                    builder: (_) => _UsersListSheet(
+                      title: l10n?.profileFollowingTitle ?? '',
+                      emptyMessage: l10n?.profileEmptyFollowing ?? '',
+                      users: profile.following,
+                    ),
                   ),
-                  VerticalDivider(color: colorScheme.outlineVariant, width: 1),
-                  _ProfileStat(
-                    value: '${profile.followers}',
-                    label: l10n?.profileFollowers ?? '',
+                ),
+                VerticalDivider(color: colorScheme.outlineVariant, width: 1),
+                _ProfileStat(
+                  value: '${profile.followers.length}',
+                  label: l10n?.profileFollowers ?? '',
+                  onTap: () => MoovieBottomSheet.show(
+                    context: context,
+                    builder: (_) => _UsersListSheet(
+                      title: l10n?.profileFollowersTitle ?? '',
+                      emptyMessage: l10n?.profileEmptyFollowers ?? '',
+                      users: profile.followers,
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 20),
@@ -373,30 +396,265 @@ class _SectionHeader extends StatelessWidget {
 class _ProfileStat extends StatelessWidget {
   final String value;
   final String label;
+  final VoidCallback onTap;
 
-  const _ProfileStat({required this.value, required this.label});
+  const _ProfileStat({
+    required this.value,
+    required this.label,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    return Column(
-      children: [
-        Text(
-          value,
-          style: textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: colorScheme.onSecondaryContainer,
+    return Semantics(
+      label: '$value $label',
+      button: true,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Column(
+            children: [
+              Text(
+                value,
+                style: textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.onSecondaryContainer,
+                ),
+              ),
+              Text(
+                label,
+                style: textTheme.labelSmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
           ),
         ),
-        Text(
-          label,
-          style: textTheme.labelSmall?.copyWith(
-            color: colorScheme.onSurfaceVariant,
-          ),
+      ),
+    );
+  }
+}
+
+class _SheetScaffold extends StatelessWidget {
+  final String title;
+  final Widget child;
+
+  const _SheetScaffold({required this.title, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.75,
+      ),
+      child: Material(
+        color: colorScheme.surface,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 8),
+            Container(
+              width: 36,
+              height: 4,
+              decoration: BoxDecoration(
+                color: colorScheme.outlineVariant,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                title,
+                style: textTheme.titleMedium?.copyWith(
+                  color: colorScheme.onSurface,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Flexible(child: child),
+          ],
         ),
-      ],
+      ),
+    );
+  }
+}
+
+class _MoviesListSheet extends StatelessWidget {
+  final String title;
+  final String emptyMessage;
+  final List<ProfileWatchedMovie> movies;
+
+  const _MoviesListSheet({
+    required this.title,
+    required this.emptyMessage,
+    required this.movies,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return _SheetScaffold(
+      title: title,
+      child: movies.isEmpty
+          ? Padding(
+              padding: const EdgeInsets.all(24),
+              child: Text(
+                emptyMessage,
+                style: textTheme.bodyMedium
+                    ?.copyWith(color: colorScheme.onSurfaceVariant),
+              ),
+            )
+          : ListView.separated(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+              shrinkWrap: true,
+              itemCount: movies.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              itemBuilder: (context, index) {
+                final movie = movies[index];
+                return InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    context.router.push(
+                      MovieDetailRoute(
+                        movieId: movie.id,
+                        movieTitle: movie.title,
+                      ),
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(8),
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(6),
+                        child: movie.posterPath.isNotEmpty
+                            ? CachedNetworkImage(
+                                imageUrl:
+                                    '${TmdbImageUrl.posterMedium}${movie.posterPath}',
+                                width: 48,
+                                height: 72,
+                                fit: BoxFit.cover,
+                                placeholder: (_, __) => Container(
+                                  width: 48,
+                                  height: 72,
+                                  color: colorScheme.surfaceContainerHighest,
+                                ),
+                                errorWidget: (_, __, ___) => Container(
+                                  width: 48,
+                                  height: 72,
+                                  color: colorScheme.surfaceContainerHighest,
+                                  child: Icon(
+                                    Icons.movie,
+                                    color: colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                width: 48,
+                                height: 72,
+                                color: colorScheme.surfaceContainerHighest,
+                                child: Icon(
+                                  Icons.movie,
+                                  color: colorScheme.onSurfaceVariant,
+                                ),
+                              ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          movie.title,
+                          style: textTheme.bodyLarge?.copyWith(
+                            color: colorScheme.onSurface,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+    );
+  }
+}
+
+class _UsersListSheet extends StatelessWidget {
+  final String title;
+  final String emptyMessage;
+  final List<ProfileUser> users;
+
+  const _UsersListSheet({
+    required this.title,
+    required this.emptyMessage,
+    required this.users,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return _SheetScaffold(
+      title: title,
+      child: users.isEmpty
+          ? Padding(
+              padding: const EdgeInsets.all(24),
+              child: Text(
+                emptyMessage,
+                style: textTheme.bodyMedium
+                    ?.copyWith(color: colorScheme.onSurfaceVariant),
+              ),
+            )
+          : ListView.separated(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 8,
+              ),
+              shrinkWrap: true,
+              itemCount: users.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 4),
+              itemBuilder: (context, index) {
+                final user = users[index];
+                return ListTile(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    context.router.push(PublicProfileRoute(userId: user.id));
+                  },
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  leading: CircleAvatar(
+                    radius: 22,
+                    backgroundColor: colorScheme.secondaryContainer,
+                    child: Text(
+                      user.initials,
+                      style: textTheme.titleSmall?.copyWith(
+                        color: colorScheme.onSecondaryContainer,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  title: Text(
+                    user.displayName,
+                    style: textTheme.bodyLarge?.copyWith(
+                      color: colorScheme.onSurface,
+                    ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }

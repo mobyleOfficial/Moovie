@@ -9,7 +9,7 @@ class MovieListDetailLoading extends MovieListDetailState {
 }
 
 class MovieListDetailSuccess extends MovieListDetailState {
-  final MovieListDetail detail;
+  final MovieList detail;
   final bool isLiked;
   final int likesCount;
   final bool isGridView;
@@ -22,7 +22,7 @@ class MovieListDetailSuccess extends MovieListDetailState {
   });
 
   MovieListDetailSuccess copyWith({
-    MovieListDetail? detail,
+    MovieList? detail,
     bool? isLiked,
     int? likesCount,
     bool? isGridView,

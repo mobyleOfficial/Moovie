@@ -78,13 +78,29 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
           primary: Colors.white,
         ),
       ),
-      child: MoovieEditText(
-        controller: _searchController,
-        focusNode: _focusNode,
-        placeholder: l10n?.searchHint ?? '',
-        textInputAction: TextInputAction.search,
-        onChanged: widget.cubit.onSearchChanged,
-        onSubmitted: widget.cubit.onSearchSubmitted,
+      child: ValueListenableBuilder<TextEditingValue>(
+        valueListenable: _searchController,
+        builder: (context, value, _) => MoovieEditText(
+          controller: _searchController,
+          focusNode: _focusNode,
+          placeholder: l10n?.searchHint ?? '',
+          textInputAction: TextInputAction.search,
+          onChanged: widget.cubit.onSearchChanged,
+          onSubmitted: widget.cubit.onSearchSubmitted,
+          suffixIcon: value.text.isNotEmpty
+              ? Tooltip(
+                  message: l10n?.clearSearch ?? 'Clear',
+                  child: IconButton(
+                    icon: const Icon(Icons.close, size: 20),
+                    color: Colors.white.withValues(alpha: 0.7),
+                    onPressed: () {
+                      _searchController.clear();
+                      widget.cubit.onSearchChanged('');
+                    },
+                  ),
+                )
+              : null,
+        ),
       ),
     );
 
