@@ -5,6 +5,7 @@ import 'package:reviews/review_creation/review_creation_state.dart';
 
 class ReviewCreationCubit extends Cubit<ReviewCreationState> {
   final UpsertMovieReview _upsertMovieReview;
+  final SubmitReview _submitReview;
   final int movieId;
   final String movieTitle;
   final String posterPath;
@@ -15,11 +16,13 @@ class ReviewCreationCubit extends Cubit<ReviewCreationState> {
 
   ReviewCreationCubit({
     required UpsertMovieReview upsertMovieReview,
+    required SubmitReview submitReview,
     required this.movieId,
     required this.movieTitle,
     required this.posterPath,
     this.initialDraft,
   })  : _upsertMovieReview = upsertMovieReview,
+        _submitReview = submitReview,
         _currentReviewTitle = initialDraft?.reviewTitle ?? '',
         _currentReviewBody = initialDraft?.reviewBody ?? '',
         super(const ReviewCreationLoading()) {
@@ -124,5 +127,27 @@ class ReviewCreationCubit extends Cubit<ReviewCreationState> {
       draft: draft,
       status: MovieReviewStatus.draft,
     ));
+  }
+
+  Future<void> submitReview() async {
+    final currentState = state;
+    if (currentState is! ReviewCreationReady) return;
+
+    final draft = MovieReviewDraft(
+      id: 0,
+      movieId: movieId,
+      movieTitle: movieTitle,
+      posterPath: posterPath,
+      reviewTitle: _currentReviewTitle,
+      reviewBody: _currentReviewBody,
+      rating: currentState.rating,
+      isFavorite: currentState.isFavorite,
+      isRewatch: currentState.isRewatch,
+      tags: currentState.selectedTags.toList(),
+      status: MovieReviewStatus.draft,
+      updatedAt: DateTime.now(),
+    );
+
+    await _submitReview(draft);
   }
 }

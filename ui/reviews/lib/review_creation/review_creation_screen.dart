@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,25 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
   void dispose() {
     _reviewNameController.dispose();
     super.dispose();
+  }
+
+  Future<void> _showSubmitDialog() async {
+    final l10n = AppLocalizations.of(context);
+    var confirmed = false;
+    await MoovieDialog.show(
+      context: context,
+      title: l10n?.submitReviewTitle ?? 'Submit Review',
+      content: l10n?.submitReviewContent ??
+          'Are you sure you want to submit this review?',
+      confirmText: l10n?.submit ?? 'Submit',
+      cancelText: l10n?.cancel ?? 'Cancel',
+      onConfirm: () => confirmed = true,
+    );
+
+    if (confirmed && mounted) {
+      widget.cubit.submitReview();
+      context.router.root.popUntilRoot();
+    }
   }
 
   Future<void> _openReviewEditor(String? currentBody) async {
@@ -69,7 +89,7 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
             Tooltip(
               message: l10n?.movieReviewSend ?? '',
               child: IconButton(
-                onPressed: () {},
+                onPressed: _showSubmitDialog,
                 icon: const Icon(Icons.send),
               ),
             ),
