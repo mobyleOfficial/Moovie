@@ -10,16 +10,27 @@ import 'package:reviews/reviews_list/reviews_bloc.dart';
 class ReviewsScreen extends StatefulWidget {
   final GetMovieReviews getMovieReviews;
   final String? userId;
+  final int? movieId;
+  final String? movieTitle;
 
-  const ReviewsScreen({super.key, required this.getMovieReviews, this.userId});
+  const ReviewsScreen({
+    super.key,
+    required this.getMovieReviews,
+    this.userId,
+    this.movieId,
+    this.movieTitle,
+  });
 
   @override
   State<ReviewsScreen> createState() => _ReviewsScreenState();
 }
 
 class _ReviewsScreenState extends State<ReviewsScreen> {
-  late final ReviewsCubit _cubit =
-      ReviewsCubit(widget.getMovieReviews, userId: widget.userId);
+  late final ReviewsCubit _cubit = ReviewsCubit(
+    widget.getMovieReviews,
+    userId: widget.userId,
+    movieId: widget.movieId,
+  );
 
   @override
   void dispose() {

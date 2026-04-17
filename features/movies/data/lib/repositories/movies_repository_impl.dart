@@ -37,8 +37,9 @@ class MoviesRepositoryImpl implements MoviesRepository {
   Future<Result<MovieReviewListing>> getMovieReviews({
     required int page,
     String? userId,
+    int? movieId,
   }) async {
-    final result = await _dataSource.getMovieReviews(page: page, userId: userId);
+    final result = await _dataSource.getMovieReviews(page: page, userId: userId, movieId: movieId);
 
     return switch (result) {
       Success(:final data) => Success(data.toDomain()),

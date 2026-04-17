@@ -116,5 +116,7 @@
   "movieDetailReviewCount": "{count} reseñas",
   "movieDetailListCount": "{count} listas",
   "movieDetailDirectedBy": "Dirigida por",
-  "movieDetailMinutes": "{minutes} min"
+  "movieDetailMinutes": "{minutes} min",
+  "movieDetailSeeAll": "Ver todo",
+  "movieDetailMovieReviews": "Reseñas de {title}"
 }

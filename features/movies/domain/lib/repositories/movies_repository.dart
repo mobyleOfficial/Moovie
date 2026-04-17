@@ -13,7 +13,7 @@ import 'package:movies_domain/models/movie_listing.dart';
 abstract interface class MoviesRepository {
   Future<Result<MovieListing>> getTrendingMovieList({required int page});
   Future<Result<Movie>> getMovieDetail({required int movieId});
-  Future<Result<MovieReviewListing>> getMovieReviews({required int page, String? userId});
+  Future<Result<MovieReviewListing>> getMovieReviews({required int page, String? userId, int? movieId});
   Future<Result<MovieListListing>> getMovieLists({required int page, String? userId});
   Future<Result<MovieListListing>> getUserMovieLists({required int page});
   Future<Result<MovieList>> getMovieListDetail({required int listId, required int page});

@@ -305,5 +305,9 @@
   "movieDetailDirectedBy": "Directed by",
   "@movieDetailDirectedBy": { "description": "Label before director name" },
   "movieDetailMinutes": "{minutes} min",
-  "@movieDetailMinutes": { "description": "Runtime in minutes", "placeholders": { "minutes": { "type": "int" } } }
+  "@movieDetailMinutes": { "description": "Runtime in minutes", "placeholders": { "minutes": { "type": "int" } } },
+  "movieDetailSeeAll": "See all",
+  "@movieDetailSeeAll": { "description": "See all button in movie detail sections" },
+  "movieDetailMovieReviews": "{title} Reviews",
+  "@movieDetailMovieReviews": { "description": "AppBar title for movie reviews list", "placeholders": { "title": { "type": "String" } } }
 }

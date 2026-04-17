@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/movies.dart';
 import 'package:movies_ui/movie_detail/movie_detail_bloc.dart';
 import 'package:movies_ui/movie_detail/movie_detail_state.dart';
+import 'package:reviews/reviews_list/reviews_router.dart';
 
 class MovieDetailScreen extends StatelessWidget {
   final MovieDetailCubit cubit;
@@ -62,7 +64,10 @@ class _MovieDetailBody extends StatelessWidget {
                 _StatsSection(detail: detail),
                 if (detail.info?.popularReviews.isNotEmpty ?? false)
                   _PopularReviewsSection(
-                      reviews: detail.info!.popularReviews),
+                    reviews: detail.info!.popularReviews,
+                    movieId: detail.id,
+                    movieTitle: detail.title,
+                  ),
                 if (detail.info?.similarMovies.isNotEmpty ?? false)
                   _SimilarMoviesSection(
                       movies: detail.info!.similarMovies),
@@ -468,8 +473,14 @@ class _StatItem extends StatelessWidget {
 
 class _PopularReviewsSection extends StatelessWidget {
   final List<MovieReview> reviews;
+  final int movieId;
+  final String movieTitle;
 
-  const _PopularReviewsSection({required this.reviews});
+  const _PopularReviewsSection({
+    required this.reviews,
+    required this.movieId,
+    required this.movieTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -482,12 +493,40 @@ class _PopularReviewsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            l10n?.movieDetailReviews ?? '',
-            style: textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: colorScheme.onSurface,
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  l10n?.movieDetailReviews ?? '',
+                  style: textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+              ),
+              Semantics(
+                label: l10n?.movieDetailSeeAll ?? 'See all',
+                button: true,
+                child: InkWell(
+                  onTap: () => context.router.root.push(
+                    ReviewsRoute(
+                        movieId: movieId, movieTitle: movieTitle),
+                  ),
+                  borderRadius: BorderRadius.circular(4),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 4, vertical: 2),
+                    child: Text(
+                      l10n?.movieDetailSeeAll ?? 'See all',
+                      style: textTheme.labelMedium?.copyWith(
+                        color: colorScheme.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 12),
           ...reviews.map(

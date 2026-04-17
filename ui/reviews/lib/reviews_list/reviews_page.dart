@@ -6,9 +6,15 @@ import 'package:reviews/reviews_list/reviews_screen.dart';
 
 @RoutePage()
 class ReviewsPage extends StatelessWidget {
-  const ReviewsPage({super.key});
+  final int? movieId;
+  final String? movieTitle;
+
+  const ReviewsPage({super.key, this.movieId, this.movieTitle});
 
   @override
-  Widget build(BuildContext context) =>
-      ReviewsScreen(getMovieReviews: GetIt.I<GetMovieReviews>());
+  Widget build(BuildContext context) => ReviewsScreen(
+        getMovieReviews: GetIt.I<GetMovieReviews>(),
+        movieId: movieId,
+        movieTitle: movieTitle,
+      );
 }

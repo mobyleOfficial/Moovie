@@ -6,8 +6,9 @@ import 'package:movies_domain/repositories/movies_repository.dart';
 class GetMovieReviewsParams {
   final int page;
   final String? userId;
+  final int? movieId;
 
-  const GetMovieReviewsParams({required this.page, this.userId});
+  const GetMovieReviewsParams({required this.page, this.userId, this.movieId});
 }
 
 class GetMovieReviews
@@ -23,5 +24,6 @@ class GetMovieReviews
       _moviesRepository.getMovieReviews(
         page: params?.page ?? 1,
         userId: params?.userId,
+        movieId: params?.movieId,
       );
 }

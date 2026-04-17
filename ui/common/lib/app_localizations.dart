@@ -801,6 +801,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{minutes} min'**
   String movieDetailMinutes(int minutes);
+
+  /// See all button in movie detail sections
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get movieDetailSeeAll;
+
+  /// AppBar title for movie reviews list
+  ///
+  /// In en, this message translates to:
+  /// **'{title} Reviews'**
+  String movieDetailMovieReviews(String title);
 }
 
 class _AppLocalizationsDelegate

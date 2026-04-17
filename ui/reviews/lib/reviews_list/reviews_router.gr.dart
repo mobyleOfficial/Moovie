@@ -12,16 +12,47 @@ part of 'reviews_router.dart';
 
 /// generated route for
 /// [ReviewsPage]
-class ReviewsRoute extends PageRouteInfo<void> {
-  const ReviewsRoute({List<PageRouteInfo>? children})
-    : super(ReviewsRoute.name, initialChildren: children);
+class ReviewsRoute extends PageRouteInfo<ReviewsRouteArgs> {
+  ReviewsRoute({
+    int? movieId,
+    String? movieTitle,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+         ReviewsRoute.name,
+         args: ReviewsRouteArgs(
+           movieId: movieId,
+           movieTitle: movieTitle,
+           key: key,
+         ),
+         initialChildren: children,
+       );
 
   static const String name = 'ReviewsRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const ReviewsPage();
+      final args = data.argsAs<ReviewsRouteArgs>(
+        orElse: () => const ReviewsRouteArgs(),
+      );
+      return ReviewsPage(
+        key: args.key,
+        movieId: args.movieId,
+        movieTitle: args.movieTitle,
+      );
     },
   );
+}
+
+class ReviewsRouteArgs {
+  const ReviewsRouteArgs({this.movieId, this.movieTitle, this.key});
+
+  final int? movieId;
+  final String? movieTitle;
+  final Key? key;
+
+  @override
+  String toString() =>
+      'ReviewsRouteArgs{movieId: $movieId, movieTitle: $movieTitle, key: $key}';
 }

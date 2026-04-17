@@ -381,4 +381,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String movieDetailMinutes(int minutes) {
     return '$minutes min';
   }
+
+  @override
+  String get movieDetailSeeAll => 'Ver todo';
+
+  @override
+  String movieDetailMovieReviews(String title) {
+    return 'Reseñas de $title';
+  }
 }
