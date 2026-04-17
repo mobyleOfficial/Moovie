@@ -333,4 +333,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get submissionFailed => 'Submission failed';
+
+  @override
+  String get fieldRequired => 'This field is required';
+
+  @override
+  String get ratingRequired => 'Please select a rating';
+
+  @override
+  String get reviewBodyRequired => 'Please write a review';
+
+  @override
+  String get tagsRequired => 'Please select at least one tag';
 }

@@ -103,5 +103,9 @@
   "submitReviewContent": "Tem certeza de que deseja enviar esta avaliação? Ela será publicada e o rascunho será removido.",
   "submit": "Enviar",
   "submittingReview": "Enviando avaliação...",
-  "submissionFailed": "Falha ao enviar"
+  "submissionFailed": "Falha ao enviar",
+  "fieldRequired": "Este campo é obrigatório",
+  "ratingRequired": "Por favor selecione uma avaliação",
+  "reviewBodyRequired": "Por favor escreva uma avaliação",
+  "tagsRequired": "Por favor selecione pelo menos uma tag"
 }

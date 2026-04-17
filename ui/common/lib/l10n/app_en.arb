@@ -279,5 +279,13 @@
   "submittingReview": "Submitting review...",
   "@submittingReview": { "description": "Label shown while a review is being submitted" },
   "submissionFailed": "Submission failed",
-  "@submissionFailed": { "description": "Label shown when review submission fails" }
+  "@submissionFailed": { "description": "Label shown when review submission fails" },
+  "fieldRequired": "This field is required",
+  "@fieldRequired": { "description": "Error message shown below a required field that is empty" },
+  "ratingRequired": "Please select a rating",
+  "@ratingRequired": { "description": "Error message shown when rating is missing" },
+  "reviewBodyRequired": "Please write a review",
+  "@reviewBodyRequired": { "description": "Error message shown when review body is empty" },
+  "tagsRequired": "Please select at least one tag",
+  "@tagsRequired": { "description": "Error message shown when no tags are selected" }
 }

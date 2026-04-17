@@ -129,6 +129,17 @@ class ReviewCreationCubit extends Cubit<ReviewCreationState> {
     ));
   }
 
+  bool validate() {
+    final currentState = state;
+    if (currentState is! ReviewCreationReady) return false;
+
+    final withTitle = currentState.copyWith(
+      reviewTitle: _currentReviewTitle,
+    );
+    emit(withTitle.copyWith(showErrors: true));
+    return withTitle.isCanSubmit;
+  }
+
   Future<void> submitReview() async {
     final currentState = state;
     if (currentState is! ReviewCreationReady) return;

@@ -104,7 +104,9 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
       ),
     );
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light
           .copyWith(statusBarColor: Colors.transparent),
       child: Scaffold(
@@ -177,6 +179,10 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
                                             initialDraft: draft,
                                           ),
                                         ),
+                                        showSubmit: draft.reviewTitle.isNotEmpty &&
+                                            draft.rating > 0 &&
+                                            draft.reviewBody.isNotEmpty &&
+                                            draft.tags.isNotEmpty,
                                       ),
                                     ),
                                   SearchItem(
@@ -203,6 +209,7 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
             ),
           ),
         ),
+      ),
       ),
     );
   }
@@ -439,8 +446,14 @@ class _DraftTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final VoidCallback? onTap;
+  final bool showSubmit;
 
-  const _DraftTile({required this.title, required this.subtitle, this.onTap});
+  const _DraftTile({
+    required this.title,
+    required this.subtitle,
+    this.onTap,
+    this.showSubmit = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -493,6 +506,14 @@ class _DraftTile extends StatelessWidget {
                   ],
                 ),
               ),
+              if (showSubmit)
+                ExcludeSemantics(
+                  child: Icon(
+                    Icons.send_rounded,
+                    size: 18,
+                    color: colorScheme.primary,
+                  ),
+                ),
               ExcludeSemantics(
                 child: Icon(
                   Icons.chevron_right,

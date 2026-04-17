@@ -334,4 +334,16 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get submissionFailed => 'Falha ao enviar';
+
+  @override
+  String get fieldRequired => 'Este campo é obrigatório';
+
+  @override
+  String get ratingRequired => 'Por favor selecione uma avaliação';
+
+  @override
+  String get reviewBodyRequired => 'Por favor escreva uma avaliação';
+
+  @override
+  String get tagsRequired => 'Por favor selecione pelo menos uma tag';
 }

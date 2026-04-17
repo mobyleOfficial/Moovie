@@ -723,6 +723,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Submission failed'**
   String get submissionFailed;
+
+  /// Error message shown below a required field that is empty
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get fieldRequired;
+
+  /// Error message shown when rating is missing
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a rating'**
+  String get ratingRequired;
+
+  /// Error message shown when review body is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Please write a review'**
+  String get reviewBodyRequired;
+
+  /// Error message shown when no tags are selected
+  ///
+  /// In en, this message translates to:
+  /// **'Please select at least one tag'**
+  String get tagsRequired;
 }
 
 class _AppLocalizationsDelegate

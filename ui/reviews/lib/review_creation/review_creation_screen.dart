@@ -34,6 +34,8 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
   }
 
   Future<void> _showSubmitDialog() async {
+    if (!widget.cubit.validate()) return;
+
     final l10n = AppLocalizations.of(context);
     var confirmed = false;
     await MoovieDialog.show(
@@ -78,9 +80,11 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return BlocProvider.value(
-      value: widget.cubit,
-      child: Scaffold(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: BlocProvider.value(
+        value: widget.cubit,
+        child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
@@ -118,6 +122,7 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
                     _openReviewEditor(state.reviewBody.isEmpty ? null : state.reviewBody),
               ),
           },
+        ),
         ),
       ),
     );
@@ -168,6 +173,9 @@ class _ReviewBody extends StatelessWidget {
             decoration: InputDecoration(
               hintText: l10n?.movieReviewNameHint ?? '',
               border: const OutlineInputBorder(),
+              errorText: state.hasTitleError
+                  ? (l10n?.fieldRequired ?? '')
+                  : null,
             ),
           ),
           const SizedBox(height: 24),
@@ -193,11 +201,32 @@ class _ReviewBody extends StatelessWidget {
               ),
             ],
           ),
+          if (state.hasRatingError)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                l10n?.ratingRequired ?? '',
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.error,
+                ),
+              ),
+            ),
           const SizedBox(height: 24),
           _AddReviewSection(
             html: state.reviewBody.isEmpty ? null : state.reviewBody,
             onTap: onAddReview,
+            hasError: state.hasBodyError,
           ),
+          if (state.hasBodyError)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                l10n?.reviewBodyRequired ?? '',
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.error,
+                ),
+              ),
+            ),
           const SizedBox(height: 24),
           Row(
             children: [
@@ -250,6 +279,16 @@ class _ReviewBody extends StatelessWidget {
                 )
                 .toList(),
           ),
+          if (state.hasTagsError)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                l10n?.tagsRequired ?? '',
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.error,
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -259,8 +298,13 @@ class _ReviewBody extends StatelessWidget {
 class _AddReviewSection extends StatelessWidget {
   final String? html;
   final VoidCallback onTap;
+  final bool hasError;
 
-  const _AddReviewSection({required this.html, required this.onTap});
+  const _AddReviewSection({
+    required this.html,
+    required this.onTap,
+    this.hasError = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -282,7 +326,9 @@ class _AddReviewSection extends StatelessWidget {
             color: hasContent
                 ? colorScheme.surfaceContainerHighest.withValues(alpha: 0.5)
                 : null,
-            border: Border.all(color: colorScheme.outlineVariant),
+            border: Border.all(
+              color: hasError ? colorScheme.error : colorScheme.outlineVariant,
+            ),
             borderRadius: BorderRadius.circular(12),
           ),
           child: hasContent

@@ -103,5 +103,9 @@
   "submitReviewContent": "¿Estás seguro de que quieres enviar esta reseña? Se publicará y el borrador se eliminará.",
   "submit": "Enviar",
   "submittingReview": "Enviando reseña...",
-  "submissionFailed": "Error al enviar"
+  "submissionFailed": "Error al enviar",
+  "fieldRequired": "Este campo es obligatorio",
+  "ratingRequired": "Por favor selecciona una calificación",
+  "reviewBodyRequired": "Por favor escribe una reseña",
+  "tagsRequired": "Por favor selecciona al menos una etiqueta"
 }
