@@ -98,5 +98,10 @@
   "emptyStateRetry": "Tentar novamente",
   "emptyStateNoItemsTitle": "Nada aqui ainda",
   "emptyStateNoItemsMessage": "Não há itens para exibir.",
-  "clearSearch": "Limpar"
+  "clearSearch": "Limpar",
+  "submitReviewTitle": "Enviar Avaliação",
+  "submitReviewContent": "Tem certeza de que deseja enviar esta avaliação? Ela será publicada e o rascunho será removido.",
+  "submit": "Enviar",
+  "submittingReview": "Enviando avaliação...",
+  "submissionFailed": "Falha ao enviar"
 }

@@ -65,6 +65,29 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
         ],
       ];
 
+  Future<void> _showSubmitDialog(
+    BuildContext context,
+    MovieReviewDraft draft,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    var confirmed = false;
+    await MoovieDialog.show(
+      context: context,
+      title: l10n?.submitReviewTitle ?? 'Submit Review',
+      content: l10n?.submitReviewContent ?? 'Are you sure you want to submit this review?',
+      confirmText: l10n?.submit ?? 'Submit',
+      cancelText: l10n?.cancel ?? 'Cancel',
+      onConfirm: () => confirmed = true,
+    );
+
+    if (confirmed && context.mounted) {
+      await widget.cubit.submitDraft(draft);
+      if (context.mounted) {
+        context.router.maybePop();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -177,6 +200,9 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
                                             initialDraft: draft,
                                           ),
                                         ),
+                                        onSubmit: () =>
+                                            _showSubmitDialog(
+                                                context, draft),
                                       ),
                                     ),
                                   SearchItem(
@@ -439,8 +465,14 @@ class _DraftTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final VoidCallback? onTap;
+  final VoidCallback? onSubmit;
 
-  const _DraftTile({required this.title, required this.subtitle, this.onTap});
+  const _DraftTile({
+    required this.title,
+    required this.subtitle,
+    this.onTap,
+    this.onSubmit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -493,6 +525,20 @@ class _DraftTile extends StatelessWidget {
                   ],
                 ),
               ),
+              if (onSubmit != null)
+                ExcludeSemantics(
+                  child: Tooltip(
+                    message: 'Submit review',
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.send_rounded,
+                        size: 20,
+                        color: colorScheme.primary,
+                      ),
+                      onPressed: onSubmit,
+                    ),
+                  ),
+                ),
               ExcludeSemantics(
                 child: Icon(
                   Icons.chevron_right,

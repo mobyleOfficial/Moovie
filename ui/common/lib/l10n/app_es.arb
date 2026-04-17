@@ -98,5 +98,10 @@
   "emptyStateRetry": "Reintentar",
   "emptyStateNoItemsTitle": "Nada aquí todavía",
   "emptyStateNoItemsMessage": "No hay elementos para mostrar.",
-  "clearSearch": "Limpiar"
+  "clearSearch": "Limpiar",
+  "submitReviewTitle": "Enviar Reseña",
+  "submitReviewContent": "¿Estás seguro de que quieres enviar esta reseña? Se publicará y el borrador se eliminará.",
+  "submit": "Enviar",
+  "submittingReview": "Enviando reseña...",
+  "submissionFailed": "Error al enviar"
 }

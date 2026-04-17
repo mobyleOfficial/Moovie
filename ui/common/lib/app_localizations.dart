@@ -693,6 +693,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Clear'**
   String get clearSearch;
+
+  /// Title of the submit review confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Review'**
+  String get submitReviewTitle;
+
+  /// Content of the submit review confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to submit this review? It will be published and the draft will be removed.'**
+  String get submitReviewContent;
+
+  /// Submit button label
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submit;
+
+  /// Label shown while a review is being submitted
+  ///
+  /// In en, this message translates to:
+  /// **'Submitting review...'**
+  String get submittingReview;
+
+  /// Label shown when review submission fails
+  ///
+  /// In en, this message translates to:
+  /// **'Submission failed'**
+  String get submissionFailed;
 }
 
 class _AppLocalizationsDelegate

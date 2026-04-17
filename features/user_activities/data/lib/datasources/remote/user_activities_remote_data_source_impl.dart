@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:movies_domain/models/movie_review_draft.dart';
 import 'package:user_activities_data/datasources/remote/user_activities_remote_data_source.dart';
 import 'package:user_activities_data/models/remote/remote_user_activity.dart';
 import 'package:user_activities_data/models/remote/remote_user_activity_listing.dart';
@@ -40,6 +41,12 @@ class UserActivitiesRemoteDataSourceImpl
     required String userId,
   }) async =>
       const Success(_mockedActivities);
+
+  @override
+  Future<Result<void>> submitReview({required MovieReviewDraft draft}) async {
+    await Future<void>.delayed(const Duration(seconds: 3));
+    return const Success(null);
+  }
 
   @override
   Future<Result<RemoteUserActivityListing>> getFriendsActivities({

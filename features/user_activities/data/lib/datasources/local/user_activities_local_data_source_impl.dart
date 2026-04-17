@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:movies_data/models/local/local_movie_review_draft.dart';
 import 'package:movies_data/objectbox.g.dart';
+import 'package:movies_domain/models/movie_review_status.dart';
 import 'package:user_activities_data/datasources/local/user_activities_local_data_source.dart';
 
 class UserActivitiesLocalDataSourceImpl implements UserActivitiesLocalDataSource {
@@ -44,4 +45,32 @@ class UserActivitiesLocalDataSourceImpl implements UserActivitiesLocalDataSource
           _box.remove(existing.id);
         }
       });
+
+  @override
+  Result<void> updateDraftStatus({
+    required int movieId,
+    required MovieReviewStatus status,
+  }) =>
+      _localClient.execute(() {
+        final existing = _box
+            .query(LocalMovieReviewDraft_.movieId.equals(movieId))
+            .build()
+            .findFirst();
+
+        if (existing != null) {
+          existing.statusIndex = status.index;
+          _box.put(existing);
+        }
+      });
+
+  @override
+  Stream<List<LocalMovieReviewDraft>> observeSubmittingDrafts() =>
+      _localClient.watch(() => _box
+          .query(LocalMovieReviewDraft_.statusIndex
+              .equals(MovieReviewStatus.submitting.index)
+              .or(LocalMovieReviewDraft_.statusIndex
+                  .equals(MovieReviewStatus.error.index)))
+          .order(LocalMovieReviewDraft_.updatedAt, flags: Order.descending)
+          .watch(triggerImmediately: true)
+          .map((query) => query.find()));
 }

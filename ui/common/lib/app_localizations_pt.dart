@@ -318,4 +318,20 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get clearSearch => 'Limpar';
+
+  @override
+  String get submitReviewTitle => 'Enviar Avaliação';
+
+  @override
+  String get submitReviewContent =>
+      'Tem certeza de que deseja enviar esta avaliação? Ela será publicada e o rascunho será removido.';
+
+  @override
+  String get submit => 'Enviar';
+
+  @override
+  String get submittingReview => 'Enviando avaliação...';
+
+  @override
+  String get submissionFailed => 'Falha ao enviar';
 }

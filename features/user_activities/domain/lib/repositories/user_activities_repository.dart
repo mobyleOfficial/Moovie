@@ -10,4 +10,7 @@ abstract interface class UserActivitiesRepository {
   Result<void> upsertMovieReview({required MovieReviewDraft draft, required MovieReviewStatus status});
   Stream<List<MovieReviewDraft>> observeMovieReviewDraftsList();
   Result<void> deleteDraft({required int movieId});
+  Future<Result<void>> submitReview({required MovieReviewDraft draft});
+  Result<void> updateDraftStatus({required int movieId, required MovieReviewStatus status});
+  Stream<List<MovieReviewDraft>> observeSubmittingDrafts();
 }

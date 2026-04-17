@@ -269,5 +269,15 @@
   "emptyStateNoItemsMessage": "There are no items to display.",
   "@emptyStateNoItemsMessage": { "description": "Message for the empty list state" },
   "clearSearch": "Clear",
-  "@clearSearch": { "description": "Tooltip for the clear search text button" }
+  "@clearSearch": { "description": "Tooltip for the clear search text button" },
+  "submitReviewTitle": "Submit Review",
+  "@submitReviewTitle": { "description": "Title of the submit review confirmation dialog" },
+  "submitReviewContent": "Are you sure you want to submit this review? It will be published and the draft will be removed.",
+  "@submitReviewContent": { "description": "Content of the submit review confirmation dialog" },
+  "submit": "Submit",
+  "@submit": { "description": "Submit button label" },
+  "submittingReview": "Submitting review...",
+  "@submittingReview": { "description": "Label shown while a review is being submitted" },
+  "submissionFailed": "Submission failed",
+  "@submissionFailed": { "description": "Label shown when review submission fails" }
 }

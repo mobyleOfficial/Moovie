@@ -2,8 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:moovie/review_submission/review_submission_cubit.dart';
+import 'package:moovie/review_submission/review_submission_state.dart';
 import 'package:moovie/routes/app_router.dart';
 import 'package:moovie/routes/route_title_resolver.dart';
+import 'package:reviews/review_creation/review_creation_router.dart';
 import 'package:user_activity/new_user_activity_router.dart';
 
 @RoutePage()
@@ -158,6 +163,44 @@ class _MainScreenState extends State<MainScreen> {
                               )
                             : null,
                       );
+                    },
+                  ),
+                  BlocBuilder<ReviewSubmissionCubit,
+                      ReviewSubmissionState>(
+                    bloc: GetIt.I<ReviewSubmissionCubit>(),
+                    builder: (context, submissionState) =>
+                        switch (submissionState) {
+                      ReviewSubmissionActive(:final hasError) =>
+                        () {
+                          final active = submissionState;
+                          final draft = hasError
+                              ? active.firstError
+                              : active.firstSubmitting;
+                          if (draft == null) {
+                            return const SizedBox.shrink();
+                          }
+                          return MoovieSubmissionBanner(
+                            reviewTitle: draft.reviewTitle.isNotEmpty
+                                ? draft.reviewTitle
+                                : draft.movieTitle,
+                            isError: hasError,
+                            onTap: hasError
+                                ? () => context.router.root.push(
+                                      ReviewCreationRoute(
+                                        movieId: draft.movieId,
+                                        movieTitle: draft.movieTitle,
+                                        posterPath: draft.posterPath,
+                                        initialDraft: draft,
+                                      ),
+                                    )
+                                : null,
+                            onDismiss: hasError
+                                ? () => GetIt.I<ReviewSubmissionCubit>()
+                                    .dismissError(draft.movieId)
+                                : null,
+                          );
+                        }(),
+                      _ => const SizedBox.shrink(),
                     },
                   ),
                   TabIndexScope(

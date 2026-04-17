@@ -21,6 +21,7 @@ class _NewUserActivityPageState extends State<NewUserActivityPage> {
     GetIt.I<DeleteDraft>(),
     GetIt.I<AddRecentSearch>(),
     GetIt.I<ObserveRecentSearches>(),
+    GetIt.I<SubmitReview>(),
   );
 
   @override

@@ -57,4 +57,22 @@ class UserActivitiesRepositoryImpl implements UserActivitiesRepository {
   @override
   Result<void> deleteDraft({required int movieId}) =>
       _localDataSource.deleteDraftByMovieId(movieId);
+
+  @override
+  Future<Result<void>> submitReview({required MovieReviewDraft draft}) =>
+      _remoteDataSource.submitReview(draft: draft);
+
+  @override
+  Result<void> updateDraftStatus({
+    required int movieId,
+    required MovieReviewStatus status,
+  }) =>
+      _localDataSource.updateDraftStatus(movieId: movieId, status: status);
+
+  @override
+  Stream<List<MovieReviewDraft>> observeSubmittingDrafts() =>
+      _localDataSource.observeSubmittingDrafts().map(
+            (localDrafts) =>
+                localDrafts.map((draft) => draft.toDomain()).toList(),
+          );
 }

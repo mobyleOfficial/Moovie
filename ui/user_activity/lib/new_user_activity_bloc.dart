@@ -13,6 +13,7 @@ class NewUserActivityCubit extends Cubit<NewUserActivityState> {
   final DeleteDraft _deleteDraft;
   final AddRecentSearch _addRecentSearch;
   final ObserveRecentSearches _observeRecentSearches;
+  final SubmitReview _submitReview;
 
   final StreamController<String> _queryController = StreamController<String>();
   late final StreamSubscription<String> _querySubscription;
@@ -32,6 +33,7 @@ class NewUserActivityCubit extends Cubit<NewUserActivityState> {
     this._deleteDraft,
     this._addRecentSearch,
     this._observeRecentSearches,
+    this._submitReview,
   ) : super(const NewUserActivityLoading()) {
     _querySubscription = _queryController.stream
         .distinct()
@@ -102,6 +104,9 @@ class NewUserActivityCubit extends Cubit<NewUserActivityState> {
   }
 
   Future<void> deleteDraft(int movieId) async => _deleteDraft(movieId);
+
+  Future<void> submitDraft(MovieReviewDraft draft) async =>
+      _submitReview(draft);
 
   @override
   Future<void> close() {
