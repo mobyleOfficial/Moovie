@@ -1,0 +1,17 @@
+# CI Tests - Toggle test execution
+run_ios_tests: true
+run_android_tests: true
+run_linter: true
+
+# Test Devices/Emulators
+ios_test_device: "iPhone 16"
+android_test_emulator: "Pixel 6 API 34"
+
+# Publishing - Toggle deployment
+deploy_ios: true
+deploy_android: true
+
+# Versions - Tool versions for testing
+xcode_version: "16.3"
+macos_version: "14"
+flutter_version: "3.x"
