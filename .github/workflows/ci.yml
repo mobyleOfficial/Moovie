@@ -112,14 +112,12 @@ jobs:
       - name: Run code generation
         run: dart run build_runner build --delete-conflicting-outputs
 
-      - name: Run linter
+      - name: Analyze Dart
         if: needs.config.outputs.run_linter == 'true'
-        run: |
-          output=$(flutter analyze 2>&1)
-          echo "$output"
-          if echo "$output" | grep -q "^\s*error\s*•"; then
-            exit 1
-          fi
+        uses: zgosalvez/github-actions-analyze-dart@v2
+        with:
+          fail-on-warnings: false
+          fail-on-infos: false
 
   test-ios:
     name: iOS - Test & Build
