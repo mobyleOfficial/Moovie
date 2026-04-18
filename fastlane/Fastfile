@@ -1,7 +1,12 @@
 default_platform(:ios)
 
-# Valid deployment environments
-VALID_ENVS = ['dev', 'prod'].freeze
+# Valid deployment environments and their corresponding Flutter flavors
+VALID_ENVS = ['dev', 'staging', 'prod'].freeze
+ENV_TO_FLAVOR = {
+  'dev' => 'dev',
+  'staging' => 'staging',
+  'prod' => 'prod'
+}.freeze
 
 # Helper method to validate and resolve environment to flavor
 def resolve_env_to_flavor(env)
@@ -10,12 +15,7 @@ def resolve_env_to_flavor(env)
     UI.user_error!("Environment must be one of: #{VALID_ENVS.join(', ')}")
   end
 
-  env_to_flavor = {
-    'dev' => 'dev',
-    'prod' => 'prod'
-  }
-
-  env_to_flavor[env]
+  ENV_TO_FLAVOR[env]
 end
 
 # Common lanes (available for all platforms)

@@ -34,6 +34,24 @@ android_java_distribution: "temurin"
 deploy_ios: true
 deploy_android: true
 
+# Deployment Environments
+# Supported environments: dev, staging, prod
+# To deploy to an environment, use:
+#   fastlane ios deploy_testflight env:staging
+#   fastlane android deploy_play env:staging
+#
+# Required GitHub Secrets for each environment:
+#   iOS (staging):
+#     - APP_STORE_CONNECT_API_KEY_ID_STAGING
+#     - APP_STORE_CONNECT_API_KEY_ISSUER_ID_STAGING
+#     - APP_STORE_CONNECT_API_KEY_CONTENT_STAGING
+#   Android (staging):
+#     - GOOGLE_PLAY_API_JSON_STAGING
+#     - ANDROID_KEYSTORE_BASE64_STAGING
+#     - ANDROID_KEYSTORE_PASSWORD_STAGING
+#     - ANDROID_KEY_ALIAS_STAGING
+#     - ANDROID_KEY_PASSWORD_STAGING
+
 # Versions - Tool versions for CI/CD jobs
 # Note: Ensure compatibility between xcode_version and macos_version
 xcode_version: "16.3"
