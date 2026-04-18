@@ -50,19 +50,45 @@ jobs:
       - name: Read .actions.yml
         id: config
         run: |
-          run_ios_tests=$(grep -E '^\s*run_ios_tests:\s*' .actions.yml | sed 's/.*:\s*//')
-          run_linter=$(grep -E '^\s*run_linter:\s*' .actions.yml | sed 's/.*:\s*//')
-          ios_test_device=$(grep -E '^\s*ios_test_device:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"')
-          xcode_version=$(grep -E '^\s*xcode_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"')
-          macos_version=$(grep -E '^\s*macos_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"')
-          flutter_version=$(grep -E '^\s*flutter_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"')
+          # Check if .actions.yml exists
+          if [ ! -f .actions.yml ]; then
+            echo "ERROR: .actions.yml file not found"
+            exit 1
+          fi
 
+          # Parse values and trim whitespace with xargs
+          run_ios_tests=$(grep -E '^\s*run_ios_tests:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
+          run_linter=$(grep -E '^\s*run_linter:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
+          ios_test_device=$(grep -E '^\s*ios_test_device:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+          xcode_version=$(grep -E '^\s*xcode_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+          macos_version=$(grep -E '^\s*macos_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+          flutter_version=$(grep -E '^\s*flutter_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+
+          # Validate required values are not empty
+          if [ -z "$run_ios_tests" ] || [ -z "$macos_version" ] || [ -z "$flutter_version" ]; then
+            echo "ERROR: Missing required values in .actions.yml"
+            echo "  run_ios_tests: $run_ios_tests"
+            echo "  macos_version: $macos_version"
+            echo "  flutter_version: $flutter_version"
+            exit 1
+          fi
+
+          # Export values
           echo "run_ios_tests=$run_ios_tests" >> $GITHUB_OUTPUT
           echo "run_linter=$run_linter" >> $GITHUB_OUTPUT
           echo "ios_test_device=$ios_test_device" >> $GITHUB_OUTPUT
           echo "xcode_version=$xcode_version" >> $GITHUB_OUTPUT
           echo "macos_version=$macos_version" >> $GITHUB_OUTPUT
           echo "flutter_version=$flutter_version" >> $GITHUB_OUTPUT
+
+          # Debug output
+          echo "Configuration loaded:"
+          echo "  run_ios_tests=$run_ios_tests"
+          echo "  run_linter=$run_linter"
+          echo "  ios_test_device=$ios_test_device"
+          echo "  xcode_version=$xcode_version"
+          echo "  macos_version=$macos_version"
+          echo "  flutter_version=$flutter_version"
 
   test:
     name: iOS Tests
