@@ -42,6 +42,7 @@ jobs:
       run_android_tests: ${{ steps.config.outputs.run_android_tests }}
       run_linter: ${{ steps.config.outputs.run_linter }}
       flutter_version: ${{ steps.config.outputs.flutter_version }}
+      ruby_version: ${{ steps.config.outputs.ruby_version }}
       android_java_version: ${{ steps.config.outputs.android_java_version }}
       android_java_distribution: ${{ steps.config.outputs.android_java_distribution }}
       macos_version: ${{ steps.config.outputs.macos_version }}
@@ -62,6 +63,7 @@ jobs:
           run_android_tests=$(grep -E '^\s*run_android_tests:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
           run_linter=$(grep -E '^\s*run_linter:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
           flutter_version=$(grep -E '^\s*flutter_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+          ruby_version=$(grep -E '^\s*ruby_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
           android_java_version=$(grep -E '^\s*android_java_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
           android_java_distribution=$(grep -E '^\s*android_java_distribution:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
           macos_version=$(grep -E '^\s*macos_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
@@ -75,6 +77,7 @@ jobs:
           echo "run_android_tests=$run_android_tests" >> $GITHUB_OUTPUT
           echo "run_linter=$run_linter" >> $GITHUB_OUTPUT
           echo "flutter_version=$flutter_version" >> $GITHUB_OUTPUT
+          echo "ruby_version=$ruby_version" >> $GITHUB_OUTPUT
           echo "android_java_version=$android_java_version" >> $GITHUB_OUTPUT
           echo "android_java_distribution=$android_java_distribution" >> $GITHUB_OUTPUT
           echo "macos_version=$macos_version" >> $GITHUB_OUTPUT
@@ -100,7 +103,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3'
+          ruby-version: ${{ needs.config.outputs.ruby_version }}
           bundler-cache: true
 
       - name: Install dependencies
@@ -132,7 +135,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3'
+          ruby-version: ${{ needs.config.outputs.ruby_version }}
           bundler-cache: true
 
       - name: Install dependencies
@@ -181,7 +184,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3'
+          ruby-version: ${{ needs.config.outputs.ruby_version }}
           bundler-cache: true
 
       - name: Install dependencies

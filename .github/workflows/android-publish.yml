@@ -43,6 +43,9 @@ jobs:
     outputs:
       deploy_android: ${{ steps.config.outputs.deploy_android }}
       flutter_version: ${{ steps.config.outputs.flutter_version }}
+      ruby_version: ${{ steps.config.outputs.ruby_version }}
+      android_java_version: ${{ steps.config.outputs.android_java_version }}
+      android_java_distribution: ${{ steps.config.outputs.android_java_distribution }}
 
     steps:
       - name: Checkout code
@@ -60,23 +63,35 @@ jobs:
           # Parse values and trim whitespace with xargs
           deploy_android=$(grep -E '^\s*deploy_android:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
           flutter_version=$(grep -E '^\s*flutter_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+          ruby_version=$(grep -E '^\s*ruby_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+          android_java_version=$(grep -E '^\s*android_java_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+          android_java_distribution=$(grep -E '^\s*android_java_distribution:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
 
           # Validate required values are not empty
-          if [ -z "$deploy_android" ] || [ -z "$flutter_version" ]; then
+          if [ -z "$deploy_android" ] || [ -z "$flutter_version" ] || [ -z "$ruby_version" ] || [ -z "$android_java_version" ] || [ -z "$android_java_distribution" ]; then
             echo "ERROR: Missing required values in .actions.yml"
             echo "  deploy_android: $deploy_android"
             echo "  flutter_version: $flutter_version"
+            echo "  ruby_version: $ruby_version"
+            echo "  android_java_version: $android_java_version"
+            echo "  android_java_distribution: $android_java_distribution"
             exit 1
           fi
 
           # Export values
           echo "deploy_android=$deploy_android" >> $GITHUB_OUTPUT
           echo "flutter_version=$flutter_version" >> $GITHUB_OUTPUT
+          echo "ruby_version=$ruby_version" >> $GITHUB_OUTPUT
+          echo "android_java_version=$android_java_version" >> $GITHUB_OUTPUT
+          echo "android_java_distribution=$android_java_distribution" >> $GITHUB_OUTPUT
 
           # Debug output
           echo "Configuration loaded:"
           echo "  deploy_android=$deploy_android"
           echo "  flutter_version=$flutter_version"
+          echo "  ruby_version=$ruby_version"
+          echo "  android_java_version=$android_java_version"
+          echo "  android_java_distribution=$android_java_distribution"
 
   deploy:
     name: Deploy to Google Play (${{ github.event_name == 'push' && 'prod' || inputs.environment }})
@@ -92,8 +107,8 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          java-version: ${{ needs.config.outputs.android_java_version }}
+          distribution: ${{ needs.config.outputs.android_java_distribution }}
           cache: gradle
 
       - name: Setup Flutter
@@ -105,7 +120,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3'
+          ruby-version: ${{ needs.config.outputs.ruby_version }}
           bundler-cache: true
 
       - name: Install dependencies

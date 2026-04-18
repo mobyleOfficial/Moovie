@@ -26,7 +26,8 @@ ios_test_device: "iPhone 16"
 # Run `${ANDROID_HOME}/emulator/emulator -list-avds` to find available emulators
 android_test_emulator: "Pixel 6 API 34"
 
-# Android Build Tools Versions
+# Tool Versions
+ruby_version: "3.3"
 android_java_version: "17"
 android_java_distribution: "temurin"
 
