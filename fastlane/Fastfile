@@ -122,10 +122,7 @@ platform :ios do
     if dry_run
       UI.important("🏃 DRY RUN MODE - No changes will be submitted")
     else
-      UI.error("⚠️  PRODUCTION MODE - Submitting to TestFlight")
-      unless UI.confirm("Are you sure you want to submit to TestFlight? (yes/no)")
-        UI.user_error!("Deployment cancelled")
-      end
+      UI.important("⚠️  PRODUCTION MODE - Submitting to TestFlight")
     end
 
     flavor = env == "prod" ? "prod" : "dev"
@@ -188,10 +185,7 @@ platform :android do
     if dry_run
       UI.important("🏃 DRY RUN MODE - No changes will be submitted")
     else
-      UI.error("⚠️  PRODUCTION MODE - Submitting to Google Play Beta")
-      unless UI.confirm("Are you sure you want to submit to Google Play? (yes/no)")
-        UI.user_error!("Deployment cancelled")
-      end
+      UI.important("⚠️  PRODUCTION MODE - Submitting to Google Play Beta")
     end
 
     flavor = env == "prod" ? "prod" : "dev"
