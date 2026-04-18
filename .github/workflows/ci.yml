@@ -114,7 +114,7 @@ jobs:
 
       - name: Analyze Dart
         if: needs.config.outputs.run_linter == 'true'
-        uses: zgosalvez/github-actions-analyze-dart@v2
+        uses: zgosalvez/github-actions-analyze-dart@v4
         with:
           fail-on-warnings: false
           fail-on-infos: false
