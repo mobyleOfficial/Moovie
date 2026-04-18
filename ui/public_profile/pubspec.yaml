@@ -12,7 +12,7 @@ dependencies:
   bloc: ^9.2.0
   auto_route: ^11.1.0
   get_it: ^8.0.3
-  infinite_scroll_pagination: any
+  infinite_scroll_pagination: ^5.0.0
   cached_network_image: any
   common:
     path: ../common
