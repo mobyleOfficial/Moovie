@@ -38,7 +38,8 @@ jobs:
     name: Load Configuration
     runs-on: ubuntu-latest
     outputs:
-      run_tests: ${{ steps.config.outputs.run_tests }}
+      run_ios_tests: ${{ steps.config.outputs.run_ios_tests }}
+      run_android_tests: ${{ steps.config.outputs.run_android_tests }}
       run_linter: ${{ steps.config.outputs.run_linter }}
       flutter_version: ${{ steps.config.outputs.flutter_version }}
       android_java_version: ${{ steps.config.outputs.android_java_version }}
@@ -70,31 +71,21 @@ jobs:
             exit 1
           fi
 
-          # Combine test flags into single output (either ios, android, or both)
-          if [ "$run_ios_tests" = "true" ] && [ "$run_android_tests" = "true" ]; then
-            run_tests="both"
-          elif [ "$run_ios_tests" = "true" ]; then
-            run_tests="ios"
-          elif [ "$run_android_tests" = "true" ]; then
-            run_tests="android"
-          else
-            run_tests="none"
-          fi
-
-          echo "run_tests=$run_tests" >> $GITHUB_OUTPUT
+          echo "run_ios_tests=$run_ios_tests" >> $GITHUB_OUTPUT
+          echo "run_android_tests=$run_android_tests" >> $GITHUB_OUTPUT
           echo "run_linter=$run_linter" >> $GITHUB_OUTPUT
           echo "flutter_version=$flutter_version" >> $GITHUB_OUTPUT
           echo "android_java_version=$android_java_version" >> $GITHUB_OUTPUT
           echo "android_java_distribution=$android_java_distribution" >> $GITHUB_OUTPUT
           echo "macos_version=$macos_version" >> $GITHUB_OUTPUT
 
-          echo "Configuration loaded: run_tests=$run_tests, linter=$run_linter"
+          echo "Configuration loaded: ios=$run_ios_tests, android=$run_android_tests, linter=$run_linter"
 
   setup:
     name: Setup & Lint
     needs: config
     runs-on: ubuntu-latest
-    if: needs.config.outputs.run_tests != 'none'
+    if: needs.config.outputs.run_ios_tests == 'true' || needs.config.outputs.run_android_tests == 'true'
 
     steps:
       - name: Checkout code
@@ -122,36 +113,59 @@ jobs:
         if: needs.config.outputs.run_linter == 'true'
         run: flutter analyze
 
-  test:
-    name: ${{ matrix.platform }} - Test & Build
+  test-ios:
+    name: iOS - Test & Build
     needs: [config, setup]
-    if: |
-      needs.config.outputs.run_tests != 'none' &&
-      (needs.config.outputs.run_tests == 'both' ||
-       (needs.config.outputs.run_tests == 'ios' && matrix.platform == 'iOS') ||
-       (needs.config.outputs.run_tests == 'android' && matrix.platform == 'Android'))
-    strategy:
-      matrix:
-        include:
-          - platform: iOS
-            runs-on: macos-${{ needs.config.outputs.macos_version }}
-            build-cmd: flutter build ios --flavor=dev --simulator
-            artifact-path: build/ios/iphonesimulator/
-            artifact-name: ios-build
-
-          - platform: Android
-            runs-on: ubuntu-latest
-            build-cmd: flutter build apk --flavor=dev --release
-            artifact-path: build/app/outputs/apk/
-            artifact-name: android-apk
-    runs-on: ${{ matrix.runs-on }}
+    if: needs.config.outputs.run_ios_tests == 'true'
+    runs-on: macos-${{ needs.config.outputs.macos_version }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Java (Android only)
-        if: matrix.platform == 'Android'
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ needs.config.outputs.flutter_version }}
+          cache: true
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run code generation
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build iOS
+        run: flutter build ios --flavor=dev --simulator
+
+      - name: Upload build artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-build
+          path: build/ios/iphonesimulator/
+          retention-days: 7
+
+  test-android:
+    name: Android - Test & Build
+    needs: [config, setup]
+    if: needs.config.outputs.run_android_tests == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
         uses: actions/setup-java@v3
         with:
           java-version: ${{ needs.config.outputs.android_java_version }}
@@ -179,13 +193,13 @@ jobs:
       - name: Run tests
         run: flutter test
 
-      - name: Build (${{ matrix.platform }})
-        run: ${{ matrix.build-cmd }}
+      - name: Build Android
+        run: flutter build apk --flavor=dev --release
 
       - name: Upload build artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.artifact-name }}
-          path: ${{ matrix.artifact-path }}
+          name: android-apk
+          path: build/app/outputs/apk/
           retention-days: 7
