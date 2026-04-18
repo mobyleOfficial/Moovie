@@ -1,4 +1,4 @@
-name: iOS Publish - Manual Deploy
+name: iOS Publish - Deploy
 
 on:
   workflow_dispatch:
@@ -12,6 +12,14 @@ on:
           - dev
           - staging
           - prod
+  push:
+    branches:
+      - main
+    paths:
+      - 'lib/**'
+      - 'ios/**'
+      - 'fastlane/**'
+      - 'pubspec.yaml'
 
 jobs:
   validate:
@@ -71,11 +79,11 @@ jobs:
           echo "  flutter_version=$flutter_version"
 
   deploy:
-    name: Deploy to TestFlight (${{ inputs.environment }})
+    name: Deploy to TestFlight (${{ github.event_name == 'push' && 'prod' || inputs.environment }})
     needs: config
     if: needs.config.outputs.deploy_ios == 'true'
     runs-on: macos-latest
-    environment: ${{ inputs.environment }}
+    environment: ${{ github.event_name == 'push' && 'prod' || inputs.environment }}
 
     steps:
       - name: Checkout code
@@ -115,14 +123,17 @@ jobs:
             --dart-define-from-file=secrets/.env \
             --release
 
-      - name: Deploy to TestFlight (${{ inputs.environment }})
+      - name: Deploy to TestFlight (${{ github.event_name == 'push' && 'prod' || inputs.environment }})
         run: |
           cd ios
-          bundle exec fastlane deploy_testflight env:${{ inputs.environment }} dry_run:false
+          bundle exec fastlane deploy_testflight env:${{ github.event_name == 'push' && 'prod' || inputs.environment }} dry_run:false
         env:
           APP_STORE_CONNECT_API_KEY_ID_DEV: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID_DEV }}
           APP_STORE_CONNECT_API_KEY_ISSUER_ID_DEV: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID_DEV }}
           APP_STORE_CONNECT_API_KEY_CONTENT_DEV: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_DEV }}
+          APP_STORE_CONNECT_API_KEY_ID_STAGING: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID_STAGING }}
+          APP_STORE_CONNECT_API_KEY_ISSUER_ID_STAGING: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID_STAGING }}
+          APP_STORE_CONNECT_API_KEY_CONTENT_STAGING: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_STAGING }}
           APP_STORE_CONNECT_API_KEY_ID_PROD: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID_PROD }}
           APP_STORE_CONNECT_API_KEY_ISSUER_ID_PROD: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID_PROD }}
           APP_STORE_CONNECT_API_KEY_CONTENT_PROD: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_PROD }}
