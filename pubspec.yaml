@@ -48,14 +48,34 @@ dependencies:
     path: core
   movies:
     path: features/movies
+  movies_domain:
+    path: features/movies/domain
+  movies_data:
+    path: features/movies/data
   news:
     path: features/news
+  news_domain:
+    path: features/news/domain
+  news_data:
+    path: features/news/data
   profile:
     path: features/profile
+  profile_domain:
+    path: features/profile/domain
+  profile_data:
+    path: features/profile/data
   public_profile_feature:
     path: features/public_profile
+  public_profile_domain:
+    path: features/public_profile/domain
+  public_profile_data:
+    path: features/public_profile/data
   user_activities:
     path: features/user_activities
+  user_activities_domain:
+    path: features/user_activities/domain
+  user_activities_data:
+    path: features/user_activities/data
   movies_ui:
     path: ui/movies_ui
   common:
