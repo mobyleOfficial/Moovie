@@ -114,7 +114,12 @@ jobs:
 
       - name: Run linter
         if: needs.config.outputs.run_linter == 'true'
-        run: flutter analyze
+        run: |
+          output=$(flutter analyze 2>&1)
+          echo "$output"
+          if echo "$output" | grep -q "^\s*error\s*•"; then
+            exit 1
+          fi
 
   test-ios:
     name: iOS - Test & Build
@@ -145,7 +150,15 @@ jobs:
         run: dart run build_runner build --delete-conflicting-outputs
 
       - name: Run tests
-        run: flutter test
+        run: flutter test --coverage
+
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-coverage
+          path: coverage/
+          retention-days: 7
 
       - name: Build iOS
         run: flutter build ios --flavor=dev --simulator
@@ -194,7 +207,15 @@ jobs:
         run: dart run build_runner build --delete-conflicting-outputs
 
       - name: Run tests
-        run: flutter test
+        run: flutter test --coverage
+
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-coverage
+          path: coverage/
+          retention-days: 7
 
       - name: Build Android
         run: flutter build apk --flavor=dev --release
