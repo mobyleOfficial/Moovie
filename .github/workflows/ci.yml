@@ -1,0 +1,191 @@
+name: CI - Build and Test
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+    paths:
+      - 'lib/**'
+      - 'ios/**'
+      - 'android/**'
+      - 'test/**'
+      - 'fastlane/**'
+      - '.github/workflows/ci.yml'
+      - '.actions.yml'
+      - 'pubspec.yaml'
+  pull_request:
+    branches:
+      - dev
+      - main
+    paths:
+      - 'lib/**'
+      - 'ios/**'
+      - 'android/**'
+      - 'test/**'
+      - 'fastlane/**'
+      - '.github/workflows/ci.yml'
+      - '.actions.yml'
+      - 'pubspec.yaml'
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  config:
+    name: Load Configuration
+    runs-on: ubuntu-latest
+    outputs:
+      run_tests: ${{ steps.config.outputs.run_tests }}
+      run_linter: ${{ steps.config.outputs.run_linter }}
+      flutter_version: ${{ steps.config.outputs.flutter_version }}
+      android_java_version: ${{ steps.config.outputs.android_java_version }}
+      android_java_distribution: ${{ steps.config.outputs.android_java_distribution }}
+      macos_version: ${{ steps.config.outputs.macos_version }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Read .actions.yml
+        id: config
+        run: |
+          if [ ! -f .actions.yml ]; then
+            echo "ERROR: .actions.yml file not found"
+            exit 1
+          fi
+
+          run_ios_tests=$(grep -E '^\s*run_ios_tests:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
+          run_android_tests=$(grep -E '^\s*run_android_tests:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
+          run_linter=$(grep -E '^\s*run_linter:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
+          flutter_version=$(grep -E '^\s*flutter_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+          android_java_version=$(grep -E '^\s*android_java_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+          android_java_distribution=$(grep -E '^\s*android_java_distribution:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+          macos_version=$(grep -E '^\s*macos_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+
+          if [ -z "$run_ios_tests" ] || [ -z "$run_android_tests" ] || [ -z "$flutter_version" ]; then
+            echo "ERROR: Missing required values in .actions.yml"
+            exit 1
+          fi
+
+          # Combine test flags into single output (either ios, android, or both)
+          if [ "$run_ios_tests" = "true" ] && [ "$run_android_tests" = "true" ]; then
+            run_tests="both"
+          elif [ "$run_ios_tests" = "true" ]; then
+            run_tests="ios"
+          elif [ "$run_android_tests" = "true" ]; then
+            run_tests="android"
+          else
+            run_tests="none"
+          fi
+
+          echo "run_tests=$run_tests" >> $GITHUB_OUTPUT
+          echo "run_linter=$run_linter" >> $GITHUB_OUTPUT
+          echo "flutter_version=$flutter_version" >> $GITHUB_OUTPUT
+          echo "android_java_version=$android_java_version" >> $GITHUB_OUTPUT
+          echo "android_java_distribution=$android_java_distribution" >> $GITHUB_OUTPUT
+          echo "macos_version=$macos_version" >> $GITHUB_OUTPUT
+
+          echo "Configuration loaded: run_tests=$run_tests, linter=$run_linter"
+
+  setup:
+    name: Setup & Lint
+    needs: config
+    runs-on: ubuntu-latest
+    if: needs.config.outputs.run_tests != 'none'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ needs.config.outputs.flutter_version }}
+          cache: true
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run code generation
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Run linter
+        if: needs.config.outputs.run_linter == 'true'
+        run: flutter analyze
+
+  test:
+    name: ${{ matrix.platform }} - Test & Build
+    needs: [config, setup]
+    if: |
+      needs.config.outputs.run_tests != 'none' &&
+      (needs.config.outputs.run_tests == 'both' ||
+       (needs.config.outputs.run_tests == 'ios' && matrix.platform == 'iOS') ||
+       (needs.config.outputs.run_tests == 'android' && matrix.platform == 'Android'))
+    strategy:
+      matrix:
+        include:
+          - platform: iOS
+            runs-on: macos-${{ needs.config.outputs.macos_version }}
+            build-cmd: flutter build ios --flavor=dev --simulator
+            artifact-path: build/ios/iphonesimulator/
+            artifact-name: ios-build
+
+          - platform: Android
+            runs-on: ubuntu-latest
+            build-cmd: flutter build apk --flavor=dev --release
+            artifact-path: build/app/outputs/apk/
+            artifact-name: android-apk
+    runs-on: ${{ matrix.runs-on }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java (Android only)
+        if: matrix.platform == 'Android'
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ needs.config.outputs.android_java_version }}
+          distribution: ${{ needs.config.outputs.android_java_distribution }}
+          cache: gradle
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ needs.config.outputs.flutter_version }}
+          cache: true
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run code generation
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build (${{ matrix.platform }})
+        run: ${{ matrix.build-cmd }}
+
+      - name: Upload build artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact-name }}
+          path: ${{ matrix.artifact-path }}
+          retention-days: 7
