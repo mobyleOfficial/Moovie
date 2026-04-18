@@ -188,6 +188,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
     version: 1,
   );
 
+  // ignore: strict_raw_type
   final bindings = <Type, obx_int.EntityDefinition>{
     LocalMovieReviewDraft: obx_int.EntityDefinition<LocalMovieReviewDraft>(
       model: _entities[0],
