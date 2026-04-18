@@ -1,17 +1,37 @@
+# GitHub Actions Configuration
+# This file controls CI/CD behavior for the Moovie Flutter project.
+#
+# How it works:
+# - GitHub Actions workflows read this file to determine which jobs to run
+# - Set run_ios_tests: false to skip iOS testing on push
+# - Set run_android_tests: false to skip Android testing on push
+# - Set deploy_ios: false to prevent iOS deployment
+# - Set deploy_android: false to prevent Android deployment
+#
+# When to modify this file:
+# - Disable tests to debug a specific platform
+# - Change test devices for testing on different simulators
+# - Update tool versions to test with new Xcode/Flutter versions
+#
+# Note: macos_version should match the macOS version supported by the Xcode version specified.
+
 # CI Tests - Toggle test execution
 run_ios_tests: true
 run_android_tests: true
 run_linter: true
 
 # Test Devices/Emulators
+# Run `xcrun simctl list devices` to find available simulators
 ios_test_device: "iPhone 16"
+# Run `${ANDROID_HOME}/emulator/emulator -list-avds` to find available emulators
 android_test_emulator: "Pixel 6 API 34"
 
 # Publishing - Toggle deployment
 deploy_ios: true
 deploy_android: true
 
-# Versions - Tool versions for testing
+# Versions - Tool versions for CI/CD jobs
+# Note: Ensure compatibility between xcode_version and macos_version
 xcode_version: "16.3"
 macos_version: "14"
 flutter_version: "3.x"
