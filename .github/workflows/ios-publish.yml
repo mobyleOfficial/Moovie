@@ -1,0 +1,135 @@
+name: iOS Publish - Manual Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - prod
+
+jobs:
+  validate:
+    name: Validate Branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch
+        run: |
+          BRANCH=${{ github.ref_name }}
+          if [[ "$BRANCH" != "dev" && "$BRANCH" != "main" ]]; then
+            echo "❌ Error: Can only deploy from 'dev' or 'main' branches"
+            echo "Current branch: $BRANCH"
+            exit 1
+          fi
+          echo "✅ Branch validation passed: $BRANCH"
+
+  config:
+    name: Load Configuration
+    needs: validate
+    runs-on: ubuntu-latest
+    outputs:
+      deploy_ios: ${{ steps.config.outputs.deploy_ios }}
+      flutter_version: ${{ steps.config.outputs.flutter_version }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Read .actions.yml
+        id: config
+        run: |
+          # Check if .actions.yml exists
+          if [ ! -f .actions.yml ]; then
+            echo "ERROR: .actions.yml file not found"
+            exit 1
+          fi
+
+          # Parse values and trim whitespace with xargs
+          deploy_ios=$(grep -E '^\s*deploy_ios:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
+          flutter_version=$(grep -E '^\s*flutter_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+
+          # Validate required values are not empty
+          if [ -z "$deploy_ios" ] || [ -z "$flutter_version" ]; then
+            echo "ERROR: Missing required values in .actions.yml"
+            echo "  deploy_ios: $deploy_ios"
+            echo "  flutter_version: $flutter_version"
+            exit 1
+          fi
+
+          # Export values
+          echo "deploy_ios=$deploy_ios" >> $GITHUB_OUTPUT
+          echo "flutter_version=$flutter_version" >> $GITHUB_OUTPUT
+
+          # Debug output
+          echo "Configuration loaded:"
+          echo "  deploy_ios=$deploy_ios"
+          echo "  flutter_version=$flutter_version"
+
+  deploy:
+    name: Deploy to TestFlight (${{ inputs.environment }})
+    needs: config
+    if: needs.config.outputs.deploy_ios == 'true'
+    runs-on: macos-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ needs.config.outputs.flutter_version }}
+          cache: true
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run code generation
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Determine flavor
+        id: flavor
+        run: |
+          if [[ "${{ inputs.environment }}" == "prod" ]]; then
+            echo "flavor=prod" >> $GITHUB_OUTPUT
+          else
+            echo "flavor=dev" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build Flutter iOS (${{ steps.flavor.outputs.flavor }})
+        run: |
+          flutter build ios \
+            --flavor=${{ steps.flavor.outputs.flavor }} \
+            --dart-define-from-file=secrets/.env \
+            --release
+
+      - name: Deploy to TestFlight (${{ inputs.environment }})
+        run: |
+          cd ios
+          bundle exec fastlane deploy_testflight env:${{ inputs.environment }} dry_run:false
+        env:
+          APP_STORE_CONNECT_API_KEY_ID_DEV: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID_DEV }}
+          APP_STORE_CONNECT_API_KEY_ISSUER_ID_DEV: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID_DEV }}
+          APP_STORE_CONNECT_API_KEY_CONTENT_DEV: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_DEV }}
+          APP_STORE_CONNECT_API_KEY_ID_PROD: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID_PROD }}
+          APP_STORE_CONNECT_API_KEY_ISSUER_ID_PROD: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID_PROD }}
+          APP_STORE_CONNECT_API_KEY_CONTENT_PROD: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_PROD }}
+
+      - name: Upload build logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-publish-logs
+          path: fastlane/report.xml
+          retention-days: 7
