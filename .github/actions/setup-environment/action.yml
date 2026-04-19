@@ -11,7 +11,7 @@ inputs:
   setup-ci-env:
     description: Whether to run Setup CI environment step
     required: false
-    default: 'false'
+    default: 'true'
   tmdb-api-key:
     description: TMDB API key (required if setup-ci-env is true)
     required: false

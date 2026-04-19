@@ -55,7 +55,6 @@ jobs:
           flutter-version: ${{ needs.config.outputs.flutter_version }}
           ruby-version: ${{ needs.config.outputs.ruby_version }}
           setup-ci-env: 'false'
-          setup-java: 'false'
 
       - name: Analyze Dart
         uses: zgosalvez/github-actions-analyze-dart@v4
@@ -81,8 +80,6 @@ jobs:
         with:
           flutter-version: ${{ needs.config.outputs.flutter_version }}
           ruby-version: ${{ needs.config.outputs.ruby_version }}
-          setup-ci-env: 'true'
-          setup-java: 'false'
           tmdb-api-key: ${{ secrets.TMDB_API_KEY }}
           backend-url: ${{ secrets.BACKEND_URL }}
 
@@ -126,7 +123,6 @@ jobs:
         with:
           flutter-version: ${{ needs.config.outputs.flutter_version }}
           ruby-version: ${{ needs.config.outputs.ruby_version }}
-          setup-ci-env: 'true'
           setup-java: 'true'
           java-version: ${{ needs.config.outputs.android_java_version }}
           java-distribution: ${{ needs.config.outputs.android_java_distribution }}
