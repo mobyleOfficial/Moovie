@@ -57,5 +57,8 @@ secrets/*
 # Fastlane
 fastlane/report.xml
 
+# Test results and coverage reports
+testResults/
+
 # Local research notes
 tmdb_endpoints.txt
