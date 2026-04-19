@@ -178,9 +178,11 @@ jobs:
           mkdir -p testResults
           cp coverage-ios/lcov.info testResults/lcov.info || true
 
+      - name: Install lcov
+        run: sudo apt-get update && sudo apt-get install -y lcov
+
       - name: Report Coverage
         uses: zgosalvez/github-actions-report-lcov@v4
         with:
           coverage-files: testResults/lcov.info
           minimum-coverage: ${{ github.event_name == 'pull_request' && '80' || '0' }}
-          artifact-retention-days: 7
