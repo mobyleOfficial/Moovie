@@ -33,6 +33,9 @@ on:
       macos_version:
         description: macOS version to use
         value: ${{ jobs.config.outputs.macos_version }}
+      test_coverage_minimum:
+        description: Minimum test coverage threshold
+        value: ${{ jobs.config.outputs.test_coverage_minimum }}
 
 jobs:
   config:
@@ -49,6 +52,7 @@ jobs:
       android_java_version: ${{ steps.config.outputs.android_java_version }}
       android_java_distribution: ${{ steps.config.outputs.android_java_distribution }}
       macos_version: ${{ steps.config.outputs.macos_version }}
+      test_coverage_minimum: ${{ steps.config.outputs.test_coverage_minimum }}
 
     steps:
       - name: Checkout code
@@ -72,6 +76,7 @@ jobs:
           android_java_version=$(grep -E '^\s*android_java_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
           android_java_distribution=$(grep -E '^\s*android_java_distribution:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
           macos_version=$(grep -E '^\s*macos_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+          test_coverage_minimum=$(grep -E '^\s*test_coverage_minimum:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
 
           if [ -z "$run_ios_tests" ] || [ -z "$run_android_tests" ] || [ -z "$flutter_version" ]; then
             echo "ERROR: Missing required values in .actions.yml"
@@ -88,5 +93,6 @@ jobs:
           echo "android_java_version=$android_java_version" >> $GITHUB_OUTPUT
           echo "android_java_distribution=$android_java_distribution" >> $GITHUB_OUTPUT
           echo "macos_version=$macos_version" >> $GITHUB_OUTPUT
+          echo "test_coverage_minimum=$test_coverage_minimum" >> $GITHUB_OUTPUT
 
-          echo "Configuration loaded: ios=$run_ios_tests, android=$run_android_tests, linter=$run_linter, deploy_ios=$deploy_ios, deploy_android=$deploy_android"
+          echo "Configuration loaded: ios=$run_ios_tests, android=$run_android_tests, linter=$run_linter, deploy_ios=$deploy_ios, deploy_android=$deploy_android, coverage_min=$test_coverage_minimum"

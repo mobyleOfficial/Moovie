@@ -185,4 +185,4 @@ jobs:
         uses: zgosalvez/github-actions-report-lcov@v4
         with:
           coverage-files: testResults/lcov.info
-          minimum-coverage: 0
+          minimum-coverage: ${{ needs.config.outputs.test_coverage_minimum }}
