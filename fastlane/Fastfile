@@ -90,7 +90,11 @@ end
 desc "Run tests"
 lane :test do
   root = File.expand_path("..", Dir.pwd)
-  sh("cd #{root} && flutter test --coverage")
+  report_dir = "#{root}/testResults"
+  FileUtils.mkdir_p(report_dir)
+
+  sh("cd #{root} && flutter test --machine --coverage | tojunit -o #{report_dir}/flutter-test-results.xml")
+  sh("cd #{root} && mv coverage/lcov.info #{report_dir}/lcov.info 2>/dev/null || true")
 end
 
 desc "Run linter (dart analyze)"
