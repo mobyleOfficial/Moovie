@@ -7,8 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reviews/review_creation/review_creation_router.dart';
 import 'package:movies/movies.dart';
 import 'package:user_activity/model/tab_items.dart';
-import 'package:user_activity/new_user_activity_bloc.dart';
-import 'package:user_activity/new_user_activity_state.dart';
+import 'new_user_activity_bloc.dart';
+import 'new_user_activity_state.dart';
 
 class NewUserActivityScreen extends StatefulWidget {
   final NewUserActivityCubit cubit;

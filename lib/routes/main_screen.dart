@@ -9,7 +9,7 @@ import 'package:moovie/routes/main_bloc.dart';
 import 'package:moovie/routes/main_state.dart';
 import 'package:moovie/routes/route_title_resolver.dart';
 import 'package:reviews/review_creation/review_creation_router.dart';
-import 'package:user_activity/new_user_activity_router.dart';
+import 'package:user_activity/new_user_activity/new_user_activity_router.dart';
 
 @RoutePage()
 class MainScreen extends StatefulWidget {
