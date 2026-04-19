@@ -49,23 +49,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - name: Setup environment
+        uses: ./.github/actions/setup-environment
         with:
           flutter-version: ${{ needs.config.outputs.flutter_version }}
-          cache: true
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
           ruby-version: ${{ needs.config.outputs.ruby_version }}
-          bundler-cache: true
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Run code generation
-        run: bundle exec fastlane codegen
+          setup-ci-env: 'false'
+          setup-java: 'false'
 
       - name: Analyze Dart
         uses: zgosalvez/github-actions-analyze-dart@v4
@@ -86,29 +76,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ needs.config.outputs.ruby_version }}
-          bundler-cache: true
-
-      - name: Setup CI environment
-        env:
-          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
-          BACKEND_URL: ${{ secrets.BACKEND_URL }}
-        run: bundle exec fastlane setup_ci_env
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - name: Setup environment
+        uses: ./.github/actions/setup-environment
         with:
           flutter-version: ${{ needs.config.outputs.flutter_version }}
-          cache: true
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Run code generation
-        run: bundle exec fastlane codegen
+          ruby-version: ${{ needs.config.outputs.ruby_version }}
+          setup-ci-env: 'true'
+          setup-java: 'false'
+          tmdb-api-key: ${{ secrets.TMDB_API_KEY }}
+          backend-url: ${{ secrets.BACKEND_URL }}
 
       - name: Run tests
         run: bundle exec fastlane test
@@ -145,36 +121,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ needs.config.outputs.ruby_version }}
-          bundler-cache: true
-
-      - name: Setup CI environment
-        env:
-          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
-          BACKEND_URL: ${{ secrets.BACKEND_URL }}
-        run: bundle exec fastlane setup_ci_env
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          java-version: ${{ needs.config.outputs.android_java_version }}
-          distribution: ${{ needs.config.outputs.android_java_distribution }}
-          cache: gradle
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - name: Setup environment
+        uses: ./.github/actions/setup-environment
         with:
           flutter-version: ${{ needs.config.outputs.flutter_version }}
-          cache: true
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Run code generation
-        run: bundle exec fastlane codegen
+          ruby-version: ${{ needs.config.outputs.ruby_version }}
+          setup-ci-env: 'true'
+          setup-java: 'true'
+          java-version: ${{ needs.config.outputs.android_java_version }}
+          java-distribution: ${{ needs.config.outputs.android_java_distribution }}
+          tmdb-api-key: ${{ secrets.TMDB_API_KEY }}
+          backend-url: ${{ secrets.BACKEND_URL }}
 
       - name: Run tests
         run: bundle exec fastlane test
