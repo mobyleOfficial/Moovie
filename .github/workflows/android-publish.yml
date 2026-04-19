@@ -46,6 +46,8 @@ jobs:
     if: needs.config.outputs.deploy_android == 'true'
     runs-on: ubuntu-latest
     environment: ${{ github.event_name == 'push' && 'prod' || inputs.environment }}
+    env:
+      FASTLANE_SKIP_UPDATE_CHECK: 1
 
     steps:
       - name: Checkout code
@@ -56,7 +58,6 @@ jobs:
         with:
           flutter-version: ${{ needs.config.outputs.flutter_version }}
           ruby-version: ${{ needs.config.outputs.ruby_version }}
-          setup-ci-env: 'true'
           setup-java: 'true'
           java-version: ${{ needs.config.outputs.android_java_version }}
           java-distribution: ${{ needs.config.outputs.android_java_distribution }}
@@ -95,15 +96,12 @@ jobs:
 
       - name: Build Android (${{ steps.flavor.outputs.flavor }})
         run: bundle exec fastlane android build flavor:${{ steps.flavor.outputs.flavor }}
-        env:
-          FASTLANE_SKIP_UPDATE_CHECK: 1
 
       - name: Deploy to Google Play (${{ github.event_name == 'push' && 'prod' || inputs.environment }})
         run: |
           cd android
           bundle exec fastlane deploy_play env:${{ github.event_name == 'push' && 'prod' || inputs.environment }} dry_run:false
         env:
-          FASTLANE_SKIP_UPDATE_CHECK: 1
           GOOGLE_PLAY_API_JSON_DEV: ${{ secrets.GOOGLE_PLAY_API_JSON_DEV }}
           GOOGLE_PLAY_API_JSON_STAGING: ${{ secrets.GOOGLE_PLAY_API_JSON_STAGING }}
           GOOGLE_PLAY_API_JSON_PROD: ${{ secrets.GOOGLE_PLAY_API_JSON_PROD }}
