@@ -36,6 +36,15 @@ on:
       test_coverage_minimum:
         description: Minimum test coverage threshold
         value: ${{ jobs.config.outputs.test_coverage_minimum }}
+      ios_test_device:
+        description: iOS test device name
+        value: ${{ jobs.config.outputs.ios_test_device }}
+      android_test_emulator:
+        description: Android test emulator name
+        value: ${{ jobs.config.outputs.android_test_emulator }}
+      xcode_version:
+        description: Xcode version to use
+        value: ${{ jobs.config.outputs.xcode_version }}
 
 jobs:
   config:
@@ -53,6 +62,9 @@ jobs:
       android_java_distribution: ${{ steps.config.outputs.android_java_distribution }}
       macos_version: ${{ steps.config.outputs.macos_version }}
       test_coverage_minimum: ${{ steps.config.outputs.test_coverage_minimum }}
+      ios_test_device: ${{ steps.config.outputs.ios_test_device }}
+      android_test_emulator: ${{ steps.config.outputs.android_test_emulator }}
+      xcode_version: ${{ steps.config.outputs.xcode_version }}
 
     steps:
       - name: Checkout code
@@ -77,6 +89,9 @@ jobs:
           android_java_distribution=$(grep -E '^\s*android_java_distribution:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
           macos_version=$(grep -E '^\s*macos_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
           test_coverage_minimum=$(grep -E '^\s*test_coverage_minimum:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
+          ios_test_device=$(grep -E '^\s*ios_test_device:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+          android_test_emulator=$(grep -E '^\s*android_test_emulator:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
+          xcode_version=$(grep -E '^\s*xcode_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
 
           if [ -z "$run_ios_tests" ] || [ -z "$run_android_tests" ] || [ -z "$flutter_version" ]; then
             echo "ERROR: Missing required values in .actions.yml"
@@ -94,5 +109,8 @@ jobs:
           echo "android_java_distribution=$android_java_distribution" >> $GITHUB_OUTPUT
           echo "macos_version=$macos_version" >> $GITHUB_OUTPUT
           echo "test_coverage_minimum=$test_coverage_minimum" >> $GITHUB_OUTPUT
+          echo "ios_test_device=$ios_test_device" >> $GITHUB_OUTPUT
+          echo "android_test_emulator=$android_test_emulator" >> $GITHUB_OUTPUT
+          echo "xcode_version=$xcode_version" >> $GITHUB_OUTPUT
 
           echo "Configuration loaded: ios=$run_ios_tests, android=$run_android_tests, linter=$run_linter, deploy_ios=$deploy_ios, deploy_android=$deploy_android, coverage_min=$test_coverage_minimum"
