@@ -171,6 +171,7 @@ jobs:
           cd android
           bundle exec fastlane deploy_play env:${{ github.event_name == 'push' && 'prod' || inputs.environment }} dry_run:false
         env:
+          FASTLANE_SKIP_UPDATE_CHECK: 1
           GOOGLE_PLAY_API_JSON_DEV: ${{ secrets.GOOGLE_PLAY_API_JSON_DEV }}
           GOOGLE_PLAY_API_JSON_STAGING: ${{ secrets.GOOGLE_PLAY_API_JSON_STAGING }}
           GOOGLE_PLAY_API_JSON_PROD: ${{ secrets.GOOGLE_PLAY_API_JSON_PROD }}

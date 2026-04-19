@@ -89,6 +89,8 @@ jobs:
     needs: config
     runs-on: ubuntu-latest
     if: needs.config.outputs.run_linter == 'true'
+    env:
+      FASTLANE_SKIP_UPDATE_CHECK: 1
 
     steps:
       - name: Checkout code
@@ -124,6 +126,8 @@ jobs:
     if: needs.config.outputs.run_ios_tests == 'true'
     runs-on: macos-${{ needs.config.outputs.macos_version }}
     environment: dev
+    env:
+      FASTLANE_SKIP_UPDATE_CHECK: 1
 
     steps:
       - name: Checkout code
@@ -181,6 +185,8 @@ jobs:
     if: needs.config.outputs.run_android_tests == 'true'
     runs-on: ubuntu-latest
     environment: dev
+    env:
+      FASTLANE_SKIP_UPDATE_CHECK: 1
 
     steps:
       - name: Checkout code

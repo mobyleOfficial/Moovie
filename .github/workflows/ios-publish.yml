@@ -136,6 +136,7 @@ jobs:
           cd ios
           bundle exec fastlane deploy_testflight env:${{ github.event_name == 'push' && 'prod' || inputs.environment }} dry_run:false
         env:
+          FASTLANE_SKIP_UPDATE_CHECK: 1
           APP_STORE_CONNECT_API_KEY_ID_DEV: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID_DEV }}
           APP_STORE_CONNECT_API_KEY_ISSUER_ID_DEV: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID_DEV }}
           APP_STORE_CONNECT_API_KEY_CONTENT_DEV: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_DEV }}
