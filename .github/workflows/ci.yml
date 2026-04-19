@@ -123,10 +123,19 @@ jobs:
     needs: config
     if: needs.config.outputs.run_ios_tests == 'true'
     runs-on: macos-${{ needs.config.outputs.macos_version }}
+    environment: dev
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Setup environment secrets
+        run: |
+          mkdir -p secrets
+          cat > secrets/.env << EOF
+          TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}
+          BACKEND_URL=${{ secrets.BACKEND_URL }}
+          EOF
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -173,10 +182,19 @@ jobs:
     needs: config
     if: needs.config.outputs.run_android_tests == 'true'
     runs-on: ubuntu-latest
+    environment: dev
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Setup environment secrets
+        run: |
+          mkdir -p secrets
+          cat > secrets/.env << EOF
+          TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}
+          BACKEND_URL=${{ secrets.BACKEND_URL }}
+          EOF
 
       - name: Setup Java
         uses: actions/setup-java@v4
