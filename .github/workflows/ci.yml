@@ -35,6 +35,7 @@ permissions:
 
 jobs:
   config:
+    name: Config
     uses: ./.github/workflows/load-config.yml
 
   lint:
