@@ -89,33 +89,36 @@ end
 
 desc "Run tests"
 lane :test do
-  sh("cd #{Dir.pwd} && flutter test")
+  root = File.expand_path("..", Dir.pwd)
+  sh("cd #{root} && flutter test")
 end
 
 desc "Run linter (dart analyze)"
 lane :lint do
-  sh("cd #{Dir.pwd} && flutter analyze")
+  root = File.expand_path("..", Dir.pwd)
+  sh("cd #{root} && flutter analyze")
 end
 
 desc "Clean iOS and Android build artifacts"
 lane :clean do
+  root = File.expand_path("..", Dir.pwd)
   UI.message("Cleaning build artifacts...")
 
   # Clean Dart/Flutter
-  sh("cd #{Dir.pwd} && rm -rf build/ .dart_tool/")
+  sh("cd #{root} && rm -rf build/ .dart_tool/")
   UI.success("✓ Removed build/ and .dart_tool/")
 
   # Clean iOS
-  sh("cd #{Dir.pwd} && rm -rf ios/Pods/ ios/Podfile.lock")
+  sh("cd #{root} && rm -rf ios/Pods/ ios/Podfile.lock")
   UI.success("✓ Removed ios/Pods/ and ios/Podfile.lock")
 
   # Clean Android
-  sh("cd #{Dir.pwd} && rm -rf android/.gradle/")
+  sh("cd #{root} && rm -rf android/.gradle/")
   UI.success("✓ Removed android/.gradle/")
 
   # Reinstall dependencies
   UI.message("Reinstalling dependencies...")
-  sh("cd #{Dir.pwd} && flutter pub get")
+  sh("cd #{root} && flutter pub get")
   UI.success("✓ Dependencies reinstalled")
 
   UI.success("✓ Cleanup complete! Ready to build.")
@@ -126,8 +129,9 @@ platform :ios do
   lane :build do |options|
     flavor = options[:flavor] || "dev"
     simulator = options[:simulator] == true || options[:simulator] == "true"
+    root = File.expand_path("..", Dir.pwd)
     UI.message("Building iOS with flavor: #{flavor}#{simulator ? ' (simulator)' : ''}")
-    cmd = "cd #{Dir.pwd} && flutter build ios --flavor=#{flavor} --dart-define-from-file=secrets/.env"
+    cmd = "cd #{root} && flutter build ios --flavor=#{flavor} --dart-define-from-file=secrets/.env"
     cmd += " --simulator" if simulator
     sh(cmd)
   end
@@ -135,6 +139,7 @@ platform :ios do
   desc "Deploy iOS to TestFlight"
   lane :deploy_testflight do |options|
     env = options[:env]
+    root = File.expand_path("..", Dir.pwd)
     UI.user_error!("Environment is required. Use: fastlane ios deploy_testflight env:dev or env:prod") unless env
 
     flavor = resolve_env_to_flavor(env)
@@ -177,7 +182,7 @@ platform :ios do
       end
 
       # Write API key to file
-      api_key_path = "#{Dir.pwd}/build/ios/authkey.p8"
+      api_key_path = "#{root}/build/ios/authkey.p8"
       FileUtils.mkdir_p(File.dirname(api_key_path))
       File.write(api_key_path, api_key_content)
 
@@ -202,13 +207,15 @@ platform :android do
   desc "Build Android app for a given flavor"
   lane :build do |options|
     flavor = options[:flavor] || "dev"
+    root = File.expand_path("..", Dir.pwd)
     UI.message("Building Android with flavor: #{flavor}")
-    sh("cd #{Dir.pwd} && flutter build appbundle --flavor=#{flavor} --dart-define-from-file=secrets/.env --release")
+    sh("cd #{root} && flutter build appbundle --flavor=#{flavor} --dart-define-from-file=secrets/.env --release")
   end
 
   desc "Deploy Android to Google Play"
   lane :deploy_play do |options|
     env = options[:env]
+    root = File.expand_path("..", Dir.pwd)
     UI.user_error!("Environment is required. Use: fastlane android deploy_play env:dev or env:prod") unless env
 
     flavor = resolve_env_to_flavor(env)
@@ -232,7 +239,7 @@ platform :android do
       end
 
       # Write API JSON to temp file
-      api_json_path = "#{Dir.pwd}/build/android/google-play-api.json"
+      api_json_path = "#{root}/build/android/google-play-api.json"
       FileUtils.mkdir_p(File.dirname(api_json_path))
       File.write(api_json_path, api_json)
 
