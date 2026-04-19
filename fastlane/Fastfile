@@ -1,5 +1,23 @@
 default_platform(:ios)
 
+# Valid deployment environments and their corresponding Flutter flavors
+VALID_ENVS = ['dev', 'staging', 'prod'].freeze
+ENV_TO_FLAVOR = {
+  'dev' => 'dev',
+  'staging' => 'staging',
+  'prod' => 'prod'
+}.freeze
+
+# Helper method to validate and resolve environment to flavor
+def resolve_env_to_flavor(env)
+  unless VALID_ENVS.include?(env)
+    UI.error("Invalid environment: #{env}")
+    UI.user_error!("Environment must be one of: #{VALID_ENVS.join(', ')}")
+  end
+
+  ENV_TO_FLAVOR[env]
+end
+
 # Common lanes (available for all platforms)
 desc "Setup IDE run configurations"
 lane :setup_ide do
@@ -114,31 +132,68 @@ platform :ios do
     sh(cmd)
   end
 
-  desc "Release iOS (build + prepare for upload)"
-  lane :release do |options|
-    flavor = options[:flavor] || "prod"
-    # Default to dry_run: true for safety (must explicitly set dry_run:false to submit)
+  desc "Deploy iOS to TestFlight"
+  lane :deploy_testflight do |options|
+    env = options[:env]
+    UI.user_error!("Environment is required. Use: fastlane ios deploy_testflight env:dev or env:prod") unless env
+
+    flavor = resolve_env_to_flavor(env)
     dry_run = options[:dry_run].nil? || options[:dry_run] == true || options[:dry_run] == "true"
 
     if dry_run
       UI.important("🏃 DRY RUN MODE - No changes will be submitted")
     else
-      UI.error("⚠️  PRODUCTION MODE - Submitting to TestFlight/App Store")
-      unless UI.confirm("Are you sure you want to submit to production? (yes/no)")
-        UI.user_error!("Release cancelled")
-      end
+      UI.important("⚠️  PRODUCTION MODE - Submitting to TestFlight")
     end
 
-    build(flavor: flavor)
-    UI.important("iOS build complete!")
+    # Build IPA
+    build_app(
+      workspace: "ios/Runner.xcworkspace",
+      scheme: "Runner",
+      configuration: "Release",
+      derived_data_path: "build/ios",
+      destination_generic_platform: "iOS",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "com.mobyle.moovie" => "AppStore"
+        }
+      },
+      output_directory: "build/ios/ipa",
+      output_name: "Runner.ipa"
+    )
 
     if dry_run
-      UI.success("✓ DRY RUN succeeded - Build is ready")
-      UI.message("To submit to TestFlight/App Store, run:")
-      UI.message("  bundle exec fastlane ios release flavor:#{flavor} dry_run:false")
+      UI.success("✓ DRY RUN succeeded - IPA ready at build/ios/ipa/Runner.ipa")
     else
-      UI.important("Signing configuration and upload not yet implemented")
-      UI.important("Next steps: Configure signing certificates and provisioning profiles in secrets/ios/")
+      # Upload to TestFlight
+      api_key_id = ENV["APP_STORE_CONNECT_API_KEY_ID_#{env.upcase}"]
+      api_key_issuer = ENV["APP_STORE_CONNECT_API_KEY_ISSUER_ID_#{env.upcase}"]
+      api_key_content = ENV["APP_STORE_CONNECT_API_KEY_CONTENT_#{env.upcase}"]
+
+      unless api_key_id && api_key_issuer && api_key_content
+        UI.error("Missing App Store Connect API key for #{env} environment")
+        UI.user_error!("Set APP_STORE_CONNECT_API_KEY_* environment variables")
+      end
+
+      # Write API key to file
+      api_key_path = "#{Dir.pwd}/build/ios/authkey.p8"
+      FileUtils.mkdir_p(File.dirname(api_key_path))
+      File.write(api_key_path, api_key_content)
+
+      begin
+        upload_to_testflight(
+          api_key_path: api_key_path,
+          ipa: "build/ios/ipa/Runner.ipa",
+          skip_waiting_for_build_processing: false,
+          changelog: "#{env.capitalize} build from #{Time.now}"
+        )
+
+        UI.success("✓ iOS app uploaded to TestFlight successfully!")
+      ensure
+        # Clean up the temporary API key file
+        File.delete(api_key_path) if File.exist?(api_key_path)
+      end
     end
   end
 end
@@ -148,34 +203,56 @@ platform :android do
   lane :build do |options|
     flavor = options[:flavor] || "dev"
     UI.message("Building Android with flavor: #{flavor}")
-    sh("cd #{Dir.pwd} && flutter build apk --flavor=#{flavor} --dart-define-from-file=secrets/.env")
+    sh("cd #{Dir.pwd} && flutter build appbundle --flavor=#{flavor} --dart-define-from-file=secrets/.env --release")
   end
 
-  desc "Release Android (build + prepare for upload)"
-  lane :release do |options|
-    flavor = options[:flavor] || "prod"
-    # Default to dry_run: true for safety (must explicitly set dry_run:false to submit)
+  desc "Deploy Android to Google Play"
+  lane :deploy_play do |options|
+    env = options[:env]
+    UI.user_error!("Environment is required. Use: fastlane android deploy_play env:dev or env:prod") unless env
+
+    flavor = resolve_env_to_flavor(env)
     dry_run = options[:dry_run].nil? || options[:dry_run] == true || options[:dry_run] == "true"
 
     if dry_run
       UI.important("🏃 DRY RUN MODE - No changes will be submitted")
     else
-      UI.error("⚠️  PRODUCTION MODE - Submitting to Google Play")
-      unless UI.confirm("Are you sure you want to submit to production? (yes/no)")
-        UI.user_error!("Release cancelled")
-      end
+      UI.important("⚠️  PRODUCTION MODE - Submitting to Google Play Beta")
     end
 
-    build(flavor: flavor)
-    UI.important("Android build complete!")
-
     if dry_run
-      UI.success("✓ DRY RUN succeeded - Build is ready")
-      UI.message("To submit to Google Play, run:")
-      UI.message("  bundle exec fastlane android release flavor:#{flavor} dry_run:false")
+      UI.success("✓ DRY RUN succeeded - Build is ready for upload")
+      UI.message("AAB location: build/app/outputs/bundle/#{flavor}Release/app-#{flavor}-release.aab")
     else
-      UI.important("Signing configuration and upload not yet implemented")
-      UI.important("Next steps: Configure keystore in secrets/android/")
+      # Get API key from environment
+      api_json = ENV["GOOGLE_PLAY_API_JSON_#{env.upcase}"]
+      unless api_json
+        UI.error("Missing GOOGLE_PLAY_API_JSON_#{env.upcase} environment variable")
+        UI.user_error!("Set GOOGLE_PLAY_API_JSON_* environment variables")
+      end
+
+      # Write API JSON to temp file
+      api_json_path = "#{Dir.pwd}/build/android/google-play-api.json"
+      FileUtils.mkdir_p(File.dirname(api_json_path))
+      File.write(api_json_path, api_json)
+
+      begin
+        # Upload to Google Play
+        upload_to_play(
+          json_key: api_json_path,
+          aab: "build/app/outputs/bundle/#{flavor}Release/app-#{flavor}-release.aab",
+          track: 'beta',
+          skip_upload_apk: true,
+          skip_upload_images: true,
+          skip_upload_screenshots: true,
+          release_status: 'draft'
+        )
+
+        UI.success("✓ Android app uploaded to Google Play Beta successfully!")
+      ensure
+        # Clean up the temporary API key file
+        File.delete(api_json_path) if File.exist?(api_json_path)
+      end
     end
   end
 end

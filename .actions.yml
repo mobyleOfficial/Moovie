@@ -1,0 +1,60 @@
+# GitHub Actions Configuration
+# This file controls CI/CD behavior for the Moovie Flutter project.
+#
+# How it works:
+# - GitHub Actions workflows read this file to determine which jobs to run
+# - Set run_ios_tests: false to skip iOS testing on push
+# - Set run_android_tests: false to skip Android testing on push
+# - Set deploy_ios: false to prevent iOS deployment
+# - Set deploy_android: false to prevent Android deployment
+#
+# When to modify this file:
+# - Disable tests to debug a specific platform
+# - Change test devices for testing on different simulators
+# - Update tool versions to test with new Xcode/Flutter versions
+#
+# Note: macos_version should match the macOS version supported by the Xcode version specified.
+
+# CI Tests - Toggle test execution
+run_ios_tests: false
+run_android_tests: false
+run_linter: false
+
+# Test Devices/Emulators
+# Run `xcrun simctl list devices` to find available simulators
+ios_test_device: "iPhone 16"
+# Run `${ANDROID_HOME}/emulator/emulator -list-avds` to find available emulators
+android_test_emulator: "Pixel 6 API 34"
+
+# Tool Versions
+ruby_version: "3.3"
+android_java_version: "17"
+android_java_distribution: "temurin"
+
+# Publishing - Toggle deployment
+deploy_ios: true
+deploy_android: true
+
+# Deployment Environments
+# Supported environments: dev, staging, prod
+# To deploy to an environment, use:
+#   fastlane ios deploy_testflight env:staging
+#   fastlane android deploy_play env:staging
+#
+# Required GitHub Secrets for each environment:
+#   iOS (staging):
+#     - APP_STORE_CONNECT_API_KEY_ID_STAGING
+#     - APP_STORE_CONNECT_API_KEY_ISSUER_ID_STAGING
+#     - APP_STORE_CONNECT_API_KEY_CONTENT_STAGING
+#   Android (staging):
+#     - GOOGLE_PLAY_API_JSON_STAGING
+#     - ANDROID_KEYSTORE_BASE64_STAGING
+#     - ANDROID_KEYSTORE_PASSWORD_STAGING
+#     - ANDROID_KEY_ALIAS_STAGING
+#     - ANDROID_KEY_PASSWORD_STAGING
+
+# Versions - Tool versions for CI/CD jobs
+# Note: Ensure compatibility between xcode_version and macos_version
+xcode_version: "26.3"
+macos_version: "26.3"
+flutter_version: "3.x"
