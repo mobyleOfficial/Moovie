@@ -90,7 +90,7 @@ end
 desc "Run tests"
 lane :test do
   root = File.expand_path("..", Dir.pwd)
-  sh("cd #{root} && flutter test")
+  sh("cd #{root} && flutter test --coverage")
 end
 
 desc "Run linter (dart analyze)"
