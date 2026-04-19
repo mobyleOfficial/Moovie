@@ -37,6 +37,7 @@ jobs:
           echo "✅ Branch validation passed: $BRANCH"
 
   config:
+    name: Config
     needs: validate
     uses: ./.github/workflows/load-config.yml
 
