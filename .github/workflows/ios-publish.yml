@@ -110,7 +110,7 @@ jobs:
         run: flutter pub get
 
       - name: Run code generation
-        run: dart run build_runner build --delete-conflicting-outputs
+        run: bundle exec fastlane codegen
 
       - name: Determine flavor
         id: flavor
@@ -124,12 +124,16 @@ jobs:
             echo "flavor=dev" >> $GITHUB_OUTPUT
           fi
 
-      - name: Build Flutter iOS (${{ steps.flavor.outputs.flavor }})
-        run: |
-          flutter build ios \
-            --flavor=${{ steps.flavor.outputs.flavor }} \
-            --dart-define-from-file=secrets/.env \
-            --release
+      - name: Setup CI environment
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+        run: bundle exec fastlane setup_ci_env
+
+      - name: Build iOS (${{ steps.flavor.outputs.flavor }})
+        run: bundle exec fastlane ios build flavor:${{ steps.flavor.outputs.flavor }}
+        env:
+          FASTLANE_SKIP_UPDATE_CHECK: 1
 
       - name: Deploy to TestFlight (${{ github.event_name == 'push' && 'prod' || inputs.environment }})
         run: |

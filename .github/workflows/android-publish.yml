@@ -127,7 +127,7 @@ jobs:
         run: flutter pub get
 
       - name: Run code generation
-        run: dart run build_runner build --delete-conflicting-outputs
+        run: bundle exec fastlane codegen
 
       - name: Determine flavor
         id: flavor
@@ -159,12 +159,16 @@ jobs:
           keyPassword=${!SECRET_KEY_PASS}
           EOF
 
-      - name: Build Flutter Android (${{ steps.flavor.outputs.flavor }})
-        run: |
-          flutter build appbundle \
-            --flavor=${{ steps.flavor.outputs.flavor }} \
-            --dart-define-from-file=secrets/.env \
-            --release
+      - name: Setup CI environment
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+        run: bundle exec fastlane setup_ci_env
+
+      - name: Build Android (${{ steps.flavor.outputs.flavor }})
+        run: bundle exec fastlane android build flavor:${{ steps.flavor.outputs.flavor }}
+        env:
+          FASTLANE_SKIP_UPDATE_CHECK: 1
 
       - name: Deploy to Google Play (${{ github.event_name == 'push' && 'prod' || inputs.environment }})
         run: |
