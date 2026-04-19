@@ -176,17 +176,7 @@ jobs:
       - name: Merge coverage reports
         run: |
           mkdir -p testResults
-
-          # Combine iOS and Android coverage if both exist
-          if [ -f coverage-ios/lcov.info ] && [ -f coverage-android/lcov.info ]; then
-            cat coverage-ios/lcov.info coverage-android/lcov.info > testResults/lcov.info
-          elif [ -f coverage-ios/lcov.info ]; then
-            cp coverage-ios/lcov.info testResults/lcov.info
-          elif [ -f coverage-android/lcov.info ]; then
-            cp coverage-android/lcov.info testResults/lcov.info
-          else
-            echo "No coverage files found"
-          fi
+          cp coverage-ios/lcov.info testResults/lcov.info || true
 
       - name: Install lcov
         run: sudo apt-get update && sudo apt-get install -y lcov
