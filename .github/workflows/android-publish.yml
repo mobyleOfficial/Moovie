@@ -29,7 +29,7 @@ jobs:
       - name: Check branch
         run: |
           BRANCH=${{ github.ref_name }}
-          if [[ "$BRANCH" != "dev" && "$BRANCH" != "main" ]]; then
+          if [[ "$BRANCH" != "dev" ]] && [[ "$BRANCH" != "main" ]]; then
             echo "❌ Error: Can only deploy from 'dev' or 'main' branches"
             echo "Current branch: $BRANCH"
             exit 1
@@ -37,61 +37,9 @@ jobs:
           echo "✅ Branch validation passed: $BRANCH"
 
   config:
-    name: Load Configuration
+    name: Config
     needs: validate
-    runs-on: ubuntu-latest
-    outputs:
-      deploy_android: ${{ steps.config.outputs.deploy_android }}
-      flutter_version: ${{ steps.config.outputs.flutter_version }}
-      ruby_version: ${{ steps.config.outputs.ruby_version }}
-      android_java_version: ${{ steps.config.outputs.android_java_version }}
-      android_java_distribution: ${{ steps.config.outputs.android_java_distribution }}
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Read .actions.yml
-        id: config
-        run: |
-          # Check if .actions.yml exists
-          if [ ! -f .actions.yml ]; then
-            echo "ERROR: .actions.yml file not found"
-            exit 1
-          fi
-
-          # Parse values and trim whitespace with xargs
-          deploy_android=$(grep -E '^\s*deploy_android:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
-          flutter_version=$(grep -E '^\s*flutter_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-          ruby_version=$(grep -E '^\s*ruby_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-          android_java_version=$(grep -E '^\s*android_java_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-          android_java_distribution=$(grep -E '^\s*android_java_distribution:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-
-          # Validate required values are not empty
-          if [ -z "$deploy_android" ] || [ -z "$flutter_version" ] || [ -z "$ruby_version" ] || [ -z "$android_java_version" ] || [ -z "$android_java_distribution" ]; then
-            echo "ERROR: Missing required values in .actions.yml"
-            echo "  deploy_android: $deploy_android"
-            echo "  flutter_version: $flutter_version"
-            echo "  ruby_version: $ruby_version"
-            echo "  android_java_version: $android_java_version"
-            echo "  android_java_distribution: $android_java_distribution"
-            exit 1
-          fi
-
-          # Export values
-          echo "deploy_android=$deploy_android" >> $GITHUB_OUTPUT
-          echo "flutter_version=$flutter_version" >> $GITHUB_OUTPUT
-          echo "ruby_version=$ruby_version" >> $GITHUB_OUTPUT
-          echo "android_java_version=$android_java_version" >> $GITHUB_OUTPUT
-          echo "android_java_distribution=$android_java_distribution" >> $GITHUB_OUTPUT
-
-          # Debug output
-          echo "Configuration loaded:"
-          echo "  deploy_android=$deploy_android"
-          echo "  flutter_version=$flutter_version"
-          echo "  ruby_version=$ruby_version"
-          echo "  android_java_version=$android_java_version"
-          echo "  android_java_distribution=$android_java_distribution"
+    uses: ./.github/workflows/load-config.yml
 
   deploy:
     name: Deploy to Google Play (${{ github.event_name == 'push' && 'prod' || inputs.environment }})
@@ -99,77 +47,40 @@ jobs:
     if: needs.config.outputs.deploy_android == 'true'
     runs-on: ubuntu-latest
     environment: ${{ github.event_name == 'push' && 'prod' || inputs.environment }}
+    env:
+      FASTLANE_SKIP_UPDATE_CHECK: 1
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ needs.config.outputs.android_java_version }}
-          distribution: ${{ needs.config.outputs.android_java_distribution }}
-          cache: gradle
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - name: Setup environment
+        uses: ./.github/actions/setup-environment
         with:
           flutter-version: ${{ needs.config.outputs.flutter_version }}
-          cache: true
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
           ruby-version: ${{ needs.config.outputs.ruby_version }}
-          bundler-cache: true
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Run code generation
-        run: dart run build_runner build --delete-conflicting-outputs
+          setup-java: 'true'
+          java-version: ${{ needs.config.outputs.android_java_version }}
+          java-distribution: ${{ needs.config.outputs.android_java_distribution }}
+          tmdb-api-key: ${{ secrets.TMDB_API_KEY }}
+          backend-url: ${{ secrets.BACKEND_URL }}
 
       - name: Determine flavor
         id: flavor
-        run: |
-          ENV="${{ github.event_name == 'push' && 'prod' || inputs.environment }}"
-          if [[ "$ENV" == "prod" ]]; then
-            echo "flavor=prod" >> $GITHUB_OUTPUT
-          elif [[ "$ENV" == "staging" ]]; then
-            echo "flavor=staging" >> $GITHUB_OUTPUT
-          else
-            echo "flavor=dev" >> $GITHUB_OUTPUT
-          fi
+        uses: ./.github/actions/determine-flavor
+        with:
+          environment: ${{ inputs.environment }}
 
       - name: Setup Android signing
-        run: |
-          mkdir -p android/app/signing
-          ENV_UPPER=${{ inputs.environment }}
-          ENV_UPPER=${ENV_UPPER^^}
-          SECRET_KEYSTORE="ANDROID_KEYSTORE_BASE64_${ENV_UPPER}"
-          SECRET_PASS="ANDROID_KEYSTORE_PASSWORD_${ENV_UPPER}"
-          SECRET_ALIAS="ANDROID_KEY_ALIAS_${ENV_UPPER}"
-          SECRET_KEY_PASS="ANDROID_KEY_PASSWORD_${ENV_UPPER}"
+        uses: ./.github/actions/setup-android-signing
+        with:
+          environment: ${{ github.event_name == 'push' && 'prod' || inputs.environment }}
 
-          echo "${!SECRET_KEYSTORE}" | base64 -d > android/app/signing/upload-keystore.jks
-          cat > android/key.properties << EOF
-          storeFile=app/signing/upload-keystore.jks
-          storePassword=${!SECRET_PASS}
-          keyAlias=${!SECRET_ALIAS}
-          keyPassword=${!SECRET_KEY_PASS}
-          EOF
-
-      - name: Build Flutter Android (${{ steps.flavor.outputs.flavor }})
-        run: |
-          flutter build appbundle \
-            --flavor=${{ steps.flavor.outputs.flavor }} \
-            --dart-define-from-file=secrets/.env \
-            --release
+      - name: Build Android (${{ steps.flavor.outputs.flavor }})
+        run: bundle exec fastlane android build flavor:${{ steps.flavor.outputs.flavor }}
 
       - name: Deploy to Google Play (${{ github.event_name == 'push' && 'prod' || inputs.environment }})
-        run: |
-          cd android
-          bundle exec fastlane deploy_play env:${{ github.event_name == 'push' && 'prod' || inputs.environment }} dry_run:false
+        run: bundle exec fastlane android deploy_play env:${{ github.event_name == 'push' && 'prod' || inputs.environment }} dry_run:false
         env:
           GOOGLE_PLAY_API_JSON_DEV: ${{ secrets.GOOGLE_PLAY_API_JSON_DEV }}
           GOOGLE_PLAY_API_JSON_STAGING: ${{ secrets.GOOGLE_PLAY_API_JSON_STAGING }}

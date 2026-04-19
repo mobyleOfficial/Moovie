@@ -35,85 +35,29 @@ permissions:
 
 jobs:
   config:
-    name: Load Configuration
-    runs-on: ubuntu-latest
-    outputs:
-      run_ios_tests: ${{ steps.config.outputs.run_ios_tests }}
-      run_android_tests: ${{ steps.config.outputs.run_android_tests }}
-      run_linter: ${{ steps.config.outputs.run_linter }}
-      flutter_version: ${{ steps.config.outputs.flutter_version }}
-      ruby_version: ${{ steps.config.outputs.ruby_version }}
-      android_java_version: ${{ steps.config.outputs.android_java_version }}
-      android_java_distribution: ${{ steps.config.outputs.android_java_distribution }}
-      macos_version: ${{ steps.config.outputs.macos_version }}
+    name: Config
+    uses: ./.github/workflows/load-config.yml
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Read .actions.yml
-        id: config
-        run: |
-          if [ ! -f .actions.yml ]; then
-            echo "ERROR: .actions.yml file not found"
-            exit 1
-          fi
-
-          run_ios_tests=$(grep -E '^\s*run_ios_tests:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
-          run_android_tests=$(grep -E '^\s*run_android_tests:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
-          run_linter=$(grep -E '^\s*run_linter:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
-          flutter_version=$(grep -E '^\s*flutter_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-          ruby_version=$(grep -E '^\s*ruby_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-          android_java_version=$(grep -E '^\s*android_java_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-          android_java_distribution=$(grep -E '^\s*android_java_distribution:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-          macos_version=$(grep -E '^\s*macos_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-
-          if [ -z "$run_ios_tests" ] || [ -z "$run_android_tests" ] || [ -z "$flutter_version" ]; then
-            echo "ERROR: Missing required values in .actions.yml"
-            exit 1
-          fi
-
-          echo "run_ios_tests=$run_ios_tests" >> $GITHUB_OUTPUT
-          echo "run_android_tests=$run_android_tests" >> $GITHUB_OUTPUT
-          echo "run_linter=$run_linter" >> $GITHUB_OUTPUT
-          echo "flutter_version=$flutter_version" >> $GITHUB_OUTPUT
-          echo "ruby_version=$ruby_version" >> $GITHUB_OUTPUT
-          echo "android_java_version=$android_java_version" >> $GITHUB_OUTPUT
-          echo "android_java_distribution=$android_java_distribution" >> $GITHUB_OUTPUT
-          echo "macos_version=$macos_version" >> $GITHUB_OUTPUT
-
-          echo "Configuration loaded: ios=$run_ios_tests, android=$run_android_tests, linter=$run_linter"
-
-  setup:
-    name: Setup & Lint
+  lint:
+    name: Lint
     needs: config
     runs-on: ubuntu-latest
-    if: needs.config.outputs.run_ios_tests == 'true' || needs.config.outputs.run_android_tests == 'true'
+    if: needs.config.outputs.run_linter == 'true'
+    env:
+      FASTLANE_SKIP_UPDATE_CHECK: 1
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - name: Setup environment
+        uses: ./.github/actions/setup-environment
         with:
           flutter-version: ${{ needs.config.outputs.flutter_version }}
-          cache: true
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
           ruby-version: ${{ needs.config.outputs.ruby_version }}
-          bundler-cache: true
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Run code generation
-        run: dart run build_runner build --delete-conflicting-outputs
+          setup-ci-env: 'false'
 
       - name: Analyze Dart
-        if: needs.config.outputs.run_linter == 'true'
         uses: zgosalvez/github-actions-analyze-dart@v4
         with:
           fail-on-warnings: false
@@ -121,45 +65,39 @@ jobs:
 
   test-ios:
     name: iOS - Test & Build
-    needs: [config, setup]
+    needs: config
     if: needs.config.outputs.run_ios_tests == 'true'
     runs-on: macos-${{ needs.config.outputs.macos_version }}
+    environment: dev
+    env:
+      FASTLANE_SKIP_UPDATE_CHECK: 1
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - name: Setup environment
+        uses: ./.github/actions/setup-environment
         with:
           flutter-version: ${{ needs.config.outputs.flutter_version }}
-          cache: true
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
           ruby-version: ${{ needs.config.outputs.ruby_version }}
-          bundler-cache: true
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Run code generation
-        run: dart run build_runner build --delete-conflicting-outputs
+          xcode-version: ${{ needs.config.outputs.xcode_version }}
+          tmdb-api-key: ${{ secrets.TMDB_API_KEY }}
+          backend-url: ${{ secrets.BACKEND_URL }}
 
       - name: Run tests
-        run: flutter test --coverage
+        run: bundle exec fastlane test device:'${{ needs.config.outputs.ios_test_device }}'
 
       - name: Upload coverage
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ios-coverage
-          path: coverage/
+          path: testResults/
           retention-days: 7
 
       - name: Build iOS
-        run: flutter build ios --flavor=dev --simulator
+        run: bundle exec fastlane ios build flavor:dev simulator:true
 
       - name: Upload build artifacts
         if: always()
@@ -171,52 +109,41 @@ jobs:
 
   test-android:
     name: Android - Test & Build
-    needs: [config, setup]
+    needs: config
     if: needs.config.outputs.run_android_tests == 'true'
     runs-on: ubuntu-latest
+    environment: dev
+    env:
+      FASTLANE_SKIP_UPDATE_CHECK: 1
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ needs.config.outputs.android_java_version }}
-          distribution: ${{ needs.config.outputs.android_java_distribution }}
-          cache: gradle
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - name: Setup environment
+        uses: ./.github/actions/setup-environment
         with:
           flutter-version: ${{ needs.config.outputs.flutter_version }}
-          cache: true
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
           ruby-version: ${{ needs.config.outputs.ruby_version }}
-          bundler-cache: true
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Run code generation
-        run: dart run build_runner build --delete-conflicting-outputs
+          setup-java: 'true'
+          java-version: ${{ needs.config.outputs.android_java_version }}
+          java-distribution: ${{ needs.config.outputs.android_java_distribution }}
+          tmdb-api-key: ${{ secrets.TMDB_API_KEY }}
+          backend-url: ${{ secrets.BACKEND_URL }}
 
       - name: Run tests
-        run: flutter test --coverage
+        run: bundle exec fastlane test
 
       - name: Upload coverage
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: android-coverage
-          path: coverage/
+          path: testResults/
           retention-days: 7
 
       - name: Build Android
-        run: flutter build apk --flavor=dev --release
+        run: bundle exec fastlane android build flavor:dev
 
       - name: Upload build artifacts
         if: always()
@@ -225,3 +152,56 @@ jobs:
           name: android-apk
           path: build/app/outputs/apk/
           retention-days: 7
+
+  report:
+    name: Report Coverage & Tests
+    needs: [test-ios, test-android]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download iOS coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: ios-coverage
+          path: coverage-ios/
+
+      - name: Download Android coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: android-coverage
+          path: coverage-android/
+
+      - name: Merge coverage reports
+        run: |
+          mkdir -p testResults
+
+          # Check if we have coverage files
+          if [ -f coverage-ios/lcov.info ]; then
+            cp coverage-ios/lcov.info testResults/lcov-ios.info
+          fi
+
+          if [ -f coverage-android/lcov.info ]; then
+            cp coverage-android/lcov.info testResults/lcov-android.info
+          fi
+
+          # Use iOS coverage if available, otherwise Android
+          if [ -f testResults/lcov-ios.info ]; then
+            cp testResults/lcov-ios.info testResults/lcov.info
+          elif [ -f testResults/lcov-android.info ]; then
+            cp testResults/lcov-android.info testResults/lcov.info
+          else
+            echo "WARNING: No coverage files found"
+          fi
+
+      - name: Install lcov
+        run: sudo apt-get update && sudo apt-get install -y lcov
+
+      - name: Report Coverage
+        uses: zgosalvez/github-actions-report-lcov@v4
+        with:
+          coverage-files: testResults/lcov.info
+          minimum-coverage: ${{ needs.config.outputs.test_coverage_minimum }}

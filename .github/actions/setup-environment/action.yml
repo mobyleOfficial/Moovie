@@ -1,0 +1,80 @@
+name: Setup Environment
+description: Setup Flutter, Ruby, Xcode, dependencies, codegen, and optionally CI environment and Java
+
+inputs:
+  flutter-version:
+    description: Flutter version to use
+    required: true
+  ruby-version:
+    description: Ruby version to use
+    required: true
+  xcode-version:
+    description: Xcode version to use (macOS only)
+    required: false
+  setup-ci-env:
+    description: Whether to run Setup CI environment step
+    required: false
+    default: 'true'
+  tmdb-api-key:
+    description: TMDB API key (required if setup-ci-env is true)
+    required: false
+  backend-url:
+    description: Backend URL (required if setup-ci-env is true)
+    required: false
+  setup-java:
+    description: Whether to run Setup Java step
+    required: false
+    default: 'false'
+  java-version:
+    description: Java version to use
+    required: false
+    default: '17'
+  java-distribution:
+    description: Java distribution to use
+    required: false
+    default: 'temurin'
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Java
+      if: inputs.setup-java == 'true'
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ inputs.java-version }}
+        distribution: ${{ inputs.java-distribution }}
+        cache: gradle
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ inputs.flutter-version }}
+        cache: true
+
+    - name: Setup Xcode
+      if: inputs.xcode-version != ''
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: ${{ inputs.xcode-version }}
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ inputs.ruby-version }}
+        bundler-cache: true
+
+    - name: Install dependencies
+      run: flutter pub get
+      shell: bash
+
+    - name: Run code generation
+      run: bundle exec fastlane codegen
+      shell: bash
+
+    - name: Setup CI environment
+      if: inputs.setup-ci-env == 'true'
+      env:
+        TMDB_API_KEY: ${{ inputs.tmdb-api-key }}
+        BACKEND_URL: ${{ inputs.backend-url }}
+      run: bundle exec fastlane setup_ci_env
+      shell: bash

@@ -1,3 +1,6 @@
+/// Domain use cases barrel file.
+library;
+
 export 'delete_draft.dart';
 export 'get_friends_activities.dart';
 export 'get_user_activities.dart';
