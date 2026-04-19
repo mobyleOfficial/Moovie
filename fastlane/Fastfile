@@ -153,9 +153,7 @@ platform :ios do
     simulator = options[:simulator] == true || options[:simulator] == "true"
     root = File.expand_path("..", Dir.pwd)
     UI.message("Building iOS with flavor: #{flavor}#{simulator ? ' (simulator)' : ''}")
-    cmd = "cd #{root} && flutter build ios --flavor=#{flavor}"
-    env_file = "#{root}/secrets/.env"
-    cmd += " --dart-define-from-file=secrets/.env" if File.exist?(env_file)
+    cmd = "cd #{root} && flutter build ios --flavor=#{flavor} --dart-define-from-file=secrets/.env"
     cmd += " --simulator" if simulator
     sh(cmd)
   end
@@ -233,10 +231,7 @@ platform :android do
     flavor = options[:flavor] || "dev"
     root = File.expand_path("..", Dir.pwd)
     UI.message("Building Android with flavor: #{flavor}")
-    cmd = "cd #{root} && flutter build appbundle --flavor=#{flavor} --release"
-    env_file = "#{root}/secrets/.env"
-    cmd += " --dart-define-from-file=secrets/.env" if File.exist?(env_file)
-    sh(cmd)
+    sh("cd #{root} && flutter build appbundle --flavor=#{flavor} --dart-define-from-file=secrets/.env --release")
   end
 
   desc "Deploy Android to Google Play"
