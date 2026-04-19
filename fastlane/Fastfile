@@ -40,7 +40,7 @@ lane :setup_ide do
   UI.success("IDE configurations ready! Reload your IDE to see the new run configurations.")
 end
 
-desc "Configure environment variables (secrets/.env)"
+desc "Configure environment variables (secrets/.env) - interactive"
 lane :setup_env do
   env_path = "../secrets/.env"
 
@@ -57,19 +57,37 @@ lane :setup_env do
     secure_text: false
   )
 
-  # Create secrets directory if it doesn't exist
-  FileUtils.mkdir_p("../secrets")
+  write_env_file(tmdb_key, backend_url)
 
-  # Generate .env file
+  UI.success("✓ Environment file created at #{env_path}")
+  UI.success("Ready to build with: bundle exec fastlane ios build flavor:dev")
+end
+
+desc "Setup environment for CI builds (from environment variables)"
+lane :setup_ci do
+  tmdb_key = ENV["TMDB_API_KEY"]
+  backend_url = ENV["BACKEND_URL"]
+
+  unless tmdb_key && backend_url
+    UI.error("Missing required environment variables")
+    UI.user_error!("TMDB_API_KEY and BACKEND_URL must be set")
+  end
+
+  write_env_file(tmdb_key, backend_url)
+
+  UI.success("✓ CI environment file created")
+end
+
+private_lane :write_env_file do |tmdb_key, backend_url|
+  env_path = File.expand_path("..", Dir.pwd) + "/secrets/.env"
+  FileUtils.mkdir_p(File.dirname(env_path))
+
   env_content = <<~ENV
     TMDB_API_KEY=#{tmdb_key}
     BACKEND_URL=#{backend_url}
   ENV
 
   File.write(env_path, env_content)
-
-  UI.success("✓ Environment file created at #{env_path}")
-  UI.success("Ready to build with: bundle exec fastlane ios build flavor:dev")
 end
 
 desc "Run code generation (build_runner) for all packages"
