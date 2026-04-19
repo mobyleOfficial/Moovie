@@ -37,51 +37,8 @@ jobs:
           echo "✅ Branch validation passed: $BRANCH"
 
   config:
-    name: Load Configuration
     needs: validate
-    runs-on: ubuntu-latest
-    outputs:
-      deploy_ios: ${{ steps.config.outputs.deploy_ios }}
-      flutter_version: ${{ steps.config.outputs.flutter_version }}
-      ruby_version: ${{ steps.config.outputs.ruby_version }}
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Read .actions.yml
-        id: config
-        run: |
-          # Check if .actions.yml exists
-          if [ ! -f .actions.yml ]; then
-            echo "ERROR: .actions.yml file not found"
-            exit 1
-          fi
-
-          # Parse values and trim whitespace with xargs
-          deploy_ios=$(grep -E '^\s*deploy_ios:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
-          flutter_version=$(grep -E '^\s*flutter_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-          ruby_version=$(grep -E '^\s*ruby_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-
-          # Validate required values are not empty
-          if [ -z "$deploy_ios" ] || [ -z "$flutter_version" ] || [ -z "$ruby_version" ]; then
-            echo "ERROR: Missing required values in .actions.yml"
-            echo "  deploy_ios: $deploy_ios"
-            echo "  flutter_version: $flutter_version"
-            echo "  ruby_version: $ruby_version"
-            exit 1
-          fi
-
-          # Export values
-          echo "deploy_ios=$deploy_ios" >> $GITHUB_OUTPUT
-          echo "flutter_version=$flutter_version" >> $GITHUB_OUTPUT
-          echo "ruby_version=$ruby_version" >> $GITHUB_OUTPUT
-
-          # Debug output
-          echo "Configuration loaded:"
-          echo "  deploy_ios=$deploy_ios"
-          echo "  flutter_version=$flutter_version"
-          echo "  ruby_version=$ruby_version"
+    uses: ./.github/workflows/load-config.yml
 
   deploy:
     name: Deploy to TestFlight (${{ github.event_name == 'push' && 'prod' || inputs.environment }})

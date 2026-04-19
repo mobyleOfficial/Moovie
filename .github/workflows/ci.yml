@@ -35,54 +35,7 @@ permissions:
 
 jobs:
   config:
-    name: Load Configuration
-    runs-on: ubuntu-latest
-    outputs:
-      run_ios_tests: ${{ steps.config.outputs.run_ios_tests }}
-      run_android_tests: ${{ steps.config.outputs.run_android_tests }}
-      run_linter: ${{ steps.config.outputs.run_linter }}
-      flutter_version: ${{ steps.config.outputs.flutter_version }}
-      ruby_version: ${{ steps.config.outputs.ruby_version }}
-      android_java_version: ${{ steps.config.outputs.android_java_version }}
-      android_java_distribution: ${{ steps.config.outputs.android_java_distribution }}
-      macos_version: ${{ steps.config.outputs.macos_version }}
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Read .actions.yml
-        id: config
-        run: |
-          if [ ! -f .actions.yml ]; then
-            echo "ERROR: .actions.yml file not found"
-            exit 1
-          fi
-
-          run_ios_tests=$(grep -E '^\s*run_ios_tests:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
-          run_android_tests=$(grep -E '^\s*run_android_tests:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
-          run_linter=$(grep -E '^\s*run_linter:\s*' .actions.yml | sed 's/.*:\s*//' | xargs)
-          flutter_version=$(grep -E '^\s*flutter_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-          ruby_version=$(grep -E '^\s*ruby_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-          android_java_version=$(grep -E '^\s*android_java_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-          android_java_distribution=$(grep -E '^\s*android_java_distribution:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-          macos_version=$(grep -E '^\s*macos_version:\s*' .actions.yml | sed 's/.*:\s*//' | tr -d '"' | xargs)
-
-          if [ -z "$run_ios_tests" ] || [ -z "$run_android_tests" ] || [ -z "$flutter_version" ]; then
-            echo "ERROR: Missing required values in .actions.yml"
-            exit 1
-          fi
-
-          echo "run_ios_tests=$run_ios_tests" >> $GITHUB_OUTPUT
-          echo "run_android_tests=$run_android_tests" >> $GITHUB_OUTPUT
-          echo "run_linter=$run_linter" >> $GITHUB_OUTPUT
-          echo "flutter_version=$flutter_version" >> $GITHUB_OUTPUT
-          echo "ruby_version=$ruby_version" >> $GITHUB_OUTPUT
-          echo "android_java_version=$android_java_version" >> $GITHUB_OUTPUT
-          echo "android_java_distribution=$android_java_distribution" >> $GITHUB_OUTPUT
-          echo "macos_version=$macos_version" >> $GITHUB_OUTPUT
-
-          echo "Configuration loaded: ios=$run_ios_tests, android=$run_android_tests, linter=$run_linter"
+    uses: ./.github/workflows/load-config.yml
 
   lint:
     name: Lint
