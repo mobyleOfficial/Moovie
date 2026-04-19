@@ -56,5 +56,5 @@ deploy_android: true
 # Versions - Tool versions for CI/CD jobs
 # Note: Ensure compatibility between xcode_version and macos_version
 xcode_version: "26.3"
-macos_version: "26.3"
+macos_version: "26"
 flutter_version: "3.x"
