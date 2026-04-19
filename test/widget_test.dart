@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moovie/config/app_config.dart';
-import 'package:common/common.dart';
 
 void main() {
   test('placeholder smoke test', () {
