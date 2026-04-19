@@ -93,7 +93,7 @@ lane :test do
   report_dir = "#{root}/testResults"
   FileUtils.mkdir_p(report_dir)
 
-  sh("cd #{root} && flutter test --machine --coverage | tojunit -o #{report_dir}/flutter-test-results.xml")
+  sh("cd #{root} && flutter test --coverage --machine > #{report_dir}/flutter-test-results.json")
   sh("cd #{root} && mv coverage/lcov.info #{report_dir}/lcov.info 2>/dev/null || true")
 end
 
