@@ -46,6 +46,8 @@ jobs:
     if: needs.config.outputs.deploy_ios == 'true'
     runs-on: macos-latest
     environment: ${{ github.event_name == 'push' && 'prod' || inputs.environment }}
+    env:
+      FASTLANE_SKIP_UPDATE_CHECK: 1
 
     steps:
       - name: Checkout code
@@ -56,8 +58,6 @@ jobs:
         with:
           flutter-version: ${{ needs.config.outputs.flutter_version }}
           ruby-version: ${{ needs.config.outputs.ruby_version }}
-          setup-ci-env: 'true'
-          setup-java: 'false'
           tmdb-api-key: ${{ secrets.TMDB_API_KEY }}
           backend-url: ${{ secrets.BACKEND_URL }}
 
@@ -75,15 +75,12 @@ jobs:
 
       - name: Build iOS (${{ steps.flavor.outputs.flavor }})
         run: bundle exec fastlane ios build flavor:${{ steps.flavor.outputs.flavor }}
-        env:
-          FASTLANE_SKIP_UPDATE_CHECK: 1
 
       - name: Deploy to TestFlight (${{ github.event_name == 'push' && 'prod' || inputs.environment }})
         run: |
           cd ios
           bundle exec fastlane deploy_testflight env:${{ github.event_name == 'push' && 'prod' || inputs.environment }} dry_run:false
         env:
-          FASTLANE_SKIP_UPDATE_CHECK: 1
           APP_STORE_CONNECT_API_KEY_ID_DEV: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID_DEV }}
           APP_STORE_CONNECT_API_KEY_ISSUER_ID_DEV: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID_DEV }}
           APP_STORE_CONNECT_API_KEY_CONTENT_DEV: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT_DEV }}
