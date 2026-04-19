@@ -27,7 +27,15 @@ Setup IDE run configurations
 [bundle exec] fastlane setup_env
 ```
 
-Configure environment variables (secrets/.env)
+Configure environment variables (secrets/.env) - interactive
+
+### setup_ci_env
+
+```sh
+[bundle exec] fastlane setup_ci_env
+```
+
+Setup environment for CI builds (from environment variables)
 
 ### codegen
 
