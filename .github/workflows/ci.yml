@@ -97,7 +97,7 @@ jobs:
           retention-days: 7
 
       - name: Build iOS
-        run: bundle exec fastlane ios build flavor:dev simulator:true device:'${{ needs.config.outputs.ios_test_device }}'
+        run: bundle exec fastlane ios build flavor:dev simulator:true
 
       - name: Upload build artifacts
         if: always()

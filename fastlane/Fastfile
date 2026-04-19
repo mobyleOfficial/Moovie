@@ -159,12 +159,10 @@ platform :ios do
   lane :build do |options|
     flavor = options[:flavor] || "dev"
     simulator = options[:simulator] == true || options[:simulator] == "true"
-    device = options[:device]
     root = File.expand_path("..", Dir.pwd)
-    UI.message("Building iOS with flavor: #{flavor}#{simulator ? ' (simulator)' : ''}#{device ? " device: #{device}" : ''}")
+    UI.message("Building iOS with flavor: #{flavor}#{simulator ? ' (simulator)' : ''}")
     cmd = "cd #{root} && flutter build ios --flavor=#{flavor} --dart-define-from-file=secrets/.env"
     cmd += " --simulator" if simulator
-    cmd += " --device-id='#{device}'" if device
     sh(cmd)
   end
 
