@@ -84,11 +84,11 @@ jobs:
 
           echo "Configuration loaded: ios=$run_ios_tests, android=$run_android_tests, linter=$run_linter"
 
-  setup:
-    name: Setup & Lint
+  lint:
+    name: Lint
     needs: config
     runs-on: ubuntu-latest
-    if: needs.config.outputs.run_ios_tests == 'true' || needs.config.outputs.run_android_tests == 'true'
+    if: needs.config.outputs.run_linter == 'true'
 
     steps:
       - name: Checkout code
@@ -109,11 +109,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run code generation
-        run: bundle exec fastlane codegen
-
       - name: Analyze Dart
-        if: needs.config.outputs.run_linter == 'true'
         uses: zgosalvez/github-actions-analyze-dart@v4
         with:
           fail-on-warnings: false
@@ -121,7 +117,7 @@ jobs:
 
   test-ios:
     name: iOS - Test & Build
-    needs: [config, setup]
+    needs: config
     if: needs.config.outputs.run_ios_tests == 'true'
     runs-on: macos-${{ needs.config.outputs.macos_version }}
 
@@ -171,7 +167,7 @@ jobs:
 
   test-android:
     name: Android - Test & Build
-    needs: [config, setup]
+    needs: config
     if: needs.config.outputs.run_android_tests == 'true'
     runs-on: ubuntu-latest
 
