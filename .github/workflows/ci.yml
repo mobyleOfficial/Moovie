@@ -129,25 +129,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup environment secrets
-        run: |
-          mkdir -p secrets
-          cat > secrets/.env << EOF
-          TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}
-          BACKEND_URL=${{ secrets.BACKEND_URL }}
-          EOF
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ needs.config.outputs.ruby_version }}
+          bundler-cache: true
+
+      - name: Setup CI environment
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+        run: bundle exec fastlane setup_ci
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ needs.config.outputs.flutter_version }}
           cache: true
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ needs.config.outputs.ruby_version }}
-          bundler-cache: true
 
       - name: Install dependencies
         run: flutter pub get
@@ -188,13 +186,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup environment secrets
-        run: |
-          mkdir -p secrets
-          cat > secrets/.env << EOF
-          TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}
-          BACKEND_URL=${{ secrets.BACKEND_URL }}
-          EOF
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ needs.config.outputs.ruby_version }}
+          bundler-cache: true
+
+      - name: Setup CI environment
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+        run: bundle exec fastlane setup_ci
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -208,12 +210,6 @@ jobs:
         with:
           flutter-version: ${{ needs.config.outputs.flutter_version }}
           cache: true
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ needs.config.outputs.ruby_version }}
-          bundler-cache: true
 
       - name: Install dependencies
         run: flutter pub get
