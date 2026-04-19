@@ -54,7 +54,6 @@ jobs:
         with:
           flutter-version: ${{ needs.config.outputs.flutter_version }}
           ruby-version: ${{ needs.config.outputs.ruby_version }}
-          xcode-version: ${{ needs.config.outputs.xcode_version }}
           setup-ci-env: 'false'
 
       - name: Analyze Dart
