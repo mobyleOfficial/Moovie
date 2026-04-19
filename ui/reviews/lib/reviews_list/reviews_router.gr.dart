@@ -14,16 +14,16 @@ part of 'reviews_router.dart';
 /// [ReviewsPage]
 class ReviewsRoute extends PageRouteInfo<ReviewsRouteArgs> {
   ReviewsRoute({
+    Key? key,
     int? movieId,
     String? movieTitle,
-    Key? key,
     List<PageRouteInfo>? children,
   }) : super(
          ReviewsRoute.name,
          args: ReviewsRouteArgs(
+           key: key,
            movieId: movieId,
            movieTitle: movieTitle,
-           key: key,
          ),
          initialChildren: children,
        );
@@ -46,13 +46,28 @@ class ReviewsRoute extends PageRouteInfo<ReviewsRouteArgs> {
 }
 
 class ReviewsRouteArgs {
-  const ReviewsRouteArgs({this.movieId, this.movieTitle, this.key});
+  const ReviewsRouteArgs({this.key, this.movieId, this.movieTitle});
 
-  final int? movieId;
-  final String? movieTitle;
   final Key? key;
 
+  final int? movieId;
+
+  final String? movieTitle;
+
   @override
-  String toString() =>
-      'ReviewsRouteArgs{movieId: $movieId, movieTitle: $movieTitle, key: $key}';
+  String toString() {
+    return 'ReviewsRouteArgs{key: $key, movieId: $movieId, movieTitle: $movieTitle}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ReviewsRouteArgs) return false;
+    return key == other.key &&
+        movieId == other.movieId &&
+        movieTitle == other.movieTitle;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ movieId.hashCode ^ movieTitle.hashCode;
 }

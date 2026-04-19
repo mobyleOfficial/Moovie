@@ -57,8 +57,9 @@ class UserActivitiesRouteArgs {
   final String? userName;
 
   @override
-  String toString() =>
-      'UserActivitiesRouteArgs{key: $key, userId: $userId, userName: $userName}';
+  String toString() {
+    return 'UserActivitiesRouteArgs{key: $key, userId: $userId, userName: $userName}';
+  }
 
   @override
   bool operator ==(Object other) {

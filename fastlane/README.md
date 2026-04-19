@@ -74,13 +74,13 @@ Clean iOS and Android build artifacts
 
 Build iOS app for a given flavor
 
-### ios release
+### ios deploy_testflight
 
 ```sh
-[bundle exec] fastlane ios release
+[bundle exec] fastlane ios deploy_testflight
 ```
 
-Release iOS (build + prepare for upload)
+Deploy iOS to TestFlight
 
 ----
 
@@ -95,13 +95,13 @@ Release iOS (build + prepare for upload)
 
 Build Android app for a given flavor
 
-### android release
+### android deploy_play
 
 ```sh
-[bundle exec] fastlane android release
+[bundle exec] fastlane android deploy_play
 ```
 
-Release Android (build + prepare for upload)
+Deploy Android to Google Play
 
 ----
 
