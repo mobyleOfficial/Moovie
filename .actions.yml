@@ -16,9 +16,10 @@
 # Note: macos_version should match the macOS version supported by the Xcode version specified.
 
 # CI Tests - Toggle test execution
-run_ios_tests: false
-run_android_tests: false
-run_linter: false
+run_ios_tests: true
+run_android_tests: true
+run_linter: true
+test_coverage_minimum: 0
 
 # Test Devices/Emulators
 # Run `xcrun simctl list devices` to find available simulators
@@ -56,5 +57,5 @@ deploy_android: true
 # Versions - Tool versions for CI/CD jobs
 # Note: Ensure compatibility between xcode_version and macos_version
 xcode_version: "26.3"
-macos_version: "26.3"
-flutter_version: "3.x"
+macos_version: "26"
+flutter_version: "3.41.6"

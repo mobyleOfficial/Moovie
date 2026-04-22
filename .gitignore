@@ -57,5 +57,14 @@ secrets/*
 # Fastlane
 fastlane/report.xml
 
+# Test results and coverage reports
+testResults/
+
+# Generated files
+*.g.dart
+*.gr.dart
+*.config.dart
+*.freezed.dart
+
 # Local research notes
 tmdb_endpoints.txt

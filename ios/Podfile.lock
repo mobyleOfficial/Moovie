@@ -7,11 +7,14 @@ PODS:
   - sqflite_darwin (0.0.4):
     - Flutter
     - FlutterMacOS
+  - workmanager_apple (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - objectbox_flutter_libs (from `.symlinks/plugins/objectbox_flutter_libs/ios`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
+  - workmanager_apple (from `.symlinks/plugins/workmanager_apple/ios`)
 
 SPEC REPOS:
   trunk:
@@ -24,12 +27,15 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/objectbox_flutter_libs/ios"
   sqflite_darwin:
     :path: ".symlinks/plugins/sqflite_darwin/darwin"
+  workmanager_apple:
+    :path: ".symlinks/plugins/workmanager_apple/ios"
 
 SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   ObjectBox: eccb95ea2054c39d81dfa2d4ccc5f1e31187228a
   objectbox_flutter_libs: ed1510f71602e4a0d3f2a721324e468d066fdbb9
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
+  workmanager_apple: 904529ae31e97fc5be632cf628507652294a0778
 
 PODFILE CHECKSUM: cb5262ee78678c606f8d7e5c534b656a06f048d0
 

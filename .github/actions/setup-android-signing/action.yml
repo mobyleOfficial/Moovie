@@ -1,0 +1,37 @@
+name: Setup Android Signing
+description: Configure Android keystore and signing properties from GitHub secrets
+
+inputs:
+  environment:
+    description: Deployment environment (dev, staging, prod)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Android signing
+      run: |
+        mkdir -p android/app/signing
+        ENV_UPPER=${{ inputs.environment }}
+        ENV_UPPER=${ENV_UPPER^^}
+
+        SECRET_KEYSTORE="ANDROID_KEYSTORE_BASE64_${ENV_UPPER}"
+        SECRET_PASS="ANDROID_KEYSTORE_PASSWORD_${ENV_UPPER}"
+        SECRET_ALIAS="ANDROID_KEY_ALIAS_${ENV_UPPER}"
+        SECRET_KEY_PASS="ANDROID_KEY_PASSWORD_${ENV_UPPER}"
+
+        # Validate all required secrets are present
+        if [ -z "${!SECRET_KEYSTORE}" ] || [ -z "${!SECRET_PASS}" ] || [ -z "${!SECRET_ALIAS}" ] || [ -z "${!SECRET_KEY_PASS}" ]; then
+          echo "ERROR: Missing required secrets for ${{ inputs.environment }} environment"
+          echo "Required: ${SECRET_KEYSTORE}, ${SECRET_PASS}, ${SECRET_ALIAS}, ${SECRET_KEY_PASS}"
+          exit 1
+        fi
+
+        echo "${!SECRET_KEYSTORE}" | base64 -d > android/app/signing/upload-keystore.jks
+        cat > android/key.properties << EOF
+        storeFile=app/signing/upload-keystore.jks
+        storePassword=${!SECRET_PASS}
+        keyAlias=${!SECRET_ALIAS}
+        keyPassword=${!SECRET_KEY_PASS}
+        EOF
+      shell: bash

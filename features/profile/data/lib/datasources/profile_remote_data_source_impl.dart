@@ -5,6 +5,7 @@ import 'package:profile_domain/models/user_profile.dart';
 import 'package:profile_domain/models/user_summary.dart';
 
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
+  // ignore: unused_field
   final HttpClient _httpClient;
 
   ProfileRemoteDataSourceImpl(this._httpClient);
