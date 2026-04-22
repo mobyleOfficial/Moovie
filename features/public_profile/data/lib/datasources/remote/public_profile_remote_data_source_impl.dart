@@ -8,6 +8,7 @@ import 'package:public_profile_data/models/remote/remote_profile_watchlist_item.
 import 'package:public_profile_data/models/remote/remote_public_profile.dart';
 
 class PublicProfileRemoteDataSourceImpl implements PublicProfileRemoteDataSource {
+  // ignore: unused_field
   final HttpClient _httpClient;
 
   PublicProfileRemoteDataSourceImpl(this._httpClient);

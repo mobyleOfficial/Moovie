@@ -6,6 +6,7 @@ import 'package:user_activities_data/models/remote/remote_user_activity_listing.
 
 class UserActivitiesRemoteDataSourceImpl
     implements UserActivitiesRemoteDataSource {
+  // ignore: unused_field
   final HttpClient _httpClient;
 
   UserActivitiesRemoteDataSourceImpl(this._httpClient);
