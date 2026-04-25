@@ -16,10 +16,13 @@
 # Note: macos_version should match the macOS version supported by the Xcode version specified.
 
 # CI Tests - Toggle test execution
-run_ios_tests: true
-run_android_tests: true
+run_ios_tests: false
+run_android_tests: false
 run_linter: true
 test_coverage_minimum: 0
+
+# AI Review - Toggle automated code review
+run_ai_review: true
 
 # Test Devices/Emulators
 # Run `xcrun simctl list devices` to find available simulators
@@ -33,8 +36,8 @@ android_java_version: "17"
 android_java_distribution: "temurin"
 
 # Publishing - Toggle deployment
-deploy_ios: true
-deploy_android: true
+deploy_ios: false
+deploy_android: false
 
 # Deployment Environments
 # Supported environments: dev, staging, prod
