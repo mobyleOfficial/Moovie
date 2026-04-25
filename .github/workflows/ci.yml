@@ -155,21 +155,23 @@ jobs:
 
   report:
     name: Report Coverage & Tests
-    needs: [test-ios, test-android]
+    needs: [config, test-ios, test-android]
     runs-on: ubuntu-latest
-    if: always()
+    if: always() && (needs.config.outputs.run_ios_tests == 'true' || needs.config.outputs.run_android_tests == 'true')
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Download iOS coverage
+        if: needs.config.outputs.run_ios_tests == 'true'
         uses: actions/download-artifact@v4
         with:
           name: ios-coverage
           path: coverage-ios/
 
       - name: Download Android coverage
+        if: needs.config.outputs.run_android_tests == 'true'
         uses: actions/download-artifact@v4
         with:
           name: android-coverage
