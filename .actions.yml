@@ -21,6 +21,9 @@ run_android_tests: false
 run_linter: true
 test_coverage_minimum: 0
 
+# AI Review - Toggle automated code review
+run_ai_review: true
+
 # Test Devices/Emulators
 # Run `xcrun simctl list devices` to find available simulators
 ios_test_device: "iPhone 16"

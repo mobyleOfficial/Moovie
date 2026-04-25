@@ -5,7 +5,14 @@ on:
     types: [opened, synchronize, ready_for_review, reopened]
 
 jobs:
+  config:
+    name: Config
+    uses: ./.github/workflows/load-config.yml
+
   ai-review:
+    name: AI Code Review
+    needs: config
+    if: needs.config.outputs.run_ai_review == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read

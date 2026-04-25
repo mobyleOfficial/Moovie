@@ -12,6 +12,9 @@ on:
       run_linter:
         description: Whether to run linter
         value: ${{ jobs.config.outputs.run_linter }}
+      run_ai_review:
+        description: Whether to run AI code review
+        value: ${{ jobs.config.outputs.run_ai_review }}
       deploy_ios:
         description: Whether to deploy iOS
         value: ${{ jobs.config.outputs.deploy_ios }}
@@ -54,6 +57,7 @@ jobs:
       run_ios_tests: ${{ steps.config.outputs.run_ios_tests }}
       run_android_tests: ${{ steps.config.outputs.run_android_tests }}
       run_linter: ${{ steps.config.outputs.run_linter }}
+      run_ai_review: ${{ steps.config.outputs.run_ai_review }}
       deploy_ios: ${{ steps.config.outputs.deploy_ios }}
       deploy_android: ${{ steps.config.outputs.deploy_android }}
       flutter_version: ${{ steps.config.outputs.flutter_version }}
@@ -84,6 +88,7 @@ jobs:
           run_ios_tests=$(yq '.run_ios_tests' .actions.yml)
           run_android_tests=$(yq '.run_android_tests' .actions.yml)
           run_linter=$(yq '.run_linter' .actions.yml)
+          run_ai_review=$(yq '.run_ai_review' .actions.yml)
           deploy_ios=$(yq '.deploy_ios' .actions.yml)
           deploy_android=$(yq '.deploy_android' .actions.yml)
           flutter_version=$(yq '.flutter_version' .actions.yml)
@@ -105,6 +110,7 @@ jobs:
           echo "run_ios_tests=$run_ios_tests" >> $GITHUB_OUTPUT
           echo "run_android_tests=$run_android_tests" >> $GITHUB_OUTPUT
           echo "run_linter=$run_linter" >> $GITHUB_OUTPUT
+          echo "run_ai_review=$run_ai_review" >> $GITHUB_OUTPUT
           echo "deploy_ios=$deploy_ios" >> $GITHUB_OUTPUT
           echo "deploy_android=$deploy_android" >> $GITHUB_OUTPUT
           echo "flutter_version=$flutter_version" >> $GITHUB_OUTPUT
