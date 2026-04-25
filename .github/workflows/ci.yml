@@ -1,19 +1,6 @@
 name: CI - Build and Test
 
 on:
-  push:
-    branches:
-      - dev
-      - main
-    paths:
-      - 'lib/**'
-      - 'ios/**'
-      - 'android/**'
-      - 'test/**'
-      - 'fastlane/**'
-      - '.github/**'
-      - '.actions.yml'
-      - 'pubspec.yaml'
   pull_request:
     branches:
       - dev
