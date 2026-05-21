@@ -1,11 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:comments_ui/comments_screen.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/movies.dart';
 import 'package:movies_ui/movie_detail/movie_detail_bloc.dart';
+import 'package:movies_ui/movie_detail/movie_detail_router.dart';
 import 'package:movies_ui/movie_detail/movie_detail_state.dart';
+import 'package:reviews/review_details/review_details_router.dart';
 import 'package:reviews/reviews_list/reviews_router.dart';
 
 class MovieDetailScreen extends StatelessWidget {
@@ -47,36 +50,101 @@ class _MovieDetailBody extends StatelessWidget {
   const _MovieDetailBody({required this.detail});
 
   @override
-  Widget build(BuildContext context) => CustomScrollView(
-        slivers: [
-          _HeroAppBar(detail: detail),
-          SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return DefaultTabController(
+      length: 2,
+      child: Column(
+        children: [
+          MoovieTabBar(tabs: [
+            l10n?.movieDetailAboutTab ?? '',
+            l10n?.comments ?? '',
+          ]),
+          Expanded(
+            child: TabBarView(
               children: [
-                _MovieInfoSection(detail: detail),
-                if (detail.info?.watchProviders.isNotEmpty ?? false)
-                  _WatchProvidersSection(
-                      providers: detail.info!.watchProviders),
-                if (detail.info != null)
-                  _SynopsisSection(overview: detail.info!.overview),
-                _RatingSection(detail: detail),
-                _StatsSection(detail: detail),
-                if (detail.info?.popularReviews.isNotEmpty ?? false)
-                  _PopularReviewsSection(
-                    reviews: detail.info!.popularReviews,
-                    movieId: detail.id,
-                    movieTitle: detail.title,
-                  ),
-                if (detail.info?.similarMovies.isNotEmpty ?? false)
-                  _SimilarMoviesSection(
-                      movies: detail.info!.similarMovies),
-                const SizedBox(height: 32),
+                _AboutTab(detail: detail),
+                _CommentsTab(movieId: detail.id),
               ],
             ),
           ),
         ],
-      );
+      ),
+    );
+  }
+}
+
+class _AboutTab extends StatefulWidget {
+  final Movie detail;
+
+  const _AboutTab({required this.detail});
+
+  @override
+  State<_AboutTab> createState() => _AboutTabState();
+}
+
+class _AboutTabState extends State<_AboutTab>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    final detail = widget.detail;
+
+    return CustomScrollView(
+      slivers: [
+        _HeroAppBar(detail: detail),
+        SliverToBoxAdapter(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _MovieInfoSection(detail: detail),
+              if (detail.info?.watchProviders.isNotEmpty ?? false)
+                _WatchProvidersSection(
+                    providers: detail.info!.watchProviders),
+              if (detail.info != null)
+                _SynopsisSection(overview: detail.info!.overview),
+              _RatingSection(detail: detail),
+              _StatsSection(detail: detail),
+              if (detail.info?.popularReviews.isNotEmpty ?? false)
+                _PopularReviewsSection(
+                  reviews: detail.info!.popularReviews,
+                  movieId: detail.id,
+                  movieTitle: detail.title,
+                ),
+              if (detail.info?.similarMovies.isNotEmpty ?? false)
+                _SimilarMoviesSection(movies: detail.info!.similarMovies),
+              const SizedBox(height: 32),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _CommentsTab extends StatefulWidget {
+  final int movieId;
+
+  const _CommentsTab({required this.movieId});
+
+  @override
+  State<_CommentsTab> createState() => _CommentsTabState();
+}
+
+class _CommentsTabState extends State<_CommentsTab>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return CommentsScreen(contentId: widget.movieId.toString());
+  }
 }
 
 class _HeroAppBar extends StatelessWidget {
@@ -532,71 +600,84 @@ class _PopularReviewsSection extends StatelessWidget {
           ...reviews.map(
             (review) => Padding(
               padding: const EdgeInsets.only(bottom: 12),
-              child: Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: colorScheme.surfaceContainerHighest
-                      .withValues(alpha: 0.4),
+              child: Semantics(
+                label: '${review.author ?? ''}, ${review.date}',
+                button: true,
+                child: InkWell(
+                  onTap: () => context.router.push(
+                    ReviewDetailsRoute(
+                      reviewId: review.id,
+                      movieTitle: review.title,
+                    ),
+                  ),
                   borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+                  child: Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: colorScheme.surfaceContainerHighest
+                          .withValues(alpha: 0.4),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CircleAvatar(
-                          radius: 14,
-                          backgroundColor: colorScheme.primaryContainer,
-                          child: Text(
-                            (review.author ?? '?')[0].toUpperCase(),
-                            style: textTheme.labelSmall?.copyWith(
-                              color: colorScheme.onPrimaryContainer,
-                              fontWeight: FontWeight.w600,
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 14,
+                              backgroundColor: colorScheme.primaryContainer,
+                              child: Text(
+                                (review.author ?? '?')[0].toUpperCase(),
+                                style: textTheme.labelSmall?.copyWith(
+                                  color: colorScheme.onPrimaryContainer,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            review.author ?? '',
-                            style: textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface,
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                review.author ?? '',
+                                style: textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: colorScheme.onSurface,
+                                ),
+                              ),
                             ),
-                          ),
+                            Icon(Icons.star_rounded,
+                                size: 16,
+                                color: colorScheme.onTertiaryContainer),
+                            const SizedBox(width: 2),
+                            Text(
+                              review.rating.toStringAsFixed(1),
+                              style: textTheme.bodySmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
                         ),
-                        Icon(Icons.star_rounded,
-                            size: 16,
-                            color: colorScheme.onTertiaryContainer),
-                        const SizedBox(width: 2),
+                        const SizedBox(height: 8),
                         Text(
-                          review.rating.toStringAsFixed(1),
+                          review.content ?? '',
                           style: textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w600,
                             color: colorScheme.onSurfaceVariant,
+                            height: 1.4,
+                          ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          review.date,
+                          style: textTheme.labelSmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant
+                                .withValues(alpha: 0.7),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      review.content ?? '',
-                      style: textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                        height: 1.4,
-                      ),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      review.date,
-                      style: textTheme.labelSmall?.copyWith(
-                        color: colorScheme.onSurfaceVariant
-                            .withValues(alpha: 0.7),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -646,52 +727,61 @@ class _SimilarMoviesSection extends StatelessWidget {
                 return Semantics(
                   label: movie.title,
                   button: true,
-                  child: SizedBox(
-                    width: 100,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: SizedBox(
-                            width: 100,
-                            height: 140,
-                            child: movie.posterPath.isNotEmpty
-                                ? CachedNetworkImage(
-                                    imageUrl:
-                                        '${TmdbImageUrl.posterMedium}${movie.posterPath}',
-                                    fit: BoxFit.cover,
-                                    placeholder: (_, _) => Container(
-                                      color: colorScheme
-                                          .surfaceContainerHighest,
-                                    ),
-                                    errorWidget: (_, _, _) => Container(
+                  child: InkWell(
+                    onTap: () => context.router.push(
+                      MovieDetailRoute(
+                        movieId: movie.id,
+                        movieTitle: movie.title,
+                      ),
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                    child: SizedBox(
+                      width: 100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: SizedBox(
+                              width: 100,
+                              height: 140,
+                              child: movie.posterPath.isNotEmpty
+                                  ? CachedNetworkImage(
+                                      imageUrl:
+                                          '${TmdbImageUrl.posterMedium}${movie.posterPath}',
+                                      fit: BoxFit.cover,
+                                      placeholder: (_, _) => Container(
+                                        color: colorScheme
+                                            .surfaceContainerHighest,
+                                      ),
+                                      errorWidget: (_, _, _) => Container(
+                                        color: colorScheme
+                                            .surfaceContainerHighest,
+                                        child: const Center(
+                                            child: Icon(Icons.movie)),
+                                      ),
+                                    )
+                                  : Container(
                                       color: colorScheme
                                           .surfaceContainerHighest,
                                       child: const Center(
                                           child: Icon(Icons.movie)),
                                     ),
-                                  )
-                                : Container(
-                                    color: colorScheme
-                                        .surfaceContainerHighest,
-                                    child: const Center(
-                                        child: Icon(Icons.movie)),
-                                  ),
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        ExcludeSemantics(
-                          child: Text(
-                            movie.title,
-                            style: textTheme.labelSmall?.copyWith(
-                              color: colorScheme.onSurface,
                             ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 4),
+                          ExcludeSemantics(
+                            child: Text(
+                              movie.title,
+                              style: textTheme.labelSmall?.copyWith(
+                                color: colorScheme.onSurface,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );

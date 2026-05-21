@@ -308,6 +308,8 @@
   "@movieDetailMinutes": { "description": "Runtime in minutes", "placeholders": { "minutes": { "type": "int" } } },
   "movieDetailSeeAll": "See all",
   "@movieDetailSeeAll": { "description": "See all button in movie detail sections" },
+  "movieDetailAboutTab": "About",
+  "@movieDetailAboutTab": { "description": "About tab label on the movie detail screen" },
   "movieDetailMovieReviews": "{title} Reviews",
   "comments": "Comments",
   "@comments": { "description": "Comments section title" },

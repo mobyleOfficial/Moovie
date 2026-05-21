@@ -25,6 +25,8 @@ dependencies:
     path: ../../features/profile
   reviews:
     path: ../reviews
+  comments_ui:
+    path: ../comments
 
 dev_dependencies:
   auto_route_generator: ^10.5.0

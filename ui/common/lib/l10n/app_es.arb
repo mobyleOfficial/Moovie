@@ -119,6 +119,8 @@
   "movieDetailMinutes": "{minutes} min",
   "movieDetailSeeAll": "Ver todo",
   "@movieDetailSeeAll": { "description": "See all button in movie detail sections" },
+  "movieDetailAboutTab": "Acerca de",
+  "@movieDetailAboutTab": { "description": "About tab label on the movie detail screen" },
   "@movieDetailMovieReviews": { "description": "AppBar title for movie reviews list", "placeholders": { "title": { "type": "String" } } },
   "comments": "Comentarios",
   "@comments": { "description": "Comments section title" },
