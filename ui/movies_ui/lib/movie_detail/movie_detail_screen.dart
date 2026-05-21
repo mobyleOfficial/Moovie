@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:comments_ui/comments_screen.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,36 +50,101 @@ class _MovieDetailBody extends StatelessWidget {
   const _MovieDetailBody({required this.detail});
 
   @override
-  Widget build(BuildContext context) => CustomScrollView(
-        slivers: [
-          _HeroAppBar(detail: detail),
-          SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return DefaultTabController(
+      length: 2,
+      child: Column(
+        children: [
+          MoovieTabBar(tabs: [
+            l10n?.movieDetailAboutTab ?? '',
+            l10n?.comments ?? '',
+          ]),
+          Expanded(
+            child: TabBarView(
               children: [
-                _MovieInfoSection(detail: detail),
-                if (detail.info?.watchProviders.isNotEmpty ?? false)
-                  _WatchProvidersSection(
-                      providers: detail.info!.watchProviders),
-                if (detail.info != null)
-                  _SynopsisSection(overview: detail.info!.overview),
-                _RatingSection(detail: detail),
-                _StatsSection(detail: detail),
-                if (detail.info?.popularReviews.isNotEmpty ?? false)
-                  _PopularReviewsSection(
-                    reviews: detail.info!.popularReviews,
-                    movieId: detail.id,
-                    movieTitle: detail.title,
-                  ),
-                if (detail.info?.similarMovies.isNotEmpty ?? false)
-                  _SimilarMoviesSection(
-                      movies: detail.info!.similarMovies),
-                const SizedBox(height: 32),
+                _AboutTab(detail: detail),
+                _CommentsTab(movieId: detail.id),
               ],
             ),
           ),
         ],
-      );
+      ),
+    );
+  }
+}
+
+class _AboutTab extends StatefulWidget {
+  final Movie detail;
+
+  const _AboutTab({required this.detail});
+
+  @override
+  State<_AboutTab> createState() => _AboutTabState();
+}
+
+class _AboutTabState extends State<_AboutTab>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    final detail = widget.detail;
+
+    return CustomScrollView(
+      slivers: [
+        _HeroAppBar(detail: detail),
+        SliverToBoxAdapter(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _MovieInfoSection(detail: detail),
+              if (detail.info?.watchProviders.isNotEmpty ?? false)
+                _WatchProvidersSection(
+                    providers: detail.info!.watchProviders),
+              if (detail.info != null)
+                _SynopsisSection(overview: detail.info!.overview),
+              _RatingSection(detail: detail),
+              _StatsSection(detail: detail),
+              if (detail.info?.popularReviews.isNotEmpty ?? false)
+                _PopularReviewsSection(
+                  reviews: detail.info!.popularReviews,
+                  movieId: detail.id,
+                  movieTitle: detail.title,
+                ),
+              if (detail.info?.similarMovies.isNotEmpty ?? false)
+                _SimilarMoviesSection(movies: detail.info!.similarMovies),
+              const SizedBox(height: 32),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _CommentsTab extends StatefulWidget {
+  final int movieId;
+
+  const _CommentsTab({required this.movieId});
+
+  @override
+  State<_CommentsTab> createState() => _CommentsTabState();
+}
+
+class _CommentsTabState extends State<_CommentsTab>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return CommentsScreen(contentId: widget.movieId.toString());
+  }
 }
 
 class _HeroAppBar extends StatelessWidget {

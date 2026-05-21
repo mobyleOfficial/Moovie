@@ -808,6 +808,12 @@ abstract class AppLocalizations {
   /// **'See all'**
   String get movieDetailSeeAll;
 
+  /// About tab label on the movie detail screen
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get movieDetailAboutTab;
+
   /// AppBar title for movie reviews list
   ///
   /// In en, this message translates to:

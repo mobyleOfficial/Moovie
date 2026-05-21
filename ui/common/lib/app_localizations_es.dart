@@ -386,6 +386,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get movieDetailSeeAll => 'Ver todo';
 
   @override
+  String get movieDetailAboutTab => 'Acerca de';
+
+  @override
   String movieDetailMovieReviews(String title) {
     return 'Reseñas de $title';
   }
