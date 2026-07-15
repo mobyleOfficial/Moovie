@@ -15,9 +15,9 @@ class RemoteMovieListing {
 
   factory RemoteMovieListing.fromJson(Map<String, dynamic> json) =>
       RemoteMovieListing(
-        totalPages: json['total_pages'] as int,
-        totalResults: json['total_results'] as int,
-        movies: (json['results'] as List<dynamic>)
+        totalPages: (json['totalPages'] ?? json['total_pages']) as int,
+        totalResults: (json['totalResults'] ?? json['total_results']) as int,
+        movies: ((json['movies'] ?? json['results']) as List<dynamic>)
             .cast<Map<String, dynamic>>()
             .map(RemoteMovie.fromJson)
             .toList(),

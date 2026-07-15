@@ -11,7 +11,30 @@ class AppConfig {
 
   static late AppConfig instance;
 
-  String get appName => switch (flavor) {
+  static const _flavorName =
+      String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+
+  static AppFlavor get _flavorFromEnv => switch (_flavorName) {
+        'staging' => AppFlavor.staging,
+        'prod' => AppFlavor.prod,
+        _ => AppFlavor.dev,
+      };
+
+  static String get _backendUrlFromEnv => switch (_flavorFromEnv) {
+        AppFlavor.dev =>
+          const String.fromEnvironment('DEV_BACKEND_URL'),
+        AppFlavor.staging =>
+          const String.fromEnvironment('STG_BACKEND_URL'),
+        AppFlavor.prod =>
+          const String.fromEnvironment('PROD_BACKEND_URL'),
+      };
+
+  static AppConfig fromEnvironment() => AppConfig(
+        flavor: _flavorFromEnv,
+        backendUrl: _backendUrlFromEnv,
+      );
+
+  String get appName => switch (_flavorFromEnv) {
         AppFlavor.dev => 'MoovieDev',
         AppFlavor.staging => 'MoovieStg',
         AppFlavor.prod => 'Moovie',

@@ -23,10 +23,15 @@ class RemoteMovie {
         id: json['id'] as int,
         title: json['title'] as String,
         overview: json['overview'] as String,
-        posterPath: json['poster_path'] as String? ?? '',
-        backdropPath: json['backdrop_path'] as String? ?? '',
-        voteAverage: (json['vote_average'] as num).toDouble(),
-        releaseDate: json['release_date'] as String? ?? '',
+        posterPath: (json['posterPath'] ?? json['poster_path']) as String? ?? '',
+        backdropPath:
+            (json['backdropPath'] ?? json['backdrop_path']) as String? ?? '',
+        voteAverage:
+            ((json['voteAverage'] ?? json['vote_average']) as num?)
+                ?.toDouble() ??
+            0.0,
+        releaseDate:
+            (json['releaseDate'] ?? json['release_date']) as String? ?? '',
       );
 
   Movie toDomain() => Movie(
