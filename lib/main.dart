@@ -11,10 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:workmanager/workmanager.dart';
 
 void main() {
-  AppConfig.instance = const AppConfig(
-    flavor: AppFlavor.prod,
-    backendUrl: 'https://your-backend.com',
-  );
+  AppConfig.instance = AppConfig.fromEnvironment();
   mainApp();
 }
 

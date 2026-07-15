@@ -29,6 +29,24 @@ class RemoteMovieListDetail {
     required this.tags,
   });
 
+  factory RemoteMovieListDetail.fromJson(Map<String, dynamic> json) =>
+      RemoteMovieListDetail(
+        id: json['id'] as int,
+        name: json['name'] as String,
+        creator: json['creator'] as String,
+        description: (json['description'] as String?) ?? '',
+        movies: ((json['movies'] as List<dynamic>?) ?? [])
+            .cast<Map<String, dynamic>>()
+            .map(RemoteMovie.fromJson)
+            .toList(),
+        totalMovies: (json['totalMovies'] as int?) ?? 0,
+        totalPages: (json['totalPages'] as int?) ?? 0,
+        commentsCount: (json['commentsCount'] as int?) ?? 0,
+        likesCount: (json['likesCount'] as int?) ?? 0,
+        isLiked: (json['isLiked'] as bool?) ?? false,
+        tags: ((json['tags'] as List<dynamic>?) ?? []).cast<String>(),
+      );
+
   MovieList toDomain() => MovieList(
         id: id,
         name: name,

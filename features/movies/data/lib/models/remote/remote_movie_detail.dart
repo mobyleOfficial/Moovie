@@ -43,22 +43,53 @@ class RemoteMovieDetail {
     this.likeCount,
   });
 
-  factory RemoteMovieDetail.fromJson(Map<String, dynamic> json) =>
-      RemoteMovieDetail(
-        id: json['id'] as int,
-        title: json['title'] as String,
-        overview: json['overview'] as String,
-        posterPath: json['poster_path'] as String? ?? '',
-        backdropPath: json['backdrop_path'] as String? ?? '',
-        voteAverage: (json['vote_average'] as num).toDouble(),
-        releaseDate: json['release_date'] as String? ?? '',
-        tagline: json['tagline'] as String? ?? '',
-        runtime: json['runtime'] as int?,
-        genres: (json['genres'] as List<dynamic>)
-            .cast<Map<String, dynamic>>()
-            .map((genre) => genre['name'] as String)
-            .toList(),
-      );
+  factory RemoteMovieDetail.fromJson(Map<String, dynamic> json) {
+    final rawGenres = json['genres'] as List<dynamic>? ?? [];
+    final genres = rawGenres.isEmpty
+        ? <String>[]
+        : rawGenres.first is String
+            ? rawGenres.cast<String>()
+            : rawGenres
+                .cast<Map<String, dynamic>>()
+                .map((g) => g['name'] as String)
+                .toList();
+
+    return RemoteMovieDetail(
+      id: json['id'] as int,
+      title: json['title'] as String,
+      overview: json['overview'] as String,
+      posterPath:
+          (json['posterPath'] ?? json['poster_path']) as String? ?? '',
+      backdropPath:
+          (json['backdropPath'] ?? json['backdrop_path']) as String? ?? '',
+      voteAverage:
+          ((json['voteAverage'] ?? json['vote_average']) as num?)
+              ?.toDouble() ??
+          0.0,
+      releaseDate:
+          (json['releaseDate'] ?? json['release_date']) as String? ?? '',
+      tagline: json['tagline'] as String? ?? '',
+      runtime: json['runtime'] as int?,
+      genres: genres,
+      director: json['director'] as String?,
+      cast: (json['cast'] as List<dynamic>?)?.cast<String>(),
+      watchProviders: (json['watchProviders'] as List<dynamic>?)
+          ?.cast<Map<String, dynamic>>()
+          .map(RemoteWatchProvider.fromJson)
+          .toList(),
+      similarMovies: (json['similarMovies'] as List<dynamic>?)
+          ?.cast<Map<String, dynamic>>()
+          .map(RemoteMovie.fromJson)
+          .toList(),
+      popularReviews: (json['popularReviews'] as List<dynamic>?)
+          ?.cast<Map<String, dynamic>>()
+          .map(RemoteMovieReview.fromJson)
+          .toList(),
+      reviewCount: json['reviewCount'] as int?,
+      listCount: json['listCount'] as int?,
+      likeCount: json['likeCount'] as int?,
+    );
+  }
 
   Movie toDomain() => Movie(
         id: id,
@@ -92,6 +123,12 @@ class RemoteWatchProvider {
   final String logoPath;
 
   const RemoteWatchProvider({required this.name, required this.logoPath});
+
+  factory RemoteWatchProvider.fromJson(Map<String, dynamic> json) =>
+      RemoteWatchProvider(
+        name: json['name'] as String,
+        logoPath: (json['logoPath'] ?? json['logo_path']) as String? ?? '',
+      );
 
   WatchProvider toDomain() => WatchProvider(name: name, logoPath: logoPath);
 }

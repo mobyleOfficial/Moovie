@@ -22,7 +22,7 @@ abstract class HttpDiModule {
   @Named('backend')
   Dio get backendDio => Dio(
         BaseOptions(
-          baseUrl: AppConfig.instance.backendUrl,
+          baseUrl: "${AppConfig.instance.backendUrl}/",
           headers: {
             'accept': 'application/json',
           },

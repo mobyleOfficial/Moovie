@@ -29,17 +29,19 @@ class RemoteMovieReview {
 
   factory RemoteMovieReview.fromJson(Map<String, dynamic> json) =>
       RemoteMovieReview(
-        reviewId: json['review_id'] as String,
-        movieId: json['movie_id'] as int,
-        title: json['movie_title'] as String,
-        date: json['review_date'] as String,
-        rating: (json['rating'] as num).toDouble(),
+        reviewId: (json['id'] ?? json['review_id']) as String,
+        movieId: (json['movieId'] ?? json['movie_id'] ?? 0) as int,
+        title: (json['title'] ?? json['movie_title']) as String,
+        date: (json['date'] ?? json['review_date']) as String? ?? '',
+        rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
         author: json['author'] as String?,
-        authorId: json['author_id'] as String?,
+        authorId: (json['authorId'] ?? json['author_id']) as String?,
         content: json['content'] as String?,
-        likeCount: (json['like_count'] as int?) ?? 0,
-        likedByMe: (json['liked_by_me'] as bool?) ?? false,
-        commentCount: (json['comment_count'] as int?) ?? 0,
+        likeCount: ((json['likeCount'] ?? json['like_count']) as int?) ?? 0,
+        likedByMe:
+            ((json['likedByMe'] ?? json['liked_by_me']) as bool?) ?? false,
+        commentCount:
+            ((json['commentCount'] ?? json['comment_count']) as int?) ?? 0,
       );
 
   RemoteMovieReview copyWith({

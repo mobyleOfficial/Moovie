@@ -22,9 +22,11 @@ class RemoteMovieList {
         id: json['id'] as int,
         name: json['name'] as String,
         creator: json['creator'] as String,
-        description: json['description'] as String,
-        movieCount: json['movie_count'] as int,
-        posterPaths: (json['poster_paths'] as List<dynamic>).cast<String>(),
+        description: (json['description'] as String?) ?? '',
+        movieCount: (json['movieCount'] ?? json['movie_count']) as int,
+        posterPaths:
+            ((json['posterPaths'] ?? json['poster_paths']) as List<dynamic>)
+                .cast<String>(),
       );
 
   MovieList toDomain() => MovieList(
