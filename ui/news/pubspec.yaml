@@ -1,5 +1,5 @@
-name: movies_ui
-description: Movies UI module for Moovie
+name: news_ui
+description: News UI module for Moovie
 publish_to: none
 
 environment:
@@ -13,24 +13,16 @@ dependencies:
   auto_route: ^11.1.0
   get_it: ^8.0.3
   cached_network_image: any
-  collection: any
-  infinite_scroll_pagination: ^5.0.0
+  intl: any
+  share_plus: ^11.0.0
   common:
     path: ../common
   core:
     path: ../../core
-  movies:
-    path: ../../features/movies
   news:
     path: ../../features/news
-  news_ui:
-    path: ../news
-  profile:
-    path: ../../features/profile
-  reviews:
-    path: ../reviews
-  comments_ui:
-    path: ../comments
+  news_domain:
+    path: ../../features/news/domain
 
 dev_dependencies:
   auto_route_generator: ^10.5.0

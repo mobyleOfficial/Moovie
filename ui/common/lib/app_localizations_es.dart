@@ -484,4 +484,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get continueWithFacebook => 'Continuar con Facebook';
+
+  @override
+  String get articleDetailShare => 'Compartir artículo';
 }

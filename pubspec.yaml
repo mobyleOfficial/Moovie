@@ -90,6 +90,8 @@ dependencies:
     path: features/user_activities/data
   movies_ui:
     path: ui/movies_ui
+  news_ui:
+    path: ui/news
   common:
     path: ui/common
   comments_ui:

@@ -359,5 +359,7 @@
   "continueWithGoogle": "Continue with Google",
   "@continueWithGoogle": { "description": "Google OAuth login button label" },
   "continueWithFacebook": "Continue with Facebook",
-  "@continueWithFacebook": { "description": "Facebook OAuth login button label" }
+  "@continueWithFacebook": { "description": "Facebook OAuth login button label" },
+  "articleDetailShare": "Share article",
+  "@articleDetailShare": { "description": "Tooltip for the share article action in the AppBar" }
 }

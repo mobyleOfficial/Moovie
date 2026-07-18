@@ -482,4 +482,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get continueWithFacebook => 'Continuar com Facebook';
+
+  @override
+  String get articleDetailShare => 'Compartilhar artigo';
 }

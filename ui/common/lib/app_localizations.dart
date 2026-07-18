@@ -963,6 +963,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Continue with Facebook'**
   String get continueWithFacebook;
+
+  /// Tooltip for the share article action in the AppBar
+  ///
+  /// In en, this message translates to:
+  /// **'Share article'**
+  String get articleDetailShare;
 }
 
 class _AppLocalizationsDelegate

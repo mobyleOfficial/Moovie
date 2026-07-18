@@ -1,1 +1,1 @@
-// Barrel file
+export 'news_repository.dart';

@@ -16,3 +16,6 @@ dependencies:
   objectbox: ^5.3.1
   news_domain:
     path: ../domain
+  injectable: any
+  core:
+    path: ../../../core
