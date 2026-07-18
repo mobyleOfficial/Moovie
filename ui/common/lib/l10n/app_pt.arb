@@ -152,5 +152,6 @@
   "reviewDetailsLoadRelatedError": "Não foi possível carregar os reviews relacionados",
   "loginSubtitle": "Entre para descobrir e avaliar filmes",
   "continueWithGoogle": "Continuar com Google",
-  "continueWithFacebook": "Continuar com Facebook"
+  "continueWithFacebook": "Continuar com Facebook",
+  "articleDetailShare": "Compartilhar artigo"
 }

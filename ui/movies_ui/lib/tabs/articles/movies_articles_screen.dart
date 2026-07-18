@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:news/news.dart';
+import 'package:news_ui/news_ui.dart';
 import 'package:movies_ui/tabs/articles/articles_cubit.dart';
 
 class MoviesArticlesScreen extends StatelessWidget {
@@ -23,6 +25,7 @@ class MoviesArticlesScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8),
         builderDelegate: PagedChildBuilderDelegate<Article>(
           itemBuilder: (context, article, index) => _ArticleTile(
+            articleId: article.id,
             title: article.title,
             source: article.source,
             date: article.publishedAt,
@@ -47,12 +50,14 @@ class MoviesArticlesScreen extends StatelessWidget {
 }
 
 class _ArticleTile extends StatelessWidget {
+  final int articleId;
   final String title;
   final String source;
   final String date;
   final String? imageUrl;
 
   const _ArticleTile({
+    required this.articleId,
     required this.title,
     required this.source,
     required this.date,
@@ -74,7 +79,9 @@ class _ArticleTile extends StatelessWidget {
       label: '$title, $source, $_formattedDate',
       button: true,
       child: InkWell(
-        onTap: () {},
+        onTap: () => context.router.push(
+          ArticleDetailRoute(articleId: articleId, articleTitle: title),
+        ),
         child: ExcludeSemantics(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),

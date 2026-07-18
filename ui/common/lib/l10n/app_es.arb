@@ -152,5 +152,6 @@
   "reviewDetailsLoadRelatedError": "No se pudieron cargar las reseñas relacionadas",
   "loginSubtitle": "Inicia sesión para descubrir y reseñar películas",
   "continueWithGoogle": "Continuar con Google",
-  "continueWithFacebook": "Continuar con Facebook"
+  "continueWithFacebook": "Continuar con Facebook",
+  "articleDetailShare": "Compartir artículo"
 }

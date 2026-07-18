@@ -479,4 +479,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get continueWithFacebook => 'Continue with Facebook';
+
+  @override
+  String get articleDetailShare => 'Share article';
 }

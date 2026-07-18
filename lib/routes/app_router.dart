@@ -6,6 +6,7 @@ import 'package:movies_ui/favorite_movies/favorite_movies_router.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
 import 'package:movies_ui/movie_list_detail/movie_list_detail_router.dart';
 import 'package:movies_ui/watch_list/watch_list_router.dart';
+import 'package:news_ui/article_detail/article_detail_router.dart';
 import 'package:reviews/review_creation/review_creation_router.dart';
 import 'package:movies_ui/home/movies_home_router.dart';
 import 'package:user_activity/new_user_activity/new_user_activity_router.dart';
@@ -38,6 +39,7 @@ class AppRouter extends RootStackRouter {
                 AutoRoute(page: MovieListDetailRoute.page),
                 AutoRoute(page: FavoriteMoviesRoute.page),
                 AutoRoute(page: WatchListRoute.page),
+                AutoRoute(page: ArticleDetailRoute.page),
               ],
             ),
             AutoRoute(
