@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
 import 'package:movies_ui/movie_list_detail/movie_list_detail_router.dart';
+import 'package:news_ui/article_detail/article_detail_router.dart';
 import 'package:public_profile/public_profile_router.dart';
 import 'package:reviews/review_details/review_details_router.dart';
 import 'package:reviews/reviews_list/reviews_router.dart';
@@ -25,5 +26,6 @@ String? resolveRouteTitle(RouteData<dynamic> routeData) => switch (routeData.nam
       HighestRatedRoute.name => 'Highest Rated',
       MostAnticipatedRoute.name => 'Most Anticipated',
       FeaturedListsRoute.name => 'Featured Lists',
+      ArticleDetailRoute.name => routeData.argsAs<ArticleDetailRouteArgs>().articleTitle,
       _ => null,
     };

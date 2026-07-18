@@ -20,20 +20,17 @@ class ArticleDetailScreen extends StatelessWidget {
       value: cubit,
       child: BlocBuilder<ArticleDetailCubit, ArticleDetailState>(
         builder: (context, state) => switch (state) {
-          ArticleDetailLoading() => const Scaffold(
-              body: Center(child: CircularProgressIndicator()),
+          ArticleDetailLoading() => const Center(
+              child: CircularProgressIndicator(),
             ),
-          ArticleDetailError(:final message) => Scaffold(
-              body: MoovieEmptyState(
-                title: l10n?.emptyStateErrorTitle ?? '',
-                message: message,
-                action: cubit.reload,
-                actionLabel: l10n?.emptyStateRetry ?? '',
-              ),
+          ArticleDetailError(:final message) => MoovieEmptyState(
+              title: l10n?.emptyStateErrorTitle ?? '',
+              message: message,
+              action: cubit.reload,
+              actionLabel: l10n?.emptyStateRetry ?? '',
             ),
-          ArticleDetailSuccess(:final article) => Scaffold(
-              body: _ArticleDetailBody(article: article),
-            ),
+          ArticleDetailSuccess(:final article) =>
+            _ArticleDetailBody(article: article),
         },
       ),
     );
@@ -56,6 +53,7 @@ class _ArticleDetailBody extends StatelessWidget {
             children: [
               _ArticleInfoSection(article: article),
               _ArticleContentSection(content: article.content),
+              _ShareSection(article: article),
               const SizedBox(height: 32),
             ],
           ),
@@ -73,22 +71,13 @@ class _HeroAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final l10n = AppLocalizations.of(context);
 
     return SliverAppBar(
       expandedHeight: article.imageUrl != null ? 260 : 0,
-      pinned: true,
-      backgroundColor: colorScheme.surface,
-      foregroundColor: colorScheme.onSurface,
-      actions: [
-        Tooltip(
-          message: l10n?.articleDetailShare ?? 'Share article',
-          child: IconButton(
-            onPressed: () => _shareArticle(article),
-            icon: const Icon(Icons.share_rounded),
-          ),
-        ),
-      ],
+      pinned: false,
+      automaticallyImplyLeading: false,
+      backgroundColor: Colors.black,
+      foregroundColor: Colors.white,
       flexibleSpace: article.imageUrl != null
           ? FlexibleSpaceBar(
               background: Stack(
@@ -121,12 +110,6 @@ class _HeroAppBar extends StatelessWidget {
             )
           : null,
     );
-  }
-
-  Future<void> _shareArticle(Article article) async {
-    final payload =
-        '${article.title}\n\n${article.summary}\n\n${article.sourceUrl}';
-    await SharePlus.instance.share(ShareParams(text: payload));
   }
 }
 
@@ -212,6 +195,35 @@ class _ArticleContentSection extends StatelessWidget {
         style: textTheme.bodyLarge?.copyWith(
           color: colorScheme.onSurface,
           height: 1.7,
+        ),
+      ),
+    );
+  }
+}
+
+class _ShareSection extends StatelessWidget {
+  final Article article;
+
+  const _ShareSection({required this.article});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+      child: OutlinedButton.icon(
+        onPressed: () async {
+          final payload =
+              '${article.title}\n\n${article.summary}\n\n${article.sourceUrl}';
+          await SharePlus.instance.share(ShareParams(text: payload));
+        },
+        icon: const Icon(Icons.share_rounded),
+        label: Text(l10n?.articleDetailShare ?? 'Share article'),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: colorScheme.primary,
+          side: BorderSide(color: colorScheme.outline),
         ),
       ),
     );

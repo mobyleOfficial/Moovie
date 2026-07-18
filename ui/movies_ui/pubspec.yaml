@@ -24,7 +24,7 @@ dependencies:
   news:
     path: ../../features/news
   news_ui:
-    path: ../news_ui
+    path: ../news
   profile:
     path: ../../features/profile
   reviews:
