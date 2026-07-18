@@ -2,8 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:movies/movies.dart';
+import 'package:news/news.dart';
 import 'package:movies_ui/home/movies_home_screen.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
+import 'package:movies_ui/tabs/articles/articles_cubit.dart';
 import 'package:movies_ui/tabs/lists/movies_lists_bloc.dart';
 import 'package:movies_ui/tabs/trending_movies/trending_movies_bloc.dart';
 
@@ -20,11 +22,14 @@ class _MoviesHomePageState extends State<MoviesHomePage> {
       TrendingMoviesCubit(GetIt.I<GetTrendingMovies>());
   late final MoviesListsCubit _listsCubit =
       MoviesListsCubit(GetIt.I<GetMovieLists>());
+  late final ArticlesCubit _articlesCubit =
+      ArticlesCubit(GetIt.I<GetArticles>());
 
   @override
   void dispose() {
     _trendingCubit.close();
     _listsCubit.close();
+    _articlesCubit.close();
     super.dispose();
   }
 
@@ -32,6 +37,7 @@ class _MoviesHomePageState extends State<MoviesHomePage> {
   Widget build(BuildContext context) => MoviesHomeScreen(
         cubit: _trendingCubit,
         listsCubit: _listsCubit,
+        articlesCubit: _articlesCubit,
         onMovieTap: (movieId, movieTitle) => context.router.push(
           MovieDetailRoute(movieId: movieId, movieTitle: movieTitle),
         ),

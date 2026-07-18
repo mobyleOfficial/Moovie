@@ -2,6 +2,7 @@ import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/movies.dart';
+import 'package:movies_ui/tabs/articles/articles_cubit.dart';
 import 'package:movies_ui/tabs/trending_movies/trending_movies_bloc.dart';
 import 'package:movies_ui/tabs/trending_movies/trending_movies_screen.dart';
 import 'package:movies_ui/tabs/lists/movies_lists_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:reviews/reviews_list/reviews_screen.dart';
 class MoviesHomeScreen extends StatelessWidget {
   final TrendingMoviesCubit cubit;
   final MoviesListsCubit listsCubit;
+  final ArticlesCubit articlesCubit;
   final void Function(int movieId, String movieTitle) onMovieTap;
   final GetMovieReviews getMovieReviews;
 
@@ -19,6 +21,7 @@ class MoviesHomeScreen extends StatelessWidget {
     super.key,
     required this.cubit,
     required this.listsCubit,
+    required this.articlesCubit,
     required this.onMovieTap,
     required this.getMovieReviews,
   });
@@ -51,7 +54,9 @@ class MoviesHomeScreen extends StatelessWidget {
                   MoovieKeepAliveTab(
                     child: MoviesListsScreen(cubit: listsCubit),
                   ),
-                  const MoovieKeepAliveTab(child: MoviesArticlesScreen()),
+                  MoovieKeepAliveTab(
+                    child: MoviesArticlesScreen(cubit: articlesCubit),
+                  ),
                 ],
               ),
             ),

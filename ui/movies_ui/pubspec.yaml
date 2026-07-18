@@ -21,6 +21,8 @@ dependencies:
     path: ../../core
   movies:
     path: ../../features/movies
+  news:
+    path: ../../features/news
   profile:
     path: ../../features/profile
   reviews:
