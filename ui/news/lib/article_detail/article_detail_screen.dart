@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:news_domain/models/article.dart';
 import 'package:news_ui/article_detail/article_detail_bloc.dart';
 import 'package:news_ui/article_detail/article_detail_state.dart';
@@ -118,6 +119,12 @@ class _ArticleInfoSection extends StatelessWidget {
 
   const _ArticleInfoSection({required this.article});
 
+  String get _formattedDate {
+    final parsed = DateTime.tryParse(article.publishedAt);
+    if (parsed == null) return article.publishedAt;
+    return DateFormat.yMMMd(Intl.getCurrentLocale()).format(parsed);
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -154,7 +161,7 @@ class _ArticleInfoSection extends StatelessWidget {
               _Dot(color: colorScheme.onSurfaceVariant),
               Expanded(
                 child: Text(
-                  article.publishedAt,
+                  _formattedDate,
                   style: textTheme.bodySmall?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                   ),
