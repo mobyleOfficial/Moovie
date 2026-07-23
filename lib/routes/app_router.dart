@@ -108,7 +108,7 @@ class AppRouter extends RootStackRouter {
         ),
         CustomRoute(
           page: SignUpRoute.page,
-          transitionsBuilder: TransitionsBuilders.slideBottom,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
           duration: _animationDuration,
           reverseDuration: _animationDuration,
         ),
