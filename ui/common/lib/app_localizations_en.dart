@@ -524,5 +524,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nicknameValidationError => 'Please enter a nickname';
 
   @override
-  String get loginError => 'Login failed. Please check your credentials.';
+  String get loginError => 'Incorrect email or password.';
+
+  @override
+  String get loginGenericError =>
+      'Something went wrong, please try again later.';
 }

@@ -50,75 +50,88 @@ class _SignUpScreenState extends State<SignUpScreen> {
         cubit.validatePassword(_passwordController.text) == null &&
         cubit.validateNickname(_nicknameController.text) == null;
 
-    return Scaffold(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
       appBar: AppBar(
         title: Text(l10n.signUpTitle),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 32),
-              TextField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  labelText: l10n.loginEmail,
-                  hintText: l10n.loginEmailHint,
-                  errorText: _resolveEmailError(emailError, l10n),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  prefixIcon: const Icon(Icons.email_outlined),
-                ),
-                onChanged: (_) => setState(() {}),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _passwordController,
-                obscureText: _obscurePassword,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  labelText: l10n.loginPassword,
-                  hintText: l10n.loginPasswordHint,
-                  errorText: _resolvePasswordError(passwordError, l10n),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  prefixIcon: const Icon(Icons.lock_outlined),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: 32),
+                    TextField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        labelText: l10n.loginEmail,
+                        hintText: l10n.loginEmailHint,
+                        errorText: _resolveEmailError(emailError, l10n),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        prefixIcon: const Icon(Icons.email_outlined),
+                      ),
+                      onChanged: (_) => setState(() {}),
                     ),
-                    onPressed: () =>
-                        setState(() => _obscurePassword = !_obscurePassword),
-                  ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _passwordController,
+                      obscureText: _obscurePassword,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        labelText: l10n.loginPassword,
+                        hintText: l10n.loginPasswordHint,
+                        errorText:
+                            _resolvePasswordError(passwordError, l10n),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        prefixIcon: const Icon(Icons.lock_outlined),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                          ),
+                          onPressed: () => setState(
+                              () => _obscurePassword = !_obscurePassword),
+                        ),
+                      ),
+                      onChanged: (_) => setState(() {}),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _nicknameController,
+                      textInputAction: TextInputAction.done,
+                      decoration: InputDecoration(
+                        labelText: l10n.signUpNickname,
+                        hintText: l10n.signUpNicknameHint,
+                        errorText:
+                            _resolveNicknameError(nicknameError, l10n),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        prefixIcon: const Icon(Icons.person_outlined),
+                      ),
+                      onChanged: (_) => setState(() {}),
+                    ),
+                  ],
                 ),
-                onChanged: (_) => setState(() {}),
               ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _nicknameController,
-                textInputAction: TextInputAction.done,
-                decoration: InputDecoration(
-                  labelText: l10n.signUpNickname,
-                  hintText: l10n.signUpNicknameHint,
-                  errorText: _resolveNicknameError(nicknameError, l10n),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  prefixIcon: const Icon(Icons.person_outlined),
-                ),
-                onChanged: (_) => setState(() {}),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(32, 16, 32, 24),
+              child: SizedBox(
                 height: 48,
+                width: double.infinity,
                 child: FilledButton(
                   onPressed: isFormValid
                       ? () => cubit.createAccount(
@@ -135,9 +148,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Text(l10n.createAccountButton),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
       ),
     );
   }

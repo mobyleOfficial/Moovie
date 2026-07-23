@@ -388,6 +388,8 @@
   "@passwordValidationError": { "description": "Error message for password too short" },
   "nicknameValidationError": "Please enter a nickname",
   "@nicknameValidationError": { "description": "Error message for empty nickname" },
-  "loginError": "Login failed. Please check your credentials.",
-  "@loginError": { "description": "Generic login error message" }
+  "loginError": "Incorrect email or password.",
+  "@loginError": { "description": "Login error for invalid credentials" },
+  "loginGenericError": "Something went wrong, please try again later.",
+  "@loginGenericError": { "description": "Generic login error for server/network issues" }
 }

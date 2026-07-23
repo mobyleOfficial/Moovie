@@ -167,5 +167,6 @@
   "emailValidationError": "Por favor digite um e-mail válido",
   "passwordValidationError": "A senha deve ter pelo menos 6 caracteres",
   "nicknameValidationError": "Por favor digite um apelido",
-  "loginError": "Erro ao entrar. Verifique suas credenciais."
+  "loginError": "Usuário ou senha incorretos.",
+  "loginGenericError": "Algo deu errado, tente de novo mais tarde."
 }

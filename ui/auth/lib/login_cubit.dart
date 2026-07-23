@@ -46,6 +46,28 @@ class LoginCubit extends Cubit<LoginState> {
     return null;
   }
 
+  void onEmailChanged(String email) {
+    final current = state;
+    if (current is! LoginFormState) return;
+    final emailError = validateEmail(email);
+    emit(current.copyWith(
+      emailError: emailError,
+      clearEmailError: emailError == null,
+      clearLoginError: true,
+    ));
+  }
+
+  void onPasswordChanged(String password) {
+    final current = state;
+    if (current is! LoginFormState) return;
+    final passwordError = validatePassword(password);
+    emit(current.copyWith(
+      passwordError: passwordError,
+      clearPasswordError: passwordError == null,
+      clearLoginError: true,
+    ));
+  }
+
   Future<void> loginWithEmail(String email, String password) async {
     final emailError = validateEmail(email);
     final passwordError = validatePassword(password);
@@ -68,7 +90,9 @@ class LoginCubit extends Cubit<LoginState> {
       case Success():
         emit(const LoginAuthenticated());
       case Failure(:final error):
-        emit(LoginFormState(loginError: error.message));
+        final errorKey =
+            error == AppError.unauthorized ? 'invalid_credentials' : 'generic';
+        emit(LoginFormState(loginError: errorKey));
     }
   }
 
@@ -87,7 +111,9 @@ class LoginCubit extends Cubit<LoginState> {
       case Success():
         emit(const LoginAuthenticated());
       case Failure(:final error):
-        emit(LoginFormState(loginError: error.message));
+        final errorKey =
+            error == AppError.unauthorized ? 'invalid_credentials' : 'generic';
+        emit(LoginFormState(loginError: errorKey));
     }
   }
 }

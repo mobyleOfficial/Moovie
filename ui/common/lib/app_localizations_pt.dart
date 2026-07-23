@@ -527,5 +527,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get nicknameValidationError => 'Por favor digite um apelido';
 
   @override
-  String get loginError => 'Erro ao entrar. Verifique suas credenciais.';
+  String get loginError => 'Usuário ou senha incorretos.';
+
+  @override
+  String get loginGenericError => 'Algo deu errado, tente de novo mais tarde.';
 }

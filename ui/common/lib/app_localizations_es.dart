@@ -530,6 +530,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get nicknameValidationError => 'Por favor ingresa un apodo';
 
   @override
-  String get loginError =>
-      'Error de inicio de sesión. Verifica tus credenciales.';
+  String get loginError => 'Usuario o contraseña incorrectos.';
+
+  @override
+  String get loginGenericError =>
+      'Algo salió mal, inténtalo de nuevo más tarde.';
 }

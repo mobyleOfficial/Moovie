@@ -1048,11 +1048,17 @@ abstract class AppLocalizations {
   /// **'Please enter a nickname'**
   String get nicknameValidationError;
 
-  /// Generic login error message
+  /// Login error for invalid credentials
   ///
   /// In en, this message translates to:
-  /// **'Login failed. Please check your credentials.'**
+  /// **'Incorrect email or password.'**
   String get loginError;
+
+  /// Generic login error for server/network issues
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong, please try again later.'**
+  String get loginGenericError;
 }
 
 class _AppLocalizationsDelegate
