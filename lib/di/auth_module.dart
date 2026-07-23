@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:injectable/injectable.dart';
 import 'package:auth/auth.dart';
 
@@ -11,6 +12,12 @@ abstract class AuthModule {
       OAuthRemoteDataSourceImpl();
 
   @lazySingleton
+  AuthRemoteDataSource authRemoteDataSource(
+    @Named('backend') HttpClient httpClient,
+  ) =>
+      AuthRemoteDataSourceImpl(httpClient);
+
+  @lazySingleton
   AuthLocalDataSource authLocalDataSource(
     SecureTokenStorage secureStorage,
   ) =>
@@ -18,16 +25,27 @@ abstract class AuthModule {
 
   @lazySingleton
   AuthRepository authRepository(
-    OAuthRemoteDataSource remoteDataSource,
+    OAuthRemoteDataSource oauthRemoteDataSource,
+    AuthRemoteDataSource authRemoteDataSource,
     AuthLocalDataSource localDataSource,
   ) =>
-      AuthRepositoryImpl(remoteDataSource, localDataSource);
+      AuthRepositoryImpl(
+        oauthRemoteDataSource,
+        authRemoteDataSource,
+        localDataSource,
+      );
 
   @injectable
   Login loginUseCase(
     AuthRepository repository,
   ) =>
       Login(repository);
+
+  @injectable
+  LoginWithEmail loginWithEmailUseCase(
+    AuthRepository repository,
+  ) =>
+      LoginWithEmail(repository);
 
   @injectable
   IsUserAuthenticated isUserAuthenticatedUseCase(

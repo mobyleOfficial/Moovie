@@ -108,6 +108,8 @@ dependencies:
     path: ui/user_activity
   auth_ui:
     path: ui/auth
+  sign_up_ui:
+    path: ui/sign_up
   public_profile:
     path: ui/public_profile
   auto_route: ^11.1.0

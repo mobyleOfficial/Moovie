@@ -5,14 +5,19 @@ import 'package:auth_ui/login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   final Login _loginUseCase;
+  final LoginWithEmail _loginWithEmailUseCase;
   final IsUserAuthenticated _isUserAuthenticatedUseCase;
+
+  static final _emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
   LoginCubit({
     required Login loginUseCase,
+    required LoginWithEmail loginWithEmailUseCase,
     required IsUserAuthenticated isUserAuthenticatedUseCase,
   })  : _loginUseCase = loginUseCase,
+        _loginWithEmailUseCase = loginWithEmailUseCase,
         _isUserAuthenticatedUseCase = isUserAuthenticatedUseCase,
-        super(const LoginUnauthenticated());
+        super(const LoginFormState());
 
   Future<void> checkAuthStatus() async {
     emit(const LoginLoading());
@@ -23,9 +28,47 @@ class LoginCubit extends Cubit<LoginState> {
       case Success(:final data):
         data
             ? emit(const LoginAuthenticated())
-            : emit(const LoginUnauthenticated());
+            : emit(const LoginFormState());
       case Failure():
-        emit(const LoginUnauthenticated());
+        emit(const LoginFormState());
+    }
+  }
+
+  String? validateEmail(String email) {
+    if (email.isEmpty) return 'required';
+    if (!_emailRegex.hasMatch(email)) return 'invalid';
+    return null;
+  }
+
+  String? validatePassword(String password) {
+    if (password.isEmpty) return 'required';
+    if (password.length < 6) return 'too_short';
+    return null;
+  }
+
+  Future<void> loginWithEmail(String email, String password) async {
+    final emailError = validateEmail(email);
+    final passwordError = validatePassword(password);
+
+    if (emailError != null || passwordError != null) {
+      emit(LoginFormState(
+        emailError: emailError,
+        passwordError: passwordError,
+      ));
+      return;
+    }
+
+    emit(const LoginFormState(isSubmitting: true));
+
+    final result = await _loginWithEmailUseCase(
+      LoginWithEmailParams(email: email, password: password),
+    );
+
+    switch (result) {
+      case Success():
+        emit(const LoginAuthenticated());
+      case Failure(:final error):
+        emit(LoginFormState(loginError: error.message));
     }
   }
 
@@ -36,7 +79,7 @@ class LoginCubit extends Cubit<LoginState> {
       _loginWithProvider(OAuthProvider.facebook);
 
   Future<void> _loginWithProvider(OAuthProvider provider) async {
-    emit(const LoginLoading());
+    emit(const LoginFormState(isSubmitting: true));
 
     final result = await _loginUseCase(provider);
 
@@ -44,7 +87,7 @@ class LoginCubit extends Cubit<LoginState> {
       case Success():
         emit(const LoginAuthenticated());
       case Failure(:final error):
-        emit(LoginError(error.message));
+        emit(LoginFormState(loginError: error.message));
     }
   }
 }

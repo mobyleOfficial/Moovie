@@ -969,6 +969,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share article'**
   String get articleDetailShare;
+
+  /// Email field label on the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get loginEmail;
+
+  /// Email field hint on the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get loginEmailHint;
+
+  /// Password field label on the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get loginPassword;
+
+  /// Password field hint on the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get loginPasswordHint;
+
+  /// Login button label
+  ///
+  /// In en, this message translates to:
+  /// **'Log In'**
+  String get loginButton;
+
+  /// Sign up navigation button label on the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUpButton;
+
+  /// Title of the sign up screen
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get signUpTitle;
+
+  /// Nickname field label on the sign up screen
+  ///
+  /// In en, this message translates to:
+  /// **'Nickname'**
+  String get signUpNickname;
+
+  /// Nickname field hint on the sign up screen
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a nickname'**
+  String get signUpNicknameHint;
+
+  /// Create account button label on the sign up screen
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get createAccountButton;
+
+  /// Error message for invalid email format
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address'**
+  String get emailValidationError;
+
+  /// Error message for password too short
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get passwordValidationError;
+
+  /// Error message for empty nickname
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a nickname'**
+  String get nicknameValidationError;
+
+  /// Generic login error message
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed. Please check your credentials.'**
+  String get loginError;
 }
 
 class _AppLocalizationsDelegate

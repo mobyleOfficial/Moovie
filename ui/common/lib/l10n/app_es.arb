@@ -153,5 +153,19 @@
   "loginSubtitle": "Inicia sesión para descubrir y reseñar películas",
   "continueWithGoogle": "Continuar con Google",
   "continueWithFacebook": "Continuar con Facebook",
-  "articleDetailShare": "Compartir artículo"
+  "articleDetailShare": "Compartir artículo",
+  "loginEmail": "Correo electrónico",
+  "loginEmailHint": "Ingresa tu correo electrónico",
+  "loginPassword": "Contraseña",
+  "loginPasswordHint": "Ingresa tu contraseña",
+  "loginButton": "Iniciar Sesión",
+  "signUpButton": "Registrarse",
+  "signUpTitle": "Crear Cuenta",
+  "signUpNickname": "Apodo",
+  "signUpNicknameHint": "Elige un apodo",
+  "createAccountButton": "Crear Cuenta",
+  "emailValidationError": "Por favor ingresa un correo electrónico válido",
+  "passwordValidationError": "La contraseña debe tener al menos 6 caracteres",
+  "nicknameValidationError": "Por favor ingresa un apodo",
+  "loginError": "Error de inicio de sesión. Verifica tus credenciales."
 }

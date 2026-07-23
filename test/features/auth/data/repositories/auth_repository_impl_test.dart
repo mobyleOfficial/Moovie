@@ -17,6 +17,22 @@ class MockOAuthRemoteDataSource implements OAuthRemoteDataSource {
       completeOAuthResult ?? const Failure(AppError.unknown);
 }
 
+class MockAuthRemoteDataSource implements AuthRemoteDataSource {
+  Result<AuthTokenModel>? loginResult;
+  String? lastEmail;
+  String? lastPassword;
+
+  @override
+  Future<Result<AuthTokenModel>> login(
+    String email,
+    String password,
+  ) async {
+    lastEmail = email;
+    lastPassword = password;
+    return loginResult ?? const Failure(AppError.unknown);
+  }
+}
+
 class MockAuthLocalDataSource implements AuthLocalDataSource {
   Result<AuthTokenModel?>? getTokenResult;
   Result<void>? saveTokenResult;
@@ -40,21 +56,23 @@ class MockAuthLocalDataSource implements AuthLocalDataSource {
 
 void main() {
   late AuthRepositoryImpl repository;
-  late MockOAuthRemoteDataSource mockRemote;
+  late MockOAuthRemoteDataSource mockOAuthRemote;
+  late MockAuthRemoteDataSource mockAuthRemote;
   late MockAuthLocalDataSource mockLocal;
 
   setUp(() {
-    mockRemote = MockOAuthRemoteDataSource();
+    mockOAuthRemote = MockOAuthRemoteDataSource();
+    mockAuthRemote = MockAuthRemoteDataSource();
     mockLocal = MockAuthLocalDataSource();
-    repository = AuthRepositoryImpl(mockRemote, mockLocal);
+    repository = AuthRepositoryImpl(mockOAuthRemote, mockAuthRemote, mockLocal);
   });
 
-  group('login', () {
+  group('login (OAuth)', () {
     test('initiates OAuth, completes it, and saves the token', () async {
-      mockRemote.initiateOAuthResult = const Success(
+      mockOAuthRemote.initiateOAuthResult = const Success(
         OAuthResultModel(provider: 'google', providerToken: 'mock-token'),
       );
-      mockRemote.completeOAuthResult = Success(
+      mockOAuthRemote.completeOAuthResult = Success(
         AuthTokenModel(
           accessToken: 'jwt-token',
           expiresAt: DateTime(2026, 6, 19),
@@ -69,7 +87,7 @@ void main() {
     });
 
     test('returns failure when OAuth initiation fails', () async {
-      mockRemote.initiateOAuthResult = const Failure(AppError.network);
+      mockOAuthRemote.initiateOAuthResult = const Failure(AppError.network);
 
       final result = await repository.login(OAuthProvider.google);
 
@@ -78,10 +96,10 @@ void main() {
     });
 
     test('returns failure when OAuth completion fails', () async {
-      mockRemote.initiateOAuthResult = const Success(
+      mockOAuthRemote.initiateOAuthResult = const Success(
         OAuthResultModel(provider: 'google', providerToken: 'mock-token'),
       );
-      mockRemote.completeOAuthResult = const Failure(AppError.server);
+      mockOAuthRemote.completeOAuthResult = const Failure(AppError.server);
 
       final result = await repository.login(OAuthProvider.google);
 
@@ -90,10 +108,10 @@ void main() {
     });
 
     test('returns failure when token save fails', () async {
-      mockRemote.initiateOAuthResult = const Success(
+      mockOAuthRemote.initiateOAuthResult = const Success(
         OAuthResultModel(provider: 'facebook', providerToken: 'mock-token'),
       );
-      mockRemote.completeOAuthResult = Success(
+      mockOAuthRemote.completeOAuthResult = Success(
         AuthTokenModel(
           accessToken: 'jwt-token',
           expiresAt: DateTime(2026, 6, 19),
@@ -102,6 +120,51 @@ void main() {
       mockLocal.saveTokenResult = const Failure(AppError.unknown);
 
       final result = await repository.login(OAuthProvider.facebook);
+
+      expect(result, isA<Failure<void>>());
+    });
+  });
+
+  group('loginWithEmail', () {
+    test('calls remote data source and saves token on success', () async {
+      mockAuthRemote.loginResult = Success(
+        AuthTokenModel(
+          accessToken: 'email-jwt-token',
+          expiresAt: DateTime(2026, 8, 1),
+        ),
+      );
+      mockLocal.saveTokenResult = const Success(null);
+
+      final result =
+          await repository.loginWithEmail('test@example.com', 'password123');
+
+      expect(result, isA<Success<void>>());
+      expect(mockAuthRemote.lastEmail, 'test@example.com');
+      expect(mockAuthRemote.lastPassword, 'password123');
+      expect(mockLocal.lastSavedToken?.accessToken, 'email-jwt-token');
+    });
+
+    test('returns failure when remote login fails', () async {
+      mockAuthRemote.loginResult = const Failure(AppError.unauthorized);
+
+      final result =
+          await repository.loginWithEmail('test@example.com', 'wrong');
+
+      expect(result, isA<Failure<void>>());
+      expect((result as Failure<void>).error, AppError.unauthorized);
+    });
+
+    test('returns failure when token save fails', () async {
+      mockAuthRemote.loginResult = Success(
+        AuthTokenModel(
+          accessToken: 'token',
+          expiresAt: DateTime(2026, 8, 1),
+        ),
+      );
+      mockLocal.saveTokenResult = const Failure(AppError.unknown);
+
+      final result =
+          await repository.loginWithEmail('test@example.com', 'password123');
 
       expect(result, isA<Failure<void>>());
     });

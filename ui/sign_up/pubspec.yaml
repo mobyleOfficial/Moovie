@@ -1,5 +1,5 @@
-name: auth_ui
-description: UI module for Auth feature - Login screen
+name: sign_up_ui
+description: UI module for Sign Up screen
 publish_to: 'none'
 
 version: 1.0.0
@@ -12,16 +12,11 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^9.1.1
   bloc: ^9.2.0
-  auth:
-    path: ../../features/auth
   common:
     path: ../common
   core:
     path: ../../core
-  sign_up_ui:
-    path: ../sign_up
   auto_route: ^11.1.0
-  get_it: ^8.0.3
 
 dev_dependencies:
   build_runner: ^2.13.1

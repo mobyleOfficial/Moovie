@@ -485,4 +485,47 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get articleDetailShare => 'Compartilhar artigo';
+
+  @override
+  String get loginEmail => 'E-mail';
+
+  @override
+  String get loginEmailHint => 'Digite seu e-mail';
+
+  @override
+  String get loginPassword => 'Senha';
+
+  @override
+  String get loginPasswordHint => 'Digite sua senha';
+
+  @override
+  String get loginButton => 'Entrar';
+
+  @override
+  String get signUpButton => 'Cadastrar';
+
+  @override
+  String get signUpTitle => 'Criar Conta';
+
+  @override
+  String get signUpNickname => 'Apelido';
+
+  @override
+  String get signUpNicknameHint => 'Escolha um apelido';
+
+  @override
+  String get createAccountButton => 'Criar Conta';
+
+  @override
+  String get emailValidationError => 'Por favor digite um e-mail válido';
+
+  @override
+  String get passwordValidationError =>
+      'A senha deve ter pelo menos 6 caracteres';
+
+  @override
+  String get nicknameValidationError => 'Por favor digite um apelido';
+
+  @override
+  String get loginError => 'Erro ao entrar. Verifique suas credenciais.';
 }

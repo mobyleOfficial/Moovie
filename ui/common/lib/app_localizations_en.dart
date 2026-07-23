@@ -482,4 +482,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get articleDetailShare => 'Share article';
+
+  @override
+  String get loginEmail => 'Email';
+
+  @override
+  String get loginEmailHint => 'Enter your email';
+
+  @override
+  String get loginPassword => 'Password';
+
+  @override
+  String get loginPasswordHint => 'Enter your password';
+
+  @override
+  String get loginButton => 'Log In';
+
+  @override
+  String get signUpButton => 'Sign Up';
+
+  @override
+  String get signUpTitle => 'Create Account';
+
+  @override
+  String get signUpNickname => 'Nickname';
+
+  @override
+  String get signUpNicknameHint => 'Choose a nickname';
+
+  @override
+  String get createAccountButton => 'Create Account';
+
+  @override
+  String get emailValidationError => 'Please enter a valid email address';
+
+  @override
+  String get passwordValidationError =>
+      'Password must be at least 6 characters';
+
+  @override
+  String get nicknameValidationError => 'Please enter a nickname';
+
+  @override
+  String get loginError => 'Login failed. Please check your credentials.';
 }

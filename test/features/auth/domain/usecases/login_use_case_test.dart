@@ -13,6 +13,10 @@ class MockAuthRepository implements AuthRepository {
   }
 
   @override
+  Future<Result<void>> loginWithEmail(String email, String password) async =>
+      const Failure(AppError.unknown);
+
+  @override
   Future<Result<bool>> isUserAuthenticated() async =>
       const Failure(AppError.unknown);
 }

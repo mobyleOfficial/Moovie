@@ -153,5 +153,19 @@
   "loginSubtitle": "Entre para descobrir e avaliar filmes",
   "continueWithGoogle": "Continuar com Google",
   "continueWithFacebook": "Continuar com Facebook",
-  "articleDetailShare": "Compartilhar artigo"
+  "articleDetailShare": "Compartilhar artigo",
+  "loginEmail": "E-mail",
+  "loginEmailHint": "Digite seu e-mail",
+  "loginPassword": "Senha",
+  "loginPasswordHint": "Digite sua senha",
+  "loginButton": "Entrar",
+  "signUpButton": "Cadastrar",
+  "signUpTitle": "Criar Conta",
+  "signUpNickname": "Apelido",
+  "signUpNicknameHint": "Escolha um apelido",
+  "createAccountButton": "Criar Conta",
+  "emailValidationError": "Por favor digite um e-mail válido",
+  "passwordValidationError": "A senha deve ter pelo menos 6 caracteres",
+  "nicknameValidationError": "Por favor digite um apelido",
+  "loginError": "Erro ao entrar. Verifique suas credenciais."
 }
