@@ -17,10 +17,16 @@ class _AuthFlowPageState extends State<AuthFlowPage> {
 
   void _attachRouter(StackRouter router) {
     if (_innerRouter == router) return;
-    _innerRouter?.removeListener(_onRouteChanged);
+    _detachListeners();
     _innerRouter = router;
     router.addListener(_onRouteChanged);
+    router.navigationHistory.addListener(_onRouteChanged);
     _resolveTitle();
+  }
+
+  void _detachListeners() {
+    _innerRouter?.removeListener(_onRouteChanged);
+    _innerRouter?.navigationHistory.removeListener(_onRouteChanged);
   }
 
   void _onRouteChanged() {
@@ -45,7 +51,7 @@ class _AuthFlowPageState extends State<AuthFlowPage> {
 
   @override
   void dispose() {
-    _innerRouter?.removeListener(_onRouteChanged);
+    _detachListeners();
     _appBarController.dispose();
     super.dispose();
   }
