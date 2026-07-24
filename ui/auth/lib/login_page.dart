@@ -35,14 +35,13 @@ class _LoginPageState extends State<LoginPage> {
         child: BlocConsumer<LoginCubit, LoginState>(
           listener: (context, state) {
             if (state is LoginAuthenticated) {
-              context.router.maybePop(true);
+              Navigator.of(context, rootNavigator: true).pop(true);
             }
           },
           builder: (context, state) => LoginScreen(
             state: state,
-            onClose: () => context.router.maybePop(false),
             onSignUpTap: () =>
-                context.router.root.push(const SignUpRoute()),
+                context.router.push(const SignUpRoute()),
           ),
         ),
       );

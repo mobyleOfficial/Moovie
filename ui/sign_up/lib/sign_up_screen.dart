@@ -50,22 +50,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
         cubit.validatePassword(_passwordController.text) == null &&
         cubit.validateNickname(_nicknameController.text) == null;
 
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.signUpTitle),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SizedBox(height: 32),
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 32),
                     TextField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
@@ -149,10 +142,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
             ),
-          ],
-        ),
-      ),
-      ),
+      ],
     );
   }
 

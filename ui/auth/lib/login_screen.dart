@@ -6,13 +6,11 @@ import 'package:auth_ui/login_state.dart';
 
 class LoginScreen extends StatefulWidget {
   final LoginState state;
-  final VoidCallback? onClose;
   final VoidCallback? onSignUpTap;
 
   const LoginScreen({
     super.key,
     required this.state,
-    this.onClose,
     this.onSignUpTap,
   });
 
@@ -33,33 +31,26 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Scaffold(
-          body: SafeArea(
-          child: switch (widget.state) {
-            LoginLoading() => _buildLoadingState(context),
-            LoginAuthenticated() => _buildLoadingState(context),
-            LoginUnauthenticated() => _buildEmailForm(context),
-            LoginError(:final message) =>
-              _buildEmailForm(context, loginError: message),
-            LoginFormState(
-              :final emailError,
-              :final passwordError,
-              :final isSubmitting,
-              :final loginError,
-            ) =>
-              _buildEmailForm(
-                context,
-                emailError: emailError,
-                passwordError: passwordError,
-                isSubmitting: isSubmitting,
-                loginError: loginError,
-              ),
-          },
-        ),
-      ),
-      );
+  Widget build(BuildContext context) => switch (widget.state) {
+        LoginLoading() => _buildLoadingState(context),
+        LoginAuthenticated() => _buildLoadingState(context),
+        LoginUnauthenticated() => _buildEmailForm(context),
+        LoginError(:final message) =>
+          _buildEmailForm(context, loginError: message),
+        LoginFormState(
+          :final emailError,
+          :final passwordError,
+          :final isSubmitting,
+          :final loginError,
+        ) =>
+          _buildEmailForm(
+            context,
+            emailError: emailError,
+            passwordError: passwordError,
+            isSubmitting: isSubmitting,
+            loginError: loginError,
+          ),
+      };
 
   Widget _buildLoadingState(BuildContext context) => const Center(
         child: CircularProgressIndicator(),
@@ -82,19 +73,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Column(
       children: [
-        if (widget.onClose != null)
-          Align(
-            alignment: Alignment.centerRight,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8.0, top: 8.0),
-              child: IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: widget.onClose,
-                tooltip:
-                    MaterialLocalizations.of(context).closeButtonTooltip,
-              ),
-            ),
-          ),
         Expanded(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 32.0),
