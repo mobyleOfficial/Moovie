@@ -124,6 +124,16 @@ lane :codegen do
   end
 
   UI.success("Code generation complete for #{packages.size} packages")
+
+  # Refresh CocoaPods so iOS builds pick up native deps pulled by the pub get
+  # above. --repo-update avoids "specs repository is too out-of-date" failures
+  # and re-resolves plugin pod constraints (e.g. ObjectBox). macOS only.
+  ios_dir = "#{root}/ios"
+  if FastlaneCore::Helper.mac? && File.exist?("#{ios_dir}/Podfile")
+    UI.message("Updating CocoaPods (ios)...")
+    sh("cd #{ios_dir} && pod install --repo-update")
+    UI.success("CocoaPods up to date")
+  end
 end
 
 desc "Run tests"
