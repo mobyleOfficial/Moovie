@@ -294,11 +294,24 @@ platform :ios do
       UI.important("⚠️  PRODUCTION MODE - Submitting to TestFlight")
     end
 
-    # Build IPA
+    # gym (build_app) drives xcodebuild directly and never runs `flutter build`,
+    # so the Dart defines the app reads at runtime — FLAVOR and the per-flavor
+    # backend URL from secrets/.env — would be missing and app_config would fall
+    # back to the dev URL. Generate the Flutter build config first so the Xcode
+    # build phase bakes the defines (written into ios/Flutter/Generated.xcconfig)
+    # into the archive. --config-only writes the config without building.
+    sh("cd #{root} && flutter build ios --config-only " \
+       "--flavor #{flavor} " \
+       "--dart-define=FLAVOR=#{flavor} " \
+       "--dart-define-from-file=secrets/.env " \
+       "--release")
+
+    # Build IPA. Scheme/configuration must be the flavor-specific ones
+    # (Release-dev/staging/prod), not the generic Runner/Release.
     build_app(
       workspace: "ios/Runner.xcworkspace",
-      scheme: "Runner",
-      configuration: "Release",
+      scheme: flavor,
+      configuration: "Release-#{flavor}",
       derived_data_path: "build/ios",
       destination_generic_platform: "iOS",
       export_method: "app-store",
