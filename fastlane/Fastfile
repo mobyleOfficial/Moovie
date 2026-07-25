@@ -118,7 +118,10 @@ private_lane :write_env_file do |options|
 end
 
 desc "Run code generation (build_runner) for all packages"
-lane :codegen do
+lane :codegen do |options|
+  require 'shellwords'
+  require 'etc'
+
   root = File.expand_path("..", Dir.pwd)
 
   # Directories that can hold vendored or generated pubspec.yaml files
@@ -132,19 +135,61 @@ lane :codegen do
 
   # The root app package aggregates the generated routers and DI config from
   # every sub-package, so it must be generated LAST — after the packages it
-  # depends on have produced their own generated sources.
-  packages.sort_by! { |pkg| pkg == root ? 1 : 0 }
+  # depends on have produced their own generated sources. All other packages
+  # are independent and can be generated concurrently.
+  leaves = packages.reject { |pkg| pkg == root }
+  has_root = packages.include?(root)
 
-  packages.each do |pkg|
+  # build_runner peaks at ~1-2 GB RAM per package, so cap concurrency to keep
+  # CI runners from OOMing. Override with `fastlane codegen jobs:N` or
+  # CODEGEN_JOBS=N on machines with more headroom.
+  max_jobs = (options[:jobs] || ENV['CODEGEN_JOBS'] || [Etc.nprocessors, 4].min).to_i
+  max_jobs = 1 if max_jobs < 1
+
+  # Resolve deps + generate for one package. Output is buffered (not streamed)
+  # so concurrent jobs don't interleave their logs. pub get runs first because
+  # freshly added packages have no .dart_tool for build_runner to use.
+  generate = lambda do |pkg|
     rel = pkg == root ? "." : pkg.sub("#{root}/", "")
+    cmd = "cd #{pkg.shellescape} && flutter pub get && " \
+          "dart run build_runner build --delete-conflicting-outputs"
+    output = `#{cmd} 2>&1`
+    { rel: rel, ok: $?.success?, output: output }
+  end
 
-    # Resolve dependencies first: packages added since the last run (or on a
-    # fresh checkout) have no .dart_tool, so build_runner would fail without it.
-    UI.message("Resolving dependencies in #{rel}...")
-    sh("cd #{pkg} && flutter pub get")
+  UI.message("Generating #{leaves.size} package(s), up to #{max_jobs} in parallel...")
 
-    UI.message("Running build_runner in #{rel}...")
-    sh("cd #{pkg} && dart run build_runner build --delete-conflicting-outputs")
+  # Bounded worker pool: threads pull packages off a shared queue. Ruby releases
+  # the GIL while a subprocess runs, so the builds genuinely run in parallel.
+  queue = leaves.dup
+  results = []
+  lock = Mutex.new
+  Array.new([max_jobs, leaves.size].min) do
+    Thread.new do
+      loop do
+        pkg = lock.synchronize { queue.shift }
+        break unless pkg
+        res = generate.call(pkg)
+        lock.synchronize do
+          results << res
+          UI.success("✓ #{res[:rel]}") if res[:ok]
+        end
+      end
+    end
+  end.each(&:join)
+
+  failures = results.reject { |r| r[:ok] }
+  unless failures.empty?
+    failures.each { |r| UI.error("build_runner failed in #{r[:rel]}:\n#{r[:output]}") }
+    UI.user_error!("Code generation failed in #{failures.size} package(s)")
+  end
+
+  # Root last, serially, so it picks up the sub-package generated sources.
+  if has_root
+    UI.message("Resolving dependencies in . (root)...")
+    sh("cd #{root} && flutter pub get")
+    UI.message("Running build_runner in . (root)...")
+    sh("cd #{root} && dart run build_runner build --delete-conflicting-outputs")
   end
 
   UI.success("Code generation complete for #{packages.size} packages")
