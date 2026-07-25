@@ -18,8 +18,14 @@ inputs:
   tmdb-api-key:
     description: TMDB API key (required if setup-ci-env is true)
     required: false
-  backend-url:
-    description: Backend URL (required if setup-ci-env is true)
+  dev-backend-url:
+    description: DEV backend URL (required if setup-ci-env is true)
+    required: false
+  stg-backend-url:
+    description: STAGING backend URL (required if setup-ci-env is true)
+    required: false
+  prod-backend-url:
+    description: PROD backend URL (required if setup-ci-env is true)
     required: false
   setup-java:
     description: Whether to run Setup Java step
@@ -75,6 +81,8 @@ runs:
       if: inputs.setup-ci-env == 'true'
       env:
         TMDB_API_KEY: ${{ inputs.tmdb-api-key }}
-        BACKEND_URL: ${{ inputs.backend-url }}
+        DEV_BACKEND_URL: ${{ inputs.dev-backend-url }}
+        STG_BACKEND_URL: ${{ inputs.stg-backend-url }}
+        PROD_BACKEND_URL: ${{ inputs.prod-backend-url }}
       run: bundle exec fastlane setup_ci_env
       shell: bash

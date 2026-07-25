@@ -61,7 +61,9 @@ jobs:
           ruby-version: ${{ needs.config.outputs.ruby_version }}
           xcode-version: ${{ needs.config.outputs.xcode_version }}
           tmdb-api-key: ${{ secrets.TMDB_API_KEY }}
-          backend-url: ${{ secrets.BACKEND_URL }}
+          dev-backend-url: ${{ secrets.DEV_BACKEND_URL }}
+          stg-backend-url: ${{ secrets.STG_BACKEND_URL }}
+          prod-backend-url: ${{ secrets.PROD_BACKEND_URL }}
 
       - name: Determine flavor
         id: flavor
