@@ -51,10 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       isNicknameAvailable = formState.isNicknameAvailable;
     }
 
-    final isFormValid = _emailController.text.isNotEmpty &&
-        _passwordController.text.isNotEmpty &&
-        _nicknameController.text.isNotEmpty &&
-        cubit.validateEmail(_emailController.text) == null &&
+    final isFormValid = cubit.validateEmail(_emailController.text) == null &&
         cubit.validatePassword(_passwordController.text) == null &&
         cubit.validateNickname(_nicknameController.text) == null &&
         nicknameError == null &&
@@ -151,10 +148,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     prefixIcon: const Icon(Icons.person_outlined),
-                    suffixIcon: _buildNicknameSuffix(
-                      isCheckingNickname,
-                      isNicknameAvailable,
-                      nicknameError,
+                    suffixIcon: NicknameSuffixIcon(
+                      isChecking: isCheckingNickname,
+                      isAvailable: isNicknameAvailable,
+                      error: nicknameError,
                     ),
                   ),
                   onChanged: (value) {
@@ -198,27 +195,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget? _buildNicknameSuffix(
-    bool isChecking,
-    bool? isAvailable,
-    String? error,
-  ) {
-    if (isChecking) {
-      return const Padding(
-        padding: EdgeInsets.all(12),
-        child: SizedBox(
-          height: 20,
-          width: 20,
-          child: CircularProgressIndicator(strokeWidth: 2),
-        ),
-      );
-    }
-    if (error != null) return null;
-    if (isAvailable == true) {
-      return const Icon(Icons.check_circle_outline, color: Colors.green);
-    }
-    return null;
-  }
 
   String? _resolveEmailError(String? error, AppLocalizations l10n) =>
       switch (error) {
@@ -251,4 +227,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'server' => l10n.signUpServerError,
         _ => l10n.loginGenericError,
       };
+}
+
+class NicknameSuffixIcon extends StatelessWidget {
+  final bool isChecking;
+  final bool? isAvailable;
+  final String? error;
+
+  const NicknameSuffixIcon({
+    super.key,
+    required this.isChecking,
+    this.isAvailable,
+    this.error,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (isChecking) {
+      return const Padding(
+        padding: EdgeInsets.all(12),
+        child: SizedBox(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(strokeWidth: 2),
+        ),
+      );
+    }
+    if (error != null) return const SizedBox.shrink();
+    if (isAvailable == true) {
+      return const Icon(Icons.check_circle_outline, color: Colors.green);
+    }
+    return const SizedBox.shrink();
+  }
 }
