@@ -1,4 +1,3 @@
-import 'package:auth_ui/login_router.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -21,7 +20,7 @@ Future<void> mainApp() async {
   final appDir = await getApplicationDocumentsDirectory();
   final store = openStore(directory: '${appDir.path}/objectbox');
   configureDependencies(store: store);
-  AuthGate.configure(loginRoute: const LoginRoute());
+  AuthGate.configure(loginRoute: const AuthFlowRoute());
   runApp(MyApp());
 }
 

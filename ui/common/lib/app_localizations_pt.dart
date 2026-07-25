@@ -485,4 +485,74 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get articleDetailShare => 'Compartilhar artigo';
+
+  @override
+  String get loginEmail => 'E-mail';
+
+  @override
+  String get loginEmailHint => 'Digite seu e-mail';
+
+  @override
+  String get loginPassword => 'Senha';
+
+  @override
+  String get loginPasswordHint => 'Digite sua senha';
+
+  @override
+  String get loginButton => 'Entrar';
+
+  @override
+  String get signUpButton => 'Cadastrar';
+
+  @override
+  String get signUpTitle => 'Criar Conta';
+
+  @override
+  String get signUpNickname => 'Apelido';
+
+  @override
+  String get signUpNicknameHint => 'Escolha um apelido';
+
+  @override
+  String get createAccountButton => 'Criar Conta';
+
+  @override
+  String get emailValidationError => 'Por favor digite um e-mail válido';
+
+  @override
+  String get passwordValidationError =>
+      'A senha deve ter pelo menos 8 caracteres';
+
+  @override
+  String get passwordTooLongError => 'A senha deve ter no máximo 72 caracteres';
+
+  @override
+  String get nicknameValidationError => 'Por favor digite um apelido';
+
+  @override
+  String get nicknameTooLongError =>
+      'O apelido deve ter no máximo 30 caracteres';
+
+  @override
+  String get nicknameTakenError => 'Esse apelido já está em uso';
+
+  @override
+  String get signUpConflictError => 'Esse email ou apelido já está em uso.';
+
+  @override
+  String get signUpBadRequestError => 'Verifique seus dados e tente novamente.';
+
+  @override
+  String get signUpNetworkError =>
+      'Sem conexão com a internet. Tente novamente.';
+
+  @override
+  String get signUpServerError =>
+      'Erro no servidor. Tente novamente mais tarde.';
+
+  @override
+  String get loginError => 'Usuário ou senha incorretos.';
+
+  @override
+  String get loginGenericError => 'Algo deu errado, tente de novo mais tarde.';
 }

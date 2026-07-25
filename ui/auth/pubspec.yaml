@@ -14,6 +14,8 @@ dependencies:
   bloc: ^9.2.0
   auth:
     path: ../../features/auth
+  auth_domain:
+    path: ../../features/auth/domain
   common:
     path: ../common
   core:

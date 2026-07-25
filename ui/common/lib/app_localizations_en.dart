@@ -482,4 +482,73 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get articleDetailShare => 'Share article';
+
+  @override
+  String get loginEmail => 'Email';
+
+  @override
+  String get loginEmailHint => 'Enter your email';
+
+  @override
+  String get loginPassword => 'Password';
+
+  @override
+  String get loginPasswordHint => 'Enter your password';
+
+  @override
+  String get loginButton => 'Log In';
+
+  @override
+  String get signUpButton => 'Sign Up';
+
+  @override
+  String get signUpTitle => 'Create Account';
+
+  @override
+  String get signUpNickname => 'Nickname';
+
+  @override
+  String get signUpNicknameHint => 'Choose a nickname';
+
+  @override
+  String get createAccountButton => 'Create Account';
+
+  @override
+  String get emailValidationError => 'Please enter a valid email address';
+
+  @override
+  String get passwordValidationError =>
+      'Password must be at least 8 characters';
+
+  @override
+  String get passwordTooLongError => 'Password must be at most 72 characters';
+
+  @override
+  String get nicknameValidationError => 'Please enter a nickname';
+
+  @override
+  String get nicknameTooLongError => 'Nickname must be at most 30 characters';
+
+  @override
+  String get nicknameTakenError => 'This nickname is already taken';
+
+  @override
+  String get signUpConflictError => 'This email or nickname is already in use.';
+
+  @override
+  String get signUpBadRequestError =>
+      'Please check your information and try again.';
+
+  @override
+  String get signUpNetworkError => 'No internet connection. Please try again.';
+
+  @override
+  String get signUpServerError => 'Server error. Please try again later.';
+
+  @override
+  String get loginError => 'Incorrect email or password.';
+
+  @override
+  String get loginGenericError =>
+      'Something went wrong, please try again later.';
 }

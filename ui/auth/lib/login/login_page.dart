@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:auth/auth.dart';
-import 'package:auth_ui/login_cubit.dart';
-import 'package:auth_ui/login_state.dart';
-import 'package:auth_ui/login_screen.dart';
+import 'package:auth_ui/login/login_cubit.dart';
+import 'package:auth_ui/login/login_state.dart';
+import 'package:auth_ui/login/login_screen.dart';
+import 'package:auth_ui/login_router.dart';
 
 @RoutePage()
 class LoginPage extends StatefulWidget {
@@ -18,6 +19,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late final LoginCubit _cubit = LoginCubit(
     loginUseCase: GetIt.I<Login>(),
+    loginWithEmailUseCase: GetIt.I<LoginWithEmail>(),
     isUserAuthenticatedUseCase: GetIt.I<IsUserAuthenticated>(),
   );
 
@@ -33,12 +35,13 @@ class _LoginPageState extends State<LoginPage> {
         child: BlocConsumer<LoginCubit, LoginState>(
           listener: (context, state) {
             if (state is LoginAuthenticated) {
-              context.router.maybePop(true);
+              Navigator.of(context, rootNavigator: true).pop(true);
             }
           },
           builder: (context, state) => LoginScreen(
             state: state,
-            onClose: () => context.router.maybePop(false),
+            onSignUpTap: () =>
+                context.router.push(const SignUpRoute()),
           ),
         ),
       );

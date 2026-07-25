@@ -1,6 +1,7 @@
 import 'package:auth_ui/login_router.dart';
 import 'package:social/social_router.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:moovie/routes/auth_flow_page.dart';
 import 'package:moovie/routes/main_screen.dart';
 import 'package:movies_ui/favorite_movies/favorite_movies_router.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
@@ -100,10 +101,14 @@ class AppRouter extends RootStackRouter {
           reverseDuration: _animationDuration,
         ),
         CustomRoute(
-          page: LoginRoute.page,
+          page: AuthFlowRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
           duration: _animationDuration,
           reverseDuration: _animationDuration,
+          children: [
+            AutoRoute(page: LoginRoute.page, initial: true),
+            AutoRoute(page: SignUpRoute.page),
+          ],
         ),
       ];
 }

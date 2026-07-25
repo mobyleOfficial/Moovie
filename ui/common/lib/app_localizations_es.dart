@@ -487,4 +487,78 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get articleDetailShare => 'Compartir artículo';
+
+  @override
+  String get loginEmail => 'Correo electrónico';
+
+  @override
+  String get loginEmailHint => 'Ingresa tu correo electrónico';
+
+  @override
+  String get loginPassword => 'Contraseña';
+
+  @override
+  String get loginPasswordHint => 'Ingresa tu contraseña';
+
+  @override
+  String get loginButton => 'Iniciar Sesión';
+
+  @override
+  String get signUpButton => 'Registrarse';
+
+  @override
+  String get signUpTitle => 'Crear Cuenta';
+
+  @override
+  String get signUpNickname => 'Apodo';
+
+  @override
+  String get signUpNicknameHint => 'Elige un apodo';
+
+  @override
+  String get createAccountButton => 'Crear Cuenta';
+
+  @override
+  String get emailValidationError =>
+      'Por favor ingresa un correo electrónico válido';
+
+  @override
+  String get passwordValidationError =>
+      'La contraseña debe tener al menos 8 caracteres';
+
+  @override
+  String get passwordTooLongError =>
+      'La contraseña debe tener como máximo 72 caracteres';
+
+  @override
+  String get nicknameValidationError => 'Por favor ingresa un apodo';
+
+  @override
+  String get nicknameTooLongError =>
+      'El apodo debe tener como máximo 30 caracteres';
+
+  @override
+  String get nicknameTakenError => 'Este apodo ya está en uso';
+
+  @override
+  String get signUpConflictError => 'Este email o apodo ya está en uso.';
+
+  @override
+  String get signUpBadRequestError =>
+      'Verifica tus datos e inténtalo de nuevo.';
+
+  @override
+  String get signUpNetworkError =>
+      'Sin conexión a internet. Inténtalo de nuevo.';
+
+  @override
+  String get signUpServerError =>
+      'Error del servidor. Inténtalo de nuevo más tarde.';
+
+  @override
+  String get loginError => 'Usuario o contraseña incorrectos.';
+
+  @override
+  String get loginGenericError =>
+      'Algo salió mal, inténtalo de nuevo más tarde.';
 }
