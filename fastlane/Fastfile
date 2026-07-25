@@ -196,12 +196,28 @@ lane :codegen do |options|
 
   # Refresh CocoaPods so iOS builds pick up native deps pulled by the pub get
   # above. --repo-update avoids "specs repository is too out-of-date" failures
-  # and re-resolves plugin pod constraints (e.g. ObjectBox). macOS only.
+  # and re-resolves plugin pod constraints (e.g. ObjectBox).
+  #
+  # Best-effort: this is an iOS-only convenience, so it must never break codegen
+  # on machines that can't (or don't need to) run it — e.g. a Windows/Linux box
+  # building only Android, or a Mac without CocoaPods installed. We skip unless
+  # we're on macOS with a Podfile and the `pod` binary present, and we downgrade
+  # an install failure (offline spec repo, etc.) to a warning.
   ios_dir = "#{root}/ios"
-  if FastlaneCore::Helper.mac? && File.exist?("#{ios_dir}/Podfile")
+  pod_available = FastlaneCore::Helper.mac? &&
+                  File.exist?("#{ios_dir}/Podfile") &&
+                  system("command -v pod > /dev/null 2>&1")
+
+  if pod_available
     UI.message("Updating CocoaPods (ios)...")
-    sh("cd #{ios_dir} && pod install --repo-update")
-    UI.success("CocoaPods up to date")
+    begin
+      sh("cd #{ios_dir} && pod install --repo-update")
+      UI.success("CocoaPods up to date")
+    rescue => e
+      UI.important("Skipping CocoaPods refresh — pod install failed: #{e.message}")
+    end
+  else
+    UI.message("Skipping CocoaPods refresh (not macOS, or Podfile/pod unavailable)")
   end
 end
 
