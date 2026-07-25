@@ -518,10 +518,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordValidationError =>
-      'Password must be at least 6 characters';
+      'Password must be at least 8 characters';
+
+  @override
+  String get passwordTooLongError => 'Password must be at most 72 characters';
 
   @override
   String get nicknameValidationError => 'Please enter a nickname';
+
+  @override
+  String get nicknameTooLongError => 'Nickname must be at most 30 characters';
+
+  @override
+  String get nicknameTakenError => 'This nickname is already taken';
+
+  @override
+  String get signUpConflictError => 'This email or nickname is already in use.';
+
+  @override
+  String get signUpBadRequestError =>
+      'Please check your information and try again.';
+
+  @override
+  String get signUpNetworkError => 'No internet connection. Please try again.';
+
+  @override
+  String get signUpServerError => 'Server error. Please try again later.';
 
   @override
   String get loginError => 'Incorrect email or password.';

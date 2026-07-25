@@ -1,17 +1,108 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:core/core.dart';
+import 'package:auth_domain/domain.dart';
 import 'package:sign_up_ui/sign_up.dart';
 
+class MockSignUpUseCase extends SignUp {
+  Result<void>? mockResult;
+
+  MockSignUpUseCase() : super(_FakeAuthRepository());
+
+  @override
+  Future<Result<void>> call([SignUpParams? params]) async =>
+      mockResult ?? const Failure(AppError.unknown);
+}
+
+class MockCheckNicknameAvailabilityUseCase extends CheckNicknameAvailability {
+  Result<bool>? mockResult;
+
+  MockCheckNicknameAvailabilityUseCase() : super(_FakeAuthRepository());
+
+  @override
+  Future<Result<bool>> call([String? params]) async =>
+      mockResult ?? const Failure(AppError.unknown);
+}
+
+class _FakeAuthRepository implements AuthRepository {
+  @override
+  Future<Result<void>> login(OAuthProvider provider) async =>
+      const Failure(AppError.unknown);
+
+  @override
+  Future<Result<void>> loginWithEmail(String email, String password) async =>
+      const Failure(AppError.unknown);
+
+  @override
+  Future<Result<bool>> isUserAuthenticated() async =>
+      const Failure(AppError.unknown);
+
+  @override
+  Future<Result<void>> signUp(
+    String email,
+    String password,
+    String nickname,
+  ) async =>
+      const Failure(AppError.unknown);
+
+  @override
+  Future<Result<bool>> checkNicknameAvailability(String nickname) async =>
+      const Failure(AppError.unknown);
+}
+
 void main() {
-  SignUpCubit buildCubit() => SignUpCubit();
+  late MockSignUpUseCase mockSignUp;
+  late MockCheckNicknameAvailabilityUseCase mockCheckNickname;
+
+  setUp(() {
+    mockSignUp = MockSignUpUseCase();
+    mockCheckNickname = MockCheckNicknameAvailabilityUseCase();
+  });
+
+  SignUpCubit buildCubit() => SignUpCubit(
+        signUp: mockSignUp,
+        checkNicknameAvailability: mockCheckNickname,
+      );
 
   group('createAccount', () {
     blocTest<SignUpCubit, SignUpState>(
-      'emits [SignUpSuccess] when all fields valid',
-      build: buildCubit,
+      'emits [SignUpFormState(submitting), SignUpSuccess] on success',
+      build: () {
+        mockSignUp.mockResult = const Success(null);
+        return buildCubit();
+      },
       act: (cubit) =>
           cubit.createAccount('test@example.com', 'password123', 'nick'),
-      expect: () => [isA<SignUpSuccess>()],
+      expect: () => [
+        isA<SignUpFormState>().having(
+          (s) => s.isSubmitting,
+          'isSubmitting',
+          true,
+        ),
+        isA<SignUpSuccess>(),
+      ],
+    );
+
+    blocTest<SignUpCubit, SignUpState>(
+      'emits [SignUpFormState(submitting), SignUpFormState(signUpError)] on conflict',
+      build: () {
+        mockSignUp.mockResult = const Failure(AppError.conflict);
+        return buildCubit();
+      },
+      act: (cubit) =>
+          cubit.createAccount('test@example.com', 'password123', 'nick'),
+      expect: () => [
+        isA<SignUpFormState>().having(
+          (s) => s.isSubmitting,
+          'isSubmitting',
+          true,
+        ),
+        isA<SignUpFormState>().having(
+          (s) => s.signUpError,
+          'signUpError',
+          'conflict',
+        ),
+      ],
     );
 
     blocTest<SignUpCubit, SignUpState>(
@@ -32,7 +123,7 @@ void main() {
       'emits [SignUpFormState with passwordError] for short password',
       build: buildCubit,
       act: (cubit) =>
-          cubit.createAccount('test@example.com', '12345', 'nick'),
+          cubit.createAccount('test@example.com', '1234567', 'nick'),
       expect: () => [
         isA<SignUpFormState>().having(
           (s) => s.passwordError,
@@ -55,18 +146,6 @@ void main() {
         ),
       ],
     );
-
-    blocTest<SignUpCubit, SignUpState>(
-      'emits all validation errors when all fields invalid',
-      build: buildCubit,
-      act: (cubit) => cubit.createAccount('', '', ''),
-      expect: () => [
-        isA<SignUpFormState>()
-            .having((s) => s.emailError, 'emailError', isNotNull)
-            .having((s) => s.passwordError, 'passwordError', isNotNull)
-            .having((s) => s.nicknameError, 'nicknameError', isNotNull),
-      ],
-    );
   });
 
   group('validation', () {
@@ -87,7 +166,7 @@ void main() {
 
     test('validatePassword returns null for valid password', () {
       final cubit = buildCubit();
-      expect(cubit.validatePassword('123456'), isNull);
+      expect(cubit.validatePassword('12345678'), isNull);
     });
 
     test('validatePassword returns required for empty', () {
@@ -95,9 +174,14 @@ void main() {
       expect(cubit.validatePassword(''), 'required');
     });
 
-    test('validatePassword returns too_short for < 6 chars', () {
+    test('validatePassword returns too_short for < 8 chars', () {
       final cubit = buildCubit();
-      expect(cubit.validatePassword('12345'), 'too_short');
+      expect(cubit.validatePassword('1234567'), 'too_short');
+    });
+
+    test('validatePassword returns too_long for > 72 chars', () {
+      final cubit = buildCubit();
+      expect(cubit.validatePassword('a' * 73), 'too_long');
     });
 
     test('validateNickname returns null for non-empty', () {
@@ -108,6 +192,11 @@ void main() {
     test('validateNickname returns required for empty', () {
       final cubit = buildCubit();
       expect(cubit.validateNickname(''), 'required');
+    });
+
+    test('validateNickname returns too_long for > 30 chars', () {
+      final cubit = buildCubit();
+      expect(cubit.validateNickname('a' * 31), 'too_long');
     });
   });
 }

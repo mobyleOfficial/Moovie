@@ -19,6 +19,8 @@ class MockOAuthRemoteDataSource implements OAuthRemoteDataSource {
 
 class MockAuthRemoteDataSource implements AuthRemoteDataSource {
   Result<AuthTokenModel>? loginResult;
+  Result<AuthTokenModel>? signUpResult;
+  Result<bool>? checkNicknameResult;
   String? lastEmail;
   String? lastPassword;
 
@@ -31,6 +33,18 @@ class MockAuthRemoteDataSource implements AuthRemoteDataSource {
     lastPassword = password;
     return loginResult ?? const Failure(AppError.unknown);
   }
+
+  @override
+  Future<Result<AuthTokenModel>> signUp(
+    String email,
+    String password,
+    String nickname,
+  ) async =>
+      signUpResult ?? const Failure(AppError.unknown);
+
+  @override
+  Future<Result<bool>> checkNicknameAvailability(String nickname) async =>
+      checkNicknameResult ?? const Failure(AppError.unknown);
 }
 
 class MockAuthLocalDataSource implements AuthLocalDataSource {

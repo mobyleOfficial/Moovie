@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:auth_domain/usecases/sign_up.dart';
+import 'package:auth_domain/usecases/check_nickname_availability.dart';
 import 'package:sign_up_ui/sign_up_cubit.dart';
 import 'package:sign_up_ui/sign_up_state.dart';
 import 'package:sign_up_ui/sign_up_screen.dart';
@@ -14,7 +17,10 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  late final SignUpCubit _cubit = SignUpCubit();
+  late final SignUpCubit _cubit = SignUpCubit(
+    signUp: GetIt.I<SignUp>(),
+    checkNicknameAvailability: GetIt.I<CheckNicknameAvailability>(),
+  );
 
   @override
   void dispose() {
@@ -28,7 +34,7 @@ class _SignUpPageState extends State<SignUpPage> {
         child: BlocConsumer<SignUpCubit, SignUpState>(
           listener: (context, state) {
             if (state is SignUpSuccess) {
-              context.router.maybePop();
+              Navigator.of(context, rootNavigator: true).pop(true);
             }
           },
           builder: (context, state) => SignUpScreen(state: state),

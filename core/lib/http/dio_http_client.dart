@@ -66,8 +66,10 @@ class DioHttpClient implements HttpClient {
       };
 
   AppError _mapStatusCode(int? statusCode) => switch (statusCode) {
+        400 => AppError.badRequest,
         401 => AppError.unauthorized,
         404 => AppError.notFound,
+        409 => AppError.conflict,
         _ when statusCode != null && statusCode >= 500 => AppError.server,
         _ => AppError.unknown,
       };

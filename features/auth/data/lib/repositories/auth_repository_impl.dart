@@ -55,6 +55,26 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Result<void>> signUp(
+    String email,
+    String password,
+    String nickname,
+  ) async {
+    final result = await _authRemoteDataSource.signUp(email, password, nickname);
+
+    switch (result) {
+      case Success(:final data):
+        return _localDataSource.saveToken(data);
+      case Failure(:final error):
+        return Failure(error);
+    }
+  }
+
+  @override
+  Future<Result<bool>> checkNicknameAvailability(String nickname) =>
+      _authRemoteDataSource.checkNicknameAvailability(nickname);
+
+  @override
   Future<Result<bool>> isUserAuthenticated() async {
     final result = await _localDataSource.getToken();
 

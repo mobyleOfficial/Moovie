@@ -2,6 +2,7 @@ import 'package:core/core.dart';
 import 'package:auth_data/datasources/remote/auth_remote_data_source.dart';
 import 'package:auth_data/models/auth_token_model.dart';
 import 'package:auth_data/models/login_response_model.dart';
+import 'package:auth_data/models/nickname_availability_model.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final HttpClient _httpClient;
@@ -24,6 +25,42 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     return switch (result) {
       Success<Map<String, dynamic>>(:final data) =>
         Success(LoginResponseModel.fromJson(data).toAuthTokenModel()),
+      Failure<Map<String, dynamic>>(:final error) => Failure(error),
+    };
+  }
+
+  @override
+  Future<Result<AuthTokenModel>> signUp(
+    String email,
+    String password,
+    String nickname,
+  ) async {
+    final result = await _httpClient.post<Map<String, dynamic>>(
+      '/auth/signup',
+      body: {
+        'email': email,
+        'password': password,
+        'nickname': nickname,
+      },
+    );
+
+    return switch (result) {
+      Success<Map<String, dynamic>>(:final data) =>
+        Success(LoginResponseModel.fromJson(data).toAuthTokenModel()),
+      Failure<Map<String, dynamic>>(:final error) => Failure(error),
+    };
+  }
+
+  @override
+  Future<Result<bool>> checkNicknameAvailability(String nickname) async {
+    final result = await _httpClient.get<Map<String, dynamic>>(
+      '/auth/check-nickname',
+      queryParams: {'nickname': nickname},
+    );
+
+    return switch (result) {
+      Success<Map<String, dynamic>>(:final data) =>
+        Success(NicknameAvailabilityModel.fromJson(data).available),
       Failure<Map<String, dynamic>>(:final error) => Failure(error),
     };
   }

@@ -7,7 +7,7 @@ import 'package:profile/profile.dart';
 abstract class ProfileModule {
   @lazySingleton
   ProfileRemoteDataSource profileRemoteDataSource(
-    @Named('tmdb') HttpClient httpClient,
+    @Named('backend') HttpClient httpClient,
   ) =>
       ProfileRemoteDataSourceImpl(httpClient);
 

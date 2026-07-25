@@ -521,10 +521,34 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get passwordValidationError =>
-      'A senha deve ter pelo menos 6 caracteres';
+      'A senha deve ter pelo menos 8 caracteres';
+
+  @override
+  String get passwordTooLongError => 'A senha deve ter no máximo 72 caracteres';
 
   @override
   String get nicknameValidationError => 'Por favor digite um apelido';
+
+  @override
+  String get nicknameTooLongError =>
+      'O apelido deve ter no máximo 30 caracteres';
+
+  @override
+  String get nicknameTakenError => 'Esse apelido já está em uso';
+
+  @override
+  String get signUpConflictError => 'Esse email ou apelido já está em uso.';
+
+  @override
+  String get signUpBadRequestError => 'Verifique seus dados e tente novamente.';
+
+  @override
+  String get signUpNetworkError =>
+      'Sem conexão com a internet. Tente novamente.';
+
+  @override
+  String get signUpServerError =>
+      'Erro no servidor. Tente novamente mais tarde.';
 
   @override
   String get loginError => 'Usuário ou senha incorretos.';

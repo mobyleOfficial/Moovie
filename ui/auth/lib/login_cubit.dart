@@ -42,7 +42,7 @@ class LoginCubit extends Cubit<LoginState> {
 
   String? validatePassword(String password) {
     if (password.isEmpty) return 'required';
-    if (password.length < 6) return 'too_short';
+    if (password.length < 8) return 'too_short';
     return null;
   }
 

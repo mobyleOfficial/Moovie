@@ -8,7 +8,6 @@ import 'package:movies/movies.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
 import 'package:profile/profile.dart';
 import 'package:profile_ui/profile_router.dart';
-import 'package:public_profile/public_profile_router.dart';
 
 class ProfileInfoScreen extends StatefulWidget {
   const ProfileInfoScreen({super.key});
@@ -20,14 +19,6 @@ class ProfileInfoScreen extends StatefulWidget {
 class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
   UserProfile? _profile;
   bool _loading = true;
-
-  static const _recentMovies = [
-    (title: 'Dune: Part Two', id: 693134),
-    (title: 'Oppenheimer', id: 872585),
-    (title: 'Poor Things', id: 792307),
-    (title: 'The Zone of Interest', id: 929590),
-    (title: 'Society of the Snow', id: 876969),
-  ];
 
   @override
   void initState() {
@@ -69,7 +60,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
     }
   }
 
-  void _openMoviesWatchedSheet() {
+  void _openRecentMoviesSheet() {
     final profile = _profile;
     if (profile == null) return;
     final l10n = AppLocalizations.of(context);
@@ -79,37 +70,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
       builder: (_) => _MoviesListSheet(
         title: l10n?.profileMoviesWatchedTitle ?? '',
         emptyMessage: l10n?.profileEmptyMoviesWatched ?? '',
-        movies: profile.moviesWatched,
-      ),
-    );
-  }
-
-  void _openFollowingSheet() {
-    final profile = _profile;
-    if (profile == null) return;
-    final l10n = AppLocalizations.of(context);
-
-    MoovieBottomSheet.show(
-      context: context,
-      builder: (_) => _UsersListSheet(
-        title: l10n?.profileFollowingTitle ?? '',
-        emptyMessage: l10n?.profileEmptyFollowing ?? '',
-        users: profile.following,
-      ),
-    );
-  }
-
-  void _openFollowersSheet() {
-    final profile = _profile;
-    if (profile == null) return;
-    final l10n = AppLocalizations.of(context);
-
-    MoovieBottomSheet.show(
-      context: context,
-      builder: (_) => _UsersListSheet(
-        title: l10n?.profileFollowersTitle ?? '',
-        emptyMessage: l10n?.profileEmptyFollowers ?? '',
-        users: profile.followers,
+        movies: profile.recentMovies,
       ),
     );
   }
@@ -130,18 +91,6 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
         child: Text(l10n?.unknownError ?? ''),
       );
     }
-
-    final posterColors = [
-      colorScheme.primaryContainer,
-      colorScheme.secondaryContainer,
-      colorScheme.tertiaryContainer,
-      colorScheme.surfaceContainerHighest,
-      colorScheme.primaryContainer,
-    ];
-
-    final moviesWatchedCount = profile.moviesWatched.length;
-    final followingCount = profile.following.length;
-    final followersCount = profile.followers.length;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -189,21 +138,21 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _ProfileStat(
-                  value: '$moviesWatchedCount',
+                  value: '${profile.moviesWatchedCount}',
                   label: l10n?.profileMoviesWatched ?? '',
-                  onTap: _openMoviesWatchedSheet,
+                  onTap: _openRecentMoviesSheet,
                 ),
                 VerticalDivider(color: colorScheme.outlineVariant, width: 1),
                 _ProfileStat(
-                  value: '$followingCount',
+                  value: '${profile.followingCount}',
                   label: l10n?.profileFollowing ?? '',
-                  onTap: _openFollowingSheet,
+                  onTap: () {},
                 ),
                 VerticalDivider(color: colorScheme.outlineVariant, width: 1),
                 _ProfileStat(
-                  value: '$followersCount',
+                  value: '${profile.followersCount}',
                   label: l10n?.profileFollowers ?? '',
-                  onTap: _openFollowersSheet,
+                  onTap: () {},
                 ),
               ],
             ),
@@ -221,43 +170,75 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
             ),
           ),
           const SizedBox(height: 28),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              l10n?.profileRecentMovies ?? '',
-              style:
-                  textTheme.titleSmall?.copyWith(color: colorScheme.onSurface),
-            ),
-          ),
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 120,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: _recentMovies.length,
-              separatorBuilder: (_, _) => const SizedBox(width: 8),
-              itemBuilder: (context, index) => Semantics(
-                label: _recentMovies[index].title,
-                button: true,
-                child: InkWell(
-                  onTap: () => context.router.push(
-                    MovieDetailRoute(
-                      movieId: _recentMovies[index].id,
-                      movieTitle: _recentMovies[index].title,
-                    ),
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                  child: Container(
-                    width: 80,
-                    decoration: BoxDecoration(
-                      color: posterColors[index],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
+          if (profile.recentMovies.isNotEmpty) ...[
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                l10n?.profileRecentMovies ?? '',
+                style: textTheme.titleSmall
+                    ?.copyWith(color: colorScheme.onSurface),
               ),
             ),
-          ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 120,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: profile.recentMovies.length,
+                separatorBuilder: (_, _) => const SizedBox(width: 8),
+                itemBuilder: (context, index) {
+                  final movie = profile.recentMovies[index];
+                  return Semantics(
+                    label: movie.title,
+                    button: true,
+                    child: InkWell(
+                      onTap: () => context.router.push(
+                        MovieDetailRoute(
+                          movieId: movie.id,
+                          movieTitle: movie.title,
+                        ),
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: movie.posterPath.isNotEmpty
+                            ? CachedNetworkImage(
+                                imageUrl:
+                                    '${TmdbImageUrl.posterMedium}${movie.posterPath}',
+                                width: 80,
+                                height: 120,
+                                fit: BoxFit.cover,
+                                placeholder: (_, _) => Container(
+                                  width: 80,
+                                  height: 120,
+                                  color: colorScheme.surfaceContainerHighest,
+                                ),
+                                errorWidget: (_, _, _) => Container(
+                                  width: 80,
+                                  height: 120,
+                                  color: colorScheme.surfaceContainerHighest,
+                                  child: Icon(
+                                    Icons.movie,
+                                    color: colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                width: 80,
+                                height: 120,
+                                color: colorScheme.surfaceContainerHighest,
+                                child: Icon(
+                                  Icons.movie,
+                                  color: colorScheme.onSurfaceVariant,
+                                ),
+                              ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
           const SizedBox(height: 24),
         ],
       ),
@@ -454,76 +435,6 @@ class _MoviesListSheet extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
-                );
-              },
-            ),
-    );
-  }
-}
-
-class _UsersListSheet extends StatelessWidget {
-  final String title;
-  final String emptyMessage;
-  final List<UserSummary> users;
-
-  const _UsersListSheet({
-    required this.title,
-    required this.emptyMessage,
-    required this.users,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return _SheetScaffold(
-      title: title,
-      child: users.isEmpty
-          ? Padding(
-              padding: const EdgeInsets.all(24),
-              child: Text(
-                emptyMessage,
-                style: textTheme.bodyMedium
-                    ?.copyWith(color: colorScheme.onSurfaceVariant),
-              ),
-            )
-          : ListView.separated(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 8,
-              ),
-              shrinkWrap: true,
-              itemCount: users.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 4),
-              itemBuilder: (context, index) {
-                final user = users[index];
-                return ListTile(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    context.router.push(PublicProfileRoute(userId: user.id));
-                  },
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  leading: CircleAvatar(
-                    radius: 22,
-                    backgroundColor: colorScheme.secondaryContainer,
-                    backgroundImage: user.photoUrl.isNotEmpty
-                        ? NetworkImage(user.photoUrl)
-                        : null,
-                    child: user.photoUrl.isEmpty
-                        ? Icon(
-                            Icons.person,
-                            color: colorScheme.onSecondaryContainer,
-                          )
-                        : null,
-                  ),
-                  title: Text(
-                    user.username,
-                    style: textTheme.bodyLarge?.copyWith(
-                      color: colorScheme.onSurface,
-                    ),
                   ),
                 );
               },

@@ -1,8 +1,10 @@
 enum AppError {
   network('No internet connection'),
   timeout('Request timed out'),
+  badRequest('Invalid request'),
   unauthorized('Unauthorized'),
   notFound('Resource not found'),
+  conflict('Resource already exists'),
   server('Server error'),
   unknown('An unknown error occurred');
 

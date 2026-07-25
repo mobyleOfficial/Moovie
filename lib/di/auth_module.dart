@@ -52,4 +52,16 @@ abstract class AuthModule {
     AuthRepository repository,
   ) =>
       IsUserAuthenticated(repository);
+
+  @injectable
+  SignUp signUpUseCase(
+    AuthRepository repository,
+  ) =>
+      SignUp(repository);
+
+  @injectable
+  CheckNicknameAvailability checkNicknameAvailabilityUseCase(
+    AuthRepository repository,
+  ) =>
+      CheckNicknameAvailability(repository);
 }

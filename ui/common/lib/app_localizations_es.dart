@@ -524,10 +524,36 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get passwordValidationError =>
-      'La contraseña debe tener al menos 6 caracteres';
+      'La contraseña debe tener al menos 8 caracteres';
+
+  @override
+  String get passwordTooLongError =>
+      'La contraseña debe tener como máximo 72 caracteres';
 
   @override
   String get nicknameValidationError => 'Por favor ingresa un apodo';
+
+  @override
+  String get nicknameTooLongError =>
+      'El apodo debe tener como máximo 30 caracteres';
+
+  @override
+  String get nicknameTakenError => 'Este apodo ya está en uso';
+
+  @override
+  String get signUpConflictError => 'Este email o apodo ya está en uso.';
+
+  @override
+  String get signUpBadRequestError =>
+      'Verifica tus datos e inténtalo de nuevo.';
+
+  @override
+  String get signUpNetworkError =>
+      'Sin conexión a internet. Inténtalo de nuevo.';
+
+  @override
+  String get signUpServerError =>
+      'Error del servidor. Inténtalo de nuevo más tarde.';
 
   @override
   String get loginError => 'Usuario o contraseña incorrectos.';

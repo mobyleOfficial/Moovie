@@ -1039,14 +1039,56 @@ abstract class AppLocalizations {
   /// Error message for password too short
   ///
   /// In en, this message translates to:
-  /// **'Password must be at least 6 characters'**
+  /// **'Password must be at least 8 characters'**
   String get passwordValidationError;
+
+  /// Error message for password too long
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at most 72 characters'**
+  String get passwordTooLongError;
 
   /// Error message for empty nickname
   ///
   /// In en, this message translates to:
   /// **'Please enter a nickname'**
   String get nicknameValidationError;
+
+  /// Error message for nickname too long
+  ///
+  /// In en, this message translates to:
+  /// **'Nickname must be at most 30 characters'**
+  String get nicknameTooLongError;
+
+  /// Error message when nickname is unavailable
+  ///
+  /// In en, this message translates to:
+  /// **'This nickname is already taken'**
+  String get nicknameTakenError;
+
+  /// Error message when sign-up fails due to conflict
+  ///
+  /// In en, this message translates to:
+  /// **'This email or nickname is already in use.'**
+  String get signUpConflictError;
+
+  /// Error message when sign-up fails due to invalid input
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your information and try again.'**
+  String get signUpBadRequestError;
+
+  /// Error message when sign-up fails due to network
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please try again.'**
+  String get signUpNetworkError;
+
+  /// Error message when sign-up fails due to server error
+  ///
+  /// In en, this message translates to:
+  /// **'Server error. Please try again later.'**
+  String get signUpServerError;
 
   /// Login error for invalid credentials
   ///

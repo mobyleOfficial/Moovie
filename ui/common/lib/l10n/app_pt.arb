@@ -165,8 +165,15 @@
   "signUpNicknameHint": "Escolha um apelido",
   "createAccountButton": "Criar Conta",
   "emailValidationError": "Por favor digite um e-mail válido",
-  "passwordValidationError": "A senha deve ter pelo menos 6 caracteres",
+  "passwordValidationError": "A senha deve ter pelo menos 8 caracteres",
+  "passwordTooLongError": "A senha deve ter no máximo 72 caracteres",
   "nicknameValidationError": "Por favor digite um apelido",
+  "nicknameTooLongError": "O apelido deve ter no máximo 30 caracteres",
+  "nicknameTakenError": "Esse apelido já está em uso",
+  "signUpConflictError": "Esse email ou apelido já está em uso.",
+  "signUpBadRequestError": "Verifique seus dados e tente novamente.",
+  "signUpNetworkError": "Sem conexão com a internet. Tente novamente.",
+  "signUpServerError": "Erro no servidor. Tente novamente mais tarde.",
   "loginError": "Usuário ou senha incorretos.",
   "loginGenericError": "Algo deu errado, tente de novo mais tarde."
 }

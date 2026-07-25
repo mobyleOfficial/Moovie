@@ -1,7 +1,9 @@
+import 'package:auth/auth.dart';
 import 'package:core/core.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:moovie/config/app_config.dart';
+import 'package:moovie/di/auth_interceptor.dart';
 
 @module
 abstract class HttpDiModule {
@@ -20,14 +22,14 @@ abstract class HttpDiModule {
 
   @singleton
   @Named('backend')
-  Dio get backendDio => Dio(
+  Dio backendDio(SecureTokenStorage tokenStorage) => Dio(
         BaseOptions(
           baseUrl: '${AppConfig.instance.backendUrl}/',
           headers: {
             'accept': 'application/json',
           },
         ),
-      );
+      )..interceptors.add(AuthInterceptor(tokenStorage));
 
   @singleton
   @Named('tmdb')
