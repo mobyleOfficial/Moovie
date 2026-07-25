@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:auth_domain/usecases/sign_up.dart';
 import 'package:auth_domain/usecases/check_nickname_availability.dart';
-import 'package:sign_up_ui/sign_up_cubit.dart';
-import 'package:sign_up_ui/sign_up_state.dart';
-import 'package:sign_up_ui/sign_up_screen.dart';
+import 'package:auth_ui/sign_up/sign_up_cubit.dart';
+import 'package:auth_ui/sign_up/sign_up_state.dart';
+import 'package:auth_ui/sign_up/sign_up_screen.dart';
 
 @RoutePage()
 class SignUpPage extends StatefulWidget {

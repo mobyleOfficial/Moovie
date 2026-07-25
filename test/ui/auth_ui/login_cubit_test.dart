@@ -2,7 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:core/core.dart';
 import 'package:auth_domain/domain.dart';
-import 'package:auth_ui/auth.dart';
+import 'package:auth_ui/login/login_cubit.dart';
+import 'package:auth_ui/login/login_state.dart';
 
 class MockLoginUseCase extends Login {
   Result<void>? mockResult;

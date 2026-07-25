@@ -1,5 +1,4 @@
 import 'package:auth_ui/login_router.dart';
-import 'package:sign_up_ui/sign_up_router.dart';
 import 'package:social/social_router.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:moovie/routes/auth_flow_page.dart';

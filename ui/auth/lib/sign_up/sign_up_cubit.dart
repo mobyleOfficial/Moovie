@@ -4,7 +4,7 @@ import 'package:core/core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auth_domain/usecases/sign_up.dart';
 import 'package:auth_domain/usecases/check_nickname_availability.dart';
-import 'package:sign_up_ui/sign_up_state.dart';
+import 'package:auth_ui/sign_up/sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
   static final _emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');

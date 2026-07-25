@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:common/common.dart';
-import 'package:sign_up_ui/sign_up_cubit.dart';
-import 'package:sign_up_ui/sign_up_state.dart';
+import 'package:auth_ui/sign_up/sign_up_cubit.dart';
+import 'package:auth_ui/sign_up/sign_up_state.dart';
 
 class SignUpScreen extends StatefulWidget {
   final SignUpState state;

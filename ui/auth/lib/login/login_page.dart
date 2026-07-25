@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:auth/auth.dart';
-import 'package:auth_ui/login_cubit.dart';
-import 'package:auth_ui/login_state.dart';
-import 'package:auth_ui/login_screen.dart';
-import 'package:sign_up_ui/sign_up_router.dart';
+import 'package:auth_ui/login/login_cubit.dart';
+import 'package:auth_ui/login/login_state.dart';
+import 'package:auth_ui/login/login_screen.dart';
+import 'package:auth_ui/login_router.dart';
 
 @RoutePage()
 class LoginPage extends StatefulWidget {

@@ -2,7 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:core/core.dart';
 import 'package:auth_domain/domain.dart';
-import 'package:sign_up_ui/sign_up.dart';
+import 'package:auth_ui/sign_up/sign_up_cubit.dart';
+import 'package:auth_ui/sign_up/sign_up_state.dart';
 
 class MockSignUpUseCase extends SignUp {
   Result<void>? mockResult;

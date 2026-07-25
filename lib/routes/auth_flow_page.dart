@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
-import 'package:sign_up_ui/sign_up_router.dart';
+import 'package:auth_ui/login_router.dart';
 
 @RoutePage()
 class AuthFlowPage extends StatefulWidget {

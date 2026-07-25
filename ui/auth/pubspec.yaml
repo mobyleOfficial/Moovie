@@ -14,12 +14,12 @@ dependencies:
   bloc: ^9.2.0
   auth:
     path: ../../features/auth
+  auth_domain:
+    path: ../../features/auth/domain
   common:
     path: ../common
   core:
     path: ../../core
-  sign_up_ui:
-    path: ../sign_up
   auto_route: ^11.1.0
   get_it: ^8.0.3
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:common/common.dart';
-import 'package:auth_ui/login_cubit.dart';
-import 'package:auth_ui/login_state.dart';
+import 'package:auth_ui/login/login_cubit.dart';
+import 'package:auth_ui/login/login_state.dart';
 
 class LoginScreen extends StatefulWidget {
   final LoginState state;
