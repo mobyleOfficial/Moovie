@@ -52,13 +52,26 @@ lane :setup_env do
   # Prompt for TMDB API Key
   tmdb_key = prompt(text: "Enter TMDB API Key: ", secure_text: true)
 
-  # Prompt for Backend URL
-  backend_url = prompt(
-    text: "Enter Backend URL (e.g., https://api.example.com): ",
+  # Prompt for a per-flavor Backend URL (dev, staging, prod).
+  dev_backend_url = prompt(
+    text: "Enter DEV Backend URL (e.g., http://localhost:8080): ",
+    secure_text: false
+  )
+  stg_backend_url = prompt(
+    text: "Enter STAGING Backend URL: ",
+    secure_text: false
+  )
+  prod_backend_url = prompt(
+    text: "Enter PROD Backend URL: ",
     secure_text: false
   )
 
-  write_env_file(tmdb_key: tmdb_key, backend_url: backend_url)
+  write_env_file(
+    tmdb_key: tmdb_key,
+    dev_backend_url: dev_backend_url,
+    stg_backend_url: stg_backend_url,
+    prod_backend_url: prod_backend_url
+  )
 
   UI.success("✓ Environment file created at #{env_path}")
   UI.success("Ready to build with: bundle exec fastlane ios build flavor:dev")
@@ -67,27 +80,38 @@ end
 desc "Setup environment for CI builds (from environment variables)"
 lane :setup_ci_env do
   tmdb_key = ENV["TMDB_API_KEY"]
-  backend_url = ENV["BACKEND_URL"]
+  dev_backend_url = ENV["DEV_BACKEND_URL"]
+  stg_backend_url = ENV["STG_BACKEND_URL"]
+  prod_backend_url = ENV["PROD_BACKEND_URL"]
 
-  unless tmdb_key && backend_url
+  unless tmdb_key && dev_backend_url && stg_backend_url && prod_backend_url
     UI.error("Missing required environment variables")
-    UI.user_error!("TMDB_API_KEY and BACKEND_URL must be set")
+    UI.user_error!("TMDB_API_KEY, DEV_BACKEND_URL, STG_BACKEND_URL and PROD_BACKEND_URL must be set")
   end
 
-  write_env_file(tmdb_key: tmdb_key, backend_url: backend_url)
+  write_env_file(
+    tmdb_key: tmdb_key,
+    dev_backend_url: dev_backend_url,
+    stg_backend_url: stg_backend_url,
+    prod_backend_url: prod_backend_url
+  )
 
   UI.success("✓ CI environment file created")
 end
 
 private_lane :write_env_file do |options|
   tmdb_key = options[:tmdb_key]
-  backend_url = options[:backend_url]
+  dev_backend_url = options[:dev_backend_url]
+  stg_backend_url = options[:stg_backend_url]
+  prod_backend_url = options[:prod_backend_url]
   env_path = File.expand_path("..", Dir.pwd) + "/secrets/.env"
   FileUtils.mkdir_p(File.dirname(env_path))
 
   env_content = <<~ENV
     TMDB_API_KEY=#{tmdb_key}
-    BACKEND_URL=#{backend_url}
+    DEV_BACKEND_URL=#{dev_backend_url}
+    STG_BACKEND_URL=#{stg_backend_url}
+    PROD_BACKEND_URL=#{prod_backend_url}
   ENV
 
   File.write(env_path, env_content)

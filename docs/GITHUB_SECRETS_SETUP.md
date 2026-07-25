@@ -101,10 +101,10 @@ These secrets are used by both CI and CD workflows:
 
 | Secret | Value | Environment |
 |--------|-------|-------------|
-| `TMDB_API_KEY_DEV` | TMDB API key for dev | Development |
-| `TMDB_API_KEY_PROD` | TMDB API key for prod | Production |
-| `BACKEND_URL_DEV` | Backend API URL (e.g., https://api-dev.example.com) | Development |
-| `BACKEND_URL_PROD` | Backend API URL (e.g., https://api.example.com) | Production |
+| `TMDB_API_KEY` | TMDB API key | All |
+| `DEV_BACKEND_URL` | Dev backend API URL (e.g., http://localhost:8080) | All |
+| `STG_BACKEND_URL` | Staging backend API URL (e.g., https://api-staging.example.com) | All |
+| `PROD_BACKEND_URL` | Prod backend API URL (e.g., https://api.example.com) | All |
 
 ---
 

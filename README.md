@@ -69,13 +69,17 @@ Then edit `secrets/.env`:
 
 ```env
 TMDB_API_KEY=your_tmdb_bearer_token
-BACKEND_URL=https://your-backend-url.com
+DEV_BACKEND_URL=http://localhost:8080
+STG_BACKEND_URL=https://api-staging.example.com
+PROD_BACKEND_URL=https://api.example.com
 ```
 
 | Variable | Description |
 |----------|-------------|
 | `TMDB_API_KEY` | Bearer token for the TMDB v4 API |
-| `BACKEND_URL` | Base URL for the Moovie backend service |
+| `DEV_BACKEND_URL` | Base URL for the Moovie backend service (dev flavor) |
+| `STG_BACKEND_URL` | Base URL for the Moovie backend service (staging flavor) |
+| `PROD_BACKEND_URL` | Base URL for the Moovie backend service (prod flavor) |
 
 ### App Flavors
 
