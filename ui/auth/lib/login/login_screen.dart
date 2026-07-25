@@ -31,45 +31,32 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => switch (widget.state) {
-        LoginLoading() => _buildLoadingState(context),
-        LoginAuthenticated() => _buildLoadingState(context),
-        LoginUnauthenticated() => _buildEmailForm(context),
-        LoginError(:final message) =>
-          _buildEmailForm(context, loginError: message),
-        LoginFormState(
-          :final emailError,
-          :final passwordError,
-          :final isSubmitting,
-          :final loginError,
-        ) =>
-          _buildEmailForm(
-            context,
-            emailError: emailError,
-            passwordError: passwordError,
-            isSubmitting: isSubmitting,
-            loginError: loginError,
-          ),
-      };
+  Widget build(BuildContext context) {
+    final state = widget.state;
 
-  Widget _buildLoadingState(BuildContext context) => const Center(
-        child: CircularProgressIndicator(),
-      );
+    if (state is LoginLoading || state is LoginAuthenticated) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
-  Widget _buildEmailForm(
-    BuildContext context, {
-    String? emailError,
-    String? passwordError,
-    bool isSubmitting = false,
-    String? loginError,
-  }) {
+    String? emailError;
+    String? passwordError;
+    bool isSubmitting = false;
+    String? loginError;
+
+    if (state is LoginFormState) {
+      emailError = state.emailError;
+      passwordError = state.passwordError;
+      isSubmitting = state.isSubmitting;
+      loginError = state.loginError;
+    } else if (state is LoginError) {
+      loginError = state.message;
+    }
+
     final l10n = AppLocalizations.of(context)!;
     final cubit = context.read<LoginCubit>();
     final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
-    final isFormValid = emailError == null &&
-        passwordError == null &&
-        _emailController.text.isNotEmpty &&
-        _passwordController.text.isNotEmpty;
+    final isFormValid = cubit.validateEmail(_emailController.text) == null &&
+        cubit.validatePassword(_passwordController.text) == null;
 
     return Column(
       children: [
