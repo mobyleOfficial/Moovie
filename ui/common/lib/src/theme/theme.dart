@@ -1,4 +1,4 @@
-export 'moovie_colors.dart';
-export 'moovie_color_scheme.dart';
-export 'moovie_text_theme.dart';
-export 'moovie_theme.dart';
+export 'muuvie_colors.dart';
+export 'muuvie_color_scheme.dart';
+export 'muuvie_text_theme.dart';
+export 'muuvie_theme.dart';

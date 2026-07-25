@@ -50,7 +50,7 @@ class _ProfileInfoTabState extends State<ProfileInfoTab> {
           PublicProfileInfoLoading() => const Center(
             child: CircularProgressIndicator(),
           ),
-          PublicProfileInfoError() => MoovieEmptyState(
+          PublicProfileInfoError() => MuuvieEmptyState(
             title: l10n?.emptyStateErrorTitle ?? '',
             message: state.message,
             action: _cubit.reload,
@@ -140,7 +140,7 @@ class _ProfileInfoContent extends StatelessWidget {
                 _ProfileStat(
                   value: '${profile.moviesWatched.length}',
                   label: l10n?.profileMoviesWatched ?? '',
-                  onTap: () => MoovieBottomSheet.show(
+                  onTap: () => MuuvieBottomSheet.show(
                     context: context,
                     builder: (_) => _MoviesListSheet(
                       title: l10n?.profileMoviesWatchedTitle ?? '',
@@ -153,7 +153,7 @@ class _ProfileInfoContent extends StatelessWidget {
                 _ProfileStat(
                   value: '${profile.following.length}',
                   label: l10n?.profileFollowing ?? '',
-                  onTap: () => MoovieBottomSheet.show(
+                  onTap: () => MuuvieBottomSheet.show(
                     context: context,
                     builder: (_) => _UsersListSheet(
                       title: l10n?.profileFollowingTitle ?? '',
@@ -166,7 +166,7 @@ class _ProfileInfoContent extends StatelessWidget {
                 _ProfileStat(
                   value: '${profile.followers.length}',
                   label: l10n?.profileFollowers ?? '',
-                  onTap: () => MoovieBottomSheet.show(
+                  onTap: () => MuuvieBottomSheet.show(
                     context: context,
                     builder: (_) => _UsersListSheet(
                       title: l10n?.profileFollowersTitle ?? '',

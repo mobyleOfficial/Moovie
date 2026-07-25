@@ -77,7 +77,7 @@ class _AuthFlowPageState extends State<AuthFlowPage> {
                       final titleOverride = _appBarController.currentTitle;
                       final hasTitle = titleOverride != null;
 
-                      return MoovieAnimatedAppBar(
+                      return MuuvieAnimatedAppBar(
                         title: titleOverride,
                         leading: hasTitle
                             ? IconButton(

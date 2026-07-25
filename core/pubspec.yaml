@@ -1,5 +1,5 @@
 name: core
-description: Shared core abstractions for the moovie app.
+description: Shared core abstractions for the muuvie app.
 publish_to: none
 
 version: 1.0.0

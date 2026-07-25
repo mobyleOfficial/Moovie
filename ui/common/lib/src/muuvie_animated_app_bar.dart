@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MoovieAnimatedAppBar extends StatelessWidget {
+class MuuvieAnimatedAppBar extends StatelessWidget {
   final String? title;
   final Widget? titleWidget;
   final Widget? leading;
@@ -13,7 +13,7 @@ class MoovieAnimatedAppBar extends StatelessWidget {
 
   static const _defaultDuration = Duration(milliseconds: 300);
 
-  const MoovieAnimatedAppBar({
+  const MuuvieAnimatedAppBar({
     super.key,
     this.title,
     this.titleWidget,

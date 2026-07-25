@@ -40,7 +40,7 @@ class _UserMovieListsScreenState extends State<UserMovieListsScreen> {
           UserMovieListsLoading() => const Center(
               child: CircularProgressIndicator(),
             ),
-          UserMovieListsError(:final message) => MoovieEmptyState(
+          UserMovieListsError(:final message) => MuuvieEmptyState(
               title: l10n?.emptyStateErrorTitle ?? '',
               message: message,
             ),
@@ -70,13 +70,13 @@ class _UserMovieListsScreenState extends State<UserMovieListsScreen> {
                   ),
                   firstPageProgressIndicatorBuilder: (_) =>
                       const Center(child: CircularProgressIndicator()),
-                  firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+                  firstPageErrorIndicatorBuilder: (_) => MuuvieEmptyState(
                     title: l10n?.emptyStateErrorTitle ?? '',
                     message: l10n?.emptyStateErrorMessage ?? '',
                     action: fetchNextPage,
                     actionLabel: l10n?.emptyStateRetry ?? '',
                   ),
-                  noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+                  noItemsFoundIndicatorBuilder: (_) => MuuvieEmptyState(
                     title: l10n?.emptyStateNoItemsTitle ?? '',
                     message: l10n?.emptyStateNoItemsMessage ?? '',
                   ),

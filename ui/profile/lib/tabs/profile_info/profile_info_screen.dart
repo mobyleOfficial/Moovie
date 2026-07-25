@@ -65,7 +65,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
     if (profile == null) return;
     final l10n = AppLocalizations.of(context);
 
-    MoovieBottomSheet.show(
+    MuuvieBottomSheet.show(
       context: context,
       builder: (_) => _MoviesListSheet(
         title: l10n?.profileMoviesWatchedTitle ?? '',

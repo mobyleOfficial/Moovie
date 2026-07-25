@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mobyle.moovie"
+    namespace = "com.mobyle.muuvie"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.mobyle.moovie"
+        applicationId = "com.mobyle.muuvie"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -33,16 +33,16 @@ android {
         create("dev") {
             dimension = "env"
             applicationIdSuffix = ".dev"
-            resValue("string", "app_name", "MoovieDev")
+            resValue("string", "app_name", "MuuvieDev")
         }
         create("staging") {
             dimension = "env"
             applicationIdSuffix = ".staging"
-            resValue("string", "app_name", "MoovieStg")
+            resValue("string", "app_name", "MuuvieStg")
         }
         create("prod") {
             dimension = "env"
-            resValue("string", "app_name", "Moovie")
+            resValue("string", "app_name", "Muuvie")
         }
     }
 

@@ -33,7 +33,7 @@ class BrowseCategoriesScreen extends StatelessWidget {
             BrowseCategoriesLoading() => const Center(
                 child: CircularProgressIndicator(),
               ),
-            BrowseCategoriesError(:final message) => MoovieEmptyState(
+            BrowseCategoriesError(:final message) => MuuvieEmptyState(
                 title: l10n?.emptyStateErrorTitle ?? '',
                 message: message,
                 action: cubit.reload,
@@ -78,7 +78,7 @@ class _ContentState extends State<_Content> {
       length: 3,
       child: Column(
         children: [
-          MoovieTabBar(tabs: [
+          MuuvieTabBar(tabs: [
             l10n?.searchBrowseGenre ?? '',
             l10n?.searchBrowseCountry ?? '',
             l10n?.searchBrowseLanguage ?? '',
@@ -86,21 +86,21 @@ class _ContentState extends State<_Content> {
           Expanded(
             child: TabBarView(
               children: [
-                MoovieKeepAliveTab(
+                MuuvieKeepAliveTab(
                   child: _CategoryList<Genre>(
                     items: widget.state.genres,
                     labelBuilder: (genre) => genre.name,
                     onTap: widget.onGenreTap,
                   ),
                 ),
-                MoovieKeepAliveTab(
+                MuuvieKeepAliveTab(
                   child: _CategoryList<Country>(
                     items: widget.state.countries,
                     labelBuilder: (country) => country.englishName,
                     onTap: widget.onCountryTap,
                   ),
                 ),
-                MoovieKeepAliveTab(
+                MuuvieKeepAliveTab(
                   child: _CategoryList<Language>(
                     items: widget.state.languages,
                     labelBuilder: (language) => language.englishName,

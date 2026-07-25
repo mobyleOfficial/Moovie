@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class MoovieKeepAliveTab extends StatefulWidget {
+class MuuvieKeepAliveTab extends StatefulWidget {
   final Widget child;
 
-  const MoovieKeepAliveTab({super.key, required this.child});
+  const MuuvieKeepAliveTab({super.key, required this.child});
 
   @override
-  State<MoovieKeepAliveTab> createState() => _MoovieKeepAliveTabState();
+  State<MuuvieKeepAliveTab> createState() => _MuuvieKeepAliveTabState();
 }
 
-class _MoovieKeepAliveTabState extends State<MoovieKeepAliveTab>
+class _MuuvieKeepAliveTabState extends State<MuuvieKeepAliveTab>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;

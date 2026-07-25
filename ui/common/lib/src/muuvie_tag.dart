@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class MoovieTag extends StatelessWidget {
+class MuuvieTag extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback? onTap;
 
-  const MoovieTag({
+  const MuuvieTag({
     super.key,
     required this.label,
     this.selected = false,

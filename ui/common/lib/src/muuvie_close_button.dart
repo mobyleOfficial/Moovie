@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'package:common/src/platform_helper.dart';
 
-class MoovieCloseButton extends StatelessWidget {
+class MuuvieCloseButton extends StatelessWidget {
   final VoidCallback? onPressed;
 
-  const MoovieCloseButton({super.key, this.onPressed});
+  const MuuvieCloseButton({super.key, this.onPressed});
 
   @override
   Widget build(BuildContext context) {

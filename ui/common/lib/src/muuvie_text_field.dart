@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:common/src/platform_helper.dart';
 
-class MoovieTextField extends StatelessWidget {
+class MuuvieTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? placeholder;
   final String? label;
@@ -13,7 +13,7 @@ class MoovieTextField extends StatelessWidget {
   final ValueChanged<String>? onSubmitted;
   final int? maxLines;
 
-  const MoovieTextField({
+  const MuuvieTextField({
     super.key,
     this.controller,
     this.placeholder,

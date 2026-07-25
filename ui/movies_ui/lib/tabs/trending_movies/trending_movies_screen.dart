@@ -26,12 +26,12 @@ class TrendingMoviesScreen extends StatelessWidget {
             state: pagingState,
             fetchNextPage: fetchNextPage,
             padding: const EdgeInsets.symmetric(
-              horizontal: moovieGridPadding,
-              vertical: moovieGridPadding,
+              horizontal: muuvieGridPadding,
+              vertical: muuvieGridPadding,
             ),
-            gridDelegate: moovieGridDelegate,
+            gridDelegate: muuvieGridDelegate,
             builderDelegate: PagedChildBuilderDelegate<Movie>(
-              itemBuilder: (context, movie, index) => MoovieMoviePosterCard(
+              itemBuilder: (context, movie, index) => MuuvieMoviePosterCard(
                 imageUrl: movie.posterPath.isNotEmpty
                     ? '${TmdbImageUrl.posterLarge}${movie.posterPath}'
                     : null,
@@ -39,13 +39,13 @@ class TrendingMoviesScreen extends StatelessWidget {
               ),
               firstPageProgressIndicatorBuilder: (_) =>
                   const Center(child: CircularProgressIndicator()),
-              firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+              firstPageErrorIndicatorBuilder: (_) => MuuvieEmptyState(
                 title: l10n?.emptyStateErrorTitle ?? '',
                 message: l10n?.emptyStateErrorMessage ?? '',
                 action: fetchNextPage,
                 actionLabel: l10n?.emptyStateRetry ?? '',
               ),
-              noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+              noItemsFoundIndicatorBuilder: (_) => MuuvieEmptyState(
                 title: l10n?.emptyStateNoItemsTitle ?? '',
                 message: l10n?.emptyStateNoItemsMessage ?? '',
               ),

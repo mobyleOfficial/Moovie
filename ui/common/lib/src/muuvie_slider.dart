@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 import 'package:common/src/platform_helper.dart';
 
-class MoovieSlider extends StatelessWidget {
+class MuuvieSlider extends StatelessWidget {
   final double value;
   final double min;
   final double max;
   final ValueChanged<double>? onChanged;
 
-  const MoovieSlider({
+  const MuuvieSlider({
     super.key,
     required this.value,
     this.min = 0.0,

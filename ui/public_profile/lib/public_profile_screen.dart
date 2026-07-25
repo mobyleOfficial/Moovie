@@ -23,7 +23,7 @@ class PublicProfileScreen extends StatelessWidget {
         length: 3,
         child: Column(
           children: [
-            MoovieTabBar(tabs: [
+            MuuvieTabBar(tabs: [
               l10n?.profileTabProfile ?? '',
               l10n?.profileTabReviews ?? '',
               l10n?.profileTabLists ?? '',
@@ -31,13 +31,13 @@ class PublicProfileScreen extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children: [
-                  MoovieKeepAliveTab(
+                  MuuvieKeepAliveTab(
                     child: ProfileInfoTab(userId: userId),
                   ),
-                  const MoovieKeepAliveTab(
+                  const MuuvieKeepAliveTab(
                     child: UserReviewsScreen(),
                   ),
-                  MoovieKeepAliveTab(
+                  MuuvieKeepAliveTab(
                     child: PublicProfileListsTab(userId: userId),
                   ),
                 ],

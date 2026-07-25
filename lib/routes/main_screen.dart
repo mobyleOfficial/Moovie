@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:moovie/routes/app_router.dart';
-import 'package:moovie/routes/main_bloc.dart';
-import 'package:moovie/routes/main_state.dart';
-import 'package:moovie/routes/route_title_resolver.dart';
+import 'package:muuvie/routes/app_router.dart';
+import 'package:muuvie/routes/main_bloc.dart';
+import 'package:muuvie/routes/main_state.dart';
+import 'package:muuvie/routes/route_title_resolver.dart';
 import 'package:reviews/review_creation/review_creation_router.dart';
 import 'package:user_activity/new_user_activity/new_user_activity_router.dart';
 
@@ -146,7 +146,7 @@ class _MainScreenState extends State<MainScreen> {
                           (activeIndex == 1 || activeIndex == 2) &&
                               !hasOverride;
 
-                      return MoovieAnimatedAppBar(
+                      return MuuvieAnimatedAppBar(
                         title: titleOverride ?? tabTitles[activeIndex],
                         visible: !hideAppBar,
                         centerTitle: !hasOverride && isHomeTab,
@@ -189,7 +189,7 @@ class _MainScreenState extends State<MainScreen> {
                           if (draft == null) {
                             return const SizedBox.shrink();
                           }
-                          return MoovieSubmissionBanner(
+                          return MuuvieSubmissionBanner(
                             reviewTitle: draft.reviewTitle.isNotEmpty
                                 ? draft.reviewTitle
                                 : draft.movieTitle,
@@ -225,7 +225,7 @@ class _MainScreenState extends State<MainScreen> {
                 ],
               ),
             ),
-            bottomNavigationBar: MoovieBottomNavigationBar(
+            bottomNavigationBar: MuuvieBottomNavigationBar(
               currentIndex: activeIndex,
               onTap: (index) async {
                 if (index == 2 || index == 3) {
@@ -234,7 +234,7 @@ class _MainScreenState extends State<MainScreen> {
                 }
                 tabsRouter.setActiveIndex(index);
               },
-              centerItem: MoovieBottomNavigationBarItem(
+              centerItem: MuuvieBottomNavigationBarItem(
                 icon: Icons.add,
                 label: l10n?.newUserActivityTab ?? '',
               ),
@@ -246,21 +246,21 @@ class _MainScreenState extends State<MainScreen> {
                 }
               },
               items: [
-                MoovieBottomNavigationBarItem(
+                MuuvieBottomNavigationBarItem(
                   icon: Icons.home_outlined,
                   activeIcon: Icons.home,
                   label: l10n?.home ?? '',
                 ),
-                MoovieBottomNavigationBarItem(
+                MuuvieBottomNavigationBarItem(
                   icon: Icons.search,
                   label: l10n?.search ?? '',
                 ),
-                MoovieBottomNavigationBarItem(
+                MuuvieBottomNavigationBarItem(
                   icon: Icons.directions_run_outlined,
                   activeIcon: Icons.directions_run,
                   label: l10n?.socialTab ?? '',
                 ),
-                MoovieBottomNavigationBarItem(
+                MuuvieBottomNavigationBarItem(
                   icon: Icons.person_outline,
                   activeIcon: Icons.person,
                   label: l10n?.profile ?? '',

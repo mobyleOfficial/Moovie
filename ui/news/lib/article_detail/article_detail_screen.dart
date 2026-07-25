@@ -24,7 +24,7 @@ class ArticleDetailScreen extends StatelessWidget {
           ArticleDetailLoading() => const Center(
               child: CircularProgressIndicator(),
             ),
-          ArticleDetailError(:final message) => MoovieEmptyState(
+          ArticleDetailError(:final message) => MuuvieEmptyState(
               title: l10n?.emptyStateErrorTitle ?? '',
               message: message,
               action: cubit.reload,

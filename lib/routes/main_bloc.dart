@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moovie/routes/main_state.dart';
+import 'package:muuvie/routes/main_state.dart';
 import 'package:movies/movies.dart';
 import 'package:user_activities/user_activities.dart';
 

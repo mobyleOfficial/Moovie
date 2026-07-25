@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract final class MoovieTextTheme {
+abstract final class MuuvieTextTheme {
   static const TextTheme textTheme = TextTheme(
     displayLarge: TextStyle(
       fontSize: 57,

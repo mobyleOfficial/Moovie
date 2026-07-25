@@ -28,7 +28,7 @@ class MovieDetailScreen extends StatelessWidget {
               body: Center(child: CircularProgressIndicator()),
             ),
           MovieDetailError(:final message) => Scaffold(
-              body: MoovieEmptyState(
+              body: MuuvieEmptyState(
                 title: l10n?.emptyStateErrorTitle ?? '',
                 message: message,
                 action: cubit.reload,
@@ -57,7 +57,7 @@ class _MovieDetailBody extends StatelessWidget {
       length: 2,
       child: Column(
         children: [
-          MoovieTabBar(tabs: [
+          MuuvieTabBar(tabs: [
             l10n?.movieDetailAboutTab ?? '',
             l10n?.comments ?? '',
           ]),

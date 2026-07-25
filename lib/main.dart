@@ -1,9 +1,9 @@
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:moovie/config/app_config.dart';
-import 'package:moovie/di/injection.dart';
-import 'package:moovie/routes/app_router.dart';
+import 'package:muuvie/config/app_config.dart';
+import 'package:muuvie/di/injection.dart';
+import 'package:muuvie/routes/app_router.dart';
 import 'package:user_activities/user_activities.dart';
 import 'package:movies/movies.dart';
 import 'package:path_provider/path_provider.dart';
@@ -42,8 +42,8 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      theme: MoovieTheme.light,
-      darkTheme: MoovieTheme.dark,
+      theme: MuuvieTheme.light,
+      darkTheme: MuuvieTheme.dark,
       routerConfig: _appRouter.config(),
     );
   }

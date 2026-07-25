@@ -72,7 +72,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               EditProfileLoading() => const Center(
                   child: CircularProgressIndicator(),
                 ),
-              EditProfileError(:final message) => MoovieEmptyState(
+              EditProfileError(:final message) => MuuvieEmptyState(
                   title: l10n?.emptyStateErrorTitle ?? '',
                   message: message,
                 ),
