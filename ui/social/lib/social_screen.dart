@@ -26,7 +26,7 @@ class SocialScreen extends StatelessWidget {
       child: BlocBuilder<SocialCubit, SocialState>(
         builder: (context, state) => switch (state) {
           SocialLoading() => const Center(child: CircularProgressIndicator()),
-          SocialError() => MoovieEmptyState(
+          SocialError() => MuuvieEmptyState(
               title: l10n?.emptyStateErrorTitle ?? '',
               message: state.message,
               action: cubit.reload,
@@ -52,12 +52,12 @@ class _SocialContent extends StatelessWidget {
       length: 2,
       child: Column(
         children: [
-          MoovieTabBar(tabs: [l10n?.socialFriendsTab ?? '', l10n?.socialActivitiesTab ?? '']),
+          MuuvieTabBar(tabs: [l10n?.socialFriendsTab ?? '', l10n?.socialActivitiesTab ?? '']),
           Expanded(
             child: TabBarView(
               children: [
-                const MoovieKeepAliveTab(child: FriendsScreen()),
-                MoovieKeepAliveTab(child: ActivitiesScreen(cubit: activitiesCubit)),
+                const MuuvieKeepAliveTab(child: FriendsScreen()),
+                MuuvieKeepAliveTab(child: ActivitiesScreen(cubit: activitiesCubit)),
               ],
             ),
           ),

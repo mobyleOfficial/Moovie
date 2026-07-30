@@ -2,7 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:objectbox/objectbox.dart';
 
-import 'package:moovie/di/injection.config.dart';
+import 'package:muuvie/di/injection.config.dart';
 
 final getIt = GetIt.instance;
 

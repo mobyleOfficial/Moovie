@@ -2,8 +2,8 @@ import 'package:auth/auth.dart';
 import 'package:core/core.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:moovie/config/app_config.dart';
-import 'package:moovie/di/auth_interceptor.dart';
+import 'package:muuvie/config/app_config.dart';
+import 'package:muuvie/di/auth_interceptor.dart';
 
 @module
 abstract class HttpDiModule {

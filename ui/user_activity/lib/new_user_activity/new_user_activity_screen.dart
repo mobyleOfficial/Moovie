@@ -80,7 +80,7 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
       ),
       child: ValueListenableBuilder<TextEditingValue>(
         valueListenable: _searchController,
-        builder: (context, value, _) => MoovieEditText(
+        builder: (context, value, _) => MuuvieEditText(
           controller: _searchController,
           focusNode: _focusNode,
           placeholder: l10n?.searchHint ?? '',
@@ -116,10 +116,10 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
             color: colorScheme.surface,
             child: Column(
               children: [
-                MoovieAnimatedAppBar(
+                MuuvieAnimatedAppBar(
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
-                  leading: const MoovieCloseButton(),
+                  leading: const MuuvieCloseButton(),
                   titleWidget: searchField,
                 ),
                 Expanded(
@@ -131,7 +131,7 @@ class _NewUserActivityScreenState extends State<NewUserActivityScreen> {
                         NewUserActivityLoading() => const Center(
                             child: CircularProgressIndicator(),
                           ),
-                        NewUserActivityError() => MoovieEmptyState(
+                        NewUserActivityError() => MuuvieEmptyState(
                             title: l10n?.emptyStateErrorTitle ?? '',
                             message: state.message,
                           ),
@@ -393,7 +393,7 @@ class _SwipeToDismissDraft extends StatelessWidget {
       direction: DismissDirection.endToStart,
       confirmDismiss: (_) async {
         var confirmed = false;
-        await MoovieDialog.show(
+        await MuuvieDialog.show(
           context: context,
           title: l10n?.deleteDraftTitle ?? '',
           content: l10n?.deleteDraftContent ?? '',

@@ -1,6 +1,6 @@
 {
-    "name": "moovie",
-    "short_name": "moovie",
+    "name": "muuvie",
+    "short_name": "muuvie",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

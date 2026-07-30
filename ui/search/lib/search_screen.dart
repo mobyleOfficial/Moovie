@@ -75,7 +75,7 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-            child: MoovieEditText(
+            child: MuuvieEditText(
               controller: _searchController,
               focusNode: _focusNode,
               placeholder: l10n?.searchHint ?? '',
@@ -122,20 +122,20 @@ class _SearchResultsSectionState extends State<_SearchResultsSection> {
       length: _categories.length,
       child: Column(
         children: [
-          const MoovieTabBar(
+          const MuuvieTabBar(
             isScrollable: true,
             tabs: _categories,
           ),
           Expanded(
             child: TabBarView(
               children: [
-                MoovieKeepAliveTab(
+                MuuvieKeepAliveTab(
                   child: _MoviesResultsTab(cubit: widget.cubit),
                 ),
-                const MoovieKeepAliveTab(child: _ReviewsResultsTab()),
-                const MoovieKeepAliveTab(child: _ListsResultsTab()),
+                const MuuvieKeepAliveTab(child: _ReviewsResultsTab()),
+                const MuuvieKeepAliveTab(child: _ListsResultsTab()),
                 for (var index = 3; index < _categories.length; index++)
-                  MoovieKeepAliveTab(
+                  MuuvieKeepAliveTab(
                     child: Center(
                       child: Text(
                         '${_categories[index]} coming soon',
@@ -191,7 +191,7 @@ class _MoviesResultsTab extends StatelessWidget {
                   movie: movies[index],
                 ),
               ),
-        SearchError(:final message) => MoovieEmptyState(
+        SearchError(:final message) => MuuvieEmptyState(
             title: l10n?.emptyStateErrorTitle ?? '',
             message: message,
           ),
@@ -256,13 +256,13 @@ class _ReviewsResultsTabState extends State<_ReviewsResultsTab> {
             ),
             firstPageProgressIndicatorBuilder: (_) =>
                 const Center(child: CircularProgressIndicator()),
-            firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+            firstPageErrorIndicatorBuilder: (_) => MuuvieEmptyState(
               title: l10n?.emptyStateErrorTitle ?? '',
               message: l10n?.emptyStateErrorMessage ?? '',
               action: fetchNextPage,
               actionLabel: l10n?.emptyStateRetry ?? '',
             ),
-            noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+            noItemsFoundIndicatorBuilder: (_) => MuuvieEmptyState(
               title: l10n?.emptyStateNoItemsTitle ?? '',
               message: l10n?.emptyStateNoItemsMessage ?? '',
             ),
@@ -400,13 +400,13 @@ class _ListsResultsTabState extends State<_ListsResultsTab> {
             ),
             firstPageProgressIndicatorBuilder: (_) =>
                 const Center(child: CircularProgressIndicator()),
-            firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+            firstPageErrorIndicatorBuilder: (_) => MuuvieEmptyState(
               title: l10n?.emptyStateErrorTitle ?? '',
               message: l10n?.emptyStateErrorMessage ?? '',
               action: fetchNextPage,
               actionLabel: l10n?.emptyStateRetry ?? '',
             ),
-            noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+            noItemsFoundIndicatorBuilder: (_) => MuuvieEmptyState(
               title: l10n?.emptyStateNoItemsTitle ?? '',
               message: l10n?.emptyStateNoItemsMessage ?? '',
             ),

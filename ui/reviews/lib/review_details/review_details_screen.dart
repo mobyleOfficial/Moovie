@@ -71,7 +71,7 @@ class _ReviewDetailsScreenState extends State<ReviewDetailsScreen> {
               body: Center(child: CircularProgressIndicator()),
             ),
           ReviewDetailsError() => Scaffold(
-              body: MoovieEmptyState(
+              body: MuuvieEmptyState(
                 title: l10n?.emptyStateErrorTitle ?? '',
                 message: state.message,
                 action: widget.cubit.reload,
@@ -301,7 +301,7 @@ class _RatingAndDateRow extends StatelessWidget {
 
     return Row(
       children: [
-        MoovieStarRating(rating: review.rating, starSize: 18),
+        MuuvieStarRating(rating: review.rating, starSize: 18),
         const SizedBox(width: 10),
         Text(
           review.date,
@@ -555,7 +555,7 @@ class _CarouselCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                MoovieStarRating(rating: review.rating, starSize: 14),
+                MuuvieStarRating(rating: review.rating, starSize: 14),
                 const SizedBox(height: 8),
                 if (kind == _CarouselCardKind.byMovie)
                   Text(

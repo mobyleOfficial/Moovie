@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 import 'package:common/src/platform_helper.dart';
 
-class MoovieActivityIndicator extends StatelessWidget {
+class MuuvieActivityIndicator extends StatelessWidget {
   final double? radius;
   final Color? color;
 
-  const MoovieActivityIndicator({
+  const MuuvieActivityIndicator({
     super.key,
     this.radius,
     this.color,

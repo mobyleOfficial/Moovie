@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:common/src/platform_helper.dart';
 
-class MoovieScaffold extends StatelessWidget {
+class MuuvieScaffold extends StatelessWidget {
   final String? title;
   final Widget body;
   final Widget? bottomNavigationBar;
@@ -11,7 +11,7 @@ class MoovieScaffold extends StatelessWidget {
   final List<Widget>? actions;
   final bool hasNavigationBar;
 
-  const MoovieScaffold({
+  const MuuvieScaffold({
     super.key,
     this.title,
     required this.body,

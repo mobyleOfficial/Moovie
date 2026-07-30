@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class MoovieHtmlPreview extends StatelessWidget {
+class MuuvieHtmlPreview extends StatelessWidget {
   final String html;
 
-  const MoovieHtmlPreview({super.key, required this.html});
+  const MuuvieHtmlPreview({super.key, required this.html});
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:common/src/platform_helper.dart';
 
-class MoovieDialog {
+class MuuvieDialog {
   static Future<T?> show<T>({
     required BuildContext context,
     required String title,

@@ -39,7 +39,7 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
 
     final l10n = AppLocalizations.of(context);
     var confirmed = false;
-    await MoovieDialog.show(
+    await MuuvieDialog.show(
       context: context,
       title: l10n?.submitReviewTitle ?? 'Submit Review',
       content: l10n?.submitReviewContent ??
@@ -56,7 +56,7 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
   }
 
   Future<void> _openReviewEditor(String? currentBody) async {
-    final result = await MoovieReviewEditor.show(
+    final result = await MuuvieReviewEditor.show(
       context,
       initialHtml: currentBody,
     );
@@ -105,7 +105,7 @@ class _ReviewCreationScreenState extends State<ReviewCreationScreen> {
             ReviewCreationLoading() => const Center(
                 child: CircularProgressIndicator(),
               ),
-            ReviewCreationError(:final message) => MoovieEmptyState(
+            ReviewCreationError(:final message) => MuuvieEmptyState(
                 title: l10n?.emptyStateErrorTitle ?? '',
                 message: message,
                 action: widget.cubit.reload,
@@ -182,7 +182,7 @@ class _ReviewBody extends StatelessWidget {
           const SizedBox(height: 24),
           Row(
             children: [
-              MoovieStarRating(
+              MuuvieStarRating(
                 rating: state.rating,
                 onRatingChanged: cubit.updateRating,
               ),
@@ -272,7 +272,7 @@ class _ReviewBody extends StatelessWidget {
             runSpacing: 8,
             children: tags
                 .map(
-                  (tag) => MoovieTag(
+                  (tag) => MuuvieTag(
                     label: tag,
                     selected: state.selectedTags.contains(tag),
                     onTap: () => cubit.toggleTag(tag),
@@ -333,7 +333,7 @@ class _AddReviewSection extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: hasContent
-              ? MoovieHtmlPreview(html: html!)
+              ? MuuvieHtmlPreview(html: html!)
               : Row(
                   children: [
                     Icon(

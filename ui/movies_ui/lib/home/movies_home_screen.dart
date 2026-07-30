@@ -36,7 +36,7 @@ class MoviesHomeScreen extends StatelessWidget {
         length: 4,
         child: Column(
           children: [
-            MoovieTabBar(tabs: [
+            MuuvieTabBar(tabs: [
               l10n?.moviesTab ?? '',
               l10n?.reviewsTab ?? '',
               l10n?.moviesListListsTab ?? '',
@@ -45,16 +45,16 @@ class MoviesHomeScreen extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children: [
-                  MoovieKeepAliveTab(
+                  MuuvieKeepAliveTab(
                     child: TrendingMoviesScreen(onMovieTap: onMovieTap),
                   ),
-                  MoovieKeepAliveTab(
+                  MuuvieKeepAliveTab(
                     child: ReviewsScreen(getMovieReviews: getMovieReviews),
                   ),
-                  MoovieKeepAliveTab(
+                  MuuvieKeepAliveTab(
                     child: MoviesListsScreen(cubit: listsCubit),
                   ),
-                  MoovieKeepAliveTab(
+                  MuuvieKeepAliveTab(
                     child: MoviesArticlesScreen(cubit: articlesCubit),
                   ),
                 ],

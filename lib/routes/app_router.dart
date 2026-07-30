@@ -1,8 +1,8 @@
 import 'package:auth_ui/login_router.dart';
 import 'package:social/social_router.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:moovie/routes/auth_flow_page.dart';
-import 'package:moovie/routes/main_screen.dart';
+import 'package:muuvie/routes/auth_flow_page.dart';
+import 'package:muuvie/routes/main_screen.dart';
 import 'package:movies_ui/favorite_movies/favorite_movies_router.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
 import 'package:movies_ui/movie_list_detail/movie_list_detail_router.dart';

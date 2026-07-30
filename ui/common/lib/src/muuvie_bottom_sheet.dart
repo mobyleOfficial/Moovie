@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:common/src/platform_helper.dart';
 
-class MoovieBottomSheet {
+class MuuvieBottomSheet {
   static Future<T?> show<T>({
     required BuildContext context,
     required WidgetBuilder builder,

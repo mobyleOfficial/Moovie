@@ -35,8 +35,8 @@ class AppConfig {
       );
 
   String get appName => switch (_flavorFromEnv) {
-        AppFlavor.dev => 'MoovieDev',
-        AppFlavor.staging => 'MoovieStg',
-        AppFlavor.prod => 'Moovie',
+        AppFlavor.dev => 'MuuvieDev',
+        AppFlavor.staging => 'MuuvieStg',
+        AppFlavor.prod => 'Muuvie',
       };
 }

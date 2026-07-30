@@ -55,12 +55,12 @@ class _WatchListPaginatedGrid extends StatelessWidget {
         state: pagingState,
         fetchNextPage: fetchNextPage,
         padding: const EdgeInsets.symmetric(
-          horizontal: moovieGridPadding,
-          vertical: moovieGridPadding,
+          horizontal: muuvieGridPadding,
+          vertical: muuvieGridPadding,
         ),
-        gridDelegate: moovieGridDelegate,
+        gridDelegate: muuvieGridDelegate,
         builderDelegate: PagedChildBuilderDelegate<Movie>(
-          itemBuilder: (context, movie, index) => MoovieMoviePosterCard(
+          itemBuilder: (context, movie, index) => MuuvieMoviePosterCard(
             imageUrl: movie.posterPath.isNotEmpty
                 ? '${TmdbImageUrl.posterLarge}${movie.posterPath}'
                 : null,

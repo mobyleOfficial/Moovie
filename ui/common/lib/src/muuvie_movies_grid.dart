@@ -1,26 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-const int moovieGridCrossAxisCount = 3;
-const double moovieGridChildAspectRatio = 2 / 3;
-const double moovieGridSpacing = 8;
-const double moovieGridPadding = 16;
+const int muuvieGridCrossAxisCount = 3;
+const double muuvieGridChildAspectRatio = 2 / 3;
+const double muuvieGridSpacing = 8;
+const double muuvieGridPadding = 16;
 
-const SliverGridDelegateWithFixedCrossAxisCount moovieGridDelegate =
+const SliverGridDelegateWithFixedCrossAxisCount muuvieGridDelegate =
     SliverGridDelegateWithFixedCrossAxisCount(
-  crossAxisCount: moovieGridCrossAxisCount,
-  childAspectRatio: moovieGridChildAspectRatio,
-  crossAxisSpacing: moovieGridSpacing,
-  mainAxisSpacing: moovieGridSpacing,
+  crossAxisCount: muuvieGridCrossAxisCount,
+  childAspectRatio: muuvieGridChildAspectRatio,
+  crossAxisSpacing: muuvieGridSpacing,
+  mainAxisSpacing: muuvieGridSpacing,
 );
 
-class MoovieMoviePosterCard extends StatelessWidget {
+class MuuvieMoviePosterCard extends StatelessWidget {
   final String? imageUrl;
   final VoidCallback onTap;
 
   static const double _borderRadius = 10;
 
-  const MoovieMoviePosterCard({
+  const MuuvieMoviePosterCard({
     super.key,
     required this.imageUrl,
     required this.onTap,

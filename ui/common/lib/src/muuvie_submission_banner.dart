@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class MoovieSubmissionBanner extends StatelessWidget {
+class MuuvieSubmissionBanner extends StatelessWidget {
   final String reviewTitle;
   final bool isError;
   final VoidCallback? onTap;
   final VoidCallback? onDismiss;
 
-  const MoovieSubmissionBanner({
+  const MuuvieSubmissionBanner({
     super.key,
     required this.reviewTitle,
     this.isError = false,

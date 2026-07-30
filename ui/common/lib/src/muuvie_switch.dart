@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 import 'package:common/src/platform_helper.dart';
 
-class MoovieSwitch extends StatelessWidget {
+class MuuvieSwitch extends StatelessWidget {
   final bool value;
   final ValueChanged<bool>? onChanged;
 
-  const MoovieSwitch({
+  const MuuvieSwitch({
     super.key,
     required this.value,
     required this.onChanged,

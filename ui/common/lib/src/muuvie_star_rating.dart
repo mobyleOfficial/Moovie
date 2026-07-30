@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MoovieStarRating extends StatelessWidget {
+class MuuvieStarRating extends StatelessWidget {
   final double rating;
   final ValueChanged<double>? onRatingChanged;
   final double starSize;
@@ -9,7 +9,7 @@ class MoovieStarRating extends StatelessWidget {
 
   static const int _starCount = 5;
 
-  const MoovieStarRating({
+  const MuuvieStarRating({
     super.key,
     required this.rating,
     this.onRatingChanged,

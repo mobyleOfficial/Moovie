@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 
-import 'package:common/src/moovie_bottom_sheet.dart';
-import 'package:common/src/moovie_dialog.dart';
+import 'package:common/src/muuvie_bottom_sheet.dart';
+import 'package:common/src/muuvie_dialog.dart';
 import 'package:common/app_localizations.dart';
 
-class MoovieReviewEditor extends StatefulWidget {
+class MuuvieReviewEditor extends StatefulWidget {
   final String? initialHtml;
 
-  const MoovieReviewEditor({super.key, this.initialHtml});
+  const MuuvieReviewEditor({super.key, this.initialHtml});
 
   static Future<String?> show(BuildContext context, {String? initialHtml}) =>
-      MoovieBottomSheet.show<String>(
+      MuuvieBottomSheet.show<String>(
         context: context,
         enableDrag: false,
         isDismissible: false,
-        builder: (_) => MoovieReviewEditor(initialHtml: initialHtml),
+        builder: (_) => MuuvieReviewEditor(initialHtml: initialHtml),
       );
 
   @override
-  State<MoovieReviewEditor> createState() => _MoovieReviewEditorState();
+  State<MuuvieReviewEditor> createState() => _MuuvieReviewEditorState();
 }
 
-class _MoovieReviewEditorState extends State<MoovieReviewEditor>
+class _MuuvieReviewEditorState extends State<MuuvieReviewEditor>
     with SingleTickerProviderStateMixin {
   late final TextEditingController _controller;
   late final FocusNode _focusNode;
@@ -95,7 +95,7 @@ class _MoovieReviewEditorState extends State<MoovieReviewEditor>
   void _onClear() {
     final l10n = AppLocalizations.of(context);
     if (l10n == null) return;
-    MoovieDialog.show(
+    MuuvieDialog.show(
       context: context,
       title: l10n.reviewEditorClearConfirmTitle,
       content: l10n.reviewEditorClearConfirmContent,
@@ -465,7 +465,7 @@ class _PreviewTabState extends State<_PreviewTab> {
         listenable: widget.controller,
         builder: (context, _) {
           final html =
-              _MoovieReviewEditorState.editableToHtml(widget.controller.text);
+              _MuuvieReviewEditorState.editableToHtml(widget.controller.text);
 
           if (html.trim().isEmpty) {
             return Center(

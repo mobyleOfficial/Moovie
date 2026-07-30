@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:common/src/platform_helper.dart';
 
-class MoovieEditText extends StatelessWidget {
+class MuuvieEditText extends StatelessWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final String? placeholder;
@@ -12,7 +12,7 @@ class MoovieEditText extends StatelessWidget {
   final TextInputAction? textInputAction;
   final Widget? suffixIcon;
 
-  const MoovieEditText({
+  const MuuvieEditText({
     super.key,
     this.controller,
     this.focusNode,

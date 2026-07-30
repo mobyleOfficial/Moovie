@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 
-class MoovieBottomNavigationBarItem {
+class MuuvieBottomNavigationBarItem {
   final IconData icon;
   final IconData? activeIcon;
   final String label;
 
-  const MoovieBottomNavigationBarItem({
+  const MuuvieBottomNavigationBarItem({
     required this.icon,
     this.activeIcon,
     required this.label,
   });
 }
 
-class MoovieBottomNavigationBar extends StatelessWidget {
+class MuuvieBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
-  final List<MoovieBottomNavigationBarItem> items;
-  final MoovieBottomNavigationBarItem? centerItem;
+  final List<MuuvieBottomNavigationBarItem> items;
+  final MuuvieBottomNavigationBarItem? centerItem;
   final VoidCallback? onCenterTap;
 
-  const MoovieBottomNavigationBar({
+  const MuuvieBottomNavigationBar({
     super.key,
     required this.currentIndex,
     required this.onTap,

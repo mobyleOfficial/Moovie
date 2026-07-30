@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract final class MoovieColors {
+abstract final class MuuvieColors {
   // Brand colors
   static const Color primary = Color(0xFF1A1C1E);
   static const Color secondary = Color(0xFFFFD1DC);

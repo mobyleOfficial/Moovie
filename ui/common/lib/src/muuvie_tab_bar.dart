@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class MoovieTabBar extends StatefulWidget {
+class MuuvieTabBar extends StatefulWidget {
   final List<String> tabs;
   final TabController? controller;
   final bool isScrollable;
 
-  const MoovieTabBar({
+  const MuuvieTabBar({
     super.key,
     required this.tabs,
     this.controller,
@@ -13,10 +13,10 @@ class MoovieTabBar extends StatefulWidget {
   });
 
   @override
-  State<MoovieTabBar> createState() => _MoovieTabBarState();
+  State<MuuvieTabBar> createState() => _MuuvieTabBarState();
 }
 
-class _MoovieTabBarState extends State<MoovieTabBar> {
+class _MuuvieTabBarState extends State<MuuvieTabBar> {
   TabController? _tabController;
 
   @override
@@ -26,7 +26,7 @@ class _MoovieTabBarState extends State<MoovieTabBar> {
   }
 
   @override
-  void didUpdateWidget(MoovieTabBar oldWidget) {
+  void didUpdateWidget(MuuvieTabBar oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != widget.controller) {
       _updateController();

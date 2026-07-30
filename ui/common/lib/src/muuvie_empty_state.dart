@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class MoovieEmptyState extends StatelessWidget {
+class MuuvieEmptyState extends StatelessWidget {
   final String title;
   final String message;
   final VoidCallback? action;
   final String? actionLabel;
 
-  const MoovieEmptyState({
+  const MuuvieEmptyState({
     super.key,
     required this.title,
     required this.message,

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:common/src/theme/moovie_color_scheme.dart';
-import 'package:common/src/theme/moovie_colors.dart';
-import 'package:common/src/theme/moovie_text_theme.dart';
+import 'package:common/src/theme/muuvie_color_scheme.dart';
+import 'package:common/src/theme/muuvie_colors.dart';
+import 'package:common/src/theme/muuvie_text_theme.dart';
 
-abstract final class MoovieTheme {
+abstract final class MuuvieTheme {
   static ThemeData get light => ThemeData(
         useMaterial3: true,
-        colorScheme: MoovieColorScheme.light,
-        textTheme: MoovieTextTheme.textTheme,
+        colorScheme: MuuvieColorScheme.light,
+        textTheme: MuuvieTextTheme.textTheme,
         appBarTheme: const AppBarTheme(
           centerTitle: true,
           elevation: 0,
@@ -40,7 +40,7 @@ abstract final class MoovieTheme {
         ),
         navigationBarTheme: NavigationBarThemeData(
           elevation: 0,
-          indicatorColor: MoovieColors.secondary,
+          indicatorColor: MuuvieColors.secondary,
           indicatorShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -54,8 +54,8 @@ abstract final class MoovieTheme {
 
   static ThemeData get dark => ThemeData(
         useMaterial3: true,
-        colorScheme: MoovieColorScheme.dark,
-        textTheme: MoovieTextTheme.textTheme,
+        colorScheme: MuuvieColorScheme.dark,
+        textTheme: MuuvieTextTheme.textTheme,
         appBarTheme: const AppBarTheme(
           centerTitle: true,
           elevation: 0,
@@ -87,7 +87,7 @@ abstract final class MoovieTheme {
         ),
         navigationBarTheme: NavigationBarThemeData(
           elevation: 0,
-          indicatorColor: MoovieColors.primary,
+          indicatorColor: MuuvieColors.primary,
           indicatorShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),

@@ -31,7 +31,7 @@ class ReleaseDateMoviesScreen extends StatelessWidget {
           ReleaseDateMoviesLoading() => const Center(
               child: CircularProgressIndicator(),
             ),
-          ReleaseDateMoviesError(:final message) => MoovieEmptyState(
+          ReleaseDateMoviesError(:final message) => MuuvieEmptyState(
               title: l10n?.emptyStateErrorTitle ?? '',
               message: message,
             ),
@@ -42,13 +42,13 @@ class ReleaseDateMoviesScreen extends StatelessWidget {
                 state: pagingState,
                 fetchNextPage: fetchNextPage,
                 padding: const EdgeInsets.symmetric(
-                  horizontal: moovieGridPadding,
-                  vertical: moovieGridPadding,
+                  horizontal: muuvieGridPadding,
+                  vertical: muuvieGridPadding,
                 ),
-                gridDelegate: moovieGridDelegate,
+                gridDelegate: muuvieGridDelegate,
                 builderDelegate: PagedChildBuilderDelegate<Movie>(
                   itemBuilder: (context, movie, index) =>
-                      MoovieMoviePosterCard(
+                      MuuvieMoviePosterCard(
                     imageUrl: movie.posterPath.isNotEmpty
                         ? '${TmdbImageUrl.posterLarge}${movie.posterPath}'
                         : null,
@@ -56,13 +56,13 @@ class ReleaseDateMoviesScreen extends StatelessWidget {
                   ),
                   firstPageProgressIndicatorBuilder: (_) =>
                       const Center(child: CircularProgressIndicator()),
-                  firstPageErrorIndicatorBuilder: (_) => MoovieEmptyState(
+                  firstPageErrorIndicatorBuilder: (_) => MuuvieEmptyState(
                     title: l10n?.emptyStateErrorTitle ?? '',
                     message: l10n?.emptyStateErrorMessage ?? '',
                     action: fetchNextPage,
                     actionLabel: l10n?.emptyStateRetry ?? '',
                   ),
-                  noItemsFoundIndicatorBuilder: (_) => MoovieEmptyState(
+                  noItemsFoundIndicatorBuilder: (_) => MuuvieEmptyState(
                     title: l10n?.emptyStateNoItemsTitle ?? '',
                     message: l10n?.emptyStateNoItemsMessage ?? '',
                   ),
