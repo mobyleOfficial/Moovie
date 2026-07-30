@@ -18,7 +18,6 @@ abstract interface class MoviesRemoteDataSource {
   Future<Result<void>> likeReview({required String reviewId});
   Future<Result<void>> unlikeReview({required String reviewId});
   Future<Result<RemoteMovieListListing>> getMovieLists({required int page, String? userId});
-  Future<Result<RemoteMovieListListing>> getUserMovieLists({required int page});
   Future<Result<RemoteMovieListDetail>> getMovieListDetail({required int listId, required int page});
   Future<Result<RemoteMovieListing>> searchMovies({required String query, required int page});
   Future<Result<RemoteMovieListing>> discoverMovies({

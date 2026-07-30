@@ -1,3 +1,5 @@
+import 'package:profile/profile.dart';
+
 sealed class ProfileInfoState {
   const ProfileInfoState();
 }
@@ -7,7 +9,9 @@ class ProfileInfoLoading extends ProfileInfoState {
 }
 
 class ProfileInfoSuccess extends ProfileInfoState {
-  const ProfileInfoSuccess();
+  final UserProfile profile;
+
+  const ProfileInfoSuccess(this.profile);
 }
 
 class ProfileInfoError extends ProfileInfoState {

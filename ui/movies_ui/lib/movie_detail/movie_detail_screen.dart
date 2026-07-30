@@ -311,10 +311,20 @@ class _MovieInfoSection extends StatelessWidget {
   }
 }
 
-class _WatchProvidersSection extends StatelessWidget {
+class _WatchProvidersSection extends StatefulWidget {
   final List<WatchProvider> providers;
 
   const _WatchProvidersSection({required this.providers});
+
+  @override
+  State<_WatchProvidersSection> createState() => _WatchProvidersSectionState();
+}
+
+class _WatchProvidersSectionState extends State<_WatchProvidersSection> {
+  bool _expanded = false;
+
+  static const double _itemSize = 44;
+  static const double _spacing = 12;
 
   @override
   Widget build(BuildContext context) {
@@ -335,56 +345,105 @@ class _WatchProvidersSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Row(
-            children: providers
-                .map(
-                  (provider) => Padding(
-                    padding: const EdgeInsets.only(right: 12),
-                    child: Tooltip(
-                      message: provider.name,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: SizedBox(
-                          width: 44,
-                          height: 44,
-                          child: provider.logoPath.isNotEmpty
-                              ? CachedNetworkImage(
-                                  imageUrl:
-                                      '${TmdbImageUrl.posterSmall}${provider.logoPath}',
-                                  fit: BoxFit.cover,
-                                  placeholder: (_, _) => Container(
-                                    color:
-                                        colorScheme.surfaceContainerHighest,
-                                  ),
-                                  errorWidget: (_, _, _) => Container(
-                                    color:
-                                        colorScheme.surfaceContainerHighest,
-                                    child: Center(
-                                      child: Text(
-                                        provider.name[0],
-                                        style: textTheme.labelLarge,
-                                      ),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final maxPerRow =
+                  ((constraints.maxWidth + _spacing) / (_itemSize + _spacing))
+                      .floor();
+              final overflows = widget.providers.length > maxPerRow;
+              final visibleCount =
+                  _expanded || !overflows ? widget.providers.length : maxPerRow - 1;
+              final visible = widget.providers.take(visibleCount).toList();
+
+              return AnimatedSize(
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeInOut,
+                alignment: Alignment.topCenter,
+                child: Wrap(
+                  spacing: _spacing,
+                  runSpacing: _spacing,
+                  children: [
+                    ...visible.map((provider) => _ProviderLogo(provider: provider)),
+                    if (overflows)
+                      GestureDetector(
+                        onTap: () => setState(() => _expanded = !_expanded),
+                        child: Container(
+                          width: _itemSize,
+                          height: _itemSize,
+                          decoration: BoxDecoration(
+                            color: colorScheme.surfaceContainerHighest,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: _expanded
+                                ? Icon(Icons.expand_less,
+                                    size: 20, color: colorScheme.onSurfaceVariant)
+                                : Text(
+                                    '+${widget.providers.length - visibleCount}',
+                                    style: textTheme.labelMedium?.copyWith(
+                                      color: colorScheme.onSurfaceVariant,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                )
-                              : Container(
-                                  color:
-                                      colorScheme.surfaceContainerHighest,
-                                  child: Center(
-                                    child: Text(
-                                      provider.name[0],
-                                      style: textTheme.labelLarge,
-                                    ),
-                                  ),
-                                ),
+                          ),
                         ),
+                      ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProviderLogo extends StatelessWidget {
+  final WatchProvider provider;
+
+  const _ProviderLogo({required this.provider});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return Tooltip(
+      message: provider.name,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: SizedBox(
+          width: 44,
+          height: 44,
+          child: provider.logoPath.isNotEmpty
+              ? CachedNetworkImage(
+                  imageUrl:
+                      '${TmdbImageUrl.posterSmall}${provider.logoPath}',
+                  fit: BoxFit.cover,
+                  placeholder: (_, _) => Container(
+                    color: colorScheme.surfaceContainerHighest,
+                  ),
+                  errorWidget: (_, _, _) => Container(
+                    color: colorScheme.surfaceContainerHighest,
+                    child: Center(
+                      child: Text(
+                        provider.name[0],
+                        style: textTheme.labelLarge,
                       ),
                     ),
                   ),
                 )
-                .toList(),
-          ),
-        ],
+              : Container(
+                  color: colorScheme.surfaceContainerHighest,
+                  child: Center(
+                    child: Text(
+                      provider.name[0],
+                      style: textTheme.labelLarge,
+                    ),
+                  ),
+                ),
+        ),
       ),
     );
   }

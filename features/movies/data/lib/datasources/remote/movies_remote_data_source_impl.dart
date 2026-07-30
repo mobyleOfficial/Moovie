@@ -143,22 +143,6 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   }
 
   @override
-  Future<Result<RemoteMovieListListing>> getUserMovieLists({
-    required int page,
-  }) async {
-    final result = await _httpClient.get<Map<String, dynamic>>(
-      '/movies/lists/user',
-      queryParams: {'page': page},
-    );
-
-    return switch (result) {
-      Success<Map<String, dynamic>>(:final data) =>
-        Success(RemoteMovieListListing.fromJson(data)),
-      Failure<Map<String, dynamic>>(:final error) => Failure(error),
-    };
-  }
-
-  @override
   Future<Result<RemoteMovieListDetail>> getMovieListDetail({
     required int listId,
     required int page,

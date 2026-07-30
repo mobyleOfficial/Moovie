@@ -1,6 +1,7 @@
 import 'package:movies_domain/models/movie.dart';
 
 class UserProfile {
+  final String id;
   final String photoUrl;
   final String username;
   final String bio;
@@ -10,6 +11,7 @@ class UserProfile {
   final List<Movie> recentMovies;
 
   const UserProfile({
+    this.id = '',
     required this.photoUrl,
     required this.username,
     required this.bio,
@@ -20,6 +22,7 @@ class UserProfile {
   });
 
   UserProfile copyWith({
+    String? id,
     String? photoUrl,
     String? username,
     String? bio,
@@ -29,6 +32,7 @@ class UserProfile {
     List<Movie>? recentMovies,
   }) =>
       UserProfile(
+        id: id ?? this.id,
         photoUrl: photoUrl ?? this.photoUrl,
         username: username ?? this.username,
         bio: bio ?? this.bio,

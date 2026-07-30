@@ -19,7 +19,6 @@ abstract interface class MoviesRepository {
   Future<Result<void>> likeReview({required String reviewId});
   Future<Result<void>> unlikeReview({required String reviewId});
   Future<Result<MovieListListing>> getMovieLists({required int page, String? userId});
-  Future<Result<MovieListListing>> getUserMovieLists({required int page});
   Future<Result<MovieList>> getMovieListDetail({required int listId, required int page});
   Future<Result<MovieListing>> searchMovies({required String query, required int page});
   Future<Result<MovieListing>> discoverMovies({

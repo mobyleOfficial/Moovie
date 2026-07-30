@@ -6,7 +6,8 @@ import 'package:movies/movies.dart';
 import 'package:profile_ui/tabs/lists/user_movie_lists_state.dart';
 
 class UserMovieListsCubit extends Cubit<UserMovieListsState> {
-  final GetUserMovieLists _getUserMovieLists;
+  final GetMovieLists _getMovieLists;
+  final String userId;
 
   int _totalPages = 1;
 
@@ -19,10 +20,13 @@ class UserMovieListsCubit extends Cubit<UserMovieListsState> {
     fetchPage: _fetchPage,
   );
 
-  UserMovieListsCubit(this._getUserMovieLists) : super(const UserMovieListsSuccess());
+  UserMovieListsCubit(this._getMovieLists, {required this.userId})
+      : super(const UserMovieListsSuccess());
 
   Future<List<MovieList>> _fetchPage(int page) async {
-    final result = await _getUserMovieLists(page);
+    final result = await _getMovieLists(
+      GetMovieListsParams(page: page, userId: userId),
+    );
 
     switch (result) {
       case Success(:final data):

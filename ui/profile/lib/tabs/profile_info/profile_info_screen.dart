@@ -1,46 +1,58 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common/common.dart';
-import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:movies/movies.dart';
 import 'package:movies_ui/movie_detail/movie_detail_router.dart';
 import 'package:profile/profile.dart';
 import 'package:profile_ui/profile_router.dart';
+import 'package:profile_ui/tabs/profile_info/profile_info_bloc.dart';
+import 'package:profile_ui/tabs/profile_info/profile_info_state.dart';
 
-class ProfileInfoScreen extends StatefulWidget {
+class ProfileInfoScreen extends StatelessWidget {
   const ProfileInfoScreen({super.key});
 
   @override
-  State<ProfileInfoScreen> createState() => _ProfileInfoScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => ProfileCubit(GetIt.I<GetUserProfile>()),
+      child: const _ProfileInfoBody(),
+    );
+  }
 }
 
-class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
-  UserProfile? _profile;
-  bool _loading = true;
+class _ProfileInfoBody extends StatelessWidget {
+  const _ProfileInfoBody();
 
   @override
-  void initState() {
-    super.initState();
-    _loadProfile();
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return BlocBuilder<ProfileCubit, ProfileInfoState>(
+      builder: (context, state) => switch (state) {
+        ProfileInfoLoading() => const Center(
+            child: CircularProgressIndicator(),
+          ),
+        ProfileInfoError(:final message) => MuuvieEmptyState(
+            title: l10n?.emptyStateErrorTitle ?? '',
+            message: message,
+          ),
+        ProfileInfoSuccess(:final profile) => _ProfileInfoContent(
+            profile: profile,
+          ),
+      },
+    );
   }
+}
 
-  Future<void> _loadProfile() async {
-    final result = await GetIt.I<GetUserProfile>()();
-    if (!mounted) return;
-    setState(() {
-      _loading = false;
-      if (result is Success<UserProfile>) {
-        _profile = result.data;
-      }
-    });
-  }
+class _ProfileInfoContent extends StatelessWidget {
+  final UserProfile profile;
 
-  Future<void> _openEditProfile() async {
-    final profile = _profile;
-    if (profile == null) return;
+  const _ProfileInfoContent({required this.profile});
 
+  Future<void> _openEditProfile(BuildContext context) async {
     final result = await context.router.root.push<UserProfile?>(
       EditProfileRoute(
         initialPhotoUrl: profile.photoUrl,
@@ -49,20 +61,12 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
       ),
     );
 
-    if (result != null && mounted) {
-      setState(() {
-        _profile = profile.copyWith(
-          photoUrl: result.photoUrl,
-          username: result.username,
-          bio: result.bio,
-        );
-      });
+    if (result != null && context.mounted) {
+      context.read<ProfileCubit>().updateProfile(result);
     }
   }
 
-  void _openRecentMoviesSheet() {
-    final profile = _profile;
-    if (profile == null) return;
+  void _openRecentMoviesSheet(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
     MuuvieBottomSheet.show(
@@ -80,17 +84,6 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
-
-    if (_loading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    final profile = _profile;
-    if (profile == null) {
-      return Center(
-        child: Text(l10n?.unknownError ?? ''),
-      );
-    }
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -140,7 +133,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                 _ProfileStat(
                   value: '${profile.moviesWatchedCount}',
                   label: l10n?.profileMoviesWatched ?? '',
-                  onTap: _openRecentMoviesSheet,
+                  onTap: () => _openRecentMoviesSheet(context),
                 ),
                 VerticalDivider(color: colorScheme.outlineVariant, width: 1),
                 _ProfileStat(
@@ -161,7 +154,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
           SizedBox(
             width: double.infinity,
             child: OutlinedButton(
-              onPressed: _openEditProfile,
+              onPressed: () => _openEditProfile(context),
               style: OutlinedButton.styleFrom(
                 foregroundColor: colorScheme.onSecondaryContainer,
                 side: BorderSide(color: colorScheme.onSecondaryContainer),
