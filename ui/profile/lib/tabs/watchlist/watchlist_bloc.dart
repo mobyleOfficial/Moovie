@@ -4,16 +4,16 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies/movies.dart';
 import 'package:profile/profile.dart';
 
-import 'package:profile_ui/tabs/lists/user_movie_lists_state.dart';
+import 'package:profile_ui/tabs/watchlist/watchlist_state.dart';
 
-class UserMovieListsCubit extends Cubit<UserMovieListsState> {
-  final GetMovieLists _getMovieLists;
+class WatchlistCubit extends Cubit<WatchlistState> {
+  final GetUserWatchList _getUserWatchList;
   final GetUserProfile _getUserProfile;
 
   String? _userId;
   int _totalPages = 1;
 
-  late final PagingController<int, MovieList> pagingController = PagingController(
+  late final PagingController<int, Movie> pagingController = PagingController(
     getNextPageKey: (state) {
       final nextKey = state.nextIntPageKey;
       if (nextKey > _totalPages) return null;
@@ -22,25 +22,25 @@ class UserMovieListsCubit extends Cubit<UserMovieListsState> {
     fetchPage: _fetchPage,
   );
 
-  UserMovieListsCubit({
-    required GetMovieLists getMovieLists,
+  WatchlistCubit({
+    required GetUserWatchList getUserWatchList,
     required GetUserProfile getUserProfile,
-  })  : _getMovieLists = getMovieLists,
+  })  : _getUserWatchList = getUserWatchList,
         _getUserProfile = getUserProfile,
-        super(const UserMovieListsSuccess());
+        super(const WatchlistSuccess());
 
-  Future<List<MovieList>> _fetchPage(int page) async {
+  Future<List<Movie>> _fetchPage(int page) async {
     final userId = await _resolveUserId();
     if (userId == null) throw Exception('Failed to load user profile');
 
-    final result = await _getMovieLists(
-      GetMovieListsParams(page: page, userId: userId),
+    final result = await _getUserWatchList(
+      GetUserWatchListParams(userId: userId, page: page),
     );
 
     switch (result) {
       case Success(:final data):
         _totalPages = data.totalPages;
-        return data.lists;
+        return data.movies;
       case Failure(:final error):
         throw Exception(error.message);
     }

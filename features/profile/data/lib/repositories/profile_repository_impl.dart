@@ -10,6 +10,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
   final MoviesRemoteDataSource _moviesRemoteDataSource;
   final ProfileRemoteDataSource _profileRemoteDataSource;
 
+  UserProfile? _cachedProfile;
+
   ProfileRepositoryImpl(this._moviesRemoteDataSource, this._profileRemoteDataSource);
 
   @override
@@ -47,6 +49,15 @@ class ProfileRepositoryImpl implements ProfileRepository {
       _profileRemoteDataSource.updateUserProfile(profile: profile);
 
   @override
-  Future<Result<UserProfile>> getUserProfile() async =>
-      _profileRemoteDataSource.getUserProfile();
+  Future<Result<UserProfile>> getUserProfile() async {
+    final cached = _cachedProfile;
+    if (cached != null) return Success(cached);
+
+    final result = await _profileRemoteDataSource.getUserProfile();
+    if (result is Success<UserProfile>) {
+      _cachedProfile = result.data;
+    }
+
+    return result;
+  }
 }
