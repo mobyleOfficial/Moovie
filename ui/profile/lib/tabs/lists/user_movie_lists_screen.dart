@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies/movies.dart';
 import 'package:movies_ui/movie_list_detail/movie_list_detail_router.dart';
@@ -11,30 +10,17 @@ import 'package:movies_ui/tabs/lists/movies_list_tile.dart';
 import 'package:profile_ui/tabs/lists/user_movie_lists_bloc.dart';
 import 'package:profile_ui/tabs/lists/user_movie_lists_state.dart';
 
-class UserMovieListsScreen extends StatefulWidget {
-  const UserMovieListsScreen({super.key});
+class UserMovieListsScreen extends StatelessWidget {
+  final UserMovieListsCubit cubit;
 
-  @override
-  State<UserMovieListsScreen> createState() => _UserMovieListsScreenState();
-}
-
-class _UserMovieListsScreenState extends State<UserMovieListsScreen> {
-  late final UserMovieListsCubit _cubit = UserMovieListsCubit(
-    GetIt.I<GetUserMovieLists>(),
-  );
-
-  @override
-  void dispose() {
-    _cubit.close();
-    super.dispose();
-  }
+  const UserMovieListsScreen({super.key, required this.cubit});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
     return BlocProvider.value(
-      value: _cubit,
+      value: cubit,
       child: BlocBuilder<UserMovieListsCubit, UserMovieListsState>(
         builder: (context, state) => switch (state) {
           UserMovieListsLoading() => const Center(
@@ -45,7 +31,7 @@ class _UserMovieListsScreenState extends State<UserMovieListsScreen> {
               message: message,
             ),
           UserMovieListsSuccess() => PagingListener(
-              controller: _cubit.pagingController,
+              controller: cubit.pagingController,
               builder: (context, pagingState, fetchNextPage) =>
                   PagedListView<int, MovieList>(
                 state: pagingState,

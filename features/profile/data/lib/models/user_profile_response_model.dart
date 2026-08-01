@@ -3,6 +3,7 @@ import 'package:movies_domain/models/movie_info.dart';
 import 'package:profile_domain/models/user_profile.dart';
 
 class UserProfileResponseModel {
+  final String id;
   final String photoUrl;
   final String username;
   final String bio;
@@ -12,6 +13,7 @@ class UserProfileResponseModel {
   final List<RecentMovieModel> recentMovies;
 
   const UserProfileResponseModel({
+    required this.id,
     required this.photoUrl,
     required this.username,
     required this.bio,
@@ -23,6 +25,7 @@ class UserProfileResponseModel {
 
   factory UserProfileResponseModel.fromJson(Map<String, dynamic> json) =>
       UserProfileResponseModel(
+        id: json['id'] as String? ?? '',
         photoUrl: json['photoUrl'] as String? ?? '',
         username: json['username'] as String,
         bio: json['bio'] as String? ?? '',
@@ -37,6 +40,7 @@ class UserProfileResponseModel {
       );
 
   UserProfile toDomain() => UserProfile(
+        id: id,
         photoUrl: photoUrl,
         username: username,
         bio: bio,

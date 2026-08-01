@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies/movies.dart';
+import 'package:objectbox/objectbox.dart';
 
 @module
 abstract class MoviesModule {
@@ -53,10 +54,6 @@ abstract class MoviesModule {
   @injectable
   GetMovieLists getMovieLists(MoviesRepository repository) =>
       GetMovieLists(repository);
-
-  @injectable
-  GetUserMovieLists getUserMovieLists(MoviesRepository repository) =>
-      GetUserMovieLists(repository);
 
   @injectable
   GetMovieListDetail getMovieListDetail(MoviesRepository repository) =>

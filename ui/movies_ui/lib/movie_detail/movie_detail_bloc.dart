@@ -17,6 +17,16 @@ class MovieDetailCubit extends Cubit<MovieDetailState> {
     _fetchMovieDetail();
   }
 
+  void toggleWatchProviders() {
+    final current = state;
+    if (current is MovieDetailSuccess) {
+      emit(MovieDetailSuccess(
+        current.detail,
+        watchProvidersExpanded: !current.watchProvidersExpanded,
+      ));
+    }
+  }
+
   Future<void> _fetchMovieDetail() async {
     final result = await _getMovieDetail(_movieId);
 

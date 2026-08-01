@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies/movies.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:user_activities/user_activities.dart';
 
 @module
