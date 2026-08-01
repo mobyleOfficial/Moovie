@@ -33,4 +33,12 @@ abstract class ProfileModule {
   @injectable
   GetUserProfile getUserProfile(ProfileRepository repository) =>
       GetUserProfile(repository);
+
+  @injectable
+  FetchUserProfile fetchUserProfile(ProfileRepository repository) =>
+      FetchUserProfile(repository);
+
+  @injectable
+  StartScrape startScrape(ProfileRepository repository) =>
+      StartScrape(repository);
 }

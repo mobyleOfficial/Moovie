@@ -76,43 +76,154 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   title: l10n?.emptyStateErrorTitle ?? '',
                   message: message,
                 ),
-              EditProfileReady(:final photoUrl) => SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 32),
-                      _PhotoSection(
-                        photoUrl: photoUrl,
+              EditProfileReady(
+                :final photoUrl,
+                :final isScraping,
+              ) =>
+                Column(
+                  children: [
+                    if (isScraping)
+                      _ScrapingBanner(
                         colorScheme: colorScheme,
                         textTheme: textTheme,
-                        l10n: l10n,
-                        onChangePhoto: () =>
-                            widget.cubit.onPhotoUrlChanged(''),
                       ),
-                      const SizedBox(height: 32),
-                      _ProfileTextField(
-                        controller: _usernameController,
-                        label: l10n?.editProfileUsernameLabel ?? '',
-                        placeholder:
-                            l10n?.editProfileUsernamePlaceholder ?? '',
-                        onChanged: widget.cubit.onUsernameChanged,
+                    Expanded(
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 32),
+                            _PhotoSection(
+                              photoUrl: photoUrl,
+                              colorScheme: colorScheme,
+                              textTheme: textTheme,
+                              l10n: l10n,
+                              onChangePhoto: () =>
+                                  widget.cubit.onPhotoUrlChanged(''),
+                            ),
+                            const SizedBox(height: 32),
+                            _ProfileTextField(
+                              controller: _usernameController,
+                              label: l10n?.editProfileUsernameLabel ?? '',
+                              placeholder:
+                                  l10n?.editProfileUsernamePlaceholder ?? '',
+                              onChanged: widget.cubit.onUsernameChanged,
+                            ),
+                            const SizedBox(height: 16),
+                            _ProfileTextField(
+                              controller: _bioController,
+                              label: l10n?.editProfileBioLabel ?? '',
+                              placeholder:
+                                  l10n?.editProfileBioPlaceholder ?? '',
+                              onChanged: widget.cubit.onBioChanged,
+                              maxLines: 3,
+                            ),
+                            const SizedBox(height: 32),
+                            _ImportSection(
+                              isScraping: isScraping,
+                              onImportFilmow: () =>
+                                  widget.cubit.importFromSource('filmow'),
+                              onImportLetterboxd: () =>
+                                  widget.cubit.importFromSource('letterboxd'),
+                            ),
+                            const SizedBox(height: 32),
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: 16),
-                      _ProfileTextField(
-                        controller: _bioController,
-                        label: l10n?.editProfileBioLabel ?? '',
-                        placeholder: l10n?.editProfileBioPlaceholder ?? '',
-                        onChanged: widget.cubit.onBioChanged,
-                        maxLines: 3,
-                      ),
-                      const SizedBox(height: 32),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
             },
           ),
         ),
       ),
+    );
+  }
+}
+
+class _ScrapingBanner extends StatelessWidget {
+  final ColorScheme colorScheme;
+  final TextTheme textTheme;
+
+  const _ScrapingBanner({
+    required this.colorScheme,
+    required this.textTheme,
+  });
+
+  @override
+  Widget build(BuildContext context) => Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        color: colorScheme.primaryContainer,
+        child: Row(
+          children: [
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: colorScheme.onPrimaryContainer,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'Importando dados...',
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onPrimaryContainer,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+}
+
+class _ImportSection extends StatelessWidget {
+  final bool isScraping;
+  final VoidCallback onImportFilmow;
+  final VoidCallback onImportLetterboxd;
+
+  const _ImportSection({
+    required this.isScraping,
+    required this.onImportFilmow,
+    required this.onImportLetterboxd,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Importar dados',
+          style: textTheme.labelLarge?.copyWith(
+            color: colorScheme.onSurfaceVariant,
+          ),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: isScraping ? null : onImportFilmow,
+            icon: const Icon(Icons.download),
+            label: const Text('Importar dados do Filmow'),
+          ),
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: isScraping ? null : onImportLetterboxd,
+            icon: const Icon(Icons.download),
+            label: const Text('Importar dados do Letterboxd'),
+          ),
+        ),
+      ],
     );
   }
 }

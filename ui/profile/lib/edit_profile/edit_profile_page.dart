@@ -10,12 +10,14 @@ class EditProfilePage extends StatefulWidget {
   final String initialPhotoUrl;
   final String initialUsername;
   final String initialBio;
+  final bool initialIsScraping;
 
   const EditProfilePage({
     super.key,
     required this.initialPhotoUrl,
     required this.initialUsername,
     required this.initialBio,
+    this.initialIsScraping = false,
   });
 
   @override
@@ -25,9 +27,12 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   late final EditProfileCubit _cubit = EditProfileCubit(
     updateUserProfile: GetIt.I<UpdateUserProfile>(),
+    startScrape: GetIt.I<StartScrape>(),
+    getUserProfile: GetIt.I<GetUserProfile>(),
     initialPhotoUrl: widget.initialPhotoUrl,
     initialUsername: widget.initialUsername,
     initialBio: widget.initialBio,
+    initialIsScraping: widget.initialIsScraping,
   );
 
   @override

@@ -49,10 +49,8 @@ class WatchlistCubit extends Cubit<WatchlistState> {
   Future<String?> _resolveUserId() async {
     if (_userId != null) return _userId;
 
-    final result = await _getUserProfile();
-    if (result is Success<UserProfile>) {
-      _userId = result.data.id;
-    }
+    final profile = await _getUserProfile().first;
+    _userId = profile.id;
     return _userId;
   }
 

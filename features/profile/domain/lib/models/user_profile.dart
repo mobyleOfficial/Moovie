@@ -9,6 +9,7 @@ class UserProfile {
   final int followingCount;
   final int followersCount;
   final List<Movie> recentMovies;
+  final bool isScraping;
 
   const UserProfile({
     this.id = '',
@@ -19,6 +20,7 @@ class UserProfile {
     this.followingCount = 0,
     this.followersCount = 0,
     this.recentMovies = const [],
+    this.isScraping = false,
   });
 
   UserProfile copyWith({
@@ -30,6 +32,7 @@ class UserProfile {
     int? followingCount,
     int? followersCount,
     List<Movie>? recentMovies,
+    bool? isScraping,
   }) =>
       UserProfile(
         id: id ?? this.id,
@@ -40,5 +43,6 @@ class UserProfile {
         followingCount: followingCount ?? this.followingCount,
         followersCount: followersCount ?? this.followersCount,
         recentMovies: recentMovies ?? this.recentMovies,
+        isScraping: isScraping ?? this.isScraping,
       );
 }
