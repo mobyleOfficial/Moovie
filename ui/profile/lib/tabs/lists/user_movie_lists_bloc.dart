@@ -2,13 +2,15 @@ import 'package:core/core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies/movies.dart';
+import 'package:profile/profile.dart';
 
 import 'package:profile_ui/tabs/lists/user_movie_lists_state.dart';
 
 class UserMovieListsCubit extends Cubit<UserMovieListsState> {
   final GetMovieLists _getMovieLists;
-  final String userId;
+  final GetUserProfile _getUserProfile;
 
+  String? _userId;
   int _totalPages = 1;
 
   late final PagingController<int, MovieList> pagingController = PagingController(
@@ -20,10 +22,17 @@ class UserMovieListsCubit extends Cubit<UserMovieListsState> {
     fetchPage: _fetchPage,
   );
 
-  UserMovieListsCubit(this._getMovieLists, {required this.userId})
-      : super(const UserMovieListsSuccess());
+  UserMovieListsCubit({
+    required GetMovieLists getMovieLists,
+    required GetUserProfile getUserProfile,
+  })  : _getMovieLists = getMovieLists,
+        _getUserProfile = getUserProfile,
+        super(const UserMovieListsSuccess());
 
   Future<List<MovieList>> _fetchPage(int page) async {
+    final userId = await _resolveUserId();
+    if (userId == null) throw Exception('Failed to load user profile');
+
     final result = await _getMovieLists(
       GetMovieListsParams(page: page, userId: userId),
     );
@@ -35,6 +44,16 @@ class UserMovieListsCubit extends Cubit<UserMovieListsState> {
       case Failure(:final error):
         throw Exception(error.message);
     }
+  }
+
+  Future<String?> _resolveUserId() async {
+    if (_userId != null) return _userId;
+
+    final result = await _getUserProfile();
+    if (result is Success<UserProfile>) {
+      _userId = result.data.id;
+    }
+    return _userId;
   }
 
   @override

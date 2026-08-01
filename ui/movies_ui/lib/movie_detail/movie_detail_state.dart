@@ -10,8 +10,9 @@ class MovieDetailLoading extends MovieDetailState {
 
 class MovieDetailSuccess extends MovieDetailState {
   final Movie detail;
+  final bool watchProvidersExpanded;
 
-  const MovieDetailSuccess(this.detail);
+  const MovieDetailSuccess(this.detail, {this.watchProvidersExpanded = false});
 }
 
 class MovieDetailError extends MovieDetailState {

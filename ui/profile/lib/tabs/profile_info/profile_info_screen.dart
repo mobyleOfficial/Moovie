@@ -3,45 +3,25 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:movies/movies.dart';
-import 'package:movies_ui/movie_detail/movie_detail_router.dart';
 import 'package:profile/profile.dart';
+import 'package:profile_ui/profile_bloc.dart';
 import 'package:profile_ui/profile_router.dart';
-import 'package:profile_ui/tabs/profile_info/profile_info_bloc.dart';
-import 'package:profile_ui/tabs/profile_info/profile_info_state.dart';
+import 'package:profile_ui/profile_state.dart';
+
+import 'package:movies_ui/movie_detail/movie_detail_router.dart';
 
 class ProfileInfoScreen extends StatelessWidget {
   const ProfileInfoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ProfileCubit(GetIt.I<GetUserProfile>()),
-      child: const _ProfileInfoBody(),
-    );
-  }
-}
-
-class _ProfileInfoBody extends StatelessWidget {
-  const _ProfileInfoBody();
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    return BlocBuilder<ProfileCubit, ProfileInfoState>(
+    return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) => switch (state) {
-        ProfileInfoLoading() => const Center(
-            child: CircularProgressIndicator(),
-          ),
-        ProfileInfoError(:final message) => MuuvieEmptyState(
-            title: l10n?.emptyStateErrorTitle ?? '',
-            message: message,
-          ),
-        ProfileInfoSuccess(:final profile) => _ProfileInfoContent(
+        ProfileSuccess(:final profile) => _ProfileInfoContent(
             profile: profile,
           ),
+        _ => const SizedBox.shrink(),
       },
     );
   }

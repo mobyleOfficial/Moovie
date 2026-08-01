@@ -311,17 +311,10 @@ class _MovieInfoSection extends StatelessWidget {
   }
 }
 
-class _WatchProvidersSection extends StatefulWidget {
+class _WatchProvidersSection extends StatelessWidget {
   final List<WatchProvider> providers;
 
   const _WatchProvidersSection({required this.providers});
-
-  @override
-  State<_WatchProvidersSection> createState() => _WatchProvidersSectionState();
-}
-
-class _WatchProvidersSectionState extends State<_WatchProvidersSection> {
-  bool _expanded = false;
 
   static const double _itemSize = 44;
   static const double _spacing = 12;
@@ -332,68 +325,76 @@ class _WatchProvidersSectionState extends State<_WatchProvidersSection> {
     final textTheme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            l10n?.movieDetailWhereToWatch ?? '',
-            style: textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: colorScheme.onSurface,
+    return BlocSelector<MovieDetailCubit, MovieDetailState, bool>(
+      selector: (state) =>
+          state is MovieDetailSuccess && state.watchProvidersExpanded,
+      builder: (context, expanded) => Padding(
+        padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n?.movieDetailWhereToWatch ?? '',
+              style: textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: colorScheme.onSurface,
+              ),
             ),
-          ),
-          const SizedBox(height: 12),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final maxPerRow =
-                  ((constraints.maxWidth + _spacing) / (_itemSize + _spacing))
-                      .floor();
-              final overflows = widget.providers.length > maxPerRow;
-              final visibleCount =
-                  _expanded || !overflows ? widget.providers.length : maxPerRow - 1;
-              final visible = widget.providers.take(visibleCount).toList();
+            const SizedBox(height: 12),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final maxPerRow =
+                    ((constraints.maxWidth + _spacing) / (_itemSize + _spacing))
+                        .floor();
+                final overflows = providers.length > maxPerRow;
+                final visibleCount =
+                    expanded || !overflows ? providers.length : maxPerRow - 1;
+                final visible = providers.take(visibleCount).toList();
 
-              return AnimatedSize(
-                duration: const Duration(milliseconds: 250),
-                curve: Curves.easeInOut,
-                alignment: Alignment.topCenter,
-                child: Wrap(
-                  spacing: _spacing,
-                  runSpacing: _spacing,
-                  children: [
-                    ...visible.map((provider) => _ProviderLogo(provider: provider)),
-                    if (overflows)
-                      GestureDetector(
-                        onTap: () => setState(() => _expanded = !_expanded),
-                        child: Container(
-                          width: _itemSize,
-                          height: _itemSize,
-                          decoration: BoxDecoration(
-                            color: colorScheme.surfaceContainerHighest,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: _expanded
-                                ? Icon(Icons.expand_less,
-                                    size: 20, color: colorScheme.onSurfaceVariant)
-                                : Text(
-                                    '+${widget.providers.length - visibleCount}',
-                                    style: textTheme.labelMedium?.copyWith(
-                                      color: colorScheme.onSurfaceVariant,
-                                      fontWeight: FontWeight.w600,
+                return AnimatedSize(
+                  duration: const Duration(milliseconds: 250),
+                  curve: Curves.easeInOut,
+                  alignment: Alignment.topCenter,
+                  child: Wrap(
+                    spacing: _spacing,
+                    runSpacing: _spacing,
+                    children: [
+                      ...visible.map(
+                          (provider) => _ProviderLogo(provider: provider)),
+                      if (overflows)
+                        GestureDetector(
+                          onTap: () => context
+                              .read<MovieDetailCubit>()
+                              .toggleWatchProviders(),
+                          child: Container(
+                            width: _itemSize,
+                            height: _itemSize,
+                            decoration: BoxDecoration(
+                              color: colorScheme.surfaceContainerHighest,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: expanded
+                                  ? Icon(Icons.expand_less,
+                                      size: 20,
+                                      color: colorScheme.onSurfaceVariant)
+                                  : Text(
+                                      '+${providers.length - visibleCount}',
+                                      style: textTheme.labelMedium?.copyWith(
+                                        color: colorScheme.onSurfaceVariant,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
-                                  ),
+                            ),
                           ),
                         ),
-                      ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ],
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
