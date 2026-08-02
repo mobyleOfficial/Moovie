@@ -45,15 +45,11 @@ class ProfileRepositoryImpl implements ProfileRepository {
     required String username,
     required String cookies,
   }) async {
-    final result = await _profileRemoteDataSource.startScrape(
+    return _profileRemoteDataSource.startScrape(
       source: source,
       username: username,
       cookies: cookies,
     );
-    if (result is Success && _profileSubject.hasValue) {
-      _profileSubject.add(_profileSubject.value.copyWith(isScraping: true));
-    }
-    return result;
   }
 
   void _listenToWebSocket() {

@@ -10,24 +10,21 @@ class ProfileCubit extends Cubit<ProfileState> {
   final GetUserProfile _getUserProfile;
   StreamSubscription<UserProfile>? _subscription;
 
-  ProfileCubit({
-    required GetUserProfile getUserProfile,
-  })  : _getUserProfile = getUserProfile,
-        super(const ProfileLoading());
+  ProfileCubit({required GetUserProfile getUserProfile})
+    : _getUserProfile = getUserProfile,
+      super(const ProfileLoading()) {
+    dev.log('[ProfileWS] Profile stream started');
+    _listen();
+  }
 
-  void listen() {
+  void _listen() {
     _subscription?.cancel();
-    dev.log('[ProfileWS] Subscribing to profile stream');
     _subscription = _getUserProfile().listen(
       (profile) {
-        dev.log('[ProfileWS] Profile received: ${profile.username}, isScraping=${profile.isScraping}, isClosed=$isClosed');
-        if (!isClosed) {
-          emit(ProfileSuccess(profile));
-          dev.log('[ProfileWS] State emitted: ${state.runtimeType}');
-        }
+        emit(ProfileSuccess(profile));
+        dev.log('[ProfileWS] State emitted: ${profile.moviesWatchedCount}');
       },
       onError: (error) {
-        dev.log('[ProfileWS] Profile stream error: $error');
         emit(const ProfileError(""));
       },
       onDone: () {
@@ -43,17 +40,20 @@ class ProfileCubit extends Cubit<ProfileState> {
   void updateProfile(UserProfile updated) {
     final current = state;
     if (current is ProfileSuccess) {
-      emit(ProfileSuccess(current.profile.copyWith(
-        photoUrl: updated.photoUrl,
-        username: updated.username,
-        bio: updated.bio,
-      )));
+      emit(
+        ProfileSuccess(
+          current.profile.copyWith(
+            photoUrl: updated.photoUrl,
+            username: updated.username,
+            bio: updated.bio,
+          ),
+        ),
+      );
     }
   }
 
   @override
   Future<void> close() {
-    dev.log('[ProfileWS] ProfileCubit closing');
     _subscription?.cancel();
     return super.close();
   }
