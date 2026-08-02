@@ -8,7 +8,7 @@ import 'package:profile_ui/tabs/lists/user_movie_lists_state.dart';
 
 class UserMovieListsCubit extends Cubit<UserMovieListsState> {
   final GetMovieLists _getMovieLists;
-  final GetUserProfile _getUserProfile;
+  final ObserveUserProfile _getUserProfile;
 
   String? _userId;
   int _totalPages = 1;
@@ -24,7 +24,7 @@ class UserMovieListsCubit extends Cubit<UserMovieListsState> {
 
   UserMovieListsCubit({
     required GetMovieLists getMovieLists,
-    required GetUserProfile getUserProfile,
+    required ObserveUserProfile getUserProfile,
   })  : _getMovieLists = getMovieLists,
         _getUserProfile = getUserProfile,
         super(const UserMovieListsSuccess());

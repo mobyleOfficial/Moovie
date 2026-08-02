@@ -16,7 +16,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late final ProfileCubit _cubit = ProfileCubit(
-    getUserProfile: GetIt.I<GetUserProfile>(),
+    getUserProfile: GetIt.I<ObserveUserProfile>(),
   );
 
   @override

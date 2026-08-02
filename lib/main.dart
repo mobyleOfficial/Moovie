@@ -27,7 +27,7 @@ Future<void> mainApp() async {
 
   final appInitializer = AppInitializer(
     webSocketClient: GetIt.I<WebSocketClient>(),
-    getUserProfile: GetIt.I<GetUserProfile>(),
+    getUserProfile: GetIt.I<ObserveUserProfile>(),
   );
 
   AuthGate.configure(loginRoute: const AuthFlowRoute());

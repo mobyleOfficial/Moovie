@@ -6,13 +6,13 @@ import 'package:profile/profile.dart';
 
 class AppInitializer {
   final WebSocketClient _webSocketClient;
-  final GetUserProfile _getUserProfile;
+  final ObserveUserProfile _getUserProfile;
 
   StreamSubscription<UserProfile>? _profileSubscription;
 
   AppInitializer({
     required WebSocketClient webSocketClient,
-    required GetUserProfile getUserProfile,
+    required ObserveUserProfile getUserProfile,
   })  : _webSocketClient = webSocketClient,
         _getUserProfile = getUserProfile;
 

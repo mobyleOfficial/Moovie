@@ -7,10 +7,10 @@ import 'package:profile/profile.dart';
 import 'package:profile_ui/profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  final GetUserProfile _getUserProfile;
+  final ObserveUserProfile _getUserProfile;
   StreamSubscription<UserProfile>? _subscription;
 
-  ProfileCubit({required GetUserProfile getUserProfile})
+  ProfileCubit({required ObserveUserProfile getUserProfile})
     : _getUserProfile = getUserProfile,
       super(const ProfileLoading()) {
     dev.log('[ProfileWS] Profile stream started');

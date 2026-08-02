@@ -28,7 +28,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   late final EditProfileCubit _cubit = EditProfileCubit(
     updateUserProfile: GetIt.I<UpdateUserProfile>(),
     startScrape: GetIt.I<StartScrape>(),
-    getUserProfile: GetIt.I<GetUserProfile>(),
+    getUserProfile: GetIt.I<ObserveUserProfile>(),
     initialPhotoUrl: widget.initialPhotoUrl,
     initialUsername: widget.initialUsername,
     initialBio: widget.initialBio,

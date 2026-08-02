@@ -94,15 +94,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 :final photoUrl,
                 :final isScraping,
               ) =>
-                Column(
-                  children: [
-                    if (isScraping)
-                      _ScrapingBanner(
-                        colorScheme: colorScheme,
-                        textTheme: textTheme,
-                      ),
-                    Expanded(
-                      child: SingleChildScrollView(
+                Expanded(
+                  child: SingleChildScrollView(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
                           children: [
@@ -143,53 +136,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                       ),
                     ),
-                  ],
-                ),
             },
           ),
         ),
       ),
     );
   }
-}
-
-class _ScrapingBanner extends StatelessWidget {
-  final ColorScheme colorScheme;
-  final TextTheme textTheme;
-
-  const _ScrapingBanner({
-    required this.colorScheme,
-    required this.textTheme,
-  });
-
-  @override
-  Widget build(BuildContext context) => Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        color: colorScheme.primaryContainer,
-        child: Row(
-          children: [
-            SizedBox(
-              width: 16,
-              height: 16,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: colorScheme.onPrimaryContainer,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                'Importando dados...',
-                style: textTheme.bodySmall?.copyWith(
-                  color: colorScheme.onPrimaryContainer,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
 }
 
 class _ImportSection extends StatelessWidget {

@@ -8,7 +8,7 @@ import 'package:profile_ui/edit_profile/edit_profile_state.dart';
 class EditProfileCubit extends Cubit<EditProfileState> {
   final UpdateUserProfile _updateUserProfile;
   final StartScrape _startScrape;
-  final GetUserProfile _getUserProfile;
+  final ObserveUserProfile _getUserProfile;
 
   StreamSubscription<UserProfile>? _profileSubscription;
 
@@ -22,7 +22,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   EditProfileCubit({
     required UpdateUserProfile updateUserProfile,
     required StartScrape startScrape,
-    required GetUserProfile getUserProfile,
+    required ObserveUserProfile getUserProfile,
     required String initialPhotoUrl,
     required String initialUsername,
     required String initialBio,

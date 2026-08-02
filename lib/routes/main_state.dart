@@ -10,8 +10,9 @@ class MainLoading extends MainState {
 
 class MainSuccess extends MainState {
   final List<MovieReviewDraft> submittingDrafts;
+  final bool isScraping;
 
-  const MainSuccess({this.submittingDrafts = const []});
+  const MainSuccess({this.submittingDrafts = const [], this.isScraping = false});
 
   bool get hasSubmissions => submittingDrafts.isNotEmpty;
 

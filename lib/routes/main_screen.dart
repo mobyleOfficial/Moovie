@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:muuvie/routes/app_router.dart';
 import 'package:muuvie/routes/main_bloc.dart';
 import 'package:muuvie/routes/main_state.dart';
 import 'package:muuvie/routes/route_title_resolver.dart';
+import 'package:profile/profile.dart';
 import 'package:reviews/review_creation/review_creation_router.dart';
 import 'package:user_activity/new_user_activity/new_user_activity_router.dart';
 
@@ -22,6 +25,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final _appBarController = AppBarController();
   late final MainCubit _mainCubit = MainCubit(
+    GetIt.I(),
     GetIt.I(),
     GetIt.I(),
   );
@@ -173,6 +177,19 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   BlocBuilder<MainCubit, MainState>(
                     bloc: _mainCubit,
+                    buildWhen: (prev, curr) =>
+                        prev is! MainSuccess ||
+                        curr is! MainSuccess ||
+                        prev.isScraping != curr.isScraping,
+                    builder: (context, state) {
+                      if (state is MainSuccess && state.isScraping) {
+                        return _ScrapingBanner();
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                  BlocBuilder<MainCubit, MainState>(
+                    bloc: _mainCubit,
                     builder: (context, mainState) =>
                         switch (mainState) {
                       MainSuccess(
@@ -270,6 +287,42 @@ class _MainScreenState extends State<MainScreen> {
           ),
         );
       },
+    );
+  }
+}
+
+class _ScrapingBanner extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      color: colorScheme.primaryContainer,
+      child: Row(
+        children: [
+          SizedBox(
+            width: 16,
+            height: 16,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: colorScheme.onPrimaryContainer,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              'Importando dados...',
+              style: textTheme.bodySmall?.copyWith(
+                color: colorScheme.onPrimaryContainer,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

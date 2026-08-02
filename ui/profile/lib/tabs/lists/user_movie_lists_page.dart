@@ -16,7 +16,7 @@ class UserMovieListsPage extends StatefulWidget {
 class _UserMovieListsPageState extends State<UserMovieListsPage> {
   late final UserMovieListsCubit _cubit = UserMovieListsCubit(
     getMovieLists: GetIt.I<GetMovieLists>(),
-    getUserProfile: GetIt.I<GetUserProfile>(),
+    getUserProfile: GetIt.I<ObserveUserProfile>(),
   );
 
   @override
