@@ -38,6 +38,7 @@ class _ProfileInfoContent extends StatelessWidget {
         initialPhotoUrl: profile.photoUrl,
         initialUsername: profile.username,
         initialBio: profile.bio,
+        initialIsScraping: profile.isScraping,
       ),
     );
 

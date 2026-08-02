@@ -15,8 +15,13 @@ abstract class ProfileModule {
   ProfileRepository profileRepository(
     MoviesRemoteDataSource moviesRemoteDataSource,
     ProfileRemoteDataSource profileRemoteDataSource,
+    WebSocketClient webSocketClient,
   ) =>
-      ProfileRepositoryImpl(moviesRemoteDataSource, profileRemoteDataSource);
+      ProfileRepositoryImpl(
+        moviesRemoteDataSource,
+        profileRemoteDataSource,
+        webSocketClient,
+      );
 
   @injectable
   GetUserReviews getUserReviews(ProfileRepository repository) =>
@@ -31,6 +36,10 @@ abstract class ProfileModule {
       UpdateUserProfile(repository);
 
   @injectable
-  GetUserProfile getUserProfile(ProfileRepository repository) =>
-      GetUserProfile(repository);
+  ObserveUserProfile getUserProfile(ProfileRepository repository) =>
+      ObserveUserProfile(repository);
+
+  @injectable
+  StartScrape startScrape(ProfileRepository repository) =>
+      StartScrape(repository);
 }

@@ -41,4 +41,11 @@ abstract class HttpDiModule {
 
   @singleton
   LocalClient get localClient => ObjectBoxClient();
+
+  @singleton
+  WebSocketClient webSocketClient(@Named('backend') Dio dio) =>
+      WebSocketClient(
+        baseUrl: AppConfig.instance.backendUrl,
+        dio: dio,
+      );
 }

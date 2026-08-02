@@ -4,3 +4,4 @@ library;
 export 'http/http.dart';
 export 'local/local.dart';
 export 'usecases/usecases.dart';
+export 'websocket/websocket.dart';

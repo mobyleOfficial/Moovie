@@ -41,7 +41,7 @@ class _ProfileScreenBody extends StatelessWidget {
         ProfileError(:final message) => MuuvieEmptyState(
             title: l10n?.emptyStateErrorTitle ?? '',
             message: message,
-            action: context.read<ProfileCubit>().loadProfile,
+            action: context.read<ProfileCubit>().retry,
             actionLabel: l10n?.emptyStateRetry ?? '',
           ),
         ProfileSuccess() => DefaultTabController(

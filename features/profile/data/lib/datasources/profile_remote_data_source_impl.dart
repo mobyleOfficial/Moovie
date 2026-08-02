@@ -37,4 +37,21 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
       Failure(:final error) => Failure(error),
     };
   }
+
+  @override
+  Future<Result<void>> startScrape({
+    required String source,
+    required String username,
+    required String cookies,
+  }) async {
+    final result = await _httpClient.post<dynamic>(
+      '/$source/scrape',
+      body: {'username': username, 'cookies': cookies},
+    );
+
+    return switch (result) {
+      Success() => const Success(null),
+      Failure(:final error) => Failure(error),
+    };
+  }
 }

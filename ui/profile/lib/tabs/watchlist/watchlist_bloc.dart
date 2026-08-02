@@ -8,7 +8,7 @@ import 'package:profile_ui/tabs/watchlist/watchlist_state.dart';
 
 class WatchlistCubit extends Cubit<WatchlistState> {
   final GetUserWatchList _getUserWatchList;
-  final GetUserProfile _getUserProfile;
+  final ObserveUserProfile _getUserProfile;
 
   String? _userId;
   int _totalPages = 1;
@@ -24,7 +24,7 @@ class WatchlistCubit extends Cubit<WatchlistState> {
 
   WatchlistCubit({
     required GetUserWatchList getUserWatchList,
-    required GetUserProfile getUserProfile,
+    required ObserveUserProfile getUserProfile,
   })  : _getUserWatchList = getUserWatchList,
         _getUserProfile = getUserProfile,
         super(const WatchlistSuccess());
@@ -49,10 +49,8 @@ class WatchlistCubit extends Cubit<WatchlistState> {
   Future<String?> _resolveUserId() async {
     if (_userId != null) return _userId;
 
-    final result = await _getUserProfile();
-    if (result is Success<UserProfile>) {
-      _userId = result.data.id;
-    }
+    final profile = await _getUserProfile().first;
+    _userId = profile.id;
     return _userId;
   }
 

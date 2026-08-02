@@ -44,6 +44,7 @@ dependencies:
   objectbox_flutter_libs: ^5.3.1
   path_provider: ^2.1.5
   dio: ^5.0.0
+  webview_flutter: ^4.10.0
   core:
     path: core
   comments:

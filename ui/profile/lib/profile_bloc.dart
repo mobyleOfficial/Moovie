@@ -1,36 +1,60 @@
-import 'package:core/core.dart';
+import 'dart:async';
+import 'dart:developer' as dev;
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile/profile.dart';
 
 import 'package:profile_ui/profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  final GetUserProfile _getUserProfile;
+  final ObserveUserProfile _getUserProfile;
+  StreamSubscription<UserProfile>? _subscription;
 
-  ProfileCubit(this._getUserProfile) : super(const ProfileLoading()) {
-    loadProfile();
+  ProfileCubit({required ObserveUserProfile getUserProfile})
+    : _getUserProfile = getUserProfile,
+      super(const ProfileLoading()) {
+    dev.log('[ProfileWS] Profile stream started');
+    _listen();
   }
 
-  Future<void> loadProfile() async {
-    emit(const ProfileLoading());
-    final result = await _getUserProfile();
+  void _listen() {
+    _subscription?.cancel();
+    _subscription = _getUserProfile().listen(
+      (profile) {
+        emit(ProfileSuccess(profile));
+        dev.log('[ProfileWS] State emitted: ${profile.moviesWatchedCount}');
+      },
+      onError: (error) {
+        emit(const ProfileError(""));
+      },
+      onDone: () {
+        dev.log('[ProfileWS] Profile stream closed (onDone)');
+      },
+    );
+  }
 
-    switch (result) {
-      case Success(:final data):
-        emit(ProfileSuccess(data));
-      case Failure(:final error):
-        emit(ProfileError(error.message));
-    }
+  void retry() {
+    // TBD
   }
 
   void updateProfile(UserProfile updated) {
     final current = state;
     if (current is ProfileSuccess) {
-      emit(ProfileSuccess(current.profile.copyWith(
-        photoUrl: updated.photoUrl,
-        username: updated.username,
-        bio: updated.bio,
-      )));
+      emit(
+        ProfileSuccess(
+          current.profile.copyWith(
+            photoUrl: updated.photoUrl,
+            username: updated.username,
+            bio: updated.bio,
+          ),
+        ),
+      );
     }
+  }
+
+  @override
+  Future<void> close() {
+    _subscription?.cancel();
+    return super.close();
   }
 }

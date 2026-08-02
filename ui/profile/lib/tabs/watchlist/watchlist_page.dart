@@ -16,7 +16,7 @@ class WatchlistPage extends StatefulWidget {
 class _WatchlistPageState extends State<WatchlistPage> {
   late final WatchlistCubit _cubit = WatchlistCubit(
     getUserWatchList: GetIt.I<GetUserWatchList>(),
-    getUserProfile: GetIt.I<GetUserProfile>(),
+    getUserProfile: GetIt.I<ObserveUserProfile>(),
   );
 
   @override

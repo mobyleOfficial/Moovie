@@ -24,6 +24,7 @@ class _MainScreenState extends State<MainScreen> {
   late final MainCubit _mainCubit = MainCubit(
     GetIt.I(),
     GetIt.I(),
+    GetIt.I(),
   );
   TabsRouter? _tabsRouter;
   RoutingController? _activeTabRouter;
@@ -173,6 +174,31 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   BlocBuilder<MainCubit, MainState>(
                     bloc: _mainCubit,
+                    buildWhen: (prev, curr) =>
+                        prev is! MainSuccess ||
+                        curr is! MainSuccess ||
+                        prev.isScraping != curr.isScraping,
+                    builder: (context, state) {
+                      final show =
+                          state is MainSuccess && state.isScraping;
+                      return AnimatedSize(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          child: show
+                              ? const _ScrapingBanner(
+                                  key: ValueKey('scraping'),
+                                )
+                              : const SizedBox.shrink(
+                                  key: ValueKey('empty'),
+                                ),
+                        ),
+                      );
+                    },
+                  ),
+                  BlocBuilder<MainCubit, MainState>(
+                    bloc: _mainCubit,
                     builder: (context, mainState) =>
                         switch (mainState) {
                       MainSuccess(
@@ -270,6 +296,55 @@ class _MainScreenState extends State<MainScreen> {
           ),
         );
       },
+    );
+  }
+}
+
+class _ScrapingBanner extends StatelessWidget {
+  const _ScrapingBanner({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      color: colorScheme.surfaceContainerHighest,
+      child: Row(
+        children: [
+          SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: colorScheme.primary,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Importing data...',
+                  style: textTheme.labelSmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                Text(
+                  'Filmow',
+                  style: textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -11,6 +11,7 @@ class UserProfileResponseModel {
   final int followingCount;
   final int followersCount;
   final List<RecentMovieModel> recentMovies;
+  final bool isScraping;
 
   const UserProfileResponseModel({
     required this.id,
@@ -21,6 +22,7 @@ class UserProfileResponseModel {
     required this.followingCount,
     required this.followersCount,
     required this.recentMovies,
+    required this.isScraping,
   });
 
   factory UserProfileResponseModel.fromJson(Map<String, dynamic> json) =>
@@ -37,6 +39,7 @@ class UserProfileResponseModel {
                     RecentMovieModel.fromJson(e as Map<String, dynamic>))
                 .toList() ??
             [],
+        isScraping: json['isScraping'] as bool? ?? false,
       );
 
   UserProfile toDomain() => UserProfile(
@@ -48,6 +51,7 @@ class UserProfileResponseModel {
         followingCount: followingCount,
         followersCount: followersCount,
         recentMovies: recentMovies.map((m) => m.toDomain()).toList(),
+        isScraping: isScraping,
       );
 }
 
