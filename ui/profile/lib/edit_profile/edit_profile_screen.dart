@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile_ui/edit_profile/edit_profile_bloc.dart';
 import 'package:profile_ui/edit_profile/edit_profile_state.dart';
+import 'package:profile_ui/edit_profile/filmow_login_webview.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final EditProfileCubit cubit;
@@ -34,6 +35,59 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _usernameController.dispose();
     _bioController.dispose();
     super.dispose();
+  }
+
+  Future<void> _startFilmowImport() async {
+    final username = await _showUsernameDialog();
+    if (username == null || username.isEmpty || !mounted) return;
+
+    final cookies = await Navigator.of(context).push<String>(
+      MaterialPageRoute(builder: (_) => const FilmowLoginWebview()),
+    );
+    if (cookies == null || cookies.isEmpty || !mounted) return;
+
+    widget.cubit.importFromSource(
+      source: 'filmow',
+      username: username,
+      cookies: cookies,
+    );
+  }
+
+  Future<String?> _showUsernameDialog() {
+    final controller = TextEditingController();
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Filmow'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: InputDecoration(
+            labelText: 'Username do Filmow',
+            hintText: '@usuario',
+            filled: true,
+            fillColor: colorScheme.surfaceContainerHighest,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+          ),
+          onSubmitted: (value) => Navigator.of(context).pop(value),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(controller.text),
+            child: const Text('Continuar'),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _onClose() async {
@@ -121,10 +175,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             const SizedBox(height: 32),
                             _ImportSection(
                               isScraping: isScraping,
-                              onImportFilmow: () =>
-                                  widget.cubit.importFromSource('filmow'),
-                              onImportLetterboxd: () =>
-                                  widget.cubit.importFromSource('letterboxd'),
+                              onImportFilmow: _startFilmowImport,
+                              onImportLetterboxd: () {},
                             ),
                             const SizedBox(height: 32),
                           ],

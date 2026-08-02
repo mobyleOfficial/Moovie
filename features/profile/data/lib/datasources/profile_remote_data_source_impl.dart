@@ -39,10 +39,14 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   }
 
   @override
-  Future<Result<void>> startScrape({required String source}) async {
+  Future<Result<void>> startScrape({
+    required String source,
+    required String username,
+    required String cookies,
+  }) async {
     final result = await _httpClient.post<dynamic>(
       '/$source/scrape',
-      body: {'username': '', 'cookies': ''},
+      body: {'username': username, 'cookies': cookies},
     );
 
     return switch (result) {

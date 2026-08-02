@@ -62,10 +62,21 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     _hasChanges = true;
   }
 
-  Future<void> importFromSource(String source) async {
+  Future<void> importFromSource({
+    required String source,
+    required String username,
+    required String cookies,
+  }) async {
     if (_isScraping) return;
 
-    final result = await _startScrape(source: source);
+    _isScraping = true;
+    _emitReady();
+
+    final result = await _startScrape(
+      source: source,
+      username: username,
+      cookies: cookies,
+    );
     if (result is Failure) {
       _isScraping = false;
       _emitReady();

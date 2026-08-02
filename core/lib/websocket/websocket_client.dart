@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'dart:developer' as dev;
 import 'package:dio/dio.dart';
+import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WebSocketClient {
@@ -31,26 +32,48 @@ class WebSocketClient {
         return;
       }
 
-      final wsUrl = _baseUrl
-          .replaceFirst('https://', 'wss://')
-          .replaceFirst('http://', 'ws://');
-
-      _channel = WebSocketChannel.connect(
-        Uri.parse('$wsUrl/ws?token=$nonce'),
+      final httpUri = Uri.parse(_baseUrl);
+      final wsScheme = httpUri.scheme == 'https' ? 'wss' : 'ws';
+      final wsUri = Uri(
+        scheme: wsScheme,
+        host: httpUri.host,
+        port: httpUri.port,
+        path: '/ws',
       );
+
+      dev.log('[WS] Connecting to $wsUri');
+
+      _channel = IOWebSocketChannel.connect(
+        wsUri,
+        headers: {'Authorization': nonce},
+      );
+      await _channel!.ready;
+
+      dev.log('[WS] Connected');
 
       _channel!.stream.listen(
         (data) {
           if (_disposed) return;
+          dev.log('[WS] Raw message received: $data');
           try {
             final json = jsonDecode(data as String) as Map<String, dynamic>;
+            dev.log('[WS] Parsed message: type=${json['type']}, data=$json');
             _controller.add(json);
-          } catch (_) {}
+          } catch (e) {
+            dev.log('[WS] Failed to parse message: $e');
+          }
         },
-        onDone: () => _scheduleReconnect(),
-        onError: (_) => _scheduleReconnect(),
+        onDone: () {
+          dev.log('[WS] Connection closed (onDone)');
+          _scheduleReconnect();
+        },
+        onError: (e) {
+          dev.log('[WS] Stream error: $e');
+          _scheduleReconnect();
+        },
       );
-    } catch (_) {
+    } catch (e) {
+      dev.log('[WS] Connection failed: $e');
       _scheduleReconnect();
     }
   }
@@ -59,7 +82,8 @@ class WebSocketClient {
     try {
       final response = await _dio.post<Map<String, dynamic>>('/ws/token');
       return response.data?['token'] as String?;
-    } catch (_) {
+    } catch (e) {
+      dev.log('[WS] Token exchange failed: $e');
       return null;
     }
   }

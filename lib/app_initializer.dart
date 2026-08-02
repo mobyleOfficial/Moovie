@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer' as dev;
 
 import 'package:core/core.dart';
 import 'package:profile/profile.dart';
@@ -19,13 +20,19 @@ class AppInitializer {
         _fetchUserProfile = fetchUserProfile;
 
   Future<void> initialize() async {
-    await _fetchUserProfile();
-
-    await _webSocketClient.connect();
     _wsSubscription = _webSocketClient.messages.listen(_handleMessage);
+
+    unawaited(_fetchUserProfile().catchError(
+      (Object e) => dev.log('[AppInit] fetchProfile failed: $e'),
+    ));
+
+    unawaited(_webSocketClient.connect().catchError(
+      (Object e) => dev.log('[AppInit] WebSocket connect failed: $e'),
+    ));
   }
 
   void _handleMessage(Map<String, dynamic> message) {
+    dev.log('[AppInit] WS message: $message');
     final type = message['type'] as String?;
     if (type == 'scrape_finished' || type == 'scrape_failed') {
       _profileRepository.onScrapeComplete();
