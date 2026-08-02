@@ -15,8 +15,13 @@ abstract class ProfileModule {
   ProfileRepository profileRepository(
     MoviesRemoteDataSource moviesRemoteDataSource,
     ProfileRemoteDataSource profileRemoteDataSource,
+    WebSocketClient webSocketClient,
   ) =>
-      ProfileRepositoryImpl(moviesRemoteDataSource, profileRemoteDataSource);
+      ProfileRepositoryImpl(
+        moviesRemoteDataSource,
+        profileRemoteDataSource,
+        webSocketClient,
+      );
 
   @injectable
   GetUserReviews getUserReviews(ProfileRepository repository) =>

@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer' as dev;
+
 import 'package:core/core.dart';
 import 'package:movies_data/datasources/remote/movies_remote_data_source.dart';
 import 'package:movies_domain/models/movie_listing.dart';
@@ -10,11 +13,17 @@ import 'package:rxdart/rxdart.dart';
 class ProfileRepositoryImpl implements ProfileRepository {
   final MoviesRemoteDataSource _moviesRemoteDataSource;
   final ProfileRemoteDataSource _profileRemoteDataSource;
+  final WebSocketClient _webSocketClient;
 
   final _profileSubject = BehaviorSubject<UserProfile>();
 
   ProfileRepositoryImpl(
-      this._moviesRemoteDataSource, this._profileRemoteDataSource);
+    this._moviesRemoteDataSource,
+    this._profileRemoteDataSource,
+    this._webSocketClient,
+  ) {
+    _listenToWebSocket();
+  }
 
   @override
   Stream<UserProfile> watchProfile() => _profileSubject.stream;
@@ -44,19 +53,38 @@ class ProfileRepositoryImpl implements ProfileRepository {
     return result;
   }
 
-  @override
-  void onScrapeComplete() {
-    if (_profileSubject.hasValue) {
-      _profileSubject.add(_profileSubject.value.copyWith(isScraping: false));
+  void _listenToWebSocket() {
+    _webSocketClient.messages.listen(
+      (message) {
+        dev.log('[ProfileRepo] WS message received: ${message.type}');
+        _handleWsMessage(message);
+      },
+      onError: (e) {
+        dev.log('[ProfileRepo] WS stream error: $e');
+      },
+    );
+  }
+
+  void _handleWsMessage(WsMessage message) {
+    switch (message.type) {
+      case WsMessageType.scrapeStarted:
+        dev.log('[ProfileRepo] Scrape started');
+        if (_profileSubject.hasValue) {
+          _profileSubject
+              .add(_profileSubject.value.copyWith(isScraping: true));
+        }
+      case WsMessageType.scrapeFinished:
+        dev.log('[ProfileRepo] Scrape finished, refreshing profile');
+        if (_profileSubject.hasValue) {
+          _profileSubject.add(_profileSubject.value.copyWith(isScraping: false));
+        }
+      default:
     }
   }
 
   @override
-  Future<Result<MovieReviewListing>> getUserReviews({
-    required int page,
-  }) async {
-    final result =
-        await _moviesRemoteDataSource.getMovieReviews(page: page);
+  Future<Result<MovieReviewListing>> getUserReviews({required int page}) async {
+    final result = await _moviesRemoteDataSource.getMovieReviews(page: page);
 
     return switch (result) {
       Success(:final data) => Success(data.toDomain()),
@@ -83,6 +111,5 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Result<void>> updateUserProfile({
     required UserProfile profile,
-  }) async =>
-      _profileRemoteDataSource.updateUserProfile(profile: profile);
+  }) async => _profileRemoteDataSource.updateUserProfile(profile: profile);
 }

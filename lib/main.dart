@@ -27,7 +27,6 @@ Future<void> mainApp() async {
 
   final appInitializer = AppInitializer(
     webSocketClient: GetIt.I<WebSocketClient>(),
-    profileRepository: GetIt.I<ProfileRepository>(),
     fetchUserProfile: GetIt.I<FetchUserProfile>(),
   );
 

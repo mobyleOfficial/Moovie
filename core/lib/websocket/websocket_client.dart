@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as dev;
+import 'package:core/websocket/ws_message.dart';
 import 'package:dio/dio.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -10,11 +11,11 @@ class WebSocketClient {
   final Dio _dio;
 
   WebSocketChannel? _channel;
-  final _controller = StreamController<Map<String, dynamic>>.broadcast();
+  final _controller = StreamController<WsMessage>.broadcast();
   Timer? _reconnectTimer;
   bool _disposed = false;
 
-  Stream<Map<String, dynamic>> get messages => _controller.stream;
+  Stream<WsMessage> get messages => _controller.stream;
 
   WebSocketClient({
     required String baseUrl,
@@ -57,8 +58,9 @@ class WebSocketClient {
           dev.log('[WS] Raw message received: $data');
           try {
             final json = jsonDecode(data as String) as Map<String, dynamic>;
-            dev.log('[WS] Parsed message: type=${json['type']}, data=$json');
-            _controller.add(json);
+            final wsMessage = WsMessage.fromJson(json);
+            dev.log('[WS] Parsed message: type=${wsMessage.type}');
+            _controller.add(wsMessage);
           } catch (e) {
             dev.log('[WS] Failed to parse message: $e');
           }

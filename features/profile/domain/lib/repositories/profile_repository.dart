@@ -10,5 +10,4 @@ abstract interface class ProfileRepository {
   Stream<UserProfile> watchProfile();
   Future<void> fetchProfile();
   Future<Result<void>> startScrape({required String source, required String username, required String cookies});
-  void onScrapeComplete();
 }
