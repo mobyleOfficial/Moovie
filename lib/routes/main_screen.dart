@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +8,6 @@ import 'package:muuvie/routes/app_router.dart';
 import 'package:muuvie/routes/main_bloc.dart';
 import 'package:muuvie/routes/main_state.dart';
 import 'package:muuvie/routes/route_title_resolver.dart';
-import 'package:profile/profile.dart';
 import 'package:reviews/review_creation/review_creation_router.dart';
 import 'package:user_activity/new_user_activity/new_user_activity_router.dart';
 
@@ -182,10 +179,22 @@ class _MainScreenState extends State<MainScreen> {
                         curr is! MainSuccess ||
                         prev.isScraping != curr.isScraping,
                     builder: (context, state) {
-                      if (state is MainSuccess && state.isScraping) {
-                        return _ScrapingBanner();
-                      }
-                      return const SizedBox.shrink();
+                      final show =
+                          state is MainSuccess && state.isScraping;
+                      return AnimatedSize(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          child: show
+                              ? const _ScrapingBanner(
+                                  key: ValueKey('scraping'),
+                                )
+                              : const SizedBox.shrink(
+                                  key: ValueKey('empty'),
+                                ),
+                        ),
+                      );
                     },
                   ),
                   BlocBuilder<MainCubit, MainState>(
@@ -292,33 +301,46 @@ class _MainScreenState extends State<MainScreen> {
 }
 
 class _ScrapingBanner extends StatelessWidget {
+  const _ScrapingBanner({super.key});
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
-      width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      color: colorScheme.primaryContainer,
+      color: colorScheme.surfaceContainerHighest,
       child: Row(
         children: [
           SizedBox(
-            width: 16,
-            height: 16,
+            width: 20,
+            height: 20,
             child: CircularProgressIndicator(
               strokeWidth: 2,
-              color: colorScheme.onPrimaryContainer,
+              color: colorScheme.primary,
             ),
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(
-              'Importando dados...',
-              style: textTheme.bodySmall?.copyWith(
-                color: colorScheme.onPrimaryContainer,
-                fontWeight: FontWeight.w500,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Importing data...',
+                  style: textTheme.labelSmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                Text(
+                  'Filmow',
+                  style: textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
