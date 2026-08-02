@@ -18,12 +18,12 @@ class AppInitializer {
 
   Future<void> initialize() async {
     _profileSubscription = _getUserProfile().listen(
-      (profile) => dev.log('[AppInit] Profile updated: ${profile.username}'),
-      onError: (Object e) => dev.log('[AppInit] Profile stream error: $e'),
+      (profile) => dev.log('[ProfileWS] Profile updated: ${profile.username}'),
+      onError: (Object e) => dev.log('[ProfileWS] Profile stream error: $e'),
     );
 
     unawaited(_webSocketClient.connect().catchError(
-      (Object e) => dev.log('[AppInit] WebSocket connect failed: $e'),
+      (Object e) => dev.log('[ProfileWS] WebSocket connect failed: $e'),
     ));
   }
 

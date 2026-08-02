@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer' as dev;
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile/profile.dart';
@@ -12,10 +13,31 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit({
     required GetUserProfile getUserProfile,
   })  : _getUserProfile = getUserProfile,
-        super(const ProfileLoading()) {
+        super(const ProfileLoading());
+
+  void listen() {
+    _subscription?.cancel();
+    dev.log('[ProfileWS] Subscribing to profile stream');
     _subscription = _getUserProfile().listen(
-      (profile) => emit(ProfileSuccess(profile)),
+      (profile) {
+        dev.log('[ProfileWS] Profile received: ${profile.username}, isScraping=${profile.isScraping}, isClosed=$isClosed');
+        if (!isClosed) {
+          emit(ProfileSuccess(profile));
+          dev.log('[ProfileWS] State emitted: ${state.runtimeType}');
+        }
+      },
+      onError: (error) {
+        dev.log('[ProfileWS] Profile stream error: $error');
+        emit(const ProfileError(""));
+      },
+      onDone: () {
+        dev.log('[ProfileWS] Profile stream closed (onDone)');
+      },
     );
+  }
+
+  void retry() {
+    // TBD
   }
 
   void updateProfile(UserProfile updated) {
@@ -31,6 +53,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   @override
   Future<void> close() {
+    dev.log('[ProfileWS] ProfileCubit closing');
     _subscription?.cancel();
     return super.close();
   }

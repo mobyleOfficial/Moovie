@@ -38,55 +38,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _startFilmowImport() async {
-    final username = await _showUsernameDialog();
-    if (username == null || username.isEmpty || !mounted) return;
-
-    final cookies = await Navigator.of(context).push<String>(
+    final result = await Navigator.of(context).push<FilmowLoginResult>(
       MaterialPageRoute(builder: (_) => const FilmowLoginWebview()),
     );
-    if (cookies == null || cookies.isEmpty || !mounted) return;
+    if (result == null || !mounted) return;
 
     widget.cubit.importFromSource(
       source: 'filmow',
-      username: username,
-      cookies: cookies,
-    );
-  }
-
-  Future<String?> _showUsernameDialog() {
-    final controller = TextEditingController();
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return showDialog<String>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Filmow'),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          decoration: InputDecoration(
-            labelText: 'Username do Filmow',
-            hintText: '@usuario',
-            filled: true,
-            fillColor: colorScheme.surfaceContainerHighest,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-            ),
-          ),
-          onSubmitted: (value) => Navigator.of(context).pop(value),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancelar'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(controller.text),
-            child: const Text('Continuar'),
-          ),
-        ],
-      ),
+      username: result.username,
+      cookies: result.cookies,
     );
   }
 

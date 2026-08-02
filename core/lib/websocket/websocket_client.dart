@@ -42,7 +42,7 @@ class WebSocketClient {
         path: '/ws',
       );
 
-      dev.log('[WS] Connecting to $wsUri');
+      dev.log('[ProfileWS] Connecting to $wsUri');
 
       _channel = IOWebSocketChannel.connect(
         wsUri,
@@ -50,32 +50,27 @@ class WebSocketClient {
       );
       await _channel!.ready;
 
-      dev.log('[WS] Connected');
-
       _channel!.stream.listen(
         (data) {
           if (_disposed) return;
-          dev.log('[WS] Raw message received: $data');
           try {
             final json = jsonDecode(data as String) as Map<String, dynamic>;
             final wsMessage = WsMessage.fromJson(json);
-            dev.log('[WS] Parsed message: type=${wsMessage.type}');
+            dev.log('[ProfileWS] Parsed message: type=${wsMessage.type}');
             _controller.add(wsMessage);
           } catch (e) {
-            dev.log('[WS] Failed to parse message: $e');
+            dev.log('[ProfileWS] Failed to parse message: $e');
           }
         },
         onDone: () {
-          dev.log('[WS] Connection closed (onDone)');
           _scheduleReconnect();
         },
         onError: (e) {
-          dev.log('[WS] Stream error: $e');
           _scheduleReconnect();
         },
       );
     } catch (e) {
-      dev.log('[WS] Connection failed: $e');
+      dev.log('[ProfileWS] Connection failed: $e');
       _scheduleReconnect();
     }
   }
@@ -85,7 +80,7 @@ class WebSocketClient {
       final response = await _dio.post<Map<String, dynamic>>('/ws/token');
       return response.data?['token'] as String?;
     } catch (e) {
-      dev.log('[WS] Token exchange failed: $e');
+      dev.log('[ProfileWS] Token exchange failed: $e');
       return null;
     }
   }

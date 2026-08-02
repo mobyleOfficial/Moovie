@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+class FilmowLoginResult {
+  final String username;
+  final String cookies;
+
+  const FilmowLoginResult({required this.username, required this.cookies});
+}
+
 class FilmowLoginWebview extends StatefulWidget {
   const FilmowLoginWebview({super.key});
 
@@ -36,14 +43,36 @@ class _FilmowLoginWebviewState extends State<FilmowLoginWebview> {
     final isLoggedIn = !url.contains('/login');
     if (!isLoggedIn) return;
 
+    final username = await _extractUsername();
+    if (username == null || username.isEmpty) return;
+
     final cookies = await _controller.runJavaScriptReturningResult(
       'document.cookie',
     );
 
     if (mounted) {
       final cookieString = cookies.toString().replaceAll('"', '');
-      Navigator.of(context).pop(cookieString);
+      Navigator.of(context).pop(
+        FilmowLoginResult(username: username, cookies: cookieString),
+      );
     }
+  }
+
+  Future<String?> _extractUsername() async {
+    final result = await _controller.runJavaScriptReturningResult(
+      '''
+      (function() {
+        var link = document.querySelector('a[href*="/usuario/"]');
+        if (link) {
+          var match = link.getAttribute('href').match(/\\/usuario\\/([^/]+)/);
+          return match ? match[1] : '';
+        }
+        return '';
+      })()
+      ''',
+    );
+    final username = result.toString().replaceAll('"', '');
+    return username.isNotEmpty ? username : null;
   }
 
   @override

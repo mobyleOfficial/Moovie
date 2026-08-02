@@ -27,10 +27,13 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Stream<UserProfile> watchProfile() => _profileSubject.stream;
+  Stream<UserProfile> watchProfile() {
+    return _profileSubject.stream;
+  }
 
   Future<void> fetchProfile() async {
     final result = await _profileRemoteDataSource.getUserProfile();
+
     if (result is Success<UserProfile>) {
       _profileSubject.add(result.data);
     }
@@ -56,11 +59,11 @@ class ProfileRepositoryImpl implements ProfileRepository {
   void _listenToWebSocket() {
     _webSocketClient.messages.listen(
       (message) {
-        dev.log('[ProfileRepo] WS message received: ${message.type}');
+        dev.log('[ProfileWS] WS message received: ${message.type}');
         _handleWsMessage(message);
       },
       onError: (e) {
-        dev.log('[ProfileRepo] WS stream error: $e');
+        dev.log('[ProfileWS] WS stream error: $e');
       },
     );
   }
@@ -68,13 +71,13 @@ class ProfileRepositoryImpl implements ProfileRepository {
   void _handleWsMessage(WsMessage message) {
     switch (message.type) {
       case WsMessageType.scrapeStarted:
-        dev.log('[ProfileRepo] Scrape started');
+        dev.log('[ProfileWS] Scrape started');
         if (_profileSubject.hasValue) {
           _profileSubject
               .add(_profileSubject.value.copyWith(isScraping: true));
         }
       case WsMessageType.scrapeFinished:
-        dev.log('[ProfileRepo] Scrape finished, refreshing profile');
+        dev.log('[ProfileWS] Scrape finished, refreshing profile');
         if (_profileSubject.hasValue) {
           _profileSubject.add(_profileSubject.value.copyWith(isScraping: false));
         }
