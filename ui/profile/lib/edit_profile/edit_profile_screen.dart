@@ -48,6 +48,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       username: result.username,
       cookies: result.cookies,
     );
+
+    if (mounted) Navigator.of(context).pop();
   }
 
   Future<void> _onClose() async {
