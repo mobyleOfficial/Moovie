@@ -6,20 +6,21 @@ import 'package:profile/profile.dart';
 
 class AppInitializer {
   final WebSocketClient _webSocketClient;
-  final FetchUserProfile _fetchUserProfile;
+  final GetUserProfile _getUserProfile;
 
-  StreamSubscription<WsMessage>? _wsSubscription;
+  StreamSubscription<UserProfile>? _profileSubscription;
 
   AppInitializer({
     required WebSocketClient webSocketClient,
-    required FetchUserProfile fetchUserProfile,
+    required GetUserProfile getUserProfile,
   })  : _webSocketClient = webSocketClient,
-        _fetchUserProfile = fetchUserProfile;
+        _getUserProfile = getUserProfile;
 
   Future<void> initialize() async {
-    unawaited(_fetchUserProfile().catchError(
-      (Object e) => dev.log('[AppInit] fetchProfile failed: $e'),
-    ));
+    _profileSubscription = _getUserProfile().listen(
+      (profile) => dev.log('[AppInit] Profile updated: ${profile.username}'),
+      onError: (Object e) => dev.log('[AppInit] Profile stream error: $e'),
+    );
 
     unawaited(_webSocketClient.connect().catchError(
       (Object e) => dev.log('[AppInit] WebSocket connect failed: $e'),
@@ -27,7 +28,7 @@ class AppInitializer {
   }
 
   Future<void> dispose() async {
-    await _wsSubscription?.cancel();
+    await _profileSubscription?.cancel();
     await _webSocketClient.dispose();
   }
 }

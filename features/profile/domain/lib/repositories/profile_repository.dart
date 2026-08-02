@@ -8,6 +8,5 @@ abstract interface class ProfileRepository {
   Future<Result<MovieListing>> getUserFavoriteMovies({required String userId, required int page});
   Future<Result<void>> updateUserProfile({required UserProfile profile});
   Stream<UserProfile> watchProfile();
-  Future<void> fetchProfile();
   Future<Result<void>> startScrape({required String source, required String username, required String cookies});
 }

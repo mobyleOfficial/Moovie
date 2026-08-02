@@ -22,13 +22,13 @@ class ProfileRepositoryImpl implements ProfileRepository {
     this._profileRemoteDataSource,
     this._webSocketClient,
   ) {
+    fetchProfile();
     _listenToWebSocket();
   }
 
   @override
   Stream<UserProfile> watchProfile() => _profileSubject.stream;
 
-  @override
   Future<void> fetchProfile() async {
     final result = await _profileRemoteDataSource.getUserProfile();
     if (result is Success<UserProfile>) {
