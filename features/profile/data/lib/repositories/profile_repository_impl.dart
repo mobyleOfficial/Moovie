@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer' as dev;
 
 import 'package:core/core.dart';
 import 'package:movies_data/datasources/remote/movies_remote_data_source.dart';
+import 'package:movies_domain/models/movie.dart';
 import 'package:movies_domain/models/movie_listing.dart';
 import 'package:movies_domain/models/movie_review_listing.dart';
 import 'package:profile_data/datasources/profile_remote_data_source.dart';
+import 'package:profile_data/models/user_profile_response_model.dart';
 import 'package:profile_domain/models/user_profile.dart';
 import 'package:profile_domain/repositories/profile_repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -73,11 +76,31 @@ class ProfileRepositoryImpl implements ProfileRepository {
               .add(_profileSubject.value.copyWith(isScraping: true));
         }
       case WsMessageType.scrapeFinished:
-        dev.log('[ProfileWS] Scrape finished, refreshing profile');
+        final payload = message.data;
+        final watched = int.tryParse(payload?['watched'] as String? ?? '');
+        final recentMovies = _parseRecentMovies(payload?['recentlyWatched'] as String?);
+        dev.log('[ProfileWS] Scrape finished, watched=$watched, recentMovies=${recentMovies.length}');
         if (_profileSubject.hasValue) {
-          _profileSubject.add(_profileSubject.value.copyWith(isScraping: false));
+          _profileSubject.add(_profileSubject.value.copyWith(
+            isScraping: false,
+            moviesWatchedCount: watched,
+            recentMovies: recentMovies.isNotEmpty ? recentMovies : null,
+          ));
         }
       default:
+    }
+  }
+
+  List<Movie> _parseRecentMovies(String? jsonString) {
+    if (jsonString == null || jsonString.isEmpty) return [];
+    try {
+      final list = jsonDecode(jsonString) as List<dynamic>;
+      return list
+          .map((e) => RecentMovieModel.fromJson(e as Map<String, dynamic>).toDomain())
+          .toList();
+    } catch (e) {
+      dev.log('[ProfileWS] Failed to parse recentlyWatched: $e');
+      return [];
     }
   }
 
